@@ -1,4 +1,4 @@
-﻿namespace ReservationSystemApp.Models.Hotels
+﻿namespace DataLayer
 {
     public enum RoomType
     {

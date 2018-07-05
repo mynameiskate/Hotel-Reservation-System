@@ -11512,11 +11512,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\ReservationSystemApp\\ReservationSystemApp.csproj",
+      "projectUniqueName": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\ReservationSystemApp\\ReservationSystemApp.csproj",
       "projectName": "ReservationSystemApp",
-      "projectPath": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\ReservationSystemApp\\ReservationSystemApp.csproj",
+      "projectPath": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\ReservationSystemApp\\ReservationSystemApp.csproj",
       "packagesPath": "C:\\Users\\K.Akentsyeva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\ReservationSystemApp\\obj\\",
+      "outputPath": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\ReservationSystemApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
