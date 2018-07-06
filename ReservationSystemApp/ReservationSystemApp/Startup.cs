@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DataLayer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,8 @@ namespace ReservationSystemApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var context = new DataContext();
+           // context.Database.EnsureCreated();
         }
 
         public IConfiguration Configuration { get; }

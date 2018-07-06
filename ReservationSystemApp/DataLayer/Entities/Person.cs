@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataLayer.Entities
+﻿namespace DataLayer.Entities
 {
     public class Person
     {
         public int PersonId { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string LastName { get; set; }
+        public string ShortName { get; set; }
+        public string FullName { get; set; }
+
         public Contacts Contacts { get; set; }
     }
 }

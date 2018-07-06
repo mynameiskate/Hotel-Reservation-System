@@ -12,7 +12,8 @@ namespace DataLayer.Entities
         public float Cost { get; set; }
         public int CanPlace { get; set; }
         public List<string> Images { get; set; }
-        public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
+
+        public Hotel Hotel { get; set; }
     }
 }
