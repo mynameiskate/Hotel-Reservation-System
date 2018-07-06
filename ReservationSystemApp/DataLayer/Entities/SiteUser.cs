@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace DataLayer
+namespace DataLayer.Entities
 {
-    public class User
+    public class SiteUser : Person
     {
+        public int UserId { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public UserInfo Info { get; set; }
         public List<RoomReservation> BookingHistory { get; set; }
     }
 }

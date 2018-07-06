@@ -14,3 +14,12 @@ C:\Users\K.Akentsyeva\source\repos\ReservationSystemApp\DataLayer\DataLayer\obj\
 C:\Users\K.Akentsyeva\source\repos\ReservationSystemApp\DataLayer\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.AssemblyInfo.cs
 C:\Users\K.Akentsyeva\source\repos\ReservationSystemApp\DataLayer\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.dll
 C:\Users\K.Akentsyeva\source\repos\ReservationSystemApp\DataLayer\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.pdb
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.AssemblyInfoInputs.cache
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.AssemblyInfo.cs
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.dll
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.pdb
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\bin\Debug\netcoreapp2.1\DataLayer.deps.json
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\bin\Debug\netcoreapp2.1\DataLayer.dll
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\bin\Debug\netcoreapp2.1\DataLayer.pdb
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\DataLayer\obj\Debug\netcoreapp2.1\DataLayer.csprojAssemblyReference.cache

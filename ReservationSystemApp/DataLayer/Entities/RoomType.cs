@@ -1,4 +1,4 @@
-﻿namespace DataLayer
+﻿namespace DataLayer.Entities
 {
     public enum RoomType
     {

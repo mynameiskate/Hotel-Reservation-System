@@ -16,7 +16,6 @@ C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSyste
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\bin\Debug\netcoreapp2.1\ReservationSystemApp.runtimeconfig.dev.json
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\bin\Debug\netcoreapp2.1\ReservationSystemApp.dll
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\bin\Debug\netcoreapp2.1\ReservationSystemApp.pdb
-C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.csprojAssemblyReference.cache
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.csproj.CoreCompileInputs.cache
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.RazorAssemblyInfo.cache
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.RazorAssemblyInfo.cs
@@ -25,3 +24,7 @@ C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSyste
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.RazorTargetAssemblyInfo.cache
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.dll
 C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.pdb
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\bin\Debug\netcoreapp2.1\DataLayer.dll
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\bin\Debug\netcoreapp2.1\DataLayer.pdb
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.csproj.CopyComplete
+C:\Users\K.Akentsyeva\Documents\GitHub\Hotel-Reservation-System\ReservationSystemApp\ReservationSystemApp\obj\Debug\netcoreapp2.1\ReservationSystemApp.csprojAssemblyReference.cache

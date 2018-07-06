@@ -687,11 +687,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\DataLayer\\DataLayer\\DataLayer.csproj",
+      "projectUniqueName": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\DataLayer\\DataLayer.csproj",
       "projectName": "DataLayer",
-      "projectPath": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\DataLayer\\DataLayer\\DataLayer.csproj",
+      "projectPath": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\DataLayer\\DataLayer.csproj",
       "packagesPath": "C:\\Users\\K.Akentsyeva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\K.Akentsyeva\\source\\repos\\ReservationSystemApp\\DataLayer\\DataLayer\\obj\\",
+      "outputPath": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\DataLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

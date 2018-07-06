@@ -4333,6 +4333,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "DataLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "compile": {
+          "bin/placeholder/DataLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataLayer.dll": {}
+        }
       }
     }
   },
@@ -11497,10 +11507,16 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "DataLayer/1.0.0": {
+      "type": "project",
+      "path": "../DataLayer/DataLayer.csproj",
+      "msbuildProject": "../DataLayer/DataLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "DataLayer >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.0",
       "Microsoft.NETCore.App >= 2.1.0"
     ]
@@ -11534,7 +11550,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "C:\\Users\\K.Akentsyeva\\Documents\\GitHub\\Hotel-Reservation-System\\ReservationSystemApp\\DataLayer\\DataLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
