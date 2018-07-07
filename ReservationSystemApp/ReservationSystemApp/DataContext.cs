@@ -6,10 +6,17 @@ using System.Text;
 
 namespace DataLayer
 {
-    class DataContext : DbContext
+    public class DataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Hotel>()
@@ -21,12 +28,17 @@ namespace DataLayer
             .WithOne();
 
             modelBuilder.Entity<Hotel>()
-           .HasMany(h => h.RoomList)
+           .HasMany(h => h.Rooms)
            .WithOne(r => r.Hotel);
 
             modelBuilder.Entity<User>()
            .HasMany(u => u.BookingHistory)
            .WithOne(r => r.User);
+
+            modelBuilder.Entity<RoomReservation>()
+            .HasOne(r => r.HotelRoom)
+            .WithMany()
+            .HasForeignKey(r => r.HotelRoomId);
 
             modelBuilder.Entity<User>()
             .HasMany(u => u.Contacts)

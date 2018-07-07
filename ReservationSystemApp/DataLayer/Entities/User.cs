@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DataLayer.Entities
 {
@@ -10,10 +9,10 @@ namespace DataLayer.Entities
         public string Password { get; set; }
         public string ShortName { get; set; }
         public string FullName { get; set; }
-        public Role RoleId { get; set; }
+        public int RoleId { get; set; }
 
         public Role Role { get; set; }
         public List<RoomReservation> BookingHistory { get; set; }
-        public List<Contacts> Contacts { get; set; }
+        public List<Contact> Contacts { get; set; }
     }
 }

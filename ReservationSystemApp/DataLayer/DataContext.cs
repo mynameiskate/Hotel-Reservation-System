@@ -15,11 +15,15 @@ namespace DataLayer
 
             modelBuilder.Entity<Hotel>()
             .HasOne(h => h.Location)
-            .WithOne();
+            .WithMany();
 
-            modelBuilder.Entity<Hotel>()
-           .HasMany(h => h.RoomList)
-           .WithOne(r => r.Hotel);
+            modelBuilder.Entity<HotelRoom>()
+            .HasOne(hr => hr.Hotel)
+            .WithMany(h => h.Rooms)
+            .HasForeignKey(hr => hr.HotelId);
+           /* modelBuilder.Entity<Hotel>()
+           .HasMany(h => h.Rooms)
+           .WithOne(r => r.Hotel);*/
 
             modelBuilder.Entity<User>()
            .HasMany(u => u.BookingHistory)
@@ -27,6 +31,10 @@ namespace DataLayer
 
             modelBuilder.Entity<User>()
             .HasMany(u => u.Contacts)
+            .WithOne();
+
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
             .WithOne();
         }
     }
