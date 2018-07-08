@@ -1,11 +1,9 @@
-﻿using DataLayer;
-using DataLayer.Entities;
-using System;
+﻿using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace ReservationSystemApp
+namespace DatabaseRepositories
 {
     public class DataInitializer
     {

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReservationSystemApp", "Res
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{2D4C7605-23C7-481E-9150-04E52759CA8E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseRepositories", "DatabaseRepository\DatabaseRepositories.csproj", "{AF0F6AF8-E1B8-43A7-98CE-71AC2221E3FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2D4C7605-23C7-481E-9150-04E52759CA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D4C7605-23C7-481E-9150-04E52759CA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D4C7605-23C7-481E-9150-04E52759CA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF0F6AF8-E1B8-43A7-98CE-71AC2221E3FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF0F6AF8-E1B8-43A7-98CE-71AC2221E3FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF0F6AF8-E1B8-43A7-98CE-71AC2221E3FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF0F6AF8-E1B8-43A7-98CE-71AC2221E3FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
