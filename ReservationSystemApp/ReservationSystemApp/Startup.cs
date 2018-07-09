@@ -1,9 +1,13 @@
-﻿using DataLayer;
+﻿using DatabaseRepositories.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using React.AspNet;
+using DatabaseRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReservationSystemApp
 {
@@ -12,8 +16,7 @@ namespace ReservationSystemApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            var context = new DataContext();
-           // context.Database.EnsureCreated();
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -21,6 +24,12 @@ namespace ReservationSystemApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<HotelService>(provider => new HotelService(provider.GetRequiredService<DataContext>()));
+            //services.AddScoped<HotelRepository>(provider => new HotelRepository(services.GetRequiredService<DataContext>());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -30,14 +39,23 @@ namespace ReservationSystemApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(); 
             }
             else
             {
                 app.UseHsts();
             }
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(/*routes =>
+            {
+                routes.MapRoute(
+                    name: "DefaultApi",
+                    template: "api/{controller}/{action}");
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" }); 
+            }*/);
         }
     }
 }

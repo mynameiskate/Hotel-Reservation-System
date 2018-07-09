@@ -1,0 +1,12 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+export default class Main extends React.Component {
+    render() {
+    	return ( 
+	        <div>
+	        	 <h1>Welcome to hotel reservation system</h1>
+	        </div>
+	    );
+    }
+}

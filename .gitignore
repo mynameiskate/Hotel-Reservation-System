@@ -1,4 +1,10 @@
 ReservationSystemApp/DataLayer/bin/
 ReservationSystemApp/DataLayer/obj/
+ReservationSystemApp/Services/bin/
+ReservationSystemApp/Services/obj/
+ReservationSystemApp/DataLayer/.vs/
 ReservationSystemApp/ReservationSystemApp/bin/
 ReservationSystemApp/ReservationSystemApp/obj/
+ReservationSystemApp/ReservationSystemApp/node_modules/
+ReservationSystemApp/ReservationSystemApp/wwwroot/assets/
+ReservationSystemApp/.vs/

@@ -6,6 +6,6 @@
         public string ShortName { get; set; }
         public string FullName { get; set; }
 
-        public Contacts Contacts { get; set; }
+        public Contact Contacts { get; set; }
     }
 }
