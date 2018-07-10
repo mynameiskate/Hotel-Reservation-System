@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { hotelActions } from '../../actionContainers/hotelActionContainers.js'
 
 export default class Main extends React.Component {
     render() {
