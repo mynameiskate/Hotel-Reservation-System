@@ -16,3 +16,19 @@ function getAll() {
 
 	return fetch(settings.baseUrl + path, options);
 }
+
+function add() {
+
+}
+
+function update() {
+
+}
+
+function remove() {
+
+}
+
+function filter() {
+
+}

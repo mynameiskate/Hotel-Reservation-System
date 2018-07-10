@@ -1,5 +1,11 @@
 ﻿import { hotelConstants } from '../constants/hotelConstants.js';
 
+export const hotelActions = {
+    findHotels,
+    findHotelsRequest,
+    failToFind
+}
+
 function findHotels(info){
 	return {
 		type: hotelConstants.GET_HOTELS_SUCCESS,

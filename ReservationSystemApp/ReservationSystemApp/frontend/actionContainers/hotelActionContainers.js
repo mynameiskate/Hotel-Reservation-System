@@ -1,7 +1,7 @@
 import { hotelActions } from '../actions/hotelActions.js';
 import { hotelService } from '../services/hotelService.js'
 
-export const hotelActions = {
+export const hotelContainer = {
 	findHotels
 }
 
