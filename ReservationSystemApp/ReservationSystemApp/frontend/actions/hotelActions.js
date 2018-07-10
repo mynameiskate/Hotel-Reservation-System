@@ -15,7 +15,8 @@ function findHotels(info){
 
 function findHotelsRequest(){
 	return {
-		type: hotelConstants.GET_HOTELS_REQUEST
+        type: hotelConstants.GET_HOTELS_REQUEST,
+        isSent: true
 	}
 }
 

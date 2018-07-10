@@ -1,5 +1,5 @@
 import { hotelActions } from '../actions/hotelActions.js';
-import { hotelService } from '../services/hotelService.js'
+import { hotelServices } from '../services/hotelService.js'
 
 export const hotelContainer = {
 	findHotels
@@ -7,11 +7,11 @@ export const hotelContainer = {
 
 function findHotels() {
 	return dispatch => {
-		dispatch(findHotelsRequest());
+		dispatch(hotelActions.findHotelsRequest());
 
-		hotelService.getAll().then(
-			(hotels) => dispatch(findHotels(info)),
-			(error) => dispatch(failToFind(error))
+		hotelServices.getAll().then(
+			(hotels) => dispatch(hotelActions.findHotels(info)), //success
+			(error) => dispatch(hotelActions.failToFind(error))  //failure
 		);
 
 	}
