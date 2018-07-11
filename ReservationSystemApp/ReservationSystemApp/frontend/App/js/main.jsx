@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { hotelContainer } from '../../actionContainers/hotelActionContainers.js'
 import { connect } from 'react-redux';
+import { hotelActions } from '../../actions/hotelActions.js';
 
 
 class Main extends React.Component {
     componentWillMount() {
-        this.props.dispatch(hotelContainer.findHotels());
+        this.props.dispatch(hotelActions.findAll());
     }
 
     render() {
@@ -29,7 +29,7 @@ class Main extends React.Component {
 	        	 { error  && <h3>Loading error</h3>}
 	        </div>
 	    );
-    }
+    } 
 }
 
 const mapProps = (state) => {

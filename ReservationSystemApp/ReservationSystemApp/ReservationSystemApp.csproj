@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="frontend\components\" />
-    <Folder Include="frontend\actionContainers\" />
     <Folder Include="frontend\store\" />
     <Folder Include="frontend\services\" />
     <Folder Include="wwwroot\assets\" />
