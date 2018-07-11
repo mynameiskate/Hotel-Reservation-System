@@ -8,22 +8,24 @@ export const hotelActions = {
 
 function findHotels(info){
 	return {
-		type: hotelConstants.GET_HOTELS_SUCCESS,
-		data: info
+        type: hotelConstants.GET_HOTELS_SUCCESS,
+        payload: { info }
+		//data: info
 	}
 }
 
 function findHotelsRequest(){
 	return {
-        type: hotelConstants.GET_HOTELS_REQUEST,
-        isSent: true
+        type: hotelConstants.GET_HOTELS_REQUEST
+        //isSent: true
 	}
 }
 
 function failToFind(err){
 	return {
-		type: hotelConstants.GET_HOTELS_FAILURE,
-		error: err
+        type: hotelConstants.GET_HOTELS_FAILURE,
+        payload: { err }
+		//error: err
 	}
 }
 

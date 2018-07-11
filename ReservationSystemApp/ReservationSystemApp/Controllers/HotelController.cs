@@ -17,6 +17,7 @@ namespace ReservationSystemApp.Controllers
             _hotelRepository = hotelRepository;
         }
 
+        // GET: api/hotels/all
         [Route("all")]
         [HttpGet]
         public async Task<List<Hotel>> GetHotelList()

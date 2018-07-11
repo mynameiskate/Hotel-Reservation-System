@@ -6,13 +6,23 @@ export const hotelContainer = {
 }
 
 function findHotels() {
-	return dispatch => {
-		dispatch(hotelActions.findHotelsRequest());
-
-		hotelServices.getAll().then(
-			(hotels) => dispatch(hotelActions.findHotels(info)), //success
-			(error) => dispatch(hotelActions.failToFind(error))  //failure
-		);
-
+    return dispatch => {
+        dispatch(hotelActions.findHotelsRequest());
+        hotelServices.getAll()
+            .then(handleError)
+            .then(result => result.json())
+            .then(jsonInfo => {
+                    dispatch(hotelActions.findHotels(jsonInfo));            //success
+                    return jsonInfo;
+                }
+            )
+            .catch(error => dispatch(hotelActions.failToFind(error)));   //failure
 	}
+}
+
+function handleError(response) {
+    if (!response.ok) {
+        throw Error(response.status)
+    }
+    return response;
 }
