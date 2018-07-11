@@ -1,7 +1,7 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseRepositories
+namespace DataLayer
 {
     public class DataContext : DbContext
     {

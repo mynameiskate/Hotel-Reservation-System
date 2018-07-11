@@ -5,8 +5,8 @@ import Main from './main.jsx'
 import { store } from '../../store/store.js'
 
 render(
-    <Provider store={store}>
-        <Main />
-    </Provider>,
-    document.getElementById("root")
+   <Provider store={store}>
+       <Main />
+   </Provider>,
+   document.getElementById("root")
 );

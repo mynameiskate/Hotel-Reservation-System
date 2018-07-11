@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DatabaseRepositories.Repositories;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
 
 namespace ReservationSystemApp.Controllers
 {
@@ -10,11 +10,11 @@ namespace ReservationSystemApp.Controllers
     [ApiController]
     public class HotelController : ControllerBase
     {
-        private DatabaseRepositories.Repositories.HotelService _hotelRepository;
+        private IHotelService _hotelService;
 
-        public HotelController(DatabaseRepositories.Repositories.HotelService hotelRepository)
+        public HotelController(IHotelService hotelService)
         {
-            _hotelRepository = hotelRepository;
+            _hotelService = hotelService;
         }
 
         // GET: api/hotels/all
@@ -22,7 +22,7 @@ namespace ReservationSystemApp.Controllers
         [HttpGet]
         public async Task<List<Hotel>> GetHotelList()
         {
-            return await _hotelRepository.GetHotelList();
+            return await _hotelService.GetHotelList();
         }
 
         // GET: api/hotels
@@ -53,8 +53,10 @@ namespace ReservationSystemApp.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _hotelService.Delete(id);
+            return Ok();
         }
     }
 }

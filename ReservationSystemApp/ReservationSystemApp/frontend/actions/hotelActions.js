@@ -17,11 +17,11 @@ function findAll() {
             .then(handleError)
             .then(result => result.json())
             .then(jsonInfo => {
-                    dispatch(receiveData(jsonInfo));         //success
+                    dispatch(receiveData(jsonInfo));      
                     return jsonInfo;
                 }
             )
-            .catch(error => dispatch(failToFind(error)));   //failure
+            .catch(error => dispatch(failToFind(error)));  
 	}
 }
 

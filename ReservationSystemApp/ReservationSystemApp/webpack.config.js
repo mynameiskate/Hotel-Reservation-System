@@ -19,13 +19,11 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx$/,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 loader: "babel-loader",
                 query: {
-                    presets: ["react", "env"],
-                    plugins: [
-                        "@babel/plugin-proposal-object-rest-spread"]
+                    presets: ["react", "env", "stage-0"],
                 }
             }
         ]

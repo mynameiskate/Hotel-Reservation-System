@@ -1,10 +1,11 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Services.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataLayer;
+using Services.Interfaces;
 
-namespace DatabaseRepositories.Repositories
+namespace Services.Services
 {
     public class HotelService : IHotelService
     {
@@ -17,8 +18,8 @@ namespace DatabaseRepositories.Repositories
 
         public async Task<List<Hotel>> GetHotelList()
         {
-             DataInitializer.Initialize(_dataContext);
-             return await _dataContext.Hotels.ToListAsync();
+            DataInitializer.Initialize(_dataContext);
+            return await _dataContext.Hotels.ToListAsync();
         }
 
         public void Delete(int id)

@@ -14,7 +14,7 @@ function getAll() {
 		method: "GET"
 	};
 
-    return fetch(settings.baseUrl + path, options)
+    return fetch(settings.baseUrl + path, options);
 }
 
 function add() {
