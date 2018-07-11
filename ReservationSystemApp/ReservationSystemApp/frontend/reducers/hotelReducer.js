@@ -8,9 +8,10 @@ const initialState = {
 
 export function hotelReducer(state = initialState, action) {
     let data = action.payload;
+    console.log(action);
+    console.log(state);
     switch (action.type) {
         case hotelConstants.GET_HOTELS_SUCCESS:
-            //console.log(data.info);
             return {
                 ...state,
                 error: null,
@@ -36,11 +37,9 @@ export function hotelReducer(state = initialState, action) {
                 isSent: true
             }
         case hotelConstants.REMOVE_HOTEL_SUCCESS:
-            console.log(data.info);
             return {
-                ...state,
                 error: null,
-                info: data.info.filter(hotel => hotel.hotelId !== data.id),
+                info: state.info.filter(hotel => hotel.hotelId !== data.id),
                 isSent: false
             }
         case hotelConstants.REMOVE_HOTEL_FAILURE:

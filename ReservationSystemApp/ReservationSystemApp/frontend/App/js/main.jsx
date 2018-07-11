@@ -5,6 +5,12 @@ import { hotelActions } from '../../actions/hotelActions.js';
 
 
 class Main extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
+    }
+
     componentWillMount() {
         this.props.dispatch(hotelActions.findAll());
     }
@@ -26,7 +32,7 @@ class Main extends React.Component {
                                 <h2>{hotel.name}</h2>
                                 {hotel.stars && <li>Stars: {hotel.stars}</li>}
                                 {hotel.location && <li>Location: {hotel.location}</li>}
-                                <span><a onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</a></span>
+                                <button onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</button>
                             </div>
                         )}
                     </ul>
