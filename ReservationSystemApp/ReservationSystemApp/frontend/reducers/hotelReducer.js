@@ -6,20 +6,21 @@ const initialState = {
     error: null
 }
 
-export function hotelReducer (state = initialState, action) {
+export function hotelReducer(state = initialState, action) {
+    let data = action.payload;
     switch(action.type) {
         case hotelConstants.GET_HOTELS_SUCCESS:
-            console.log(action.payload.info);
+            console.log(data.info);
             return {
-                //...state,
+                ...state,
                 error: null,
-                info: action.payload.info         
+                info: data.info         
             };
         case hotelConstants.GET_HOTELS_FAILURE:
             return {
                 //...state,
                 isSent: false,
-                error: action.payload.error
+                error: data.error
             };
         case hotelConstants.GET_HOTELS_REQUEST:
             return {
@@ -27,7 +28,22 @@ export function hotelReducer (state = initialState, action) {
                 error: null,
                 isSent: true
             };
-
+        case hotelConstants.REMOVE_HOTEL_REQUEST:
+            return {
+                //...state,
+                error: null,
+                isSent: true
+            }
+        case hotelConstants.REMOVE_HOTEL_SUCCESS:
+            return {
+                error: null,
+                info: data.info.filter(hotel => hotel.hotelId !== data.id)
+            }
+        case hotelConstants.REMOVE_HOTEL_FAILURE:
+            return {
+                error: data.error,
+                isSent: false
+            }
         default:
             return state;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     }

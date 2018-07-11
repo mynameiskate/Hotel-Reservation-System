@@ -20,5 +20,15 @@ namespace DatabaseRepositories.Repositories
              DataInitializer.Initialize(_dataContext);
              return await _dataContext.Hotels.ToListAsync();
         }
+
+        public void Delete(int id)
+        {
+            Hotel hotel = _dataContext.Hotels.Find(id);
+            if (hotel != null)
+            {
+                _dataContext.Hotels.Remove(hotel);
+                _dataContext.SaveChanges();
+            }
+        }
     }
 }

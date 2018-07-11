@@ -9,6 +9,10 @@ class Main extends React.Component {
         this.props.dispatch(hotelActions.findAll());
     }
 
+    sendRemoveRequest(id) {
+        return (e) => this.props.dispatch(hotelActions.removeHotel(id));
+    }
+
     render() {
     	const { info, error, isSent} = this.props;
     	return ( 
@@ -22,6 +26,7 @@ class Main extends React.Component {
                                 <h2>{hotel.name}</h2>
                                 {hotel.stars && <li>Stars: {hotel.stars}</li>}
                                 {hotel.location && <li>Location: {hotel.location}</li>}
+                                <span><a onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</a></span>
                             </div>
                         )}
                     </ul>

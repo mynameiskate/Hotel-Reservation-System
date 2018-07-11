@@ -23,8 +23,7 @@ namespace DatabaseRepositories
                                 Name = "NYC",
                                 Country = new Country
                                 {
-                                    Name = "USA",
-                                    Cities = new List<City>()
+                                    Name = "USA"
                                 }
                             }
                         },

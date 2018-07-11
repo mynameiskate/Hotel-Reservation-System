@@ -25,8 +25,13 @@ function update() {
 
 }
 
-function remove() {
+function remove(id) {
+    const path = "/hotels/" + id;
+    const options = {
+        method: "DELETE"
+    };
 
+    return fetch(settings.baseUrl + path, options);
 }
 
 function filter() {

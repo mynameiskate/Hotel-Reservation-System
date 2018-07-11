@@ -23,8 +23,9 @@ module.exports = {
                 exclude: /(node_modules)/,
                 loader: "babel-loader",
                 query: {
-                    presets: ["stage-0", "react", "env"],
-                    plugins: ["transform-object-rest-spread"]
+                    presets: ["react", "env"],
+                    plugins: [
+                        "@babel/plugin-proposal-object-rest-spread"]
                 }
             }
         ]

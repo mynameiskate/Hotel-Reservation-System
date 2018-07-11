@@ -7,5 +7,6 @@ namespace Services.Repositories
     public interface IHotelService
     {
         Task<List<Hotel>> GetHotelList();
+        void Delete(int id);
     }
 }
