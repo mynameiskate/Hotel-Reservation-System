@@ -17,18 +17,17 @@ function findAll() {
             .then(handleError)
             .then(result => result.json())
             .then(jsonInfo => {
-                    dispatch(receiveData(jsonInfo));      
-                    return jsonInfo;
-                }
-            )
-            .catch(error => dispatch(failToFind(error)));  
-	}
+                dispatch(receiveData(jsonInfo));
+                return jsonInfo;
+            })
+            .catch(error => dispatch(failToFind(error)));
+    }
 }
 
 function removeHotel(hotelId) {
     const removeFailure = (id, error) => { return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } }; };
-    const removeSuccess = (id) => { return { type: hotelConstants.REMOVE_HOTEL_SUCCESS }; payload: { id } };
-    const removeRequest = (id) => { return { type: hotelConstants.REMOVE_HOTEL_REQUEST }; payload: { id } };
+    const removeSuccess = (id) => { return { type: hotelConstants.REMOVE_HOTEL_SUCCESS, payload: { id } }; };
+    const removeRequest = (id) => { return { type: hotelConstants.REMOVE_HOTEL_REQUEST, payload: { id } }; };
 
     return dispatch => {
         dispatch(removeRequest(hotelId));
@@ -45,5 +44,3 @@ function handleError(response) {
     }
     return response;
 }
-
-

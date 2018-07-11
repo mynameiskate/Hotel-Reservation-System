@@ -10,7 +10,7 @@ class Main extends React.Component {
     }
 
     sendRemoveRequest(id) {
-        return (e) => this.props.dispatch(hotelActions.removeHotel(id));
+        return () => this.props.dispatch(hotelActions.removeHotel(id));
     }
 
     render() {
