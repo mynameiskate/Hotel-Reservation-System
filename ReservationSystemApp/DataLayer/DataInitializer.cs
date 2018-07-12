@@ -11,6 +11,27 @@ namespace DataLayer
         {
             if (!context.Hotels.Any())
             {
+                var city = new City
+                {
+                    Name = "NYC",
+                    Country = new Country
+                    {
+                        Name = "USA"
+                    }
+                };
+                var hotel = new Hotel();
+                hotel.Contacts = new List<Contact>();
+                var contact = new Contact
+                {
+                    ContactValue = "(212) 800-3000",
+                    ContactType = ContactType.Phone
+                };
+                hotel.Contacts.Add(contact);
+                hotel.Name = "Another hotel";
+                hotel.Location = new Location();
+                hotel.Location.Address = "Fifth Avenue at Central Park South, New York, NY 10019, USA";
+                hotel.Location.City = city;
+
                 context.Hotels.AddRange(
                     new Hotel
                     {
@@ -18,18 +39,12 @@ namespace DataLayer
                         Location = new Location
                         {
                             Address = "Fifth Avenue at Central Park South, New York, NY 10019, USA",
-                            City = new City
-                            {
-                                Name = "NYC",
-                                Country = new Country
-                                {
-                                    Name = "USA"
-                                }
-                            }
+                            City = city
                         },
                         Stars = 5,
                         Contacts = new List<Contact>()
-                    }
+                    },
+                    hotel
                         /*Add(new Contact
                         {
                             ContactValue = "(212) 759-3000",

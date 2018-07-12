@@ -33,7 +33,7 @@ function removeHotel(hotelId) {
         dispatch(removeRequest(hotelId));
         hotelServices.remove(hotelId)
             .then(handleError)
-            .then(() => dispatch(removeSuccess(hotelId)))
+            .then(dispatch(removeSuccess(hotelId)))
             .catch(error => dispatch(removeFailure(hotelId, error)));
     }
 }

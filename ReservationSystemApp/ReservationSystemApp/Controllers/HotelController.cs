@@ -20,8 +20,8 @@ namespace ReservationSystemApp.Controllers
         // GET: api/hotels/all
         [Route("all")]
         [HttpGet]
-        public async Task<List<Hotel>> GetHotelList()
-        {
+        public async Task<IEnumerable<Hotel>> GetHotelList()
+        {          
             return await _hotelService.GetHotelList();
         }
 

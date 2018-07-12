@@ -14,5 +14,6 @@ namespace DataLayer.Entities
         public List<Contact> Contacts { get; set; }
         public List<FilePath> Images { get; set; }
         public List<HotelRoom> Rooms { get; set; }
+        public bool IsRemoved { get; set; }
     }
 }

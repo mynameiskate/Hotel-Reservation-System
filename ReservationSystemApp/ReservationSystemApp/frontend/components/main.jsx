@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { hotelActions } from '../../actions/hotelActions.js';
+import { hotelActions } from '../actions/hotelActions.js';
 
 
 class Main extends React.Component {
@@ -28,12 +28,14 @@ class Main extends React.Component {
 	        	 { info &&
 	        	 	<ul>
                         {info.map((hotel) =>
-                            <div key={hotel.hotelId}>
-                                <h2>{hotel.name}</h2>
-                                {hotel.stars && <li>Stars: {hotel.stars}</li>}
-                                {hotel.location && <li>Location: {hotel.location}</li>}
-                                <button onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</button>
-                            </div>
+                            !hotel.isRemoved &&
+                                <div key={hotel.hotelId}>
+                                    <h2>{hotel.name}</h2>
+                                    {hotel.stars && <li>Stars: {hotel.stars}</li>}
+                                    {hotel.location && <li>City: {hotel.location.city}</li>}
+                                    {hotel.location && <li>Location: {hotel.location.address}</li>}
+                                    <button onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</button>
+                                </div>
                         )}
                     </ul>
 	        	 }
@@ -48,7 +50,8 @@ const mapProps = (state) => {
     return {
         info: state.hotels.info,
         error: state.hotels.error,
-        isSent: state.hotels.isSent
+        isSent: state.hotels.isSent,
+        removing: state.hotels.removing
     }
 }
 

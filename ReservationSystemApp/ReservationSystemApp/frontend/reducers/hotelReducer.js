@@ -3,13 +3,12 @@ import { hotelConstants } from '../constants/hotelConstants.js';
 const initialState = {
     isSent: false,
     info: [],
-    error: null
+    error: null,
+    removing: false
 }
 
 export function hotelReducer(state = initialState, action) {
     let data = action.payload;
-    console.log(action);
-    console.log(state);
     switch (action.type) {
         case hotelConstants.GET_HOTELS_SUCCESS:
             return {
@@ -34,19 +33,28 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                isSent: true
+                isSent: true,
+                removing: true,
+                info: (state.info.map(hotel =>
+                    (hotel.hotelId === data.id) ? {...hotel, isRemoved: true } :
+                    hotel))
             }
         case hotelConstants.REMOVE_HOTEL_SUCCESS:
             return {
                 error: null,
                 info: state.info.filter(hotel => hotel.hotelId !== data.id),
-                isSent: false
+                isSent: false,
+                removing: false
             }
         case hotelConstants.REMOVE_HOTEL_FAILURE:
             return {
                 ...state,
                 error: data.error,
-                isSent: false
+                isSent: false,
+                removing: false,
+                info: (state.info.map(hotel =>
+                    (hotel.hotelId === data.id) ? {...hotel, isRemoved: false } :
+                    hotel))
             }
         default:
             return state;
