@@ -3,7 +3,8 @@ import { hotelServices } from '../services/hotelService.js';
 
 export const hotelActions = {
     findAll,
-    removeHotel
+    removeHotel,
+    editHotel
 }
 
 function findAll() {
@@ -38,9 +39,22 @@ function removeHotel(hotelId) {
     }
 }
 
+
 function handleError(response) {
     if (!response.ok) {
         throw Error(response.status)
     }
     return response;
+}
+
+
+function editHotel(hotelId, hotelInfo) {
+    const editFailure = (id, error) => { return { type: hotelConstants.EDIT_HOTEL_FAILURE, payload: { id, error } }; };
+    const editSuccess = (id) => { return { type: hotelConstants.EDIT_HOTEL_SUCCESS, payload: { id } }; };
+    const editRequest = (id) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id } }; };
+
+    hotelServices.update(hotelId, hotelInfo)
+        .then(handleError)
+        .then(dispatch(editSuccess(hotelId)))
+        .catch(error => dispatch(editFailure(hotelId, error)));
 }

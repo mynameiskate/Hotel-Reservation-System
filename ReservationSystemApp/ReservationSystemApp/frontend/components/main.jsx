@@ -9,6 +9,7 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
+        this.sendEditRequest = this.sendEditRequest.bind(this);
     }
 
     componentWillMount() {
@@ -19,8 +20,12 @@ class Main extends React.Component {
         return () => this.props.dispatch(hotelActions.removeHotel(id));
     }
 
+    sendEditRequest(id) {
+
+    }
+
     render() {
-    	const { info, error, isSent} = this.props;
+    	const { info, error, isSent, removing } = this.props;
     	return ( 
 	        <div>
 	        	 <h1>Welcome to hotel reservation system</h1>
@@ -35,6 +40,9 @@ class Main extends React.Component {
                                     {hotel.location && <li>City: {hotel.location.city}</li>}
                                     {hotel.location && <li>Location: {hotel.location.address}</li>}
                                     <button onClick={this.sendRemoveRequest(hotel.hotelId)}>Delete</button>
+                                    {removing && <h3>Removing...</h3>}
+                                    <button>Edit</button>
+                                    <button>View details</button>
                                 </div>
                         )}
                     </ul>
@@ -46,12 +54,12 @@ class Main extends React.Component {
 }
 
 const mapProps = (state) => {
-    console.log(state);
     return {
         info: state.hotels.info,
         error: state.hotels.error,
         isSent: state.hotels.isSent,
-        removing: state.hotels.removing
+        removing: state.hotels.removing,
+        hotelInfo: state.hotels.hotelInfo
     }
 }
 

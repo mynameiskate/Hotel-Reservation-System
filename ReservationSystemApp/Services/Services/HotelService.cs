@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataLayer;
 using Services.Interfaces;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace Services.Services
 {
     public class HotelService : IHotelService
     {
         private DataContext _dataContext;
+
 
         public HotelService(DataContext dataContext)
         {
@@ -26,9 +25,11 @@ namespace Services.Services
                          .ToListAsync();
         }
 
-        public async Task<string> GetHotelListAsJson()
+        public async Task<Hotel> GetHotelInfo(int id)
         {
-            return await ConvertToJson(GetHotelList());
+            return await _dataContext.Hotels
+                         //.Include(h => h.Location)
+                         .FindAsync(id);
         }
 
         public void Delete(int id)
@@ -40,12 +41,6 @@ namespace Services.Services
                 _dataContext.Hotels.Update(hotel);
                 _dataContext.SaveChanges();
             }
-        }
-
-        private async Task<string> ConvertToJson(Task<IEnumerable<Hotel>> task)
-        {
-            var list = await task;
-            return JsonConvert.SerializeObject(list);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Services.Interfaces
     public interface IHotelService
     {
         Task<IEnumerable<Hotel>> GetHotelList();
-        Task<string> GetHotelListAsJson();
+        Task<Hotel> GetHotelInfo(int id);
         void Delete(int id);
     }
 }
