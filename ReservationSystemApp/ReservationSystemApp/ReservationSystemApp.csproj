@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Content Include="frontend\index.jsx" />
-    <Content Include="frontend\components\main.jsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="frontend\containers\" />
     <Folder Include="frontend\store\" />
     <Folder Include="frontend\services\" />
     <Folder Include="wwwroot\assets\" />

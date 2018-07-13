@@ -5,6 +5,7 @@ const initialState = {
     info: [],
     error: null,
     removing: false,
+    editing: true
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -60,7 +61,8 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                isSent: true
+                isSent: true,
+                editing: true
             }
         case hotelConstants.EDIT_HOTEL_SUCCESS:
             return {
@@ -70,13 +72,25 @@ export function hotelReducer(state = initialState, action) {
                 info: (state.info.map(hotel =>
                     (hotel.hotelId === data.id) ?
                     state.hotelInfo :
-                    hotel))
+                    hotel)),
+                editing: false
             }
         case hotelConstants.EDIT_HOTEL_FAILURE:
             return {
                 ...state,
                 error: data.error,
                 isSent: false
+            }
+
+        case hotelConstants.SHOW_HOTEL:
+            return {
+                ...state,
+                hotelInfo: data.info
+            }
+        case hotelConstants.HIDE_HOTEL:
+            return {
+                ...state,
+                hotelInfo: null
             }
         default:
             return state;

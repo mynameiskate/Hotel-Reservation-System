@@ -4,7 +4,9 @@ import { hotelServices } from '../services/hotelService.js';
 export const hotelActions = {
     findAll,
     removeHotel,
-    editHotel
+    editHotel,
+    showHotel,
+    hideHotel
 }
 
 function findAll() {
@@ -39,22 +41,37 @@ function removeHotel(hotelId) {
     }
 }
 
+function showHotel(hotelInfo) {
+    const showRequest = (info) => { return { type: hotelConstants.SHOW_HOTEL, payload: { info } }; };
 
-function handleError(response) {
-    if (!response.ok) {
-        throw Error(response.status)
+    return dispatch => {
+        dispatch(showRequest(hotelInfo))
     }
-    return response;
 }
 
+function hideHotel(hotelId) {
+    const hideRequest = (id) => { return { type: hotelConstants.HIDE_HOTEL, payload: { id } }; };
+
+    return dispatch => {
+        dispatch(hideRequest(hotelId))
+    }
+}
 
 function editHotel(hotelId, hotelInfo) {
     const editFailure = (id, error) => { return { type: hotelConstants.EDIT_HOTEL_FAILURE, payload: { id, error } }; };
     const editSuccess = (id) => { return { type: hotelConstants.EDIT_HOTEL_SUCCESS, payload: { id } }; };
     const editRequest = (id) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id } }; };
 
+    dispatch(editRequest(hotelId));
     hotelServices.update(hotelId, hotelInfo)
         .then(handleError)
         .then(dispatch(editSuccess(hotelId)))
         .catch(error => dispatch(editFailure(hotelId, error)));
+}
+
+function handleError(response) {
+    if (!response.ok) {
+        throw Error(response.status)
+    }
+    return response;
 }

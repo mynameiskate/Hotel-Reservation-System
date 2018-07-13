@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const bundleFolder = "./wwwroot/assets/";
-const srcFolder = "./frontend/"
+const srcFolder = "./frontend/";
 
 module.exports = {
     entry: [
@@ -23,11 +23,12 @@ module.exports = {
                 exclude: /(node_modules)/,
                 loader: "babel-loader",
                 query: {
-                    presets: ["react", "env", "stage-0"],
+                    presets: ["react", "env", "stage-0"]
                 }
             }
         ]
     },
+
     plugins: [
     ]
 };
