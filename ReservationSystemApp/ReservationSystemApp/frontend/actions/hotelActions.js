@@ -6,7 +6,9 @@ export const hotelActions = {
     removeHotel,
     editHotel,
     showHotel,
-    hideHotel
+    hideHotel,
+    startEditing,
+    stopEditing
 }
 
 function findAll() {
@@ -55,6 +57,18 @@ function hideHotel(hotelId) {
     return dispatch => {
         dispatch(hideRequest(hotelId))
     }
+}
+
+function startEditing(hotelId, hotelInfo) {
+    const showEditor = (id, info) => { return { type: hotelConstants.START_EDITING, payload: { id, info } }; }
+
+    dispatch(showEditor(hotelId, hotelInfo));
+}
+
+function stopEditing(hotelId, hotelInfo) {
+    const hideEditor = (id, info) => { return { type: hotelConstants.STOP_EDITING, payload: { id, info } }; }
+
+    dispatch(hideEditor(hotelId, hotelInfo));
 }
 
 function editHotel(hotelId, hotelInfo) {

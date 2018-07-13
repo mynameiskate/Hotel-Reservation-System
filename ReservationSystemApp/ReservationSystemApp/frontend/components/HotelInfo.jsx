@@ -14,7 +14,6 @@ const HotelInfo = ( { hotel, onDeleteClick, onViewClick} ) => (
         <Link to={`/hotels/${hotel.hotelId}`} onClick={this.showHotel(hotel)}>View details</Link>
         */}
         <button onClick={onDeleteClick}>Delete</button>
-        <button>Edit</button>
         <Link to={`/hotels/${hotel.hotelId}`} onClick={onViewClick}>View details</Link>
     </div>
 )

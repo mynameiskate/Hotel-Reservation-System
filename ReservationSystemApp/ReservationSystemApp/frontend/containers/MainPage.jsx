@@ -34,7 +34,7 @@ class Main extends React.Component {
     }
 
     render() {
-    	const { info, error, isSent, removing, editing } = this.props;
+    	const { info, error, isSent, removing } = this.props;
     	return ( 
 	        <div>
 	        	 <h1>Welcome to hotel reservation system</h1>
@@ -43,9 +43,14 @@ class Main extends React.Component {
 	        	 	<ul>
                         {info.map((hotel) =>
                             !hotel.isRemoved && 
-                            <HotelInfo key={hotel.hotelId} hotel={hotel}
-                                       onDeleteClick={this.sendRemoveRequest(hotel.hotelId)}
-                                       onShowClick={this.showHotel(hotel)}/>                           
+                            <div key={hotel.hotelId}>
+                                <HotelInfo hotel={hotel}
+                                           onDeleteClick={this.sendRemoveRequest(hotel.hotelId)}
+                                           onShowClick={this.showHotel(hotel)}
+                                           onEditClick={this.sendEditRequest()}
+                                /> 
+                                {removing && <h3>Removing...</h3>}              
+                            </div>                        
                         )}
                     </ul>
 	        	 }
@@ -61,7 +66,6 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         removing: state.hotels.removing,
-        editing: state.hotels.editing,
         hotelInfo: state.hotels.hotelInfo
     }
 }
