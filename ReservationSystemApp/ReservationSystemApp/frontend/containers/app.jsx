@@ -6,7 +6,7 @@ import MainPage from './MainPage.jsx'
 const App = () => (
     <Switch>
       <Route exact path='/' component={ MainPage }/>
-      <Route path='/hotels/:id' component={ HotelPage }/>
+      {/*<Route path='/hotels/:id' component={ HotelPage }/>*/}
     </Switch>
 )
 

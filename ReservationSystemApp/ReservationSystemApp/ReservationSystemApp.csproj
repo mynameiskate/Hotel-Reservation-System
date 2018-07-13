@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="frontend\containers\" />
     <Folder Include="frontend\store\" />
     <Folder Include="frontend\services\" />
     <Folder Include="wwwroot\assets\" />

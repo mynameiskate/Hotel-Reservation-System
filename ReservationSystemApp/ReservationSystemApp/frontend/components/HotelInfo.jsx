@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Link} from "react-router-dom";
+import { Link} from "react-router-dom";
 
 const HotelInfo = ( { hotel, onDeleteClick, onViewClick} ) => (
     <div key={hotel.hotelId}>                       
