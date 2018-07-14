@@ -10,4 +10,4 @@ const HotelEditField = ( { hotel, onSubmitClick} ) => (
     </div>
 )
 
-export default HotelEditField
+export default HotelEditField;

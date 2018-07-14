@@ -5,7 +5,8 @@ export const hotelServices = {
     add,
     update,
     remove,
-    filter
+    filter,
+    getHotel
 }
 
 function getAll() {
@@ -21,8 +22,17 @@ function add() {
 
 }
 
-function update(id, info) {
+function getHotel(id, info) {
     const path = `/hotels/${id}`;
+    const options = {
+        method: 'GET'
+    };
+
+    return fetch(settings.baseUrl + path, options);
+}
+
+function update(id, info) {
+    const path = `api/hotels/${id}`;
     const options = {
         method: 'PUT',
         body: JSON.stringify(info),
@@ -34,7 +44,7 @@ function update(id, info) {
 }
 
 function remove(id) {
-    const path = `/hotels/${id}`;
+    const path = `api/hotels/${id}`;
     const options = {
         method: "DELETE"
     };

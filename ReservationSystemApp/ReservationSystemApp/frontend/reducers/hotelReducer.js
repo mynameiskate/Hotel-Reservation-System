@@ -5,7 +5,8 @@ const initialState = {
     info: [],
     error: null,
     removing: false,
-    editing: false
+    editing: false,
+    selected: null
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -82,10 +83,25 @@ export function hotelReducer(state = initialState, action) {
                 isSent: false
             }
 
-        case hotelConstants.SHOW_HOTEL:
+        case hotelConstants.SHOW_HOTEL_REQUEST:
             return {
                 ...state,
-                hotelInfo: data.info
+                error: null,
+                isSent: true,
+                selected: data.selected
+            }
+        case hotelConstants.SHOW_HOTEL_SUCCESS:
+            return {
+                ...state,
+                selected: data.selected,
+                isSent: false
+            }
+        case hotelConstants.SHOW_HOTEL_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                isSent: false,
+                selected: null
             }
         case hotelConstants.HIDE_HOTEL:
             return {

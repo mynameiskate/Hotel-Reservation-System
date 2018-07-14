@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import { hotelActions } from '../actions/hotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
+import HotelInfo from '../components/HotelInfo.jsx';
 
 class HotelPage extends React.Component {
 
@@ -23,21 +24,13 @@ class HotelPage extends React.Component {
     }
 
     render() {
-    	const { info, error, isSent, editing, hotelInfo } = this.props;
+    	const { selected, error, isSent, editing } = this.props;
     	return ( 
 	        <div>
                 {
-                    hotelInfo && 
-                    <div>
-                        { isSent && <h3>Loading..</h3>}
-                        <h2>{hotelInfo.name}</h2>
-                            {
-                                <HotelEditField key={hotelInfo.hotelId} hotel={hotelInfo}
-                                    onSubmitClick={this.showEditField(hotelInfo.hotelId, hotelInfo)}
-                                />
-                            }
-      
-                    </div>
+                    selected ?
+                        <HotelInfo hotel={selected}/> 
+                        : <h2>Sorry, page is not available.</h2>            
                 }
 	        	 { error  && <h3>Loading error</h3>}
 	        </div>
@@ -51,7 +44,7 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         editing: state.hotels.editing,
-        hotelInfo: state.hotels.hotelInfo
+        selected: state.hotels.selected
     }
 }
 

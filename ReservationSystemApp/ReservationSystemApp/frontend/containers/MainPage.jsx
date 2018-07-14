@@ -2,6 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import { hotelActions } from '../actions/hotelActions.js';
 import HotelInfo from '../components/HotelInfo.jsx';
+import HotelList from '../components/HotelList.jsx';
+import HotelPage from '../containers/HotelPage.jsx';
+
+import { Link, Route, Switch } from "react-router-dom";
 
 class Main extends React.Component {
 
@@ -17,44 +21,37 @@ class Main extends React.Component {
         this.props.dispatch(hotelActions.findAll());
     }
 
-    sendRemoveRequest(id) {
-        return () => this.props.dispatch(hotelActions.removeHotel(id));
+    sendRemoveRequest = (id) => {
+        this.props.dispatch(hotelActions.removeHotel(id));
     }
 
-    sendEditRequest(id, info) {
-        return () => this.props.dispatch(hotelActions.editHotel(id, info));
+    sendEditRequest = (id, info) => {
+        this.props.dispatch(hotelActions.editHotel(id, info));
     }
 
-    showHotel(info) {
-        return () => this.props.dispatch(hotelActions.showHotel(info));
+    showHotel = (id, info) => {
+        this.props.dispatch(hotelActions.showHotel(id, info));
     }
 
-    hideHotel(info) {
-        return () => this.props.dispatch(hotelActions.hideHotel(info));
+    hideHotel = (info) => {
+        this.props.dispatch(hotelActions.hideHotel(info));
     }
 
     render() {
     	const { info, error, isSent, removing } = this.props;
     	return ( 
-	        <div>
+	        <div className="mainPage">
 	        	 <h1>Welcome to hotel reservation system</h1>
 	        	 { isSent && <h3>Loading hotels..</h3>}
-	        	 { info &&
-	        	 	<ul>
-                        {info.map((hotel) =>
-                            !hotel.isRemoved && 
-                            <div key={hotel.hotelId}>
-                                <HotelInfo hotel={hotel}
-                                           onDeleteClick={this.sendRemoveRequest(hotel.hotelId)}
-                                           onShowClick={this.showHotel(hotel)}
-                                           onEditClick={this.sendEditRequest()}
-                                /> 
-                                {removing && <h3>Removing...</h3>}              
-                            </div>                        
-                        )}
-                    </ul>
-	        	 }
-	        	 { error  && <h3>Loading error</h3>}
+                 { info &&
+                    <HotelList  info={info}
+                                removing={removing}
+                                onDeleteClick={this.sendRemoveRequest}
+                                onViewClick={this.showHotel}
+                                onEditClick={this.sendEditRequest}
+                    /> 
+                 }
+                 { error  && <h3>Loading error</h3>}
 	        </div>
 	    );
     } 
@@ -66,7 +63,7 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         removing: state.hotels.removing,
-        hotelInfo: state.hotels.hotelInfo
+        selected: state.hotels.selected  
     }
 }
 

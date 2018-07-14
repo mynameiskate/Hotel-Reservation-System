@@ -31,6 +31,7 @@ namespace DataLayer
                 hotel.Location = new Location();
                 hotel.Location.Address = "Fifth Avenue at Central Park South, New York, NY 10019, USA";
                 hotel.Location.City = city;
+                hotel.IsRemoved = false;
 
                 context.Hotels.AddRange(
                     new Hotel
@@ -42,7 +43,8 @@ namespace DataLayer
                             City = city
                         },
                         Stars = 5,
-                        Contacts = new List<Contact>()
+                        Contacts = new List<Contact>(),
+                        IsRemoved = false
                     },
                     hotel
                         /*Add(new Contact
