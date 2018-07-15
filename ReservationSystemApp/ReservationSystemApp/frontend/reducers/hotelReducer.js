@@ -6,7 +6,8 @@ const initialState = {
     error: null,
     removing: false,
     editing: false,
-    selected: null
+    selected: null,
+    isValid: false
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -114,7 +115,8 @@ export function hotelReducer(state = initialState, action) {
                 error: null,
                 editing: true,
                 id: data.id,
-                selected: data.selected
+                selected: data.selected,
+                isValid: false
             }
         case hotelConstants.STOP_EDITING:
             return {

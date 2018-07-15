@@ -15,8 +15,8 @@ class HotelPage extends React.Component {
         this.props.dispatch(hotelActions.startEditing(id, info));
     }
 
-    hideEditField(id, info) {
-        return () => this.props.dispatch(hotelActions.stopEditing(id, info));
+    hideEditField = (id, info) => {
+        this.props.dispatch(hotelActions.stopEditing(id, info));
     }
 
     sendEditRequest = (id, info) => {
@@ -24,7 +24,7 @@ class HotelPage extends React.Component {
     }
 
     render() {
-    	const { selected, error, isSent, editing } = this.props;
+    	const { selected, error, isSent, editing, isValid } = this.props;
     	return ( 
 	        <div>
                 {
@@ -34,7 +34,9 @@ class HotelPage extends React.Component {
                                 !editing ?
                                 <HotelInfo hotel={selected}/> 
                                 : <HotelEditField hotel={selected}
-                                                  onSubmitClick={this.sendEditRequest}/>
+                                                  onSubmitClick={this.sendEditRequest}
+                                                  onCancelClick={this.hideEditField}
+                                                  isValid={isValid}/>
                             }
                             <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
                         </div>      
@@ -51,7 +53,8 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         editing: state.hotels.editing,
-        selected: state.hotels.selected
+        selected: state.hotels.selected,
+        isValid: state.hotels.isValid
     }
 }
 
