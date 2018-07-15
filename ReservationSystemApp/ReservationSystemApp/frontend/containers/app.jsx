@@ -7,7 +7,7 @@ import HotelList from '../components/HotelList.jsx'
 const App = () => (
     <Switch>
       <Route exact path='/' component={ MainPage }/>
-      <Route path="/api/hotels/:id" component={ HotelPage }/> 
+      <Route exact path="/api/hotels/:id" component={ HotelPage }/> 
     </Switch>
 )
 

@@ -88,13 +88,13 @@ export function hotelReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isSent: true,
-                selected: data.selected
+                selected: data.selected,
             }
         case hotelConstants.SHOW_HOTEL_SUCCESS:
             return {
                 ...state,
-                selected: data.selected,
-                isSent: false
+                isSent: false,
+                selected: data.selected
             }
         case hotelConstants.SHOW_HOTEL_FAILURE:
             return {
@@ -112,13 +112,16 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                editing: true
+                editing: true,
+                id: data.id,
+                selected: data.selected
             }
         case hotelConstants.STOP_EDITING:
             return {
                 ...state,
                 editing: false,
-                error: null
+                error: null,
+                selected: state.selected
             }
         default:
             return state;

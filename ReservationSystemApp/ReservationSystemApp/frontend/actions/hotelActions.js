@@ -56,18 +56,21 @@ function showHotel(hotelId, hotelInfo) {
     const showSuccess = (selected) => {
          return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { selected } }; 
     };
-    const showFailure = (id, error) => {
-         return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { id, error } }; 
+    const showFailure = (error) => {
+         return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } }; 
     };
 
     return dispatch => {
         dispatch(showRequest(hotelId, hotelInfo));
-      /* hotelServices.getHotel(hotelId, hotelInfo)
+        if (hotelInfo) return hotelInfo;
+        hotelServices.getHotel(hotelId, hotelInfo)
             .then(handleError)
+            .then(result => result.json())
             .then(info => {
                 dispatch(showSuccess(info));
+                return info;
             })
-            .catch(error => dispatch(showFailure(hotelId, error)));*/
+            .catch(error => dispatch(showFailure(error)));
     }
 }
 
@@ -80,15 +83,23 @@ function hideHotel(hotelId) {
 }
 
 function startEditing(hotelId, hotelInfo) {
-    const showEditor = (id, info) => { return { type: hotelConstants.START_EDITING, payload: { id, info } }; }
+    const showEditor = (id, selected) => { 
+        return { type: hotelConstants.START_EDITING, payload: { id, selected} }; 
+    }
 
-    dispatch(showEditor(hotelId, hotelInfo));
+    return dispatch => {
+        dispatch(showEditor(hotelId, hotelInfo));
+    }
 }
 
-function stopEditing(hotelId, hotelInfo) {
-    const hideEditor = (id, info) => { return { type: hotelConstants.STOP_EDITING, payload: { id, info } }; }
+function stopEditing() {
+    const hideEditor = () => { 
+        return { type: hotelConstants.STOP_EDITING, payload: {} }; 
+    }
 
-    dispatch(hideEditor(hotelId, hotelInfo));
+    return dispatch => {  
+        dispatch(hideEditor());
+    }
 }
 
 function editHotel(hotelId, hotelInfo) {
@@ -98,11 +109,13 @@ function editHotel(hotelId, hotelInfo) {
     const editSuccess = (id) => { return { type: hotelConstants.EDIT_HOTEL_SUCCESS, payload: { id } }; };
     const editRequest = (id, hotelInfo) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id } }; };
 
-    dispatch(editRequest(hotelId));
-    hotelServices.update(hotelId, hotelInfo)
-        .then(handleError)     
-        .then(dispatch(editSuccess(hotelId)))
-        .catch(error => dispatch(editFailure(hotelId, error)));
+    return dispatch => {
+        dispatch(editRequest(hotelId));
+        hotelServices.update(hotelId, hotelInfo)
+            .then(handleError)     
+            .then(dispatch(editSuccess(hotelId)))
+            .catch(error => dispatch(editFailure(hotelId, error)));
+    }
 }
 
 function handleError(response) {

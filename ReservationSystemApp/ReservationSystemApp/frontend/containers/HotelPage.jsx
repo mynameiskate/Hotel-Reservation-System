@@ -11,16 +11,16 @@ class HotelPage extends React.Component {
         this.sendEditRequest = this.sendEditRequest.bind(this);
     }
 
-    showEditField(id, info) {
-        return () => this.props.dispatch(hotelActions.startEditing(id, info));
+    showEditField = (id, info) => {
+        this.props.dispatch(hotelActions.startEditing(id, info));
     }
 
     hideEditField(id, info) {
         return () => this.props.dispatch(hotelActions.stopEditing(id, info));
     }
 
-    sendEditRequest(id, info) {
-        return () => this.props.dispatch(hotelActions.editHotel(id, info));
+    sendEditRequest = (id, info) => {
+        this.props.dispatch(hotelActions.editHotel(id, info));
     }
 
     render() {
@@ -29,10 +29,17 @@ class HotelPage extends React.Component {
 	        <div>
                 {
                     selected ?
-                        <HotelInfo hotel={selected}/> 
-                        : <h2>Sorry, page is not available.</h2>            
+                        <div>
+                            {
+                                !editing ?
+                                <HotelInfo hotel={selected}/> 
+                                : <HotelEditField hotel={selected}
+                                                  onSubmitClick={this.sendEditRequest}/>
+                            }
+                            <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
+                        </div>      
+                    : <h2>Sorry, page is not available.</h2>  
                 }
-	        	 { error  && <h3>Loading error</h3>}
 	        </div>
 	    );
     } 

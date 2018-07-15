@@ -22,7 +22,7 @@ function add() {
 
 }
 
-function getHotel(id, info) {
+function getHotel(id) {
     const path = `/hotels/${id}`;
     const options = {
         method: 'GET'
