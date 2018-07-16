@@ -1,19 +1,47 @@
 import React from 'react';
 
-const HotelEditField = ( { hotel, onSubmitClick, onCancelClick, isValid} ) => (
-    <div key={hotel.hotelId}>                       
-        <h2>{hotel.name}</h2>
-        {<p>Stars: <input type='text' defaultValue={hotel.stars}/></p>}
-        {<p>City: <input type ='text' 
-                         defaultValue={hotel.location ? hotel.location.city : ''}/></p>}
-        {<p>Address: <input type ='text' 
-                            defaultValue={hotel.location ? hotel.location.address : ''}/></p>}
-        <button type="submit" onClick={onSubmitClick}
-                disabled={!isValid}>
-                Submit
-        </button>
-        <button onClick={onCancelClick}>Cancel</button>
+import { reduxForm, Field } from 'redux-form';
+
+import { isRequired, maxLength, minLength, isNumber, maxValue } from './validationRules.js';
+
+const inputField = ({ input, label, defaultValue, meta: { touched, error, warning } }) => (
+    <div>
+        <h3>{label}</h3>
+        <div>
+            <input {...input} placeholder={defaultValue} type='text'/>
+            {touched && 
+                ((error && <span>{error}</span>) || 
+                (warning && <span>{warning}</span>))}
+        </div>
     </div>
 )
 
-export default HotelEditField;
+const HotelEditField = ( props ) => {
+    const { hotel, onSubmitClick, onCancelClick, invalid, pristine, submitting } = props;
+    return (
+        <form onSubmit={onSubmitClick}>           
+            <Field name="name" label="Name" component={inputField} 
+                validate={[isRequired, maxLength(20)]} defaultValue={hotel.name}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+            />        
+            <Field name="stars" label="Stars" component={inputField} 
+                validate={[isNumber, maxValue(5)]} defaultValue={hotel.stars}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+            />      
+            <Field name="city" label="City" component={inputField} 
+                   defaultValue={hotel.location ? hotel.location.city :''}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+            />    
+            <Field name="address" label="Address" component={inputField} 
+                   defaultValue={hotel.location ? hotel.location.address : ''}       
+                   validate={isRequired}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+            />   
+            <button type="submit" onClick={onSubmitClick} disabled={invalid || pristine || submitting}>
+                Submit
+            </button>
+            <button onClick={onCancelClick}>Cancel</button>
+        </form>
+    );
+}
+
+export default reduxForm({ 
+    form: 'hotelEditForm' 
+})(HotelEditField)
+
