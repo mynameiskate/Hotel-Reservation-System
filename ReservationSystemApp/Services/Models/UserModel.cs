@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReservationSystemApp.Models
+namespace Services.Models
 {
     public class UserModel
     {

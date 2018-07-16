@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,8 +7,8 @@ namespace Services.Interfaces
 {
     public interface IHotelService
     {
-        Task<IEnumerable<Hotel>> GetHotelList();
-        Task<Hotel> GetHotelInfo(int id);
+        Task<IEnumerable<HotelModel>> GetHotelList();
+        Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);
     }
 }

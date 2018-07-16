@@ -54,18 +54,24 @@ namespace ReservationSystemApp
 
             app.UseMvc(routes =>
             {
+                /*routes.MapRoute(
+                    "default",
+                    "{controller=Default}/{action=Index}/{id?}"
+                );
 
                 routes.MapRoute("hotel", "hotels/{id}",
-                    defaults: new { controller = "Hotel", action = "Get" });
+                    defaults: new { controller = "Hotel", action = "Get" }); */
 
-                routes.MapRoute("hotels", "hotels/all",
-                   defaults: new { controller = "Hotel", action= "GetHotelList" });
+
+               /* routes.MapRoute("hotels", "hotels/all",
+                   defaults: new { controller = "Hotel", action= "GetHotelList" });*/ 
 
 
                  routes.MapRoute(
                       name: "catch-all",
                       template: "{*url}",
                       defaults: new { controller = "Default", action = "Index" }
+
                   );
             });
         }

@@ -62,7 +62,7 @@ function showHotel(hotelId, hotelInfo) {
 
     return dispatch => {
         dispatch(showRequest(hotelId, hotelInfo));
-        if (hotelInfo) return hotelInfo;
+        //Sif (hotelInfo) return hotelInfo;
         hotelServices.getHotel(hotelId, hotelInfo)
             .then(handleError)
             .then(result => result.json())

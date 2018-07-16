@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Services\Services.csproj" />
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="frontend\store\" />
     <Folder Include="frontend\services\" />
     <Folder Include="wwwroot\assets\" />
@@ -27,6 +22,10 @@
 
   <ItemGroup>
     <None Include="wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>

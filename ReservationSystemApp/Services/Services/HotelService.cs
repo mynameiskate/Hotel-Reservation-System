@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataLayer;
 using Services.Interfaces;
+using System.Linq;
+using Services.Models;
 
 namespace Services.Services
 {
@@ -17,19 +19,24 @@ namespace Services.Services
             _dataContext = dataContext;
         }
 
-        public async Task<IEnumerable<Hotel>> GetHotelList()
+        public async Task<IEnumerable<HotelModel>> GetHotelList()
         {
             DataInitializer.Initialize(_dataContext);
-            return await _dataContext.Hotels
+            var entityList = await _dataContext.Hotels
                          .Include(h => h.Location)
                          .ToListAsync();
+            var modelList = entityList
+                            .Select(hotel => new HotelModel(hotel))
+                            .ToList();
+            return modelList;
         }
 
-        public async Task<Hotel> GetHotelInfo(int id)
+        public async Task<HotelModel> GetHotelInfo(int id)
         {
-            return await _dataContext.Hotels
+             var hotelEntity = await _dataContext.Hotels
                          .Include(h => h.Location)
                          .FirstAsync(h => h.HotelId == id);
+            return new HotelModel(hotelEntity);
         }
 
         public async void UpdateHotelInfo(int id, Hotel newValue)

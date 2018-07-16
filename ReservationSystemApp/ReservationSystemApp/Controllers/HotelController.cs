@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using Services.Models;
 
 namespace ReservationSystemApp.Controllers
 {
-    [Route("api/hotels")]
+    [Route("{api?}/hotels")]
     [ApiController]
     public class HotelController : ControllerBase
     {
@@ -20,14 +20,14 @@ namespace ReservationSystemApp.Controllers
         // GET: api/hotels/all
         [Route("all")]
         [HttpGet]
-        public async Task<IEnumerable<Hotel>> GetHotelList()
-        {          
+        public async Task<IEnumerable<HotelModel>> GetHotelList()
+        {
             return await _hotelService.GetHotelList();
         }
 
         // GET: api/hotels/5
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<Hotel> Get(int id)
+        [HttpGet("{id}")]
+        public async Task<HotelModel> Get(int id)
         {
             var hotel = await _hotelService.GetHotelInfo(id);
             return hotel;
