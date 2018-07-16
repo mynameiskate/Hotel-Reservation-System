@@ -16,10 +16,10 @@ const inputField = ({ input, label, defaultValue, meta: { touched, error, warnin
     </div>
 )
 
-const HotelEditField = ( props ) => {
-    const { hotel, onSubmitClick, onCancelClick, invalid, pristine, submitting } = props;
+const HotelEditField = (props) => {
+    const { hotel, handleSubmit, sendRequest, onCancelClick, invalid, pristine, submitting } = props;
     return (
-        <form onSubmit={onSubmitClick}>           
+        <form onSubmit={handleSubmit(sendRequest)}>           
             <Field name="name" label="Name" component={inputField} 
                 validate={[isRequired, maxLength(20)]} defaultValue={hotel.name}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
             />        
@@ -33,15 +33,16 @@ const HotelEditField = ( props ) => {
                    defaultValue={hotel.location ? hotel.location.address : ''}       
                    validate={isRequired}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             />   
-            <button type="submit" onClick={onSubmitClick} disabled={invalid || pristine || submitting}>
+            <button type="submit"
+                    disabled={invalid || pristine || submitting}>
                 Submit
             </button>
-            <button onClick={onCancelClick}>Cancel</button>
+            <button type="button" onClick={onCancelClick}>Cancel</button>
         </form>
     );
 }
 
 export default reduxForm({ 
-    form: 'hotelEditForm' 
+    form: 'hotelEditForm'
 })(HotelEditField)
 

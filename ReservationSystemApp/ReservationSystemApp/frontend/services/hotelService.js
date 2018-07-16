@@ -32,7 +32,7 @@ function getHotel(id) {
 }
 
 function update(id, info) {
-    const path = `api/hotels/${id}`;
+    const path = `/hotels/${id}`;
     const options = {
         method: 'PUT',
         body: JSON.stringify(info),
