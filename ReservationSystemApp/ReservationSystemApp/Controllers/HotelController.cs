@@ -25,24 +25,12 @@ namespace ReservationSystemApp.Controllers
             return await _hotelService.GetHotelList();
         }
 
-        // GET: api/hotels
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET: api/hotels/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<Hotel> Get(int id)
         {
-            return await _hotelService.GetHotelInfo(id);
-        }
-
-        // POST: api/hotels
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+            var hotel = await _hotelService.GetHotelInfo(id);
+            return hotel;
         }
 
         // PUT: api/hotels/5

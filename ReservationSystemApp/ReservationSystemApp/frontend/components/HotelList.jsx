@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch } from "react-router-dom";
 import HotelInfo from "./HotelInfo.jsx";
-import HotelPage from '../containers/HotelPage.jsx';
 
 const HotelList = ( {info, removing, onDeleteClick, onViewClick} ) => (
     <div>
@@ -11,7 +10,7 @@ const HotelList = ( {info, removing, onDeleteClick, onViewClick} ) => (
                     <HotelInfo hotel={hotel}/> 
                     {removing && <h3>Removing...</h3>}      
                     <button onClick={() =>  onDeleteClick(hotel.hotelId)}>Delete</button>
-                    <Link to={`/api/hotels/${hotel.hotelId}`}
+                    <Link to={`/hotels/${hotel.hotelId}`}
                           onClick={() => onViewClick(hotel.hotelId, hotel)}>
                           View details
                     </Link>  

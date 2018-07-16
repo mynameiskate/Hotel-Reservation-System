@@ -30,14 +30,14 @@ function findAll() {
 }
 
 function removeHotel(hotelId) {
-    const removeFailure = (id, error) => { 
-        return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } }; 
+    const removeFailure = (id, error) => {
+        return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } };
     };
-    const removeSuccess = (id) => { 
-        return { type: hotelConstants.REMOVE_HOTEL_SUCCESS, payload: { id } }; 
+    const removeSuccess = (id) => {
+        return { type: hotelConstants.REMOVE_HOTEL_SUCCESS, payload: { id } };
     };
     const removeRequest = (id) => {
-         return { type: hotelConstants.REMOVE_HOTEL_REQUEST, payload: { id } }; 
+        return { type: hotelConstants.REMOVE_HOTEL_REQUEST, payload: { id } };
     };
 
     return dispatch => {
@@ -50,14 +50,14 @@ function removeHotel(hotelId) {
 }
 
 function showHotel(hotelId, hotelInfo) {
-    const showRequest = (id, selected) => { 
-        return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id, selected} }; 
+    const showRequest = (id, selected) => {
+        return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id, selected } };
     };
     const showSuccess = (selected) => {
-         return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { selected } }; 
+        return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { selected } };
     };
     const showFailure = (error) => {
-         return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } }; 
+        return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } };
     };
 
     return dispatch => {
@@ -83,8 +83,8 @@ function hideHotel(hotelId) {
 }
 
 function startEditing(hotelId, hotelInfo) {
-    const showEditor = (id, selected) => { 
-        return { type: hotelConstants.START_EDITING, payload: { id, selected} }; 
+    const showEditor = (id, selected) => {
+        return { type: hotelConstants.START_EDITING, payload: { id, selected } };
     }
 
     return dispatch => {
@@ -93,26 +93,26 @@ function startEditing(hotelId, hotelInfo) {
 }
 
 function stopEditing() {
-    const hideEditor = () => { 
-        return { type: hotelConstants.STOP_EDITING, payload: {} }; 
+    const hideEditor = () => {
+        return { type: hotelConstants.STOP_EDITING, payload: {} };
     }
 
-    return dispatch => {  
+    return dispatch => {
         dispatch(hideEditor());
     }
 }
 
 function editHotel(hotelId, hotelInfo) {
-    const editFailure = (id, error) => { 
-        return { type: hotelConstants.EDIT_HOTEL_FAILURE, payload: { id, error } }; 
+    const editFailure = (id, error) => {
+        return { type: hotelConstants.EDIT_HOTEL_FAILURE, payload: { id, error } };
     };
     const editSuccess = (id) => { return { type: hotelConstants.EDIT_HOTEL_SUCCESS, payload: { id } }; };
-    const editRequest = (id, hotelInfo) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id } }; };
+    const editRequest = (id, hotelInfo) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id, hotelInfo } }; };
 
     return dispatch => {
-        dispatch(editRequest(hotelId));
+        dispatch(editRequest(hotelId, hotelInfo));
         hotelServices.update(hotelId, hotelInfo)
-            .then(handleError)     
+            .then(handleError)
             .then(dispatch(editSuccess(hotelId)))
             .catch(error => dispatch(editFailure(hotelId, error)));
     }

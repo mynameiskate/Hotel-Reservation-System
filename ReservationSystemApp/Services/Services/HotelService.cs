@@ -28,8 +28,20 @@ namespace Services.Services
         public async Task<Hotel> GetHotelInfo(int id)
         {
             return await _dataContext.Hotels
-                         //.Include(h => h.Location)
-                         .FindAsync(id);
+                         .Include(h => h.Location)
+                         .FirstAsync(h => h.HotelId == id);
+        }
+
+        public async void UpdateHotelInfo(int id, Hotel newValue)
+        {
+            var hotel = await _dataContext.Hotels.FindAsync(id);
+            if (hotel != null)
+            {
+                hotel = newValue;
+                /*work in progress*/
+                _dataContext.SaveChanges();
+            }
+
         }
 
         public void Delete(int id)
