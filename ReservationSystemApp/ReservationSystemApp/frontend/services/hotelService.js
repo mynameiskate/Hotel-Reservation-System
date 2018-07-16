@@ -44,7 +44,7 @@ function update(id, info) {
 }
 
 function remove(id) {
-    const path = `api/hotels/${id}`;
+    const path = `/hotels/${id}`;
     const options = {
         method: "DELETE"
     };

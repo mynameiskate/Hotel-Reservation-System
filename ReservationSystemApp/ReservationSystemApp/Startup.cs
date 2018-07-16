@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer;
 using Services.Services;
 using Services.Interfaces;
+using System.IO;
 
 namespace ReservationSystemApp
 {
@@ -50,13 +51,23 @@ namespace ReservationSystemApp
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseMvc(/*routes =>
+
+            app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "DefaultApi",
-                    template: "api/{controller}/{action}");
-                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" }); 
-            }*/);
+
+                routes.MapRoute("hotel", "hotels/{id}",
+                    defaults: new { controller = "Hotel", action = "Get" });
+
+                routes.MapRoute("hotels", "hotels/all",
+                   defaults: new { controller = "Hotel", action= "GetHotelList" });
+
+
+                 routes.MapRoute(
+                      name: "catch-all",
+                      template: "{*url}",
+                      defaults: new { controller = "Default", action = "Index" }
+                  );
+            });
         }
     }
 }

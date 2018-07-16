@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import { hotelActions } from '../actions/hotelActions.js';
-import HotelInfo from '../components/HotelInfo.jsx';
 import HotelList from '../components/HotelList.jsx';
-import HotelPage from '../containers/HotelPage.jsx';
-
-import { Link, Route, Switch } from "react-router-dom";
 
 class Main extends React.Component {
 

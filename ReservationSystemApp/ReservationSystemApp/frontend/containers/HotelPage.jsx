@@ -32,13 +32,15 @@ class HotelPage extends React.Component {
                         <div>
                             {
                                 !editing ?
-                                <HotelInfo hotel={selected}/> 
+                                <div>
+                                    <HotelInfo hotel={selected}/> 
+                                    <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
+                                </div>
                                 : <HotelEditField hotel={selected}
                                                   sendRequest={(values) => this.sendEditRequest(selected.hotelId, values)}
                                                   onCancelClick={this.hideEditField} />
                             }
                             {error && <p>error</p>}
-                            <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
                         </div>      
                     : <h2>Sorry, page is not available.</h2>  
                 }
