@@ -6,7 +6,7 @@ namespace DataLayer.Entities
     {
         public int HotelRoomId { get; set; }
         public int Number { get; set; }
-        public bool Available { get; set; }
+        public bool IsAvailable { get; set; }
         public float Size { get; set; }
         public float Cost { get; set; }
         public int CanPlace { get; set; }

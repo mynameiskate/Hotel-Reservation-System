@@ -18,7 +18,7 @@ namespace Services.Models
             if (room != null)
             {
                 Number = room.Number;
-                Available = room.Available;
+                Available = room.IsAvailable;
                 Size = room.Size;
                 Cost = room.Cost;
                 CanPlace = room.CanPlace;

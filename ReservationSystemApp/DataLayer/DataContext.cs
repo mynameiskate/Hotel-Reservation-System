@@ -24,6 +24,10 @@ namespace DataLayer
             .HasOne(h => h.Location)
             .WithOne();
 
+            modelBuilder.Entity<City>()
+            .HasOne(c => c.Country)
+            .WithMany();
+
             modelBuilder.Entity<Hotel>()
            .HasMany(h => h.Rooms)
            .WithOne(r => r.Hotel);

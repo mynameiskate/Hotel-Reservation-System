@@ -35,6 +35,7 @@ class HotelPage extends React.Component {
                                 <div>
                                     <HotelInfo hotel={selected}/> 
                                     <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
+                                    
                                 </div>
                                 : <HotelEditField hotel={selected}
                                                   sendRequest={(values) => this.sendEditRequest(selected.hotelId, values)}

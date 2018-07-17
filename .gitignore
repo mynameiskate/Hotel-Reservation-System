@@ -2,6 +2,8 @@ ReservationSystemApp/DataLayer/bin/
 ReservationSystemApp/DataLayer/obj/
 ReservationSystemApp/Services/bin/
 ReservationSystemApp/Services/obj/
+ReservationSystemApp/HotelDatabase/bin/
+ReservationSystemApp/HotelDatabase/obj/
 ReservationSystemApp/DataLayer/.vs/
 ReservationSystemApp/ReservationSystemApp/bin/
 ReservationSystemApp/ReservationSystemApp/obj/

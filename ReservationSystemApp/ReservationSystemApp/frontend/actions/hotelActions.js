@@ -16,7 +16,8 @@ function findAll() {
     const receiveData = (info) => { return { type: hotelConstants.GET_HOTELS_SUCCESS, payload: { info } }; };
     const failToFind = (error) => { return { type: hotelConstants.GET_HOTELS_FAILURE, payload: { error } }; };
 
-    return dispatch => {
+    return (dispatch, stateAccessor) => {
+        //console.log(stateAccessor());
         dispatch(sendRequest());
         hotelServices.getAll()
             .then(handleError)
