@@ -9,6 +9,20 @@ class HotelPage extends React.Component {
     constructor(props) {
         super(props);
         this.sendEditRequest = this.sendEditRequest.bind(this);
+        this.showHotel = this.showHotel.bind(this);
+    }
+
+    getHotelId() {
+        let url = this.props.location.pathname;
+        return url.split("/").pop();
+    }
+
+    showHotel = (id) => {
+        this.props.dispatch(hotelActions.showHotel(id));
+    }
+
+    componentWillMount() {
+       this.showHotel(this.getHotelId());
     }
 
     showEditField = (id, info) => {

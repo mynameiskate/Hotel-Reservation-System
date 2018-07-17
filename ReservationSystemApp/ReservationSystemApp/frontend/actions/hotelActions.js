@@ -17,7 +17,6 @@ function findAll() {
     const failToFind = (error) => { return { type: hotelConstants.GET_HOTELS_FAILURE, payload: { error } }; };
 
     return (dispatch, stateAccessor) => {
-        //console.log(stateAccessor());
         dispatch(sendRequest());
         hotelServices.getAll()
             .then(handleError)
@@ -50,9 +49,15 @@ function removeHotel(hotelId) {
     }
 }
 
-function showHotel(hotelId, hotelInfo) {
-    const showRequest = (id, selected) => {
-        return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id, selected } };
+function getHotelById(id, hotels) {
+    if (hotels) {
+        return hotels.find(hotel => hotel.hotelId == id);
+    }
+}
+
+function showHotel(hotelId) {
+    const showRequest = (id) => {
+        return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id } };
     };
     const showSuccess = (selected) => {
         return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { selected } };
@@ -61,17 +66,23 @@ function showHotel(hotelId, hotelInfo) {
         return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } };
     };
 
-    return dispatch => {
-        dispatch(showRequest(hotelId, hotelInfo));
-        //Sif (hotelInfo) return hotelInfo;
-        hotelServices.getHotel(hotelId, hotelInfo)
-            .then(handleError)
-            .then(result => result.json())
-            .then(info => {
-                dispatch(showSuccess(info));
-                return info;
-            })
-            .catch(error => dispatch(showFailure(error)));
+    return (dispatch, stateAccessor) => {
+        let hotel = getHotelById(hotelId, stateAccessor().hotels.info);
+        if (hotel) {
+            dispatch(showSuccess(hotel));
+            return hotel;
+        }
+        else {
+            dispatch(showRequest(hotelId));
+            hotelServices.getHotel(hotelId)
+                .then(handleError)
+                .then(result => result.json())
+                .then(info => {
+                    dispatch(showSuccess(info));
+                    return info;
+                })
+                .catch(error => dispatch(showFailure(error)));
+        }
     }
 }
 

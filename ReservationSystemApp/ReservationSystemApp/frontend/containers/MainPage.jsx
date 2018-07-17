@@ -9,11 +9,10 @@ class Main extends React.Component {
         super(props);
         this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
         this.sendEditRequest = this.sendEditRequest.bind(this);
-        this.showHotel = this.showHotel.bind(this);
         this.hideHotel = this.hideHotel.bind(this); //this.hideHotel = ::this.hideHotel()
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(hotelActions.findAll());
     }
 
@@ -23,10 +22,6 @@ class Main extends React.Component {
 
     sendEditRequest = (id, info) => {
         this.props.dispatch(hotelActions.editHotel(id, info));
-    }
-
-    showHotel = (id, info) => {
-        this.props.dispatch(hotelActions.showHotel(id, info));
     }
 
     hideHotel = (info) => {
@@ -43,7 +38,6 @@ class Main extends React.Component {
                     <HotelList  info={info}
                                 removing={removing}
                                 onDeleteClick={this.sendRemoveRequest}
-                                onViewClick={this.showHotel}
                                 onEditClick={this.sendEditRequest}
                     /> 
                  }
