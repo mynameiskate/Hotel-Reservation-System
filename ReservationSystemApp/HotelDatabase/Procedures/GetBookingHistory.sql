@@ -1,6 +1,15 @@
 ﻿CREATE PROCEDURE [dbo].[GetBookingHistory]
 	@UserId int
 AS
-	SELECT * FROM BookingView
+	SELECT RoomReservationId,
+		   ReservationTime,
+		   MoveInTime,
+		   MoveOutTime,
+		   UserId,
+		   HotelId,
+		   Cost,
+		   [Name]
+	    FROM BookingView
 		WHERE @UserId = UserId;
 GO
+

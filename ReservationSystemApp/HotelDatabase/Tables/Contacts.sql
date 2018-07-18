@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Contacts]
 (
-	ContactId INT NOT NULL PRIMARY KEY,
+	ContactId INT NOT NULL IDENTITY PRIMARY KEY,
 	ContactValue nvarchar not null,
 	ContactTypeId int REFERENCES ContactTypes(ContactTypeId) NOT NULL,
 	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId),

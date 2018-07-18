@@ -21,7 +21,7 @@ namespace Services.Services
 
         public async Task<IEnumerable<HotelModel>> GetHotelList()
         {
-            DataInitializer.Initialize(_dataContext);
+           // DataInitializer.Initialize(_dataContext);
             var entityList = await _dataContext.Hotels
                          .Include(h => h.Location)
                          .ToListAsync();

@@ -4,15 +4,28 @@
 AS
 	IF (@Country IS null)
 	BEGIN
-		SELECT * FROM HotelView
+		SELECT HotelId, 
+			   IsRemoved, 
+			   [Name], 
+			   Stars,
+			   Address,
+			   CityName
+	    FROM HotelView
 		WHERE @City = HotelView.CityName
 	END
 	ELSE IF (@City IS null) 
 	BEGIN
-		EXEC GetHotelByLocation;
+		EXEC GetHotelByCountry;
 	END
 	ELSE BEGIN
-		SELECT * FROM HotelView 
+		SELECT HotelId, 
+			   IsRemoved, 
+			   [Name], 
+			   Stars,
+			   Address,
+			   CityName,
+			   CountryName
+		FROM HotelView 
 		WHERE (@City = HotelView.CityName)
 			  AND (@Country = HotelView.CountryName)
 	END

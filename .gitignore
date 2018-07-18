@@ -7,8 +7,9 @@ ReservationSystemApp/HotelDatabase/obj/
 ReservationSystemApp/DataLayer/.vs/
 ReservationSystemApp/ReservationSystemApp/bin/
 ReservationSystemApp/ReservationSystemApp/obj/
-ReservationSystemApp/ReservationSystemApp/node_modules/
+ReservationSystemApp/ReservationSystemApp/frontend/node_modules/
 ReservationSystemApp/ReservationSystemApp/wwwroot/assets/
 ReservationSystemApp/.vs/
 ReservationSystemApp/HotelDatabase/HotelDatabase.dbmdl
 ReservationSystemApp/HotelDatabase/HotelDatabase.jfm
+ReservationSystemApp/ReservationSystemApp/package-lock.json

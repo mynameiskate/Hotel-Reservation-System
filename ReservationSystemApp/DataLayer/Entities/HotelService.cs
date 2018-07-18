@@ -1,5 +1,8 @@
-﻿namespace DataLayer.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataLayer.Entities
 {
+    [Table("HotelServices")]
     public class HotelService
     {
         public int HotelServiceId { get; set; }
