@@ -58,6 +58,8 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Views" />
+    <Folder Include="Procedures" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />
@@ -73,5 +75,18 @@
     <Build Include="Tables\RoomTypes.sql" />
     <Build Include="Tables\FilePaths.sql" />
     <Build Include="Tables\HotelServices.sql" />
+    <Build Include="Views\AllHotelView.sql" />
+    <Build Include="Views\HotelView.sql" />
+    <Build Include="Procedures\GetHotel.sql" />
+    <Build Include="Procedures\GetHotelsByCountry.sql" />
+    <Build Include="Views\LocationView.sql" />
+    <Build Include="Procedures\GetHotelByLocation.sql" />
+    <Build Include="Procedures\GetHotelRooms.sql" />
+    <Build Include="Views\HotelRoomView.sql" />
+    <Build Include="Procedures\GetHotelByName.sql" />
+    <Build Include="Tables\Users.sql" />
+    <Build Include="Views\BookingView.sql" />
+    <Build Include="Tables\RoomReservations.sql" />
+    <Build Include="Procedures\GetBookingHistory.sql" />
   </ItemGroup>
 </Project>
