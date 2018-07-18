@@ -2,6 +2,7 @@
 (
 	ContactId INT NOT NULL PRIMARY KEY,
 	ContactValue nvarchar not null,
-	ContactTypeId int REFERENCES ContactTypes(ContactTypeId),
-	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId)
+	ContactTypeId int REFERENCES ContactTypes(ContactTypeId) NOT NULL,
+	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId),
+	UserId int FOREIGN KEY REFERENCES Users(UserId)
 )
