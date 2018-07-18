@@ -12,3 +12,4 @@ ReservationSystemApp/ReservationSystemApp/wwwroot/assets/
 ReservationSystemApp/.vs/
 ReservationSystemApp/HotelDatabase/HotelDatabase.dbmdl
 ReservationSystemApp/HotelDatabase/HotelDatabase.jfm
+ReservationSystemApp/ReservationSystemApp/package-lock.json
