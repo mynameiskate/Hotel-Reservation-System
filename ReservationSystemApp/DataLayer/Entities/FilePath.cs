@@ -1,5 +1,8 @@
-﻿namespace DataLayer.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataLayer.Entities
 {
+    [Table("FilePaths")]
     public class FilePath
     {
         public int FilePathId { get; set; }

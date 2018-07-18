@@ -3,8 +3,8 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const bundleFolder = "./wwwroot/assets/";
-const srcFolder = "./frontend/";
+const bundleFolder = "../wwwroot/assets/";
+const srcFolder = "./";
 
 module.exports = {
     entry: [

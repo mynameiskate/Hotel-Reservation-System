@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer;
 using Services.Services;
 using Services.Interfaces;
-using System.IO;
 
 namespace ReservationSystemApp
 {
@@ -41,7 +40,7 @@ namespace ReservationSystemApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(); 
+                //app.UseWebpackDevMiddleware(); 
             }
             else
             {
@@ -54,19 +53,6 @@ namespace ReservationSystemApp
 
             app.UseMvc(routes =>
             {
-                /*routes.MapRoute(
-                    "default",
-                    "{controller=Default}/{action=Index}/{id?}"
-                );
-
-                routes.MapRoute("hotel", "hotels/{id}",
-                    defaults: new { controller = "Hotel", action = "Get" }); */
-
-
-               /* routes.MapRoute("hotels", "hotels/all",
-                   defaults: new { controller = "Hotel", action= "GetHotelList" });*/ 
-
-
                  routes.MapRoute(
                       name: "catch-all",
                       template: "{*url}",

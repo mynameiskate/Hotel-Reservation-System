@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace DataLayer.Entities
 {
+    [Table("HotelRooms")]
     public class HotelRoom
     {
         public int HotelRoomId { get; set; }

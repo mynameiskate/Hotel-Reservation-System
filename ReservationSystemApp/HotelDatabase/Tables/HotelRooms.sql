@@ -6,6 +6,6 @@
 	Cost float NULL,
 	Size float NULL,
 	CanPlace int,
-	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId),
+	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
 	RoomTypeId int FOREIGN KEY REFERENCES RoomTypes(RoomTypeId)
 )
