@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HotelRooms]
 (
-	HotelRoomId INT NOT NULL PRIMARY KEY,
+	HotelRoomId INT NOT NULL IDENTITY PRIMARY KEY,
 	Number int not null,
 	IsAvailable bit DEFAULT 1 NOT NULL,
 	Cost float NULL,
