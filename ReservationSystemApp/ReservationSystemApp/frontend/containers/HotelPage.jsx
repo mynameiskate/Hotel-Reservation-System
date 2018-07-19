@@ -13,8 +13,7 @@ class HotelPage extends React.Component {
     }
 
     getHotelId() {
-        let url = this.props.location.pathname;
-        return url.split("/").pop();
+        return this.props.match.params["id"];
     }
 
     showHotel = (id) => {
@@ -38,26 +37,23 @@ class HotelPage extends React.Component {
     }
 
     render() {
-    	const { selected, error, isSent, editing } = this.props;
+    	const { loaded, error, isSent, editing } = this.props;
     	return ( 
 	        <div>
-                {
-                    selected ?
-                        <div>
-                            {
-                                !editing ?
-                                <div>
-                                    <HotelInfo hotel={selected}/> 
-                                    <button onClick={() => this.showEditField(selected.id, selected)}>Edit</button>    
-                                    
-                                </div>
-                                : <HotelEditField hotel={selected}
-                                                  sendRequest={(values) => this.sendEditRequest(selected.hotelId, values)}
-                                                  onCancelClick={this.hideEditField} />
-                            }
-                            {error && <p>error</p>}
-                        </div>      
-                    : <h2>Sorry, page is not available.</h2>  
+                {loaded &&              
+                    <div>
+                        {
+                            !editing ?
+                            <div>
+                                <HotelInfo hotel={ loaded }/> 
+                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button>        
+                            </div>
+                            : <HotelEditField hotel={ loaded }
+                                              sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
+                                              onCancelClick={this.hideEditField} />
+                        }
+                        {error && <p>error</p>}
+                    </div>          
                 }
 	        </div>
 	    );
@@ -70,7 +66,7 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         editing: state.hotels.editing,
-        selected: state.hotels.selected,
+        loaded: state.hotels.loaded,
     }
 }
 

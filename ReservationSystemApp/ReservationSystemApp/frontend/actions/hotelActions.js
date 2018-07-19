@@ -1,4 +1,4 @@
-﻿import { hotelConstants } from '../constants/hotelConstants.js';
+﻿﻿import { hotelConstants } from '../constants/hotelConstants.js';
 import { hotelServices } from '../services/hotelService.js';
 
 export const hotelActions = {
@@ -59,8 +59,8 @@ function showHotel(hotelId) {
     const showRequest = (id) => {
         return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id } };
     };
-    const showSuccess = (selected) => {
-        return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { selected } };
+    const showSuccess = (loaded) => {
+        return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { loaded } };
     };
     const showFailure = (error) => {
         return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } };
@@ -71,8 +71,7 @@ function showHotel(hotelId) {
         if (hotel) {
             dispatch(showSuccess(hotel));
             return hotel;
-        }
-        else {
+        } else {
             dispatch(showRequest(hotelId));
             hotelServices.getHotel(hotelId)
                 .then(handleError)

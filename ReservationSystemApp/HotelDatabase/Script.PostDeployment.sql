@@ -15,49 +15,17 @@ BEGIN
     DELETE FROM [dbo].[RoomTypes]
 END
 
-<<<<<<< HEAD
-INSERT INTO [dbo].[RoomTypes] VALUES (1, 'Single');
-INSERT INTO [dbo].[RoomTypes] VALUES (2, 'Double');
-INSERT INTO [dbo].[RoomTypes] VALUES (3, 'Triple');
-INSERT INTO [dbo].[RoomTypes] VALUES (4, 'Quad');
-INSERT INTO [dbo].[RoomTypes] VALUES (5, 'Queen');
-INSERT INTO [dbo].[RoomTypes] VALUES (6, 'King');
-INSERT INTO [dbo].[RoomTypes] VALUES (7, 'Twin');
-INSERT INTO [dbo].[RoomTypes] VALUES (8, 'Suite');
-INSERT INTO [dbo].[RoomTypes] VALUES (9, 'Apartment');
-INSERT INTO [dbo].[RoomTypes] VALUES (10, 'PresidentSuite');
-INSERT INTO [dbo].[RoomTypes] VALUES (11, 'ConnectingRooms');
-=======
 INSERT INTO [dbo].[RoomTypes] VALUES 
 (1, 'Single'), (2, 'Double'), (3, 'Triple'),
 (4, 'Quad'), (5, 'Queen'), (6, 'King'),
 (7, 'Twin'), (8, 'Suite'), (9, 'Apartment'),
 (10, 'PresidentSuite'), (11, 'ConnectingRooms');
->>>>>>> 5ffff4d8bba6e5ef7e7bc559b9c9304c442ad976
 
 IF (EXISTS(SELECT * FROM [dbo].[ContactTypes]))
 BEGIN
     DELETE FROM [dbo].[ContactTypes]
 END
 
-<<<<<<< HEAD
-INSERT INTO [dbo].[ContactTypes] VALUES (1, 'Email');
-INSERT INTO [dbo].[ContactTypes] VALUES (2, 'Phone');
-INSERT INTO [dbo].[ContactTypes] VALUES (3, 'Viber');
-INSERT INTO [dbo].[ContactTypes] VALUES (4, 'Skype');
-INSERT INTO [dbo].[ContactTypes] VALUES (5, 'WhatsApp');
-INSERT INTO [dbo].[ContactTypes] VALUES (6, 'Telegram');
-INSERT INTO [dbo].[ContactTypes] VALUES (7, 'Facebook');
-INSERT INTO [dbo].[ContactTypes] VALUES (8, 'Instagram');
-INSERT INTO [dbo].[ContactTypes] VALUES (9, 'Twitter');
-INSERT INTO [dbo].[ContactTypes] VALUES (10, 'LinkedIn');
-INSERT INTO [dbo].[ContactTypes] VALUES (11, 'Snapchat');
-INSERT INTO [dbo].[ContactTypes] VALUES (12, 'VK');
-
-IF (EXISTS(SELECT * FROM [dbo].[Cities]))
-BEGIN
-    DELETE FROM [dbo].[Countries];
-=======
 INSERT INTO [dbo].[ContactTypes] VALUES 
 (1, 'Email'), (2, 'Phone'), (3, 'Viber'),
 (4, 'Skype'), (5, 'WhatsApp'), (6, 'Telegram'),
@@ -79,7 +47,6 @@ END
 IF (EXISTS(SELECT * FROM [dbo].[Cities]))
 BEGIN
     DELETE FROM [dbo].[Cities];
->>>>>>> 5ffff4d8bba6e5ef7e7bc559b9c9304c442ad976
 	DBCC CHECKIDENT ('[dbo].[Cities]', RESEED, 0);
 END
 
@@ -89,15 +56,6 @@ BEGIN
 	DBCC CHECKIDENT ('[dbo].[Countries]', RESEED, 0);
 END
 
-<<<<<<< HEAD
-INSERT INTO [dbo].[Countries] ([Name]) 
-VALUES ('Argentina', 'Armenia', 'Austria', 'Australia', 'Azerbaijan', 'Belarus', 'Belgium',
-		'Brazil', 'Bulgaria', 'Canada', 'China', 'Czech Republic', 'Denmark', 'Ecuador', 'Egypt', 
-		'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 
-		'India', 'Indonesia', 'Ireland', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'China', 
-		'Czech Republic', 'Denmark', 'Ecuador', 'Egypt', 'Estonia', 'Finland', 'France', 'Georgia', 
-		'Germany', 'Greece', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Ireland');
-=======
 INSERT INTO [dbo].[Countries] ([Name])
 VALUES ('Argentina'), ('Armenia'), ('Austria'), ('Australia'), ('Azerbaijan'), ('Belarus'), ('Belgium'),
 		('Brazil'), ('Bulgaria'), ('Canada'), ('China'), ('Czech Republic'), ('Denmark'), ('Ecuador'), ('Egypt'), 
@@ -128,4 +86,3 @@ INSERT INTO [dbo].[Hotels] ([Name], Stars, LocationId) VALUES
 ('The plaza', 5, (SELECT LocationId from [dbo].[Locations] WHERE Address='768 5th Ave, New York, NY 10019, USA')),
 ('Icelandair Hotel Reykjavik Natura', 4, (SELECT LocationId from [dbo].[Locations] WHERE Address='Nautholsvegur 52, Midborg, Reykjavík, Iceland')),
 ('The Park Lane Hotel', 5, (SELECT LocationId from [dbo].[Locations] WHERE Address='Piccadilly, Westminster, London, W1J 7BX United Kingdom'));
->>>>>>> 5ffff4d8bba6e5ef7e7bc559b9c9304c442ad976

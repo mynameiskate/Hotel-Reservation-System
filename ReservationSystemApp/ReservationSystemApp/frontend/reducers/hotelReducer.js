@@ -6,7 +6,7 @@ const initialState = {
     error: null,
     removing: false,
     editing: false,
-    selected: null,
+    loaded: null,
     isValid: false
 }
 
@@ -89,20 +89,20 @@ export function hotelReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isSent: true,
-                selected: data.selected,
+                loaded: data.loaded,
             }
         case hotelConstants.SHOW_HOTEL_SUCCESS:
             return {
                 ...state,
                 isSent: false,
-                selected: data.selected
+                loaded: data.loaded
             }
         case hotelConstants.SHOW_HOTEL_FAILURE:
             return {
                 ...state,
                 error: data.error,
                 isSent: false,
-                selected: null
+                loaded: null
             }
         case hotelConstants.HIDE_HOTEL:
             return {
@@ -115,7 +115,7 @@ export function hotelReducer(state = initialState, action) {
                 error: null,
                 editing: true,
                 id: data.id,
-                selected: data.selected,
+                loaded: data.loaded,
                 isValid: false
             }
         case hotelConstants.STOP_EDITING:
@@ -123,7 +123,7 @@ export function hotelReducer(state = initialState, action) {
                 ...state,
                 editing: false,
                 error: null,
-                selected: state.selected
+                loaded: state.loaded
             }
         default:
             return state;

@@ -1,4 +1,5 @@
 import { settings } from '../config/settings.js';
+import { links } from '../config/links.js';
 
 export const hotelServices = {
     getAll,
@@ -10,9 +11,9 @@ export const hotelServices = {
 }
 
 function getAll() {
-    const path = "/hotels/all"
+    const path = links.HOTEL_LIST_PAGE;
     const options = {
-        method: "GET",
+        method: 'GET',
 
     };
     return fetch(settings.baseUrl + path, options);
@@ -23,7 +24,7 @@ function add() {
 }
 
 function getHotel(id) {
-    const path = `/hotels/${id}`;
+    const path = links.HOTEL_ID_PAGE(id);
     const options = {
         method: 'GET'
     };
@@ -32,7 +33,7 @@ function getHotel(id) {
 }
 
 function update(id, info) {
-    const path = `/hotels/${id}`;
+    const path = links.HOTEL_ID_PAGE(id);
     const options = {
         method: 'PUT',
         body: JSON.stringify(info),
@@ -44,9 +45,9 @@ function update(id, info) {
 }
 
 function remove(id) {
-    const path = `/hotels/${id}`;
+    const path = links.HOTEL_ID_PAGE(id);
     const options = {
-        method: "DELETE"
+        method: 'DELETE'
     };
 
     return fetch(settings.baseUrl + path, options);

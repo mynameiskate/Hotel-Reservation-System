@@ -31,7 +31,7 @@ class Main extends React.Component {
     render() {
     	const { info, error, isSent, removing } = this.props;
     	return ( 
-	        <div className="mainPage">
+	        <div className='mainPage'>
 	        	 <h1>Welcome to hotel reservation system</h1>
 	        	 { isSent && <h3>Loading hotels..</h3>}
                  { info &&
