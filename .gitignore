@@ -8,6 +8,10 @@ ReservationSystemApp/DataLayer/.vs/
 ReservationSystemApp/ReservationSystemApp/bin/
 ReservationSystemApp/ReservationSystemApp/obj/
 ReservationSystemApp/ReservationSystemApp/frontend/node_modules/
+<<<<<<< HEAD
+=======
+ReservationSystemApp/ReservationSystemApp/node_modules/
+>>>>>>> 5ffff4d8bba6e5ef7e7bc559b9c9304c442ad976
 ReservationSystemApp/ReservationSystemApp/wwwroot/assets/
 ReservationSystemApp/.vs/
 ReservationSystemApp/HotelDatabase/HotelDatabase.dbmdl
