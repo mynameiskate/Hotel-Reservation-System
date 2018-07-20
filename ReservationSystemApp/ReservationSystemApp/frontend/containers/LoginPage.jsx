@@ -7,9 +7,10 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        info: state.users.info,
+        userInfo: state.users.info,
         error: state.users.error,
-        isSent: state.users.isSent
+        isSent: state.users.isSent,
+        isValid: state.users.isValid
     }
 }
 

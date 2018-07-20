@@ -58,14 +58,24 @@ namespace Services.Services
 
         private static bool VerifyPassword(string password, byte[] computedHash, byte[] computedSalt)
         {
-            if (computedHash == null || computedSalt == null) return false;
+            if (computedHash == null || computedSalt == null)
+            {
+                return false;
+            }
+          
+            var passwordHash = ComputeHash(password, computedSalt);
 
-            var passwordHash = Encoding.UTF8.GetBytes(password);
-            if (passwordHash.Length != computedHash.Length) return false;
+            if (passwordHash.Length != computedHash.Length)
+            {
+                return false;
+            }
 
             for (int i = 0; i < computedHash.Length; i ++)
             {
-                if (computedHash[i] != passwordHash[i]) return false;
+                if (computedHash[i] != passwordHash[i])
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -74,10 +84,12 @@ namespace Services.Services
         private static byte[] ComputeHash(string password, byte[] salt)
         {
             salt = null;
-            if (string.IsNullOrEmpty(password)) return null;
+            if (string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
 
             var plainText = Encoding.UTF8.GetBytes(password);
-
             HashAlgorithm sha = new SHA256Managed();
             byte[] passwordWithSalt = plainText.Concat(salt).ToArray();
 
