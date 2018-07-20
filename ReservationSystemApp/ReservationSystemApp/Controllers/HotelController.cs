@@ -6,11 +6,11 @@ using Services.Models;
 
 namespace ReservationSystemApp.Controllers
 {
-    [Route("{api?}/hotels")]
+    [Route("api/hotels")]
     [ApiController]
     public class HotelController : ControllerBase
     {
-        private IHotelService _hotelService;
+        private readonly IHotelService _hotelService;
 
         public HotelController(IHotelService hotelService)
         {
