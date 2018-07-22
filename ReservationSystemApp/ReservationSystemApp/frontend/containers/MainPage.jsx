@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import { hotelActions } from '../actions/hotelActions.js';
 import HotelList from '../components/HotelList.jsx';
+import { Link } from 'react-router-dom';
+import { links } from '../config/links.js';
 
 class Main extends React.Component {
 
@@ -33,6 +35,9 @@ class Main extends React.Component {
     	return ( 
 	        <div className='mainPage'>
 	        	 <h1>Welcome to hotel reservation system</h1>
+                 <Link to={ links.SIGN_IN_PAGE } >
+                        Log in
+                 </Link>  
 	        	 { isSent && <h3>Loading hotels..</h3>}
                  { info &&
                     <HotelList  info={info}
