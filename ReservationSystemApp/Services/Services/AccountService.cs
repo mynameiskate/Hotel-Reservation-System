@@ -53,7 +53,10 @@ namespace Services.Services
                 await _dataContext.SaveChangesAsync();
                 return user;
             }
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         private static bool VerifyPassword(string password, byte[] computedHash, byte[] computedSalt)

@@ -16,6 +16,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
+using Services.Helpers;
+using Microsoft.AspNetCore.DataProtection;
+using Services.JwtProvider;
 
 namespace ReservationSystemApp
 {
@@ -43,34 +47,66 @@ namespace ReservationSystemApp
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
 
-            /* services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                 .AddCookie(options =>
-                 {
-                     options.Cookie.HttpOnly = true;
-                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                     options.SlidingExpiration = true;
-                 });*/
-
-            //JWT authentication configuration
+            //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
-            services.AddAuthentication(x =>
+            var validationParameters = new TokenValidationParameters
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                ClockSkew = TimeSpan.Zero,
 
+                ValidateAudience = true,
+                ValidAudience = Configuration["Jwt:audience"],
+
+                ValidateIssuer = true,
+                ValidIssuer = Configuration["Jwt:issuer"],
+
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuerSigningKey = true,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true
+            };
+
+            var hostingEnvironment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
+                services.AddDataProtection(options =>
+                options.ApplicationDiscriminator = hostingEnvironment.ApplicationName)
+               .SetApplicationName(hostingEnvironment.ApplicationName);
+
+            services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
+
+            services.AddScoped<IJwtGenerator, JwtGenerator>(serviceProvider =>
+                new JwtGenerator(new JwtOptions(validationParameters, 
+                                                Configuration["Jwt:tokenName"]))
+            );
+
+            //Cookie authentication configuration
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+           .AddCookie(options =>
+           {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+                options.SlidingExpiration = true;
+                options.TicketDataFormat = new JwtAuthTicket(validationParameters,
+                   services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
+                   services.BuildServiceProvider().GetDataProtector(new[]
+                   {
+                        $"{hostingEnvironment.ApplicationName}-Auth1"
+                   }));
+
+                options.LoginPath = new PathString("/api/account/login");
+                options.LogoutPath = new PathString("/api/account/signout");
+                options.AccessDeniedPath = options.LoginPath;
+                //options.ReturnUrlParameter = 
+           });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequiresAdmin", policy => policy.RequireClaim("HasAdminRights"));
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

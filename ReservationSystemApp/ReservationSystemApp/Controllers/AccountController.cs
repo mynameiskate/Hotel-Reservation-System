@@ -1,16 +1,12 @@
-﻿using System;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Services.Interfaces;
 using Services.Models;
-using Services.Helpers;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace ReservationSystemApp.Controllers
 {
@@ -20,12 +16,15 @@ namespace ReservationSystemApp.Controllers
     {
         private IConfiguration _configuration;
         private readonly IAccountService _accountService;
+        private IJwtGenerator _jwtGenerator;
 
         public AccountController(IConfiguration configuration,
-                                 IAccountService accountService)
+                                 IAccountService accountService,
+                                 IJwtGenerator jwtGenerator)
         {
             _configuration = configuration;
             _accountService = accountService;
+            _jwtGenerator = jwtGenerator;
         }
 
         [AllowAnonymous]
@@ -33,43 +32,43 @@ namespace ReservationSystemApp.Controllers
         public async Task<IActionResult> Authenticate([FromBody] string email, string password)
         {
             var loggedUser = await _accountService.Authenticate(email, password);
-            if (loggedUser == null) return NotFound();  //Note: WIP
-            else return Ok(GenerateToken(loggedUser));
+            if (loggedUser == null)
+            {
+                return Forbid();
+            }
+            else
+            {
+                var token = _jwtGenerator.GenerateTokenContext(loggedUser);
+                await HttpContext.SignInAsync(token.ClaimsPrincipal, token.AuthProperties);
+                return Ok();
+            }              
         }
 
-        [HttpPost("create")]
+        [AllowAnonymous]
+        [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] UserModel userModel, string password)
         {
             User user = userModel.ConvertToUser();
             var signedUpUser = await _accountService.SignUp(user, password);
 
-            if (signedUpUser == null) return BadRequest();
-            else return Ok();
+            if (signedUpUser == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok();
+            }
             
         }
 
-        private string GenerateToken(User user)
+        [Authorize]
+        [HttpPost("signout")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignOut()
         {
-            byte[] key = Encoding.ASCII.GetBytes(_configuration["secretKey"]);
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.IsAdmin ? 
-                                               "Administrator"
-                                               : "Guest")
-                }),
-                Expires = DateTime.UtcNow.AddDays(10),
-                SigningCredentials = credentials
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
         }
     }
 }

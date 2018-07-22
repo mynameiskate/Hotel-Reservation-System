@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using DataLayer.Entities;
 
 namespace Services.Models
 {
@@ -11,5 +11,16 @@ namespace Services.Models
         public bool IsAdmin { get; set; }
         /*public List<ReservationModel> BookingHistory { get; set; }
         public List<ContactModel> Contacts { get; set; }*/
+
+        public User ConvertToUser()
+        {
+            return new User
+            {
+                UserId = this.UserId,
+                ShortName = this.ShortName,
+                FullName = this.FullName,
+                IsAdmin = this.IsAdmin
+            };
+        }
     }
 }

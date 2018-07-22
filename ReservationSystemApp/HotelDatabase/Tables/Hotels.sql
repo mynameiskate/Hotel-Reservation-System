@@ -4,6 +4,6 @@
 	[Name] NVARCHAR (100) NULL,
 	INDEX idx_HotelName ([Name]),
 	Stars tinyint NULL,
-	IsRemoved bit DEFAULT 0,
+	IsRemoved bit DEFAULT 0 NOT NULL,
 	LocationId int FOREIGN KEY REFERENCES Locations(LocationId) NULL
 )

@@ -8,7 +8,7 @@ namespace DataLayer.Entities
     {
         public int HotelId { get; set; }
         public string Name { get; set; }
-        public byte? Stars { get; set; }
+        public byte Stars { get; set; }
 
         public int LocationId { get; set; }
         public Location Location { get; set; }
