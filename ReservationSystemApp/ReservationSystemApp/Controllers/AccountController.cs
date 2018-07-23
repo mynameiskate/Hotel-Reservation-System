@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -35,7 +34,7 @@ namespace ReservationSystemApp.Controllers
             var loggedUser = await _accountService.Authenticate(user.Email, user.Password);
             if (loggedUser == null)
             {
-                return Forbid();
+                return BadRequest();
             }
             else
             {

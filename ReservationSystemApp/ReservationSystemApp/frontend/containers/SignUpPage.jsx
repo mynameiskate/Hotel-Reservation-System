@@ -31,10 +31,9 @@ class SignUpPage extends React.Component {
         const { userInfo, error, isValid, isSent } = this.props;
         return(
             <div>
-            {
                 <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
-                             onCancelClick={this.hideSignUpField}/>      
-            }
+                             onCancelClick={this.hideSignUpField}/>  
+                {error & <h2>Failed to sign up, try again?</h2>}    
             </div>
         );
     }
@@ -43,6 +42,7 @@ class SignUpPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        loggedIn: state.users.loggedIn,
         userInfo: state.users.info,
         error: state.users.error,
         isSent: state.users.isSent,

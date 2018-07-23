@@ -8,7 +8,7 @@ import App from './containers/App.jsx';
 render(
    <Provider store={store}>
         <BrowserRouter>
-            <App/>
+            {App(store)}
         </BrowserRouter>
    </Provider>,
    document.getElementById('root')

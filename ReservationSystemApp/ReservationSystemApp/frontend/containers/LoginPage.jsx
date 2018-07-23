@@ -25,10 +25,9 @@ class LoginPage extends React.Component {
         const { userInfo, error, isValid, isSent } = this.props;
         return(
             <div>
-            {
                 <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
                             onCancelClick={this.hideLoginField} />   
-            }
+                { error && <h2> Wrong username or password! </h2>}
             </div>
         );
     }
@@ -37,6 +36,7 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        loggedIn: state.users.loggedIn,
         userInfo: state.users.info,
         error: state.users.error,
         isSent: state.users.isSent,

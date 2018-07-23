@@ -5,7 +5,7 @@ const initialState = {
     error: null,
     isValid: false,
     userInfo: {},
-    signingIn: true
+    loggedIn: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -16,28 +16,32 @@ export function userReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 userInfo: data.info,
-                isSent: true
+                isSent: true,
+                loggedIn: false
             };
         case userConstants.SIGN_IN_SUCCESS:
             return {
                 ...state,
                 error: null,
                 userInfo: state.info,
-                isSent: false
+                isSent: false,
+                loggedIn: true
             }
         case userConstants.SIGN_IN_FAILURE:
             return {
                 ...state,
                 error: data.error,
                 isValid: false,
-                isSent: false
+                isSent: false,
+                loggedIn: false
             }
         case userConstants.SIGN_UP_REQUEST:
             return {
                 ...state,
                 isSent: true,
                 userInfo: data.info,
-                error: null
+                error: null,
+                loggedIn: false
             }
         case userConstants.SIGN_UP_SUCCESS:
             return {
@@ -51,7 +55,8 @@ export function userReducer(state = initialState, action) {
                 ...state,
                 error: data.error,
                 isValid: false,
-                isSent: false
+                isSent: false,
+                loggedIn: false
             }
         default:
             return state;

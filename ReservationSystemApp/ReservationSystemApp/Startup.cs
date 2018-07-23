@@ -88,7 +88,7 @@ namespace ReservationSystemApp
            .AddCookie(options =>
            {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+                options.Cookie.Expiration = TimeSpan.FromMinutes(10);
                 options.SlidingExpiration = true;
                 options.TicketDataFormat = new JwtAuthTicket(validationParameters,
                    services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
@@ -99,7 +99,6 @@ namespace ReservationSystemApp
 
                 options.LoginPath = new PathString("/api/account/login");
                 options.LogoutPath = new PathString("/api/account/signout");
-                options.AccessDeniedPath = options.LoginPath;
                 //options.ReturnUrlParameter = 
            });
 

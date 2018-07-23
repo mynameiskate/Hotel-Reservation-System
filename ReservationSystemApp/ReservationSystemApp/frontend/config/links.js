@@ -5,5 +5,6 @@ export const links = {
     HOTEL_ID_PAGE: (id) => `/hotels/${id}`,
     SIGN_UP_PAGE: '/account/signup',
     SIGN_OUT_PAGE: '/account/signout',
-    SIGN_IN_PAGE: '/account/login'
+    SIGN_IN_PAGE: '/account/login',
+    USER_PAGE: '/account'
 }
