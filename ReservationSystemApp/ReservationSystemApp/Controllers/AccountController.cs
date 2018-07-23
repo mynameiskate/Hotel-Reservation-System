@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,9 +30,9 @@ namespace ReservationSystemApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody] string email, string password)
+        public async Task<IActionResult> Authenticate([FromBody] LoginModel user)
         {
-            var loggedUser = await _accountService.Authenticate(email, password);
+            var loggedUser = await _accountService.Authenticate(user.Email, user.Password);
             if (loggedUser == null)
             {
                 return Forbid();
@@ -46,20 +47,20 @@ namespace ReservationSystemApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("signup")]
-        public async Task<IActionResult> Register([FromBody] UserModel userModel, string password)
+        public async Task<IActionResult> Register([FromBody] SignUpModel userModel)
         {
-            User user = userModel.ConvertToUser();
-            var signedUpUser = await _accountService.SignUp(user, password);
 
-            if (signedUpUser == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok();
-            }
-            
+             User user = userModel.ConvertToUser();
+             var signedUpUser = await _accountService.SignUp(user, userModel.Password);
+
+             if (signedUpUser == null)
+             {
+                 return BadRequest();
+             }
+             else
+             {
+                 return Ok();
+             }
         }
 
         [Authorize]

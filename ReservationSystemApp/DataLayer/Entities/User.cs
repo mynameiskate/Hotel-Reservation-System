@@ -15,9 +15,9 @@ namespace DataLayer.Entities
         public string ShortName { get; set; }
         public string FullName { get; set; }   
         public bool IsAdmin { get; set; }
-        public int RoleId { get; set; }
+        /*public int RoleId { get; set; }
 
-        public Role Role { get; set; }
+        public Role Role { get; set; }*/
         public List<RoomReservation> BookingHistory { get; set; }
         public List<Contact> Contacts { get; set; }
     }

@@ -4,7 +4,8 @@ const initialState = {
     isSent: false,
     error: null,
     isValid: false,
-    userInfo: {}
+    userInfo: {},
+    signingIn: true
 }
 
 export function userReducer(state = initialState, action) {
@@ -38,7 +39,7 @@ export function userReducer(state = initialState, action) {
                 userInfo: data.info,
                 error: null
             }
-            case userConstants.SIGN_UP_SUCCESS:
+        case userConstants.SIGN_UP_SUCCESS:
             return {
                 ...state,
                 error: null,
@@ -52,6 +53,7 @@ export function userReducer(state = initialState, action) {
                 isValid: false,
                 isSent: false
             }
-        default: return state;
+        default:
+            return state;
     }
 }

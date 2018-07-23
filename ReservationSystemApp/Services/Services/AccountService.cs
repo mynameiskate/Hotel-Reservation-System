@@ -2,6 +2,7 @@
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,19 +24,24 @@ namespace Services.Services
 
         public async Task<User> Authenticate(string email, string password)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)) return null;
-
-            User user = await _dataContext.Users
-                              .FirstAsync(account => account.Email == email);
-            if (user != null)
+            try
             {
-                if (VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)) return null;
+                User user = await _dataContext.Users.Where(account => account.Email == email).FirstOrDefaultAsync();
+                if (user != null)
                 {
-                    return user;
+                    if (VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
+                    {
+                        return user;
+                    }
                 }
+                return null;
             }
-
-            return null;
+            catch (Exception e)
+            {
+                var inner = e.InnerException;
+                return null;
+            }
         }
 
         public async Task<User> SignUp(User user, string password)
@@ -86,7 +92,6 @@ namespace Services.Services
 
         private static byte[] ComputeHash(string password, byte[] salt)
         {
-            salt = null;
             if (string.IsNullOrEmpty(password))
             {
                 return null;

@@ -38,6 +38,9 @@ class Main extends React.Component {
                  <Link to={ links.SIGN_IN_PAGE } >
                         Log in
                  </Link>  
+                 <Link to={ links.SIGN_UP_PAGE } >
+                        Sign up
+                 </Link> 
 	        	 { isSent && <h3>Loading hotels..</h3>}
                  { info &&
                     <HotelList  info={info}

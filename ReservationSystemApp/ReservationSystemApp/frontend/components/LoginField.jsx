@@ -1,12 +1,12 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import InputField from './InputField.jsx';
-import { isRequired, maxLength, minLength, isNumber, maxValue } from './validationRules.js';
+import { isRequired, maxLength, minLength } from './validationRules.js';
 
 const LoginField = (props) => {
-    const { sendRequest, onCancelClick, invalid, pristine, submitting } = props;
+    const { sendRequest, handleSubmit, onCancelClick, invalid, pristine, submitting } = props;
     return (
-        <form onSubmit={sendRequest}>           
+        <form onSubmit={handleSubmit(sendRequest)}>           
             <Field name='email' label='Email' component={InputField} 
                 validate={[isRequired, maxLength(20)]}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             />        
