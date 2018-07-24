@@ -9,17 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer;
 using Services.Services;
 using Services.Interfaces;
-using DataLayer.Entities;
-using Microsoft.AspNetCore.Identity;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
-using Services.Helpers;
 using Microsoft.AspNetCore.DataProtection;
 using Services.JwtProvider;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ReservationSystemApp
 {
@@ -47,6 +46,8 @@ namespace ReservationSystemApp
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
 
+
+
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
             var validationParameters = new TokenValidationParameters
@@ -56,25 +57,29 @@ namespace ReservationSystemApp
                 ValidateAudience = true,
                 ValidAudience = Configuration["Jwt:audience"],
 
+                ValidAudiences = new[] { Configuration["Jwt:audience"] },
+                AudienceValidator = (IEnumerable<string> audiences, SecurityToken securityToken, TokenValidationParameters vp) =>
+                    audiences.Any(a => a == vp.ValidAudience),
+
                 ValidateIssuer = true,
                 ValidIssuer = Configuration["Jwt:issuer"],
 
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuerSigningKey = true,
 
-                RequireExpirationTime = true,
-                ValidateLifetime = true
+                RequireExpirationTime = false,
+                ValidateLifetime = false
             };
 
             var hostingEnvironment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
-                services.AddDataProtection(options =>
+            services.AddDataProtection(options =>
                 options.ApplicationDiscriminator = hostingEnvironment.ApplicationName)
-               .SetApplicationName(hostingEnvironment.ApplicationName);
+           .SetApplicationName(hostingEnvironment.ApplicationName);
 
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
             services.AddScoped<IJwtGenerator, JwtGenerator>(serviceProvider =>
-                new JwtGenerator(new JwtOptions(validationParameters, 
+                new JwtGenerator(new JwtOptions(validationParameters,
                                                 Configuration["Jwt:tokenName"]))
             );
 
@@ -85,22 +90,26 @@ namespace ReservationSystemApp
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = validationParameters;
+            })
            .AddCookie(options =>
            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(10);
-                options.SlidingExpiration = true;
-                options.TicketDataFormat = new JwtAuthTicket(validationParameters,
+               options.Cookie.HttpOnly = true;
+               options.Cookie.Expiration = TimeSpan.FromMinutes(30);
+               options.SlidingExpiration = true;
+               options.TicketDataFormat = new JwtAuthTicket(validationParameters,
                    services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
                    services.BuildServiceProvider().GetDataProtector(new[]
                    {
-                        $"{hostingEnvironment.ApplicationName}-Auth1"
+                         $"{hostingEnvironment.ApplicationName}-Auth1"
                    }));
 
-                options.LoginPath = new PathString("/api/account/login");
-                options.LogoutPath = new PathString("/api/account/signout");
-                //options.ReturnUrlParameter = 
-           });
+                //options.LoginPath = new PathString("/api/account/login");
+                //options.LogoutPath = new PathString("/api/account/signout");
+            });
 
             services.AddAuthorization(options =>
             {
@@ -122,11 +131,10 @@ namespace ReservationSystemApp
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseHttpsRedirection();
-
             app.UseMvc(routes =>
             {
                  routes.MapRoute(

@@ -23,7 +23,7 @@ export function userReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                userInfo: state.info,
+                userInfo: state.userInfo,
                 isSent: false,
                 loggedIn: true
             }
@@ -47,7 +47,7 @@ export function userReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                userInfo: state.info,
+                userInfo: state.userInfo,
                 isSent: false
             }
         case userConstants.SIGN_UP_FAILURE:
@@ -63,6 +63,30 @@ export function userReducer(state = initialState, action) {
                 ...state,
                 loggedIn: data.loggedIn,
                 userInfo: data.info
+            }
+        case userConstants.GET_PROFILE_REQUEST:
+            return {
+                ...state,
+                error: null,
+                userInfo: {},
+                isSent: true,
+                loggedIn: false
+            }
+        case userConstants.GET_PROFILE_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                userInfo: data.info,
+                isSent: false,
+                loggedIn: true
+            }
+        case userConstants.GET_PROFILE_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                userInfo: {},
+                isSent: false,
+                loggedIn: false
             }
         default:
             return state;

@@ -8,7 +8,7 @@ class UserPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(UserActions.getInfo());
+        this.props.dispatch(UserActions.getProfile());
     }
 
     render() {

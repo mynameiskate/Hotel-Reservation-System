@@ -14,6 +14,7 @@ const App = (store) => {
     if (!state.users.loggedIn) {
       replaceState({ nextPathname: nextState.location.pathname }, links.SIGN_IN_PAGE);
     }
+
   };
   return ( 
         <Switch>
@@ -21,10 +22,10 @@ const App = (store) => {
           <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelPage }/> 
           <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
           <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
-          {/*<ProtectedRoute exact path={links.USER_PAGE} component={ UserPage } 
-                          loggedIn = {store.getState().users.loggedIn} />*/}
-          <Route exact path={links.USER_PAGE} component={ UserPage } 
-                          onEnter={authRequired} />    
+          <ProtectedRoute exact path={links.USER_PAGE} component={ UserPage } 
+                           />
+          {/*<Route exact path={links.USER_PAGE} component={ UserPage } 
+                          onEnter={authRequired} />    */}
         </Switch>
   );
 }

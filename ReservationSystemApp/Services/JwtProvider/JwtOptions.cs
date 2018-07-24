@@ -16,7 +16,7 @@ namespace Services.JwtProvider
             Issuer = issuer;
             Key = key;
             Name = tokenName;
-            Expiration = expiration ?? TimeSpan.FromMinutes(5);
+            Expiration = expiration ?? TimeSpan.FromMinutes(30);
             Algorithm = algorithm;
         }
 
@@ -29,7 +29,7 @@ namespace Services.JwtProvider
             Issuer = parameters.ValidIssuer;
             Key = parameters.IssuerSigningKey;
             Name = tokenName;
-            Expiration = expiration ?? TimeSpan.FromMinutes(5);
+            Expiration = expiration ?? TimeSpan.FromMinutes(30);
             Algorithm = algorithm;
         }
 

@@ -13,7 +13,7 @@ class HotelPage extends React.Component {
     }
 
     getHotelId() {
-        return this.props.match.params["id"];
+        return this.props.match.params.id;
     }
 
     showHotel = (id) => {

@@ -8,8 +8,19 @@ class UserService {
             method: 'POST',
             body: JSON.stringify(info),
             dataType: 'json',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
         }
+        return fetch(settings.baseUrl + path, options);
+    }
+
+    static getProfile() {
+        const path = links.PROFILE_PAGE;
+        const options = {
+            method: 'GET',
+            credentials: 'include'
+        };
+
         return fetch(settings.baseUrl + path, options);
     }
 

@@ -6,5 +6,6 @@ export const links = {
     SIGN_UP_PAGE: '/account/signup',
     SIGN_OUT_PAGE: '/account/signout',
     SIGN_IN_PAGE: '/account/login',
-    USER_PAGE: '/account'
+    USER_PAGE: '/account',
+    PROFILE_PAGE: '/account/profile'
 }

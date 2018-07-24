@@ -38,6 +38,8 @@ namespace Services.JwtProvider
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Audience = _options.Audience,
+     
                 Issuer = _options.Issuer,
                 Subject = new ClaimsIdentity(CreateClaims(user)),
                 NotBefore = currentTime,
@@ -71,7 +73,8 @@ namespace Services.JwtProvider
         {
             var jwt = GenerateAccessToken(user);
             var claimsPrincipal = new ClaimsPrincipal();
-            claimsPrincipal.AddIdentity(new ClaimsIdentity(GetDefaultClaims(user.Email, _userClaims)));
+            claimsPrincipal.AddIdentity(new ClaimsIdentity(GetDefaultClaims(user.Email, _userClaims), "Password", ClaimTypes.Name, "Recipient")
+             );
             return new TokenContext()
             {
                 AccessToken = jwt,
@@ -85,6 +88,7 @@ namespace Services.JwtProvider
         {
             var claims = new List<Claim>(userClaims)
                 {
+                    new Claim(ClaimTypes.Name, username),
                     new Claim(JwtRegisteredClaimNames.Sub, username),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.TimeOfDay.Ticks.ToString(),

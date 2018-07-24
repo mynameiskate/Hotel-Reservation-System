@@ -31,11 +31,33 @@ class UserActions {
     }
 
     static getInfo() {
-        const getInfoRequest = (info, loggedIn) => { return { type: userConstants.GET_INFO, payload: { info, loggedIn } } };
+        const getInfoRequest = (info, loggedIn) => {
+            return { type: userConstants.GET_INFO, payload: { info, loggedIn } }
+        };
+
         return (dispatch, stateAccessor) => {
             let info = stateAccessor().users.userInfo;
             let loggedIn = stateAccessor().users.loggedIn;
             dispatch(getInfoRequest(info, loggedIn));
+        }
+    }
+
+    static getProfile() {
+        const getRequest = (info) => { return { type: userConstants.GET_PROFILE_REQUEST, payload: { info } } };
+        const getFailure = (error) => { return { type: userConstants.GET_PROFILE_FAILURE, payload: { error } } };
+        const getSuccess = (info) => { return { type: userConstants.GET_PROFILE_SUCCESS, payload: { info } } };
+
+        return (dispatch) => {
+            dispatch(getRequest());
+            UserService.getProfile()
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
+
         }
     }
 }

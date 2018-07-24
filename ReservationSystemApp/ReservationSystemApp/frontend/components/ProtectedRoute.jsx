@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) => 
-      (console.log(props.loggedIn) || 1) ? 
+      (props.loggedIn) ? 
       ( <Component {...props} {...rest} />) 
       : ( <Redirect
             to={{
@@ -21,4 +21,12 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-export default ProtectedRoute;
+const mapStateToProps = (state) => {
+  return {
+      loggedIn: state.users.loggedIn
+  }
+}
+
+export default connect(mapStateToProps)(ProtectedRoute); 
+
+//export default ;

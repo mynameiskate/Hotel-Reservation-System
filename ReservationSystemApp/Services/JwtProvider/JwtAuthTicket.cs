@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Services.JwtProvider
@@ -52,7 +53,7 @@ namespace Services.JwtProvider
                     return null;
                 }
             }
-            catch
+            catch(Exception e)
             {
                 return null;
             }

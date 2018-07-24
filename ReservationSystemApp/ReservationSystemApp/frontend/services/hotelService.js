@@ -14,7 +14,6 @@ function getAll() {
     const path = links.HOTEL_LIST_PAGE;
     const options = {
         method: 'GET',
-
     };
     return fetch(settings.baseUrl + path, options);
 }
