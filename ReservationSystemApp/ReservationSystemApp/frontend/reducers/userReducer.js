@@ -58,6 +58,12 @@ export function userReducer(state = initialState, action) {
                 isSent: false,
                 loggedIn: false
             }
+        case userConstants.GET_INFO:
+            return {
+                ...state,
+                loggedIn: data.loggedIn,
+                userInfo: data.info
+            }
         default:
             return state;
     }

@@ -31,10 +31,11 @@ class UserActions {
     }
 
     static getInfo() {
-        const getInfoRequest = (info) => { return { type: userConstants.GET_INFO, payload: { info } } };
+        const getInfoRequest = (info, loggedIn) => { return { type: userConstants.GET_INFO, payload: { info, loggedIn } } };
         return (dispatch, stateAccessor) => {
             let info = stateAccessor().users.userInfo;
-            dispatch(getInfoRequest(info));
+            let loggedIn = stateAccessor().users.loggedIn;
+            dispatch(getInfoRequest(info, loggedIn));
         }
     }
 }
