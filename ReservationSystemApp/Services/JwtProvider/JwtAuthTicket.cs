@@ -9,14 +9,17 @@ namespace Services.JwtProvider
     //Data format for storing JWT in a cookie
     public class JwtAuthTicket : ISecureDataFormat<AuthenticationTicket>
     {
+        private readonly string _tokenName;
         private readonly TokenValidationParameters _validationParameters;
         private readonly IDataSerializer<AuthenticationTicket> _ticketSerializer;
         private readonly IDataProtector _dataProtector;
 
-        public JwtAuthTicket(TokenValidationParameters validationParameters,
+        public JwtAuthTicket(string tokenName,
+                             TokenValidationParameters validationParameters,
                              IDataSerializer<AuthenticationTicket> ticketSerializer,
                              IDataProtector dataProtector)
         {
+            _tokenName = tokenName;
             _validationParameters = validationParameters;
             _ticketSerializer = ticketSerializer;
             _dataProtector = dataProtector;
@@ -41,7 +44,7 @@ namespace Services.JwtProvider
             data = _dataProtector.Unprotect(data);
             var ticket = _ticketSerializer.Deserialize(data);
 
-            var embeddedJwt = ticket.Properties?.GetTokenValue("jwt");
+            var embeddedJwt = ticket.Properties?.GetTokenValue(_tokenName);
 
             try
             {

@@ -100,12 +100,12 @@ namespace ReservationSystemApp
                options.Cookie.HttpOnly = true;
                options.Cookie.Expiration = TimeSpan.FromMinutes(30);
                options.SlidingExpiration = true;
-               options.TicketDataFormat = new JwtAuthTicket(validationParameters,
-                   services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
-                   services.BuildServiceProvider().GetDataProtector(new[]
-                   {
-                         $"{hostingEnvironment.ApplicationName}-Auth1"
-                   }));
+               options.TicketDataFormat = new JwtAuthTicket(Configuration["Jwt:tokenName"], validationParameters,
+               services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
+               services.BuildServiceProvider().GetDataProtector(new[]
+               {
+                     $"{hostingEnvironment.ApplicationName}-Auth1"
+               }));
 
                 //options.LoginPath = new PathString("/api/account/login");
                 //options.LogoutPath = new PathString("/api/account/signout");
@@ -124,7 +124,6 @@ namespace ReservationSystemApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebpackDevMiddleware(); 
             }
             else
             {
