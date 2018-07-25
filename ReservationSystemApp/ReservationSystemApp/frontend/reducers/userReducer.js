@@ -61,16 +61,15 @@ export function userReducer(state = initialState, action) {
         case userConstants.GET_INFO:
             return {
                 ...state,
-                loggedIn: data.loggedIn,
-                userInfo: data.info
+                loggedIn: state.loggedIn,
+                userInfo: state.userInfo
             }
         case userConstants.GET_PROFILE_REQUEST:
             return {
                 ...state,
                 error: null,
                 userInfo: {},
-                isSent: true,
-                loggedIn: false
+                isSent: true
             }
         case userConstants.GET_PROFILE_SUCCESS:
             return {

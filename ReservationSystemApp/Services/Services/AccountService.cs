@@ -2,6 +2,7 @@
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
+using Services.Models;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -26,43 +27,71 @@ namespace Services.Services
         {
             try
             {
-                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password)) return null;
-                User user = await _dataContext.Users.Where(account => account.Email == email).FirstOrDefaultAsync();
-                if (user != null)
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 {
-                    if (VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
-                    {
-                        return user;
-                    }
+                    return null;
                 }
-                return null;
+                else
+                {
+                    User user = await _dataContext.Users.Where(account => account.Email == email).FirstOrDefaultAsync();
+                    if (user != null)
+                    {
+                        if (VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
+                        {
+                            return user;
+                        }
+                    }
+                    return null;
+                }
             }
             catch (Exception e)
             {
-                var inner = e.InnerException;
                 return null;
             }
         }
 
         public async Task<User> SignUp(User user, string password)
         {
-            if (string.IsNullOrEmpty(password) || user == null) return null;
-
-            bool userExists = await _dataContext.Users.
-                                    AnyAsync(account => account.Email == user.Email);
-            if (!userExists)
-            {
-                user.PasswordSalt = ComputeSalt();
-                user.PasswordHash = ComputeHash(password, user.PasswordSalt);
-
-                await _dataContext.AddAsync(user);
-                await _dataContext.SaveChangesAsync();
-                return user;
-            }
-            else
+            if (string.IsNullOrEmpty(password) || user == null)
             {
                 return null;
             }
+            else
+            {
+                bool userExists = await _dataContext.Users.
+                                        AnyAsync(account => account.Email == user.Email);
+                if (!userExists)
+                {
+                    user.PasswordSalt = ComputeSalt();
+                    user.PasswordHash = ComputeHash(password, user.PasswordSalt);
+
+                    await _dataContext.AddAsync(user);
+                    await _dataContext.SaveChangesAsync();
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<UserModel> GetProfileInfo(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                var userEntity = await _dataContext.Users
+                                       .FirstAsync(u => u.Email == email);
+                if (userEntity != null)
+                {
+                    return new UserModel(userEntity);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
         }
 
         private static bool VerifyPassword(string password, byte[] computedHash, byte[] computedSalt)
@@ -86,7 +115,6 @@ namespace Services.Services
                     return false;
                 }
             }
-
             return true;
         }
 

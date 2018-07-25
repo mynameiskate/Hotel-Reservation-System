@@ -12,6 +12,15 @@ namespace Services.Models
         /*public List<ReservationModel> BookingHistory { get; set; }
         public List<ContactModel> Contacts { get; set; }*/
 
+        public UserModel(User user)
+        {
+            UserId = user.UserId;
+            Email = user.Email;
+            ShortName = user.ShortName;
+            FullName = user.FullName;
+            IsAdmin = user.IsAdmin;
+        }
+
         public User ConvertToUser()
         {
             return new User

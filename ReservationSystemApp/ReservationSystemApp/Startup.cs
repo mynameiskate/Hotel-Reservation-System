@@ -19,6 +19,7 @@ using Services.JwtProvider;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 
 namespace ReservationSystemApp
 {
@@ -113,8 +114,10 @@ namespace ReservationSystemApp
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequiresAdmin", policy => policy.RequireClaim("HasAdminRights"));
+                options.AddPolicy("AdminOnly", policy =>
+                                  policy.RequireClaim(ClaimTypes.Role, "Administrator"));
             });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -11,10 +11,7 @@ class LoginPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(UserActions.getInfo());
-    }
-
-    hideLoginField = (info) => {    
+        //this.props.dispatch(UserActions.getInfo());
     }
 
     sendSignInRequest(info) {      
@@ -22,7 +19,7 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { userInfo, error, isValid, isSent } = this.props;
+        const {  error } = this.props;
         return(
             <div>
                 <LoginField sendRequest={(data) => this.sendSignInRequest(data)}

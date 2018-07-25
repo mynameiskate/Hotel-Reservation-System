@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -49,7 +49,6 @@ namespace ReservationSystemApp.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] SignUpModel userModel)
         {
-
              User user = userModel.ConvertToUser();
              var signedUpUser = await _accountService.SignUp(user, userModel.Password);
 
@@ -65,11 +64,26 @@ namespace ReservationSystemApp.Controllers
 
         [Authorize]
         [HttpGet("profile")]
-       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAccountInfo()
         {
-            var cookies = Request.Cookies;
-            return Ok();
+            try
+            {
+                string email = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+                var user = await _accountService.GetProfileInfo(email);
+
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [Authorize]

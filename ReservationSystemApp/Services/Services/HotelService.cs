@@ -21,21 +21,36 @@ namespace Services.Services
 
         public async Task<IEnumerable<HotelModel>> GetHotelList()
         {
-            var entityList = await _dataContext.Hotels
-                         .Include(h => h.Location)
-                         .ToListAsync();
-            var modelList = entityList
-                            .Select(hotel => new HotelModel(hotel))
-                            .ToList();
-            return modelList;
+            try
+            {
+                var entityList = await _dataContext.Hotels
+                             .Include(h => h.Location)
+                             .ToListAsync();
+                var modelList = entityList
+                                .Select(hotel => new HotelModel(hotel))
+                                .ToList();
+                return modelList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<HotelModel> GetHotelInfo(int id)
         {
-             var hotelEntity = await _dataContext.Hotels
+            var hotelEntity = await _dataContext.Hotels
                          .Include(h => h.Location)
                          .FirstAsync(h => h.HotelId == id);
-            return new HotelModel(hotelEntity);
+            if (hotelEntity != null)
+            {
+                return new HotelModel(hotelEntity);
+            }
+            else
+            {
+                return null;
+            }
+         
         }
 
         public async void UpdateHotelInfo(int id, Hotel newValue)

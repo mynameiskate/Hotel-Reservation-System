@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using Services.Models;
@@ -35,12 +36,14 @@ namespace ReservationSystemApp.Controllers
 
         // PUT: api/hotels/5
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult Delete(int id)
         {
             _hotelService.Delete(id);

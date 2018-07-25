@@ -31,14 +31,12 @@ class UserActions {
     }
 
     static getInfo() {
-        const getInfoRequest = (info, loggedIn) => {
-            return { type: userConstants.GET_INFO, payload: { info, loggedIn } }
+        const getInfoRequest = () => {
+            return { type: userConstants.GET_INFO, payload: {} }
         };
 
-        return (dispatch, stateAccessor) => {
-            let info = stateAccessor().users.userInfo;
-            let loggedIn = stateAccessor().users.loggedIn;
-            dispatch(getInfoRequest(info, loggedIn));
+        return (dispatch) => {
+            dispatch(getInfoRequest());
         }
     }
 
