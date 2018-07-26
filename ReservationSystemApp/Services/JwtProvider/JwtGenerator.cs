@@ -38,13 +38,12 @@ namespace Services.JwtProvider
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = _options.Audience,
-     
+                Audience = _options.Audience,   
                 Issuer = _options.Issuer,
                 Subject = new ClaimsIdentity(CreateClaims(user)),
                 NotBefore = currentTime,
                 Expires = currentTime.Add(_options.Expiration),
-                SigningCredentials = credentials
+                SigningCredentials = credentials,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -53,35 +52,6 @@ namespace Services.JwtProvider
             return tokenHandler.WriteToken(token);
         }
 
-        private static AuthenticationProperties CreateAuthProperties(string accessToken, string tokenName)
-        {
-            var authProps = new AuthenticationProperties();
-            authProps.StoreTokens(
-                new[]
-                {
-                    new AuthenticationToken()
-                    {
-                        Name = tokenName,
-                        Value = accessToken
-                    }
-                });
-
-            return authProps;
-        }
-
-        public TokenContext GenerateTokenContext(User user)
-        {
-            var jwt = GenerateAccessToken(user);
-            var claimsPrincipal = new ClaimsPrincipal();
-            claimsPrincipal.AddIdentity(new ClaimsIdentity(GetDefaultClaims(user.Email, _userClaims), "Password", ClaimTypes.Name, "Recipient")
-             );
-            return new TokenContext()
-            {
-                AccessToken = jwt,
-                ClaimsPrincipal = claimsPrincipal,
-                AuthProperties = CreateAuthProperties(jwt, _options.Name)
-            };
-        }
 
         private static IEnumerable<Claim> GetDefaultClaims(string username, 
             IEnumerable<Claim> userClaims)

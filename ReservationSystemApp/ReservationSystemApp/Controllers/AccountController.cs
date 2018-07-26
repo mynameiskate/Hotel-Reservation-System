@@ -1,8 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -39,10 +40,13 @@ namespace ReservationSystemApp.Controllers
             }
             else
             {
+                /*
                 var token = _jwtGenerator.GenerateTokenContext(loggedUser);
                 await HttpContext.SignInAsync(token.ClaimsPrincipal, token.AuthProperties);
-                return Ok();
-            }              
+                return Ok();*/
+                var token = _jwtGenerator.GenerateAccessToken(loggedUser);
+                return Ok(new { token });
+            }
         }
 
         [AllowAnonymous]
@@ -91,7 +95,7 @@ namespace ReservationSystemApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignOut()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
             return Ok();
         }
     }

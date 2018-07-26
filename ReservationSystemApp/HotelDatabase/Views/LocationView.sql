@@ -7,4 +7,4 @@
 	FULL OUTER JOIN Cities city
 		ON city.CityId = Locations.CityId 
 	FULL OUTER JOIN Countries country
-		ON city.ContryId = country.CountryId
+		ON city.CountryId = country.CountryId

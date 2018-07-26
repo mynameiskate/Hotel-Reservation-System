@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
-import { hotelActions } from '../actions/hotelActions.js';
+import HotelActions from '../actions/HotelActions';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
 
@@ -17,7 +17,7 @@ class HotelPage extends React.Component {
     }
 
     showHotel = (id) => {
-        this.props.dispatch(hotelActions.showHotel(id));
+        this.props.dispatch(HotelActions.showHotel(id));
     }
 
     componentWillMount() {
@@ -25,15 +25,15 @@ class HotelPage extends React.Component {
     }
 
     showEditField = (id, info) => {
-        this.props.dispatch(hotelActions.startEditing(id, info));
+        this.props.dispatch(HotelActions.startEditing(id, info));
     }
 
     hideEditField = (id, info) => {
-        this.props.dispatch(hotelActions.stopEditing(id, info));
+        this.props.dispatch(HotelActions.stopEditing(id, info));
     }
 
     sendEditRequest(id, info) {
-        this.props.dispatch(hotelActions.editHotel(id, info));
+        this.props.dispatch(HotelActions.editHotel(id, info));
     }
 
     render() {

@@ -8,7 +8,6 @@ class UserService {
             method: 'POST',
             body: JSON.stringify(info),
             dataType: 'json',
-            credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
         }
         return fetch(settings.baseUrl + path, options);
@@ -16,9 +15,12 @@ class UserService {
 
     static getProfile() {
         const path = links.PROFILE_PAGE;
+        const token = localStorage.getItem('token');
         const options = {
             method: 'GET',
-            credentials: 'include'
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         };
 
         return fetch(settings.baseUrl + path, options);

@@ -11,6 +11,8 @@ class UserActions {
             dispatch(logInRequest(userInfo));
             UserService.logIn(userInfo)
                 .then(handleError)
+                .then(result => result.json())
+                .then(response => localStorage.setItem('token', response.token))
                 .then(dispatch(logInSuccess()))
                 .catch(error => dispatch(logInFailure(error)));
         }
@@ -41,20 +43,26 @@ class UserActions {
     }
 
     static getProfile() {
+        const getCurrentInfo = () => { return { type: userConstants.GET_CURRENT_PROFILE, payload: { info } } };
         const getRequest = (info) => { return { type: userConstants.GET_PROFILE_REQUEST, payload: { info } } };
         const getFailure = (error) => { return { type: userConstants.GET_PROFILE_FAILURE, payload: { error } } };
         const getSuccess = (info) => { return { type: userConstants.GET_PROFILE_SUCCESS, payload: { info } } };
 
-        return (dispatch) => {
-            dispatch(getRequest());
-            UserService.getProfile()
-                .then(handleError)
-                .then(result => result.json())
-                .then(jsonInfo => {
-                    dispatch(getSuccess(jsonInfo));
-                    return jsonInfo;
-                })
-                .catch(error => dispatch(getFailure(error)));
+        return (dispatch, stateAccessor) => {
+            let isLoggedIn = stateAccessor().users.loggedIn;
+            if (!isLoggedIn) {
+                dispatch(getRequest());
+                UserService.getProfile()
+                    .then(handleError)
+                    .then(result => result.json())
+                    .then(jsonInfo => {
+                        dispatch(getSuccess(jsonInfo));
+                        return jsonInfo;
+                    })
+                    .catch(error => dispatch(getFailure(error)));
+            } else {
+                dispatch(getCurrentInfo());
+            }
 
         }
     }

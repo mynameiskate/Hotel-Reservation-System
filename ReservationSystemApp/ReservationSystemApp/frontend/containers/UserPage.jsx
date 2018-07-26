@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import  UserActions  from '../actions/UserActions.js';
+import  HotelActions from '../actions/HotelActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
 
 class UserPage extends React.Component {
@@ -9,7 +10,7 @@ class UserPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(UserActions.getProfile());
+        //this.props.dispatch(UserActions.getProfile());
     }
 
     sendSearchRequest = (info) => {

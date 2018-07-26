@@ -5,7 +5,8 @@ const initialState = {
     error: null,
     isValid: false,
     userInfo: {},
-    loggedIn: false
+    loggedIn: false,
+    isLoading: true
 }
 
 export function userReducer(state = initialState, action) {
@@ -67,6 +68,7 @@ export function userReducer(state = initialState, action) {
         case userConstants.GET_PROFILE_REQUEST:
             return {
                 ...state,
+                isLoading: true,
                 error: null,
                 userInfo: {},
                 isSent: true
@@ -77,7 +79,8 @@ export function userReducer(state = initialState, action) {
                 error: null,
                 userInfo: data.info,
                 isSent: false,
-                loggedIn: true
+                loggedIn: true,
+                isLoading: false
             }
         case userConstants.GET_PROFILE_FAILURE:
             return {
@@ -85,7 +88,15 @@ export function userReducer(state = initialState, action) {
                 error: data.error,
                 userInfo: {},
                 isSent: false,
-                loggedIn: false
+                loggedIn: false,
+                isLoading: false
+            }
+        case userConstants.GET_CURRENT_PROFILE:
+            return {
+                ...state,
+                error: null,
+                loggedIn: true,
+                userInfo: state.userInfo
             }
         default:
             return state;

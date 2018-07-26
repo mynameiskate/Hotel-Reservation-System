@@ -62,7 +62,7 @@ VALUES ('Argentina'), ('Armenia'), ('Austria'), ('Australia'), ('Azerbaijan'), (
 		('Estonia'), ('Finland'), ('France'), ('Georgia'), ('Germany'), ('Greece'), ('Hungary'), ('Iceland'), 
 		('India'), ('Indonesia'), ('Ireland'), ('USA'), ('United Kingdom');
 
-INSERT INTO [dbo].[Cities] ([Name], ContryId) VALUES 
+INSERT INTO [dbo].[Cities] ([Name], CountryId) VALUES 
 ('NYC', (SELECT CountryId from [dbo].[Countries] WHERE Name='USA')),
 ('Boston', (SELECT CountryId from [dbo].[Countries] WHERE Name='USA')),
 ('Minsk', (SELECT CountryId from [dbo].[Countries] WHERE Name='Belarus')),

@@ -6,6 +6,7 @@ using DataLayer;
 using Services.Interfaces;
 using System.Linq;
 using Services.Models;
+using System;
 
 namespace Services.Services
 {
@@ -25,13 +26,15 @@ namespace Services.Services
             {
                 var entityList = await _dataContext.Hotels
                              .Include(h => h.Location)
+                             .ThenInclude(l => l.City)
+                             .ThenInclude(l => l.Country)
                              .ToListAsync();
                 var modelList = entityList
                                 .Select(hotel => new HotelModel(hotel))
                                 .ToList();
                 return modelList;
             }
-            catch
+            catch (Exception e)
             {
                 return null;
             }
@@ -41,6 +44,7 @@ namespace Services.Services
         {
             var hotelEntity = await _dataContext.Hotels
                          .Include(h => h.Location)
+                        // .Include(h => h.Location.City)
                          .FirstAsync(h => h.HotelId == id);
             if (hotelEntity != null)
             {

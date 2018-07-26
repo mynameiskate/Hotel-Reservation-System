@@ -8,21 +8,14 @@ import LoginPage from './LoginPage.jsx';
 import UserPage from './UserPage.jsx';
 import { links } from '../config/links.js';
 
-const App = (store) => {
-  const isLoggedIn = () => {
-    const state = store.getState();
-    console.log(state);
-    return state.users.loggedIn;
-  };
-
+const App = () => {
   return ( 
         <Switch>
           <Route exact path={links.MAIN_PAGE_PATH} component={ MainPage }/>
           <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelPage }/> 
           <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
           <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
-          <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } 
-                        isLoggedIn = {isLoggedIn}/>
+          <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
         </Switch>
   );
 }

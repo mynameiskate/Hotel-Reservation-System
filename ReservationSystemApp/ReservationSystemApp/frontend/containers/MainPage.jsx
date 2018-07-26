@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
-import { hotelActions } from '../actions/hotelActions.js';
+import HotelActions from '../actions/HotelActions';
 import HotelList from '../components/HotelList.jsx';
 import { Link } from 'react-router-dom';
 import { links } from '../config/links.js';
@@ -15,19 +15,19 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(hotelActions.findAll());
+        this.props.dispatch(HotelActions.findAll());
     }
 
     sendRemoveRequest = (id) => {
-        this.props.dispatch(hotelActions.removeHotel(id));
+        this.props.dispatch(HotelActions.removeHotel(id));
     }
 
     sendEditRequest = (id, info) => {
-        this.props.dispatch(hotelActions.editHotel(id, info));
+        this.props.dispatch(HotelActions.editHotel(id, info));
     }
 
     hideHotel = (info) => {
-        this.props.dispatch(hotelActions.hideHotel(info));
+        this.props.dispatch(HotelActions.hideHotel(info));
     }
 
     render() {

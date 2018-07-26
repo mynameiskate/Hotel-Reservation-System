@@ -68,8 +68,8 @@ namespace ReservationSystemApp
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuerSigningKey = true,
 
-                RequireExpirationTime = false,
-                ValidateLifetime = false
+                RequireExpirationTime = true,
+                ValidateLifetime = true
             };
 
             var hostingEnvironment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
@@ -77,7 +77,6 @@ namespace ReservationSystemApp
                 options.ApplicationDiscriminator = hostingEnvironment.ApplicationName)
            .SetApplicationName(hostingEnvironment.ApplicationName);
 
-            services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
             services.AddScoped<IJwtGenerator, JwtGenerator>(serviceProvider =>
                 new JwtGenerator(new JwtOptions(validationParameters,
@@ -87,16 +86,16 @@ namespace ReservationSystemApp
             //Cookie authentication configuration
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.SaveToken = true;
                 options.TokenValidationParameters = validationParameters;
-            })
-           .AddCookie(options =>
+            });
+           /*.AddCookie(options =>
            {
                options.Cookie.HttpOnly = true;
                options.Cookie.Expiration = TimeSpan.FromMinutes(30);
@@ -110,7 +109,7 @@ namespace ReservationSystemApp
 
                 //options.LoginPath = new PathString("/api/account/login");
                 //options.LogoutPath = new PathString("/api/account/signout");
-            });
+            });*/
 
             services.AddAuthorization(options =>
             {
