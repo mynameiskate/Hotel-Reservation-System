@@ -20,6 +20,25 @@ namespace Services.Services
             _dataContext = dataContext;
         }
 
+        public async Task<IEnumerable<LocationModel>> GetLocationList()
+        {
+            try
+            {
+                var entityList = await _dataContext.Locations
+                             .Include(l => l.City)
+                             .ThenInclude(l => l.Country)
+                             .ToListAsync();
+                var modelList = entityList
+                                .Select(location => new LocationModel(location))
+                                .ToList();
+                return modelList;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<IEnumerable<HotelModel>> GetHotelList()
         {
             try

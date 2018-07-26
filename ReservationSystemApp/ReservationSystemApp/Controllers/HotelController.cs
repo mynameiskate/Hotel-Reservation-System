@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
@@ -32,6 +33,14 @@ namespace ReservationSystemApp.Controllers
         {
             var hotel = await _hotelService.GetHotelInfo(id);
             return hotel;
+        }
+
+        // GET: api/hotels/locations
+        [HttpGet("locations")]
+        public async Task<IEnumerable<LocationModel>> GetLocationList()
+        {
+            var locations = await _hotelService.GetLocationList();
+            return locations;
         }
 
         // PUT: api/hotels/5

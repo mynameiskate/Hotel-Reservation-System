@@ -7,5 +7,6 @@ export const links = {
     SIGN_OUT_PAGE: '/account/signout',
     SIGN_IN_PAGE: '/account/login',
     USER_PAGE: '/account',
-    PROFILE_PAGE: '/account/profile'
+    PROFILE_PAGE: '/account/profile',
+    LOCATION_LIST: '/hotels/locations'
 }
