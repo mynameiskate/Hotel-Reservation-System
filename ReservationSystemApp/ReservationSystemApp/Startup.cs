@@ -27,8 +27,7 @@ namespace ReservationSystemApp
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
-            
+            Configuration = configuration;           
         }
 
         public IConfiguration Configuration { get; }
@@ -46,8 +45,6 @@ namespace ReservationSystemApp
                 (provider => new Services.Services.HotelService(provider.GetRequiredService<DataContext>()));
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
-
-
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
@@ -83,7 +80,6 @@ namespace ReservationSystemApp
                                                 Configuration["Jwt:tokenName"]))
             );
 
-            //Cookie authentication configuration
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -95,22 +91,6 @@ namespace ReservationSystemApp
                 options.SaveToken = true;
                 options.TokenValidationParameters = validationParameters;
             });
-           /*.AddCookie(options =>
-           {
-               options.Cookie.HttpOnly = true;
-               options.Cookie.Expiration = TimeSpan.FromMinutes(30);
-               options.SlidingExpiration = true;
-               options.TicketDataFormat = new JwtAuthTicket(Configuration["Jwt:tokenName"], validationParameters,
-               services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
-               services.BuildServiceProvider().GetDataProtector(new[]
-               {
-                     $"{hostingEnvironment.ApplicationName}-Auth1"
-               }));
-
-                //options.LoginPath = new PathString("/api/account/login");
-                //options.LogoutPath = new PathString("/api/account/signout");
-            });*/
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy =>

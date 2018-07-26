@@ -1,41 +1,29 @@
 import { settings } from '../config/settings.js';
 import { links } from '../config/links.js';
+import RequestOptions from '../constants/RequestOptions';
 
 class HotelService {
     static getAll() {
         const path = links.HOTEL_LIST_PAGE;
-        const options = {
-            method: 'GET',
-        };
+        const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }
 
     static getHotel(id) {
         const path = links.HOTEL_ID_PAGE(id);
-        const options = {
-            method: 'GET'
-        };
-
+        const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }
 
     static update(id, info) {
         const path = links.HOTEL_ID_PAGE(id);
-        const options = {
-            method: 'PUT',
-            body: JSON.stringify(info),
-            dataType: 'json',
-            headers: { 'Content-Type': 'application/json' }
-        };
-
+        const options = RequestOptions.createPutOptions(info);
         return fetch(settings.baseUrl + path, options);
     }
 
     static remove(id) {
         const path = links.HOTEL_ID_PAGE(id);
-        const options = {
-            method: 'DELETE'
-        };
+        const options = RequestOptions.createDeleteOptions();
         return fetch(settings.baseUrl + path, options);
     }
 }

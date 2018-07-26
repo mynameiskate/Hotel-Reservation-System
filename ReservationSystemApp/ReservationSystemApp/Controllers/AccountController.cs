@@ -40,10 +40,6 @@ namespace ReservationSystemApp.Controllers
             }
             else
             {
-                /*
-                var token = _jwtGenerator.GenerateTokenContext(loggedUser);
-                await HttpContext.SignInAsync(token.ClaimsPrincipal, token.AuthProperties);
-                return Ok();*/
                 var token = _jwtGenerator.GenerateAccessToken(loggedUser);
                 return Ok(new { token });
             }

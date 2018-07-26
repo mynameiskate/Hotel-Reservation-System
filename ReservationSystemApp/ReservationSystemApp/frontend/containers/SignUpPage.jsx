@@ -33,7 +33,7 @@ class SignUpPage extends React.Component {
             <div>
                 <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
                              onCancelClick={this.hideSignUpField}/>  
-                {error & <h2>Failed to sign up, try again?</h2>}    
+                {error && <h2>Failed to sign up, try again?</h2>}    
             </div>
         );
     }
