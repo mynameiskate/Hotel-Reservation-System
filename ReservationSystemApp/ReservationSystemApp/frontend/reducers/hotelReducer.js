@@ -7,7 +7,8 @@ const initialState = {
     removing: false,
     editing: false,
     loaded: null,
-    isValid: false
+    isValid: false,
+    locations: null
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -123,6 +124,21 @@ export function hotelReducer(state = initialState, action) {
                 editing: false,
                 error: null,
                 loaded: state.loaded
+            }
+        case hotelConstants.GET_HOTELS_REQUEST:
+            return {
+                ...state,
+                error: null
+            }
+        case hotelConstants.GET_LOCATIONS_SUCCESS:
+            return {
+                ...state,
+                locations: data.locations
+            }
+        case hotelConstants.GET_HOTELS_FAILURE:
+            return {
+                ...state,
+                error: data.error
             }
         default:
             return state;

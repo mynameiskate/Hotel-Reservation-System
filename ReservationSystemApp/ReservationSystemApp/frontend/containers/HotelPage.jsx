@@ -5,11 +5,8 @@ import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
 
 class HotelPage extends React.Component {
-
     constructor(props) {
         super(props);
-        this.sendEditRequest = this.sendEditRequest.bind(this);
-        this.showHotel = this.showHotel.bind(this);
     }
 
     getHotelId() {
@@ -32,7 +29,7 @@ class HotelPage extends React.Component {
         this.props.dispatch(HotelActions.stopEditing(id, info));
     }
 
-    sendEditRequest(id, info) {
+    sendEditRequest = (id, info) => {
         this.props.dispatch(HotelActions.editHotel(id, info));
     }
 

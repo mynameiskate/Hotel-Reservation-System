@@ -25,6 +25,30 @@ class HotelActions {
         }
     }
 
+    static getLocations() {
+        const getFailure = (error) => {
+            return { type: hotelConstants.GET_LOCATIONS_FAILURE, payload: { error } };
+        };
+        const getSuccess = (locations) => {
+            return { type: hotelConstants.GET_LOCATIONS_SUCCESS, payload: { locations } };
+        };
+        const getRequest = () => {
+            return { type: hotelConstants.GET_LOCATIONS_REQUEST, payload: { } };
+        };
+        
+        return dispatch => {
+            dispatch(getRequest());
+            HotelService.getLocations()
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
     static removeHotel(hotelId) {
         const removeFailure = (id, error) => {
             return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } };

@@ -9,6 +9,7 @@ namespace Services.Interfaces
     {
         Task<IEnumerable<HotelModel>> GetHotelList();
         Task<HotelModel> GetHotelInfo(int id);
+        Task<IEnumerable<LocationModel>> GetLocationList();
         void Delete(int id);
     }
 }

@@ -15,6 +15,12 @@ class HotelService {
         return fetch(settings.baseUrl + path, options);
     }
 
+    static getLocations() {
+        const path = links.LOCATION_LIST;
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static update(id, info) {
         const path = links.HOTEL_ID_PAGE(id);
         const options = RequestOptions.createPutOptions(info);
