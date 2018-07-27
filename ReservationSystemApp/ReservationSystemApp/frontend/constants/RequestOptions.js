@@ -70,6 +70,14 @@ class RequestOptions {
         let options = {};
         return this.addMethod('DELETE', options);
     }
+
+    static buildUri(path, params) {
+        let esc = encodeURIComponent;
+        let query = Object.keys(params)
+            .map(key => esc(key) + '=' + esc(params[key]))
+            .join('&');
+        return path + query;
+    }
 }
 
 export default RequestOptions;

@@ -25,6 +25,31 @@ class HotelActions {
         }
     }
 
+    static filterHotels(options) {
+        const filterRequest = (options) => {
+            return { type: hotelConstants.FILTER_HOTELS_REQUEST, payload: { options } }
+        };
+        const filterSuccess = (info) => {
+            return { type: hotelConstants.FILTER_HOTELS_SUCCESS, payload: { info } };
+        };
+        const filterFailure = (error) => {
+            return { type: hotelConstants.FILTER_HOTELS_FAILURE, payload: { error } };
+        };
+
+        return dispatch => {
+            dispatch(filterRequest(options));
+            HotelService.filterHotels(options)
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(filterSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(filterFailure(error)));
+        }
+
+    }
+
     static getLocations() {
         const getFailure = (error) => {
             return { type: hotelConstants.GET_LOCATIONS_FAILURE, payload: { error } };
@@ -33,9 +58,9 @@ class HotelActions {
             return { type: hotelConstants.GET_LOCATIONS_SUCCESS, payload: { locations } };
         };
         const getRequest = () => {
-            return { type: hotelConstants.GET_LOCATIONS_REQUEST, payload: { } };
+            return { type: hotelConstants.GET_LOCATIONS_REQUEST, payload: {} };
         };
-        
+
         return dispatch => {
             dispatch(getRequest());
             HotelService.getLocations()
@@ -46,6 +71,26 @@ class HotelActions {
                     return jsonInfo;
                 })
                 .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
+    static setCurrentCountry(value) {
+        const setRequest = (country) => {
+            return { type: hotelConstants.SET_CURRENT_COUNTRY, payload: { selectedCountry: country } }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(value));
+        }
+    }
+
+    static setCurrentCity(value) {
+        const setRequest = (city) => {
+            return { type: hotelConstants.SET_CURRENT_CITY, payload: { selectedCity: city } }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(value));
         }
     }
 

@@ -8,7 +8,9 @@ const initialState = {
     editing: false,
     loaded: null,
     isValid: false,
-    locations: null
+    locations: null,
+    selectedCountry: '',
+    selectedCity: ''
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -139,6 +141,17 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error
+            }
+        case hotelConstants.SET_CURRENT_COUNTRY:
+            return {
+                ...state,
+                selectedCity: '',
+                selectedCountry: data.selectedCountry
+            }
+        case hotelConstants.SET_CURRENT_CITY:
+            return {
+                ...state,
+                selectedCity: data.selectedCity
             }
         default:
             return state;

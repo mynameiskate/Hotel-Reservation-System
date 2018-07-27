@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const {  error } = this.props;
+        const { error } = this.props;
         return(
             <div>
                 <LoginField sendRequest={(data) => this.sendSignInRequest(data)}

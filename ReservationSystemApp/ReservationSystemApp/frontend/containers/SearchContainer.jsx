@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
-import  UserActions  from '../actions/UserActions.js';
 import  HotelActions from '../actions/HotelActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
 
@@ -13,21 +12,31 @@ class SearchContainer extends React.Component {
         this.props.dispatch(HotelActions.getLocations());
     }
 
-    getCountryOptions = (locations) => {
-        return (locations) ?
-               locations.map(location => ( 
-                   { value: location.country, 
-                     label: location.country}) 
-                )
-               : [];
+    setCountry = (country) => {
+        this.props.dispatch(HotelActions.setCurrentCountry(country));
     }
 
+    setCity = (city) => {
+        this.props.dispatch(HotelActions.setCurrentCity(city));
+    }
+
+    sendSearchRequest = (options) => {
+        this.props.dispatch(HotelActions.filterHotels(options));
+    }
+
+
     render() {
-        const { countryList, cities, selectedCountry, locations } = this.props;
+        const { selectedCountry, selectedCity, locations } = this.props;
         return(
             <div>
-                <SearchFilter sendRequest={(data) => this.sendSearchRequest(data)}
-                              countries={this.getCountryOptions(locations)}/> 
+                <SearchFilter sendRequest={ (values) => this.sendSearchRequest({...values, 
+                                                                                city: selectedCity, 
+                                                                                country: selectedCountry}) }
+                              locations={locations}
+                              selectedCountry={selectedCountry}
+                              selectedCity={selectedCity}
+                              onCountrySelect={this.setCountry}
+                              onCitySelect={this.setCity}/> 
             </div>
         );
     }
@@ -40,9 +49,9 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         loaded: state.hotels.loaded,
-        selectedCountry: state.hotels.selectedCountry,
         locations: state.hotels.locations,
-        cities: state.hotels.cities
+        selectedCountry: state.hotels.selectedCountry,
+        selectedCity: state.hotels.selectedCity
     }
 }
 
