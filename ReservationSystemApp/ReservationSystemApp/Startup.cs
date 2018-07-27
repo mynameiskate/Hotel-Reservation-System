@@ -39,12 +39,16 @@ namespace ReservationSystemApp
             services.AddReact();
 
             string connection = Configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<DataContext>
                 (options => options.UseSqlServer(connection));
             services.AddScoped<IHotelService>
                 (provider => new Services.Services.HotelService(provider.GetRequiredService<DataContext>()));
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
+            services.AddScoped<IHotelPageService>
+               (provider => new HotelPageService(provider.GetRequiredService<DataContext>(),
+                                                 Convert.ToInt32(Configuration["pages:size"])));
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);

@@ -32,11 +32,11 @@ class SearchContainer extends React.Component {
                 <SearchFilter sendRequest={ (values) => this.sendSearchRequest({...values, 
                                                                                 city: selectedCity, 
                                                                                 country: selectedCountry}) }
-                              locations={locations}
-                              selectedCountry={selectedCountry}
-                              selectedCity={selectedCity}
-                              onCountrySelect={this.setCountry}
-                              onCitySelect={this.setCity}/> 
+                                                                                locations={locations}
+                                                                                selectedCountry={selectedCountry}
+                                                                                selectedCity={selectedCity}
+                                                                                onCountrySelect={this.setCountry}
+                                                                                onCitySelect={this.setCity}/> 
             </div>
         );
     }

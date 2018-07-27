@@ -81,3 +81,4 @@ class RequestOptions {
 }
 
 export default RequestOptions;
+//export default new RequestOptions();

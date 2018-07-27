@@ -7,6 +7,7 @@ using Services.Interfaces;
 using System.Linq;
 using Services.Models;
 using System;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Services.Services
 {
@@ -63,7 +64,8 @@ namespace Services.Services
         {
             var hotelEntity = await _dataContext.Hotels
                          .Include(h => h.Location)
-                        // .Include(h => h.Location.City)
+                         .ThenInclude(l => l.City)
+                         .ThenInclude(l => l.Country)
                          .FirstAsync(h => h.HotelId == id);
             if (hotelEntity != null)
             {
