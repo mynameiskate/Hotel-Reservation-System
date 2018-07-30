@@ -12,6 +12,7 @@ const initialState = {
     selectedCountry: '',
     selectedCity: '',
     currentPage: 1,
+    resultCount: 0,
     filters: {}
 }
 
@@ -167,14 +168,18 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 info: data.info,
-                isSent: false
+                isSent: false,
+                currentPage: data.info.number,
+                resultCount: data.info.totalHotelAmount
             }
         case hotelConstants.GET_HOTEL_PAGE_FAILURE:
             return {
                 ...state,
                 error: data.error,
                 isSent: false,
-                info: null
+                info: null,
+                currentPage: 0,
+                resultCount: 0
             }
         default:
             return state;

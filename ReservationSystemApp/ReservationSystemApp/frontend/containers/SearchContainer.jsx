@@ -33,12 +33,13 @@ class SearchContainer extends React.Component {
                                                                                 {...values, 
                                                                                 city: selectedCity, 
                                                                                 countryId: selectedCountry.id}) }
-
-                                                                                locations={locations}
-                                                                                selectedCountry={selectedCountry}
-                                                                                selectedCity={selectedCity}
-                                                                                onCountrySelect={this.setCountry}
-                                                                                onCitySelect={this.setCity}/> 
+                            locations={locations}
+                            selectedCountry={selectedCountry}
+                            selectedCity={selectedCity}
+                            onCountrySelect={this.setCountry}
+                            onCitySelect={this.setCity}
+                />                             
+                                                                                
                 <SearchPage/>   
             </div>
         );

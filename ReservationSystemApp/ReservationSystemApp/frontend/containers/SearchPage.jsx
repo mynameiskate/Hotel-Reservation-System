@@ -41,7 +41,7 @@ class SearchPage extends React.Component {
                     /> 
                     : <h3>No results, try again?</h3>
                  }
-                 <p>{currentPage}</p>
+                 {currentPage && <p>{currentPage}</p>}
                  { error  && <h3>Loading error</h3>}
 	        </div>
 	    );
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
         isSent: state.hotels.isSent,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
-        totalHotelAmount: state.hotels.totalHotelAmount
+        totalHotelAmount: state.hotels.resultCount
     }
 }
 
