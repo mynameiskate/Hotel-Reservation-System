@@ -5,7 +5,7 @@ import { links } from '../config/links.js';
 
 const HotelList = ( {info, removing, onDeleteClick} ) => (
     <div>
-        {info && info.map((hotel) =>
+        {info.map((hotel) =>
             !hotel.isRemoved && 
                 <div key={hotel.hotelId}>
                     <HotelInfo hotel={hotel}/> 
@@ -19,4 +19,4 @@ const HotelList = ( {info, removing, onDeleteClick} ) => (
     </div>
 )
 
-export default HotelList
+export default HotelList;

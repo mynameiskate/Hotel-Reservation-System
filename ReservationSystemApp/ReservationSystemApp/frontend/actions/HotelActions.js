@@ -98,13 +98,14 @@ class HotelActions {
         }
     }
 
-    static setCurrentCountry(value) {
+    static setCurrentCountry(id, name) {
+        const country = { id, name }
         const setRequest = (country) => {
             return { type: hotelConstants.SET_CURRENT_COUNTRY, payload: { selectedCountry: country } }
         };
 
         return dispatch => {
-            dispatch(setRequest(value));
+            dispatch(setRequest(country));
         }
     }
 
@@ -141,8 +142,7 @@ class HotelActions {
     static getHotelById(id, hotels) {
         if (hotels && hotels.count > 0) {
             return hotels.find(hotel => hotel.hotelId == id);
-        }
-        else {
+        } else {
             return null;
         }
     }

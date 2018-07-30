@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services.Models
 {
@@ -24,13 +25,9 @@ namespace Services.Models
                 CanPlace = room.CanPlace;
                 RoomType = room.RoomType;
 
-                if (room.Images != null)
-                {
-                    foreach (var filePath in room.Images)
-                    {
-                        Images.Add(filePath.Path);
-                    }
-                }
+                Images = room.Images?
+                        .Select(img => img.Path)
+                        .ToList() ?? new List<string>();
             }
 
         }

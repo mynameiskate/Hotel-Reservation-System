@@ -27,18 +27,24 @@ namespace Services.Services
             int size = pageSize ?? _pageSize;
             try
             {
-                var entityList = _dataContext.Hotels
-                                             .Include(h => h.Location)
-                                             .ThenInclude(l => l.City)
-                                             .ThenInclude(l => l.Country);
+                var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
-                var filteredList = await FilterHotels(entityList, filters)
-                                                      .Select(hotel => new HotelModel(hotel))
-                                                      .ToListAsync();
+               /* if (filters?.Country != null)
+                {
+                    entityList = entityList.Where(h => h.Location.City.Country.Name == filters.Country);
+                }*/
 
-                var listForPage = CutList(filteredList, pageNumber, size);
+                entityList = FilterHotels(entityList, filters);
 
-                return new PageModel(pageNumber, size, filteredList.Count, listForPage);
+                var resultQuery = entityList
+                    .Include(h => h.Location)
+                    .ThenInclude(l => l.City)
+                    .ThenInclude(c => c.Country)
+                    .Select(hotel => new HotelModel(hotel));
+
+                var listForPage = CutList(resultQuery, pageNumber, size);
+
+                return new PageModel(pageNumber, size, await entityList.CountAsync(), listForPage);
             }
             catch
             {
@@ -47,7 +53,7 @@ namespace Services.Services
 
         }
 
-        private IEnumerable<HotelModel> CutList(IEnumerable<HotelModel> hotels, 
+        private IEnumerable<HotelModel> CutList(IQueryable<HotelModel> hotels, 
                                           int pageNumber, int count)
         {
             int startAfter = (pageNumber-1) * count;
@@ -59,30 +65,28 @@ namespace Services.Services
             return string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        private bool CheckLocation(Location location, string country, string city)
+        private bool CheckLocation(City city, string filterCity, string filterCountryId)
         {
-            return (location == null) ||
-                   (location.City == null) ||
-                   ((string.IsNullOrEmpty(city) || IsEqual(location.City.Name, city)) &&
-                     (string.IsNullOrEmpty(country) || (location.City.Country == null) ||
-                        IsEqual(location.City.Country.Name, country)));
+            if (city == null)
+            {
+                return false;
+            }
+            else
+            {
+                var res = (string.IsNullOrEmpty(filterCity) || IsEqual(city.Name, filterCity)) &&
+                          (string.IsNullOrEmpty(filterCountryId) || city.CountryId == filterCountryId);
+                return res;
+            }
         }
 
-        private IQueryable<Hotel> FilterHotels(IIncludableQueryable<Hotel, Country> hotels,
-                                               FilterModel filters)
+        private IQueryable<Hotel> FilterHotels(IQueryable<Hotel> hotels, FilterModel filters)
         {
             if (filters != null)
             {
-                try
-                {
-                    var filteredList = hotels.Where(h => (string.IsNullOrEmpty(filters.Name) || IsEqual(h.Name, filters.Name)) &&
-                                              (CheckLocation(h.Location, filters.Country, filters.City)));
-                    return filteredList;
-                }
-                catch
-                {
-                    return null;
-                }
+                var filteredList = hotels.Where(h => (string.IsNullOrEmpty(filters.Name) || IsEqual(h.Name, filters.Name)))
+                                         .Where(h => CheckLocation(h.Location.City, filters.City, filters.CountryId));
+
+                return filteredList;
             }
             else
             {

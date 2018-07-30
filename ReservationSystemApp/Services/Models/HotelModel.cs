@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services.Models
 {
@@ -23,32 +24,14 @@ namespace Services.Models
                 Stars = hotel.Stars;
                 Location = new LocationModel(hotel.Location);
 
-                Services = new List<ServiceModel>();
-                if (hotel.Services != null)
-                {
-                    foreach (var service in hotel.Services)
-                    {
-                        Services.Add(new ServiceModel(service));
-                    }
-                }
+                IEnumerable<ServiceModel> services = hotel.Services?.Select(s => new ServiceModel(s));
+                Services = services?.ToList() ?? new List<ServiceModel>();
 
-                Contacts = new List<ContactModel>();
-                if (hotel.Contacts != null)
-                {
-                    foreach (var contact in hotel.Contacts)
-                    {
-                        Contacts.Add(new ContactModel(contact));
-                    }
-                }
+                IEnumerable<ContactModel> contacts = hotel.Contacts?.Select(c => new ContactModel(c));
+                Contacts = contacts?.ToList() ?? new List<ContactModel>();
 
-                Rooms = new List<HotelRoomModel>();
-                if (hotel.Rooms != null)
-                {
-                    foreach (var room in hotel.Rooms)
-                    {
-                        Rooms.Add(new HotelRoomModel(room));
-                    }
-                }
+                IEnumerable<HotelRoomModel> rooms = hotel.Rooms?.Select(r => new HotelRoomModel(r));
+                Rooms = rooms?.ToList() ?? new List<HotelRoomModel>();
             }
         }
 

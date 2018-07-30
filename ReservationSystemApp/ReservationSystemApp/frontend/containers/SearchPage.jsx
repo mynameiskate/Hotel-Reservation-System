@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import HotelActions from '../actions/HotelActions';
 import HotelList from '../components/HotelList.jsx';
-import { Link } from 'react-router-dom';
-import { links } from '../config/links.js';
 
 class SearchPage extends React.Component {
     constructor(props) {
@@ -30,17 +28,18 @@ class SearchPage extends React.Component {
     }
 
     render() {
-    	const { info, error, isSent, removing, currentPage } = this.props;
+        const { info, error, isSent, removing, currentPage } = this.props;
     	return ( 
 	        <div className='searchPage'>
                  { isSent ? <h3>Loading hotels..</h3>
                           : <h3> Search results </h3>}
-                 { info &&
-                    <HotelList  info={info}
+                 { info && info.totalHotelAmount ?
+                    <HotelList  info={info.hotels}
                                 removing={removing}
                                 onDeleteClick={this.sendRemoveRequest}
                                 onEditClick={this.sendEditRequest}
                     /> 
+                    : <h3>No results, try again?</h3>
                  }
                  <p>{currentPage}</p>
                  { error  && <h3>Loading error</h3>}
@@ -56,7 +55,8 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isSent: state.hotels.isSent,
         removing: state.hotels.removing,
-        selected: state.hotels.selected  
+        selected: state.hotels.selected,
+        totalHotelAmount: state.hotels.totalHotelAmount
     }
 }
 

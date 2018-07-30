@@ -3,7 +3,7 @@ export const links = {
     HOTEL_PAGE_PATH: '/hotels/details/:id',
     HOTEL_LIST_PAGE: '/hotels/all',
     HOTEL_FILTER_PAGE: '/hotels/filter?',
-    HOTEL_SEARCH_PAGE: '/hotels/',
+    HOTEL_SEARCH_PAGE: '/hotels/?',
     HOTEL_ID_PAGE: (id) => `/hotels/details/${id}`,
     SIGN_UP_PAGE: '/account/signup',
     SIGN_OUT_PAGE: '/account/signout',

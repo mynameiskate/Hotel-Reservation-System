@@ -21,14 +21,11 @@ namespace ReservationSystemApp.Controllers
             _pageService = pageService;
         }
 
-        // GET: api/hotels/page
-        [Route("page={page}/{filters?}")]
+        // GET: api/hotels/?
         [HttpGet]
-        public async Task<PageModel> GetHotelList(int? page, [FromQuery]FilterModel filters =null)
+        public async Task<PageModel> GetHotelList([FromQuery]int page, [FromQuery]FilterModel filters)
         {
-            var query = Request.Query;
-            return await _pageService.GetHotelPage(1, null, filters);
-            //return await _hotelService.GetHotelList();
+            return await _pageService.GetHotelPage(page, null, filters);
         }
 
         // GET: api/hotels/details/5

@@ -13,8 +13,8 @@ class SearchContainer extends React.Component {
         this.props.dispatch(HotelActions.getLocations());
     }
 
-    setCountry = (country) => {
-        this.props.dispatch(HotelActions.setCurrentCountry(country));
+    setCountry = (id, name) => {
+        this.props.dispatch(HotelActions.setCurrentCountry(id, name));
     }
 
     setCity = (city) => {
@@ -32,7 +32,7 @@ class SearchContainer extends React.Component {
                 <SearchFilter sendRequest={ (values) => this.sendSearchRequest( currentPage,
                                                                                 {...values, 
                                                                                 city: selectedCity, 
-                                                                                country: selectedCountry}) }
+                                                                                countryId: selectedCountry.id}) }
 
                                                                                 locations={locations}
                                                                                 selectedCountry={selectedCountry}

@@ -161,7 +161,7 @@ export function hotelReducer(state = initialState, action) {
                 currentPage: data.currentPage,
                 error: null,
                 filters: data.filters,
-                isSent: true               
+                isSent: true
             }
         case hotelConstants.GET_HOTEL_PAGE_SUCCESS:
             return {

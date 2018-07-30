@@ -56,11 +56,11 @@ BEGIN
 	DBCC CHECKIDENT ('[dbo].[Countries]', RESEED, 0);
 END
 
-INSERT INTO [dbo].[Countries] ([Name])
-VALUES ('Argentina'), ('Armenia'), ('Austria'), ('Australia'), ('Azerbaijan'), ('Belarus'), ('Belgium'),
-		('Brazil'), ('Bulgaria'), ('Canada'), ('China'), ('Czech Republic'), ('Denmark'), ('Ecuador'), ('Egypt'), 
-		('Estonia'), ('Finland'), ('France'), ('Georgia'), ('Germany'), ('Greece'), ('Hungary'), ('Iceland'), 
-		('India'), ('Indonesia'), ('Ireland'), ('USA'), ('United Kingdom');
+INSERT INTO [dbo].[Countries] ([Name], CountryId)
+VALUES ('Argentina', 'AR'), ('Armenia', 'AM'), ('Austria', 'AT'), ('Australia', 'AU'), ('Azerbaijan', 'AZ'), ('Belarus', 'BY'), ('Belgium', 'BE'),
+		('Brazil', 'BR'), ('Bulgaria', 'BG'), ('Canada', 'CA'), ('China', 'CN'), ('Czech Republic', 'CZ'), ('Denmark', 'DK'), ('Ecuador', 'EC'), ('Egypt', 'EG'), 
+		('Estonia', 'EE'), ('Finland', 'FI'), ('France', 'FR'), ('Georgia', 'GE'), ('Germany', 'DE'), ('Greece', 'GR'), ('Hungary', 'HU'), ('Iceland', 'IS'), 
+		('India', 'IN'), ('Indonesia', 'ID'), ('Ireland', 'IE'), ('USA', 'US'), ('United Kingdom', 'UK');
 
 INSERT INTO [dbo].[Cities] ([Name], CountryId) VALUES 
 ('NYC', (SELECT CountryId from [dbo].[Countries] WHERE Name='USA')),

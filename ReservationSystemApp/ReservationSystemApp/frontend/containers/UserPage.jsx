@@ -22,8 +22,8 @@ class UserPage extends React.Component {
         return(
             <div>
                 {userInfo && <h1>Welcome, {userInfo.shortName ||
-                                      userInfo.email ||
-                                     (userInfo.isAdmin? "guest" : "admin")}
+                                           userInfo.email ||
+                                           (userInfo.isAdmin? "guest" : "admin")}
                             </h1> }
                 <SearchContainer/>
             </div>
