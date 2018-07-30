@@ -28,11 +28,11 @@ class Main extends React.Component {
                 :
                 <BrowserRouter>
                     <Switch>
-                    <Route exact path={links.MAIN_PAGE_PATH} component={ MainPage }/>
-                    <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelPage }/> 
-                    <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
-                    <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
-                    <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
+                        <Route exact path={links.MAIN_PAGE_PATH} component={ MainPage }/>
+                        <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelPage }/> 
+                        <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
+                        <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
+                        <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
                     </Switch>
                 </BrowserRouter>
                 }

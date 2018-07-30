@@ -21,6 +21,14 @@ class HotelService {
         return fetch(settings.baseUrl + path, options);
     }
 
+    static getHotelPage(page=1, filters={}) {
+        //filters = JSON.stringify(filters);
+        const params = {page, ...filters};
+        const path = RequestOptions.buildUri(links.HOTEL_SEARCH_PAGE, params);
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static filterHotels(params) {
         const path = RequestOptions.buildUri(links.HOTEL_FILTER_PAGE, params);
         const options = RequestOptions.createGetOptions();

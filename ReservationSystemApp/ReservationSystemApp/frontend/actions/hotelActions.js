@@ -50,6 +50,30 @@ class HotelActions {
 
     }
 
+    static getHotelPage(id, filters) {
+        const getRequest = (id, filters) => {
+            return { type: hotelConstants.GET_HOTEL_PAGE_REQUEST, payload: { id, filters } }
+        };
+        const getSuccess = (info) => {
+            return { type: hotelConstants.GET_HOTEL_PAGE_SUCCESS, payload: { info } };
+        };
+        const getFailure = (error) => {
+            return { type: hotelConstants.GET_HOTEL_PAGE_FAILURE, payload: { error } };
+        };
+
+        return dispatch => {
+            dispatch(getRequest(id, filters));
+            HotelService.getHotelPage(id, filters)
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
     static getLocations() {
         const getFailure = (error) => {
             return { type: hotelConstants.GET_LOCATIONS_FAILURE, payload: { error } };
@@ -115,8 +139,11 @@ class HotelActions {
     }
 
     static getHotelById(id, hotels) {
-        if (hotels) {
+        if (hotels && hotels.count > 0) {
             return hotels.find(hotel => hotel.hotelId == id);
+        }
+        else {
+            return null;
         }
     }
 

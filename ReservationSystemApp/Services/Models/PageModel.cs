@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Services.Models
 {
@@ -13,8 +14,24 @@ namespace Services.Models
                          int amount, IEnumerable<HotelModel> hotels)
         {
             PageSize = size;
-            TotalAmount = amount;
+            TotalAmount = (int)Math.Ceiling(amount / (double)size);
             Hotels = hotels;
+        }
+
+        public bool HasPreviousPage
+        {
+            get
+            {
+                return Number > 1;
+            }
+        }
+
+        public bool HasNextPage
+        {
+            get
+            {
+                return Number < TotalAmount;
+            }
         }
     }
 }

@@ -12,22 +12,27 @@ namespace ReservationSystemApp.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _hotelService;
+        private readonly IHotelPageService _pageService;
 
-        public HotelController(IHotelService hotelService)
+        public HotelController(IHotelService hotelService, 
+                               IHotelPageService pageService)
         {
             _hotelService = hotelService;
+            _pageService = pageService;
         }
 
-        // GET: api/hotels/all
-        [Route("all")]
+        // GET: api/hotels/page
+        [Route("page={page}/{filters?}")]
         [HttpGet]
-        public async Task<IEnumerable<HotelModel>> GetHotelList()
+        public async Task<PageModel> GetHotelList(int? page, [FromQuery]FilterModel filters =null)
         {
-            return await _hotelService.GetHotelList();
+            var query = Request.Query;
+            return await _pageService.GetHotelPage(1, null, filters);
+            //return await _hotelService.GetHotelList();
         }
 
-        // GET: api/hotels/5
-        [HttpGet("{id}")]
+        // GET: api/hotels/details/5
+        [HttpGet("details/{id}")]
         public async Task<HotelModel> Get(int id)
         {
             var hotel = await _hotelService.GetHotelInfo(id);

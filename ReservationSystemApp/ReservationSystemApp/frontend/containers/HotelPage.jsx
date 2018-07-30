@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
-import HotelActions from '../actions/HotelActions';
+import HotelActions from '../actions/HotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
 
@@ -45,7 +45,7 @@ class HotelPage extends React.Component {
                                 <HotelInfo hotel={ loaded }/> 
                                 <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button>        
                             </div>
-                            : <HotelEditField hotel={ loaded }
+                            :   <HotelEditField hotel={ loaded }
                                               sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
                                               onCancelClick={this.hideEditField} />
                         }

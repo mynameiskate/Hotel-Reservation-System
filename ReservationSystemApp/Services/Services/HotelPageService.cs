@@ -22,7 +22,7 @@ namespace Services.Services
             _pageSize = pageSize;
         }
 
-        public async Task<PageModel> GetHotelPage(int pageNumber, int? pageSize = null, FilterModel filters = null)
+        public async Task<PageModel> GetHotelPage(int pageNumber = 1, int? pageSize = null, FilterModel filters = null)
         {
             int size = pageSize ?? _pageSize;
             try
@@ -40,7 +40,7 @@ namespace Services.Services
 
                 return new PageModel(pageNumber, size, filteredList.Count, listForPage);
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -48,10 +48,9 @@ namespace Services.Services
         }
 
         private IEnumerable<HotelModel> CutList(IEnumerable<HotelModel> hotels, 
-                                                int pageNumber,
-                                                int count)
+                                          int pageNumber, int count)
         {
-            int startAfter = pageNumber * count;
+            int startAfter = (pageNumber-1) * count;
             return hotels.Skip(startAfter).Take(count);
         }
 

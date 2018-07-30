@@ -10,7 +10,9 @@ const initialState = {
     isValid: false,
     locations: null,
     selectedCountry: '',
-    selectedCity: ''
+    selectedCity: '',
+    currentPage: 1,
+    filters: {}
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -152,6 +154,27 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 selectedCity: data.selectedCity
+            }
+        case hotelConstants.GET_HOTEL_PAGE_REQUEST:
+            return {
+                ...state,
+                currentPage: data.currentPage,
+                error: null,
+                filters: data.filters,
+                isSent: true               
+            }
+        case hotelConstants.GET_HOTEL_PAGE_SUCCESS:
+            return {
+                ...state,
+                info: data.info,
+                isSent: false
+            }
+        case hotelConstants.GET_HOTEL_PAGE_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                isSent: false,
+                info: null
             }
         default:
             return state;
