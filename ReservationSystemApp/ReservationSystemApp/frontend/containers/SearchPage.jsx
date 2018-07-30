@@ -28,11 +28,11 @@ class SearchPage extends React.Component {
     }
 
     render() {
-        const { info, error, isSent, removing, currentPage } = this.props;
+        const { info, error, isSent, removing, currentPage, resultCount } = this.props;
     	return ( 
 	        <div className='searchPage'>
                  { isSent ? <h3>Loading hotels..</h3>
-                          : <h3> Search results </h3>}
+                          : <h3> Search results: {resultCount} destinations</h3>}
                  { info && info.totalHotelAmount ?
                     <HotelList  info={info.hotels}
                                 removing={removing}
@@ -41,7 +41,6 @@ class SearchPage extends React.Component {
                     /> 
                     : <h3>No results, try again?</h3>
                  }
-                 {currentPage && <p>{currentPage}</p>}
                  { error  && <h3>Loading error</h3>}
 	        </div>
 	    );
@@ -56,7 +55,7 @@ const mapStateToProps = (state) => {
         isSent: state.hotels.isSent,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
-        totalHotelAmount: state.hotels.resultCount
+        resultCount: state.hotels.resultCount
     }
 }
 

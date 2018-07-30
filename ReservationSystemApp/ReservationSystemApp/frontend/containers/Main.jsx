@@ -6,6 +6,7 @@ import HotelPage from './HotelPage.jsx';
 import SignUpPage from './SignUpPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import SearchContainer from './SearchContainer.jsx';
 import UserPage from './UserPage.jsx';
 import { links } from '../config/links.js';
 import UserActions from '../actions/UserActions.js';
@@ -32,6 +33,7 @@ class Main extends React.Component {
                         <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelPage }/> 
                         <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
                         <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
+                        <Route path={links.HOTEL_ID_SEARCH_PAGE_PATH} component={ SearchContainer }/>
                         <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
                     </Switch>
                 </BrowserRouter>

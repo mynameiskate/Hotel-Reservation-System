@@ -13,7 +13,8 @@ const initialState = {
     selectedCity: '',
     currentPage: 1,
     resultCount: 0,
-    filters: {}
+    filters: {},
+    pageSize: 0
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -156,6 +157,11 @@ export function hotelReducer(state = initialState, action) {
                 ...state,
                 selectedCity: data.selectedCity
             }
+        case hotelConstants.SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: data.currentPage
+            }
         case hotelConstants.GET_HOTEL_PAGE_REQUEST:
             return {
                 ...state,
@@ -170,7 +176,8 @@ export function hotelReducer(state = initialState, action) {
                 info: data.info,
                 isSent: false,
                 currentPage: data.info.number,
-                resultCount: data.info.totalHotelAmount
+                resultCount: data.info.totalHotelAmount,
+                pageSize: data.info.pageSize
             }
         case hotelConstants.GET_HOTEL_PAGE_FAILURE:
             return {

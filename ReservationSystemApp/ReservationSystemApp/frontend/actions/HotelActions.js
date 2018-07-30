@@ -119,6 +119,16 @@ class HotelActions {
         }
     }
 
+    static setCurrentPage(page) {
+        const setRequest = (page) => {
+            return { type: hotelConstants.SET_CURRENT_PAGE, payload: { currentPage: page } }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(page));
+        }
+    }
+
     static removeHotel(hotelId) {
         const removeFailure = (id, error) => {
             return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } };

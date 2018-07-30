@@ -4,6 +4,8 @@ export const links = {
     HOTEL_LIST_PAGE: '/hotels/all',
     HOTEL_FILTER_PAGE: '/hotels/filter?',
     HOTEL_SEARCH_PAGE: '/hotels/?',
+    HOTEL_ID_SEARCH_PAGE_PATH: '/hotels/?page=:id',
+    HOTEL_ID_SEARCH_PAGE: (id) => `/hotels/?page=${id}`,
     HOTEL_ID_PAGE: (id) => `/hotels/details/${id}`,
     SIGN_UP_PAGE: '/account/signup',
     SIGN_OUT_PAGE: '/account/signout',

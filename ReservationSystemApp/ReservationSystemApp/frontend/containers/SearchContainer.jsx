@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'; 
 import  HotelActions from '../actions/HotelActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
+import  NavigationBar  from '../components/NavigationBar.jsx';
 import SearchPage from './SearchPage.jsx';
 
 class SearchContainer extends React.Component {
@@ -25,8 +26,15 @@ class SearchContainer extends React.Component {
         this.props.dispatch(HotelActions.getHotelPage(page, options));
     }
 
+    setCurrentPage = (page) => {
+        this.props.dispatch(HotelActions.setCurrentPage(page));
+    }
+
+
     render() {
-        const { selectedCountry, selectedCity, locations, currentPage } = this.props;
+        const { selectedCountry, selectedCity, locations, currentPage, resultCount, pageSize } = this.props;
+        const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
+        const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
         return(
             <div>
                 <SearchFilter sendRequest={ (values) => this.sendSearchRequest( currentPage,
@@ -41,6 +49,9 @@ class SearchContainer extends React.Component {
                 />                             
                                                                                 
                 <SearchPage/>   
+                <NavigationBar currentPage={currentPage} 
+                               nextPage={nextPage}
+                               setCurrentPage={this.setCurrentPage}/>
             </div>
         );
     }
@@ -56,7 +67,9 @@ const mapStateToProps = (state) => {
         loaded: state.hotels.loaded,
         locations: state.hotels.locations,
         selectedCountry: state.hotels.selectedCountry,
-        selectedCity: state.hotels.selectedCity
+        selectedCity: state.hotels.selectedCity,
+        resultCount: state.hotels.resultCount,
+        pageSize: state.hotels.pageSize
     }
 }
 
