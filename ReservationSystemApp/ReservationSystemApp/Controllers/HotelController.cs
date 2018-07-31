@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services.Interfaces;
 using Services.Models;
 
@@ -11,12 +12,15 @@ namespace ReservationSystemApp.Controllers
     [ApiController]
     public class HotelController : ControllerBase
     {
+        private readonly ILogger<HotelController> _logger;
         private readonly IHotelService _hotelService;
         private readonly IHotelPageService _pageService;
 
-        public HotelController(IHotelService hotelService, 
+        public HotelController(ILogger<HotelController> logger,
+                               IHotelService hotelService, 
                                IHotelPageService pageService)
         {
+            _logger = logger;
             _hotelService = hotelService;
             _pageService = pageService;
         }

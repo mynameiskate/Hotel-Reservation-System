@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Services.Interfaces;
 using Services.Models;
 
@@ -16,14 +17,17 @@ namespace ReservationSystemApp.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly ILogger<HotelController> _logger;
         private IConfiguration _configuration;
         private readonly IAccountService _accountService;
         private IJwtGenerator _jwtGenerator;
 
-        public AccountController(IConfiguration configuration,
+        public AccountController(ILogger<HotelController> logger,
+                                 IConfiguration configuration,
                                  IAccountService accountService,
                                  IJwtGenerator jwtGenerator)
         {
+            _logger = logger;
             _configuration = configuration;
             _accountService = accountService;
             _jwtGenerator = jwtGenerator;

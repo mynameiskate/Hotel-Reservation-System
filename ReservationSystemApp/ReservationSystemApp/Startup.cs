@@ -10,16 +10,15 @@ using DataLayer;
 using Services.Services;
 using Services.Interfaces;
 using System;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Services.JwtProvider;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace ReservationSystemApp
 {
@@ -106,7 +105,7 @@ namespace ReservationSystemApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -121,6 +120,16 @@ namespace ReservationSystemApp
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
+
+            var filterLoggerSettings = new FilterLoggerSettings
+            {
+                {"Microsoft", LogLevel.None },
+                {"System", LogLevel.None },
+            };
+
+            loggerFactory = loggerFactory.WithFilter(filterLoggerSettings);
+
+            loggerFactory.AddFile(Configuration["Logging:LogFile"]);
 
             app.UseMvc(routes =>
             {
