@@ -19,6 +19,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using ReservationSystemApp.Services;
 
 namespace ReservationSystemApp
 {
@@ -42,7 +43,7 @@ namespace ReservationSystemApp
             services.AddDbContext<DataContext>
                 (options => options.UseSqlServer(connection));
             services.AddScoped<IHotelService>
-                (provider => new Services.Services.HotelService(provider.GetRequiredService<DataContext>()));
+                (provider => new HotelService(provider.GetRequiredService<DataContext>()));
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
             services.AddScoped<IHotelPageService>
@@ -123,13 +124,13 @@ namespace ReservationSystemApp
 
             var filterLoggerSettings = new FilterLoggerSettings
             {
-                {"Microsoft", LogLevel.None },
-                {"System", LogLevel.None },
+                {"Microsoft", LogLevel.Error },
+                {"System", LogLevel.Error },
             };
 
-            loggerFactory = loggerFactory.WithFilter(filterLoggerSettings);
-
-            loggerFactory.AddFile(Configuration["Logging:LogFile"]);
+            AppLogging.SetPath(Configuration["Logging:LogFile"]);
+            AppLogging.ConfigureLogger(loggerFactory);
+            AppLogging.LoggerFactory = loggerFactory;
 
             app.UseMvc(routes =>
             {

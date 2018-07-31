@@ -8,13 +8,14 @@ using System.Linq;
 using Services.Models;
 using System;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Logging;
 
 namespace Services.Services
 {
     public class HotelService : IHotelService
     {
+        private readonly ILogger _logger;
         private DataContext _dataContext;
-
 
         public HotelService(DataContext dataContext)
         {

@@ -21,6 +21,7 @@ namespace ReservationSystemApp.Controllers
                                IHotelPageService pageService)
         {
             _logger = logger;
+            _logger.LogInformation("Start of logging..");
             _hotelService = hotelService;
             _pageService = pageService;
         }
