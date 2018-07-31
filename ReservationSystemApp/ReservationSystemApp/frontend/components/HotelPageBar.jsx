@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HotelInfo from './HotelInfo.jsx';
 import { links } from '../config/links.js';
 
-const NavigationBar = ( {currentPage, nextPage, setCurrentPage} ) => (
+const HotelPageBar = ( {currentPage, nextPage, setCurrentPage} ) => (
     <div>        
         {   
             (currentPage - 1 > 0) &&
@@ -20,4 +19,4 @@ const NavigationBar = ( {currentPage, nextPage, setCurrentPage} ) => (
     </div>
 )
 
-export default NavigationBar;
+export default HotelPageBar;

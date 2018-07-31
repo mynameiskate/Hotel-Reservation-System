@@ -1,6 +1,8 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ReservationSystemApp.Services;
 using Services.Interfaces;
 using Services.Models;
 using System;
@@ -12,6 +14,7 @@ namespace Services.Services
 {
     public class HotelPageService : IHotelPageService
     {
+        private readonly ILogger _logger;
         private DataContext _dataContext;
         private int _pageSize;
         private int _maxPageSize;
@@ -21,6 +24,7 @@ namespace Services.Services
             _dataContext = dataContext;
             _pageSize = pageSize;
             _maxPageSize = maxPageSize;
+            _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
         public async Task<PageModel> GetHotelPage(int pageNumber = 1, int? pageSize = null, FilterModel filters = null)
@@ -47,8 +51,9 @@ namespace Services.Services
 
                 return new PageModel(pageNumber, size, await entityList.CountAsync(), listForPage);
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message);
                 return null;
             }
 
@@ -61,31 +66,29 @@ namespace Services.Services
             return hotels.Skip(startAfter).Take(count);
         }
 
-        private bool IsEqual(string a, string b)
-        {
-            return string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        private bool CheckLocation(City city, string filterCity, string filterCountryId)
-        {
-            if (city == null)
-            {
-                return false;
-            }
-            else
-            {
-                var res = (string.IsNullOrEmpty(filterCity) || IsEqual(city.Name, filterCity)) &&
-                          (string.IsNullOrEmpty(filterCountryId) || city.CountryId == filterCountryId);
-                return res;
-            }
-        }
-
         private IQueryable<Hotel> FilterHotels(IQueryable<Hotel> hotels, FilterModel filters)
         {
             if (filters != null)
             {
-                var filteredList = hotels.Where(h => (string.IsNullOrEmpty(filters.Name) || IsEqual(h.Name, filters.Name)))
-                                         .Where(h => CheckLocation(h.Location.City, filters.City, filters.CountryId));
+                var filteredList = hotels;
+
+                if (!string.IsNullOrEmpty(filters.Name))
+                {
+                    filteredList = filteredList
+                        .Where(h =>  h.Name == filters.Name);
+                }
+
+                if (!string.IsNullOrEmpty(filters.CountryId))
+                {
+                    filteredList = filteredList
+                        .Where(h => h.Location.City.CountryId == filters.CountryId);
+
+                    if (!string.IsNullOrEmpty(filters.City))
+                    {
+                        filteredList = filteredList
+                            .Where(h => h.Location.City.Name == filters.City);
+                    }
+                }
 
                 return filteredList;
             }

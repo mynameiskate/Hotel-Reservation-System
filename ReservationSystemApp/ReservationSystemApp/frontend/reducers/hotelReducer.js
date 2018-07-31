@@ -14,7 +14,9 @@ const initialState = {
     currentPage: 1,
     resultCount: 0,
     filters: {},
-    pageSize: 0
+    pageSize: 0,
+    pageCount: 1,
+    nextPage: null
 }
 
 export function hotelReducer(state = initialState, action) {
@@ -171,13 +173,20 @@ export function hotelReducer(state = initialState, action) {
                 isSent: true
             }
         case hotelConstants.GET_HOTEL_PAGE_SUCCESS:
+            const resultCount = data.info.totalHotelAmount;
+            const pageSize = data.info.pageSize;
+            const currentPage = data.info.number;
+            const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
+            const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
             return {
                 ...state,
                 info: data.info,
                 isSent: false,
-                currentPage: data.info.number,
-                resultCount: data.info.totalHotelAmount,
-                pageSize: data.info.pageSize
+                currentPage,
+                resultCount,
+                pageSize,
+                pageCount,
+                nextPage
             }
         case hotelConstants.GET_HOTEL_PAGE_FAILURE:
             return {

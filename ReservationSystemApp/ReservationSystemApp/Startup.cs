@@ -50,6 +50,8 @@ namespace ReservationSystemApp
                (provider => new HotelPageService(provider.GetRequiredService<DataContext>(),
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"])));
+            services.AddScoped<ILocationService>
+                (provider => new LocationService(provider.GetRequiredService<DataContext>()));
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);

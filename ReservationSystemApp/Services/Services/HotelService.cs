@@ -7,12 +7,12 @@ using Services.Interfaces;
 using System.Linq;
 using Services.Models;
 using System;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
+using ReservationSystemApp.Services;
 
 namespace Services.Services
 {
-    public class HotelService : IHotelService
+    public class HotelService : IHotelService 
     {
         private readonly ILogger _logger;
         private DataContext _dataContext;
@@ -20,44 +20,24 @@ namespace Services.Services
         public HotelService(DataContext dataContext)
         {
             _dataContext = dataContext;
+            _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
-        public async Task<IEnumerable<LocationModel>> GetLocationList()
+        public async Task<IEnumerable<LocationModel>> GetLocationList() 
         {
             try
             {
-                var entityList = await _dataContext.Locations
-                             .Include(l => l.City)
-                             .ThenInclude(l => l.Country)
-                             .ToListAsync();
-                var modelList = entityList
+                var modelList = await _dataContext.Locations
+                                .Include(l => l.City)
+                                .ThenInclude(c => c.Country)
                                 .Select(location => new LocationModel(location))
-                                .ToList();
+                                .ToListAsync();
                 return modelList;
             }
-            catch
+            catch(Exception e)
             {
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<HotelModel>> GetHotelList()
-        {
-            try
-            {
-                var entityList = await _dataContext.Hotels
-                             .Include(h => h.Location)
-                             .ThenInclude(l => l.City)
-                             .ThenInclude(l => l.Country)
-                             .ToListAsync();
-                var modelList = entityList
-                                .Select(hotel => new HotelModel(hotel))
-                                .ToList();
-                return modelList;
-            }
-            catch (Exception e)
-            {
-                return null;
+                _logger.LogInformation(e.Message);
+                throw;
             }
         }
 
@@ -88,7 +68,6 @@ namespace Services.Services
                 /*work in progress*/
                 _dataContext.SaveChanges();
             }
-
         }
 
         public void Delete(int id)

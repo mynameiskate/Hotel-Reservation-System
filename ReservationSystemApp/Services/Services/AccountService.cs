@@ -1,6 +1,8 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using ReservationSystemApp.Services;
 using Services.Interfaces;
 using Services.Models;
 using System;
@@ -13,6 +15,7 @@ namespace Services.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly ILogger _logger;
         private readonly DataContext _dataContext;
         private static RNGCryptoServiceProvider _cryptoProvider;
         private const int _saltLength = 32;
@@ -21,6 +24,7 @@ namespace Services.Services
         {
             _dataContext = dataContext;
             _cryptoProvider = new RNGCryptoServiceProvider();
+            _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
         public async Task<User> Authenticate(string email, string password)
@@ -46,6 +50,7 @@ namespace Services.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation(e.Message);
                 return null;
             }
         }

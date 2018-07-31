@@ -21,14 +21,13 @@ namespace ReservationSystemApp.Controllers
                                IHotelPageService pageService)
         {
             _logger = logger;
-            _logger.LogInformation("Start of logging..");
             _hotelService = hotelService;
             _pageService = pageService;
         }
 
         // GET: api/hotels/?
         [HttpGet]
-        public async Task<PageModel> GetHotelList([FromQuery]int page, [FromQuery]FilterModel filters)
+        public async Task<PageModel> GetHotelList([FromQuery]int page, [FromQuery]FilterModel filters /*[FromQuery] PageRequestModel options*/)
         {
             return await _pageService.GetHotelPage(page, null, filters);
         }

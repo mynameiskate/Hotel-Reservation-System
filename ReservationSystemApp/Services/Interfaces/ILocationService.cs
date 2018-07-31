@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface IHotelService
+    public interface ILocationService
     {
-        Task<HotelModel> GetHotelInfo(int id);
         Task<IEnumerable<LocationModel>> GetLocationList();
-        void Delete(int id);
     }
 }
