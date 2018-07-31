@@ -5,7 +5,8 @@ import { links } from '../config/links.js';
 
 const HotelList = ( {info, removing, onDeleteClick} ) => (
     <div>
-        {info.map((hotel) =>
+        { Array.isArray(info) && 
+            info.map((hotel) =>
             !hotel.isRemoved && 
                 <div key={hotel.hotelId}>
                     <HotelInfo hotel={hotel}/> 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { links } from '../config/links.js';
 import { connect } from 'react-redux'; 
 import LoginField from '../components/LoginField.jsx';
 import  UserActions  from '../actions/UserActions.js';
@@ -11,7 +13,8 @@ class LoginPage extends React.Component {
     }
 
     componentDidMount() {
-        //this.props.dispatch(UserActions.getInfo());
+        this.props.dispatch(UserActions.reset());
+        this.props.dispatch(UserActions.getInfo());
     }
 
     sendSignInRequest(info) {      
@@ -19,16 +22,21 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { error } = this.props;
+        const { error, isSent, redirect } = this.props;
         return(
             <div>
-                <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
-                            onCancelClick={this.hideLoginField} />   
-                { error && <h2> Wrong username or password! </h2>}
+                {
+                    !redirect? 
+                        <div>
+                            <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
+                                onCancelClick={this.hideLoginField} />  
+                            { error && <h2> Wrong username or password! </h2>}
+                        </div> 
+                    : <Redirect to={links.PROFILE_PAGE}/>
+               }
             </div>
         );
     }
-
 }
 
 const mapStateToProps = (state) => {
@@ -37,7 +45,8 @@ const mapStateToProps = (state) => {
         userInfo: state.users.info,
         error: state.users.error,
         isSent: state.users.isSent,
-        isValid: state.users.isValid
+        isValid: state.users.isValid,
+        redirect: state.users.redirect
     }
 }
 

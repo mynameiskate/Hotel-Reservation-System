@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import HotelActions from '../actions/HotelActions';
-import HotelList from '../components/HotelList.jsx';
+import SearchPage from './SearchPage.jsx';
 import { Link } from 'react-router-dom';
 import { links } from '../config/links.js';
 
@@ -13,11 +13,7 @@ class Main extends React.Component {
         this.sendEditRequest = this.sendEditRequest.bind(this);
         this.hideHotel = this.hideHotel.bind(this); //this.hideHotel = ::this.hideHotel()
     }
-
-    componentDidMount() {
-        this.props.dispatch(HotelActions.findAll());
-    }
-
+    
     sendRemoveRequest = (id) => {
         this.props.dispatch(HotelActions.removeHotel(id));
     }
@@ -44,14 +40,7 @@ class Main extends React.Component {
                  <Link to={ links.PROFILE_PAGE } >
                         My profile
                  </Link>
-	        	 { isSent && <h3>Loading hotels..</h3>}
-                 { info &&
-                    <HotelList  info={info}
-                                removing={removing}
-                                onDeleteClick={this.sendRemoveRequest}
-                                onEditClick={this.sendEditRequest}
-                    /> 
-                 }
+	        	 <SearchPage/>
                  { error  && <h3>Loading error</h3>}
 	        </div>
 	    );

@@ -1,7 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Services.Interfaces;
 using Services.Models;
 using System;
@@ -15,24 +14,26 @@ namespace Services.Services
     {
         private DataContext _dataContext;
         private int _pageSize;
+        private int _maxPageSize;
 
-        public HotelPageService(DataContext dataContext, int pageSize)
+        public HotelPageService(DataContext dataContext, int pageSize, int maxPageSize)
         {
             _dataContext = dataContext;
             _pageSize = pageSize;
+            _maxPageSize = maxPageSize;
         }
 
         public async Task<PageModel> GetHotelPage(int pageNumber = 1, int? pageSize = null, FilterModel filters = null)
         {
-            int size = pageSize ?? _pageSize;
+            int size = pageSize ?? _pageSize; 
+            if (size > _maxPageSize)
+            {
+                size = _pageSize;
+            }
+
             try
             {
                 var entityList = _dataContext.Hotels as IQueryable<Hotel>;
-
-               /* if (filters?.Country != null)
-                {
-                    entityList = entityList.Where(h => h.Location.City.Country.Name == filters.Country);
-                }*/
 
                 entityList = FilterHotels(entityList, filters);
 

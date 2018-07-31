@@ -6,7 +6,8 @@ const initialState = {
     isValid: false,
     userInfo: {},
     loggedIn: false,
-    isLoading: true
+    isLoading: true,
+    redirect: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -18,7 +19,8 @@ export function userReducer(state = initialState, action) {
                 error: null,
                 userInfo: data.info,
                 isSent: true,
-                loggedIn: false
+                loggedIn: false,
+                redirect: false
             };
         case userConstants.SIGN_IN_SUCCESS:
             return {
@@ -26,15 +28,16 @@ export function userReducer(state = initialState, action) {
                 error: null,
                 userInfo: state.userInfo,
                 isSent: false,
-                loggedIn: true
+                loggedIn: true,
+                redirect: true
             }
         case userConstants.SIGN_IN_FAILURE:
             return {
                 ...state,
                 error: data.error,
                 isValid: false,
-                isSent: false,
-                loggedIn: false
+                loggedIn: false,
+                redirect: false
             }
         case userConstants.SIGN_UP_REQUEST:
             return {
@@ -42,14 +45,15 @@ export function userReducer(state = initialState, action) {
                 isSent: true,
                 userInfo: data.info,
                 error: null,
-                loggedIn: false
+                loggedIn: false,
+                redirect: false
             }
         case userConstants.SIGN_UP_SUCCESS:
             return {
                 ...state,
                 error: null,
                 userInfo: state.userInfo,
-                isSent: false
+                isSent: false,
             }
         case userConstants.SIGN_UP_FAILURE:
             return {
@@ -57,7 +61,8 @@ export function userReducer(state = initialState, action) {
                 error: data.error,
                 isValid: false,
                 isSent: false,
-                loggedIn: false
+                loggedIn: false,
+                redirect: false
             }
         case userConstants.GET_INFO:
             return {
@@ -71,7 +76,8 @@ export function userReducer(state = initialState, action) {
                 isLoading: true,
                 error: null,
                 userInfo: {},
-                isSent: true
+                isSent: true,
+                redirect: false
             }
         case userConstants.GET_PROFILE_SUCCESS:
             return {
@@ -89,7 +95,8 @@ export function userReducer(state = initialState, action) {
                 userInfo: {},
                 isSent: false,
                 loggedIn: false,
-                isLoading: false
+                isLoading: false,
+                redirect: false
             }
         case userConstants.GET_CURRENT_PROFILE:
             return {
@@ -97,6 +104,15 @@ export function userReducer(state = initialState, action) {
                 error: null,
                 loggedIn: true,
                 userInfo: state.userInfo
+            }
+        case userConstants.RESET:
+            return {
+                ...state,
+                error: null,
+                isLoading: false,
+                error: null,
+                isSent: false,
+                redirect: false
             }
         default:
             return state;

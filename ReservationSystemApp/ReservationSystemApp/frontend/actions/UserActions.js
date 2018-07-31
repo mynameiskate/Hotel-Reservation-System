@@ -27,6 +27,7 @@ class UserActions {
             dispatch(signUpRequest(userInfo));
             UserService.signUp(userInfo)
                 .then(handleError)
+                .then(result => result.json())
                 .then(dispatch(signUpSuccess(userInfo)))
                 .catch(error => dispatch(signUpFailure(error)));
         }
@@ -39,6 +40,16 @@ class UserActions {
 
         return (dispatch) => {
             dispatch(getInfoRequest());
+        }
+    }
+
+    static reset() {
+        const resetRequest = () => {
+            return { type: userConstants.RESET, payload: {} }
+        }
+
+        return (dispatch) => {
+            dispatch(resetRequest());
         }
     }
 

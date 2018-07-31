@@ -1,23 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import SignUpField from '../components/SignUpField.jsx';
+import { links } from '../config/links.js';
 import  UserActions  from '../actions/UserActions.js';
+import { Redirect } from 'react-router-dom';
 
 class SignUpPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.sendSignUpRequest = this.sendSignUpRequest.bind(this);
     }
 
     componentDidMount() {
-        this.props.dispatch(UserActions.getInfo());
+        //this.props.dispatch(UserActions.getInfo());
+        this.props.dispatch(UserActions.reset());
     }
 
     hideSignUpField = (info) => {    
     }
 
     sendSignUpRequest(info) {
+        this.props.dispatch(UserActions.reset());
         let user = {
             email: info.email,
             password: info.password,
@@ -28,12 +31,18 @@ class SignUpPage extends React.Component {
     }
 
     render() {
-        const { userInfo, error, isValid, isSent } = this.props;
+        const { error, redirect } = this.props;
         return(
             <div>
-                <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
-                             onCancelClick={this.hideSignUpField}/>  
-                {error && <h2>Failed to sign up, try again?</h2>}    
+                {
+                    !(redirect)?
+                    <div>
+                        <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
+                                    onCancelClick={this.hideSignUpField}/>  
+                        { error && <h2>Failed to sign up, try again?</h2>}  
+                    </div> 
+                    : <Redirect to={links.PROFILE_PAGE}/>
+                }
             </div>
         );
     }
@@ -46,7 +55,8 @@ const mapStateToProps = (state) => {
         userInfo: state.users.info,
         error: state.users.error,
         isSent: state.users.isSent,
-        isValid: state.users.isValid
+        isValid: state.users.isValid,
+        redirect: state.users.redirect
     }
 }
 

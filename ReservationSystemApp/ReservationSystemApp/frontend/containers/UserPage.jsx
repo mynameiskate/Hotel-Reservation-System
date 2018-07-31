@@ -10,7 +10,7 @@ class UserPage extends React.Component {
     }
 
     componentDidMount() {
-        //this.props.dispatch(UserActions.getProfile());
+        this.props.dispatch(UserActions.reset());
     }
 
     sendSearchRequest = (info) => {
