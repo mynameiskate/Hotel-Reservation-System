@@ -1,9 +1,8 @@
 ﻿namespace Services.Models
 {
-    public class PageRequestModel 
+    public class PageRequestModel : FilterModel
     {
         public int Page { get; set; }
-        //public int? PageSize { get; set; }
-        public FilterModel Filters { get; set; }
+        public int? PageSize { get; set; }
     }
 }

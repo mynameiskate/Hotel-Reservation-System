@@ -27,9 +27,9 @@ namespace ReservationSystemApp.Controllers
 
         // GET: api/hotels/?
         [HttpGet]
-        public async Task<PageModel> GetHotelList([FromQuery]int page, [FromQuery]FilterModel filters /*[FromQuery] PageRequestModel options*/)
+        public async Task<PageModel> GetHotelList([FromQuery]PageRequestModel requestModel)
         {
-            return await _pageService.GetHotelPage(page, null, filters);
+            return await _pageService.GetHotelPage(requestModel);
         }
 
         // GET: api/hotels/details/5
@@ -38,14 +38,6 @@ namespace ReservationSystemApp.Controllers
         {
             var hotel = await _hotelService.GetHotelInfo(id);
             return hotel;
-        }
-
-        // GET: api/hotels/locations
-        [HttpGet("locations")]
-        public async Task<IEnumerable<LocationModel>> GetLocationList()
-        {
-            var locations = await _hotelService.GetLocationList();
-            return locations;
         }
 
         // PUT: api/hotels/5

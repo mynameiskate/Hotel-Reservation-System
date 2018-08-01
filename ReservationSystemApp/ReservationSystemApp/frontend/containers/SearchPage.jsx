@@ -32,7 +32,7 @@ class SearchPage extends React.Component {
     	return ( 
 	        <div className='searchPage'>
                  { isSent ? <h3>Loading hotels..</h3>
-                          : <h3> Search results: {resultCount} destinations</h3>}
+                          : <h3> Search results: {resultCount} destination(s)</h3>}
                  { info && info.totalHotelAmount ?
                     <HotelList  info={info.hotels}
                                 removing={removing}

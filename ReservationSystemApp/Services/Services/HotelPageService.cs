@@ -27,9 +27,9 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
-        public async Task<PageModel> GetHotelPage(int pageNumber = 1, int? pageSize = null, FilterModel filters = null)
+        public async Task<PageModel> GetHotelPage(PageRequestModel request)
         {
-            int size = pageSize ?? _pageSize; 
+            int size = request.PageSize ?? _pageSize; 
             if (size > _maxPageSize)
             {
                 size = _pageSize;
@@ -39,7 +39,7 @@ namespace Services.Services
             {
                 var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
-                entityList = FilterHotels(entityList, filters);
+                entityList = FilterHotels(entityList, request);
 
                 var resultQuery = entityList
                     .Include(h => h.Location)
@@ -47,9 +47,9 @@ namespace Services.Services
                     .ThenInclude(c => c.Country)
                     .Select(hotel => new HotelModel(hotel));
 
-                var listForPage = CutList(resultQuery, pageNumber, size);
+                var listForPage = CutList(resultQuery, size, request.Page);
 
-                return new PageModel(pageNumber, size, await entityList.CountAsync(), listForPage);
+                return new PageModel(request.Page, size, await entityList.CountAsync(), listForPage);
             }
             catch(Exception e)
             {
@@ -60,7 +60,7 @@ namespace Services.Services
         }
 
         private IEnumerable<HotelModel> CutList(IQueryable<HotelModel> hotels, 
-                                          int pageNumber, int count)
+                                                int count, int pageNumber = 1)
         {
             int startAfter = (pageNumber-1) * count;
             return hotels.Skip(startAfter).Take(count);

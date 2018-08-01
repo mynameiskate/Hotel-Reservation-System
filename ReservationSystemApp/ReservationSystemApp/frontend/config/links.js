@@ -12,5 +12,5 @@ export const links = {
     SIGN_IN_PAGE: '/account/login',
     USER_PAGE: '/account',
     PROFILE_PAGE: '/account/profile',
-    LOCATION_LIST: '/hotels/locations'
+    LOCATION_LIST: '/locations'
 }

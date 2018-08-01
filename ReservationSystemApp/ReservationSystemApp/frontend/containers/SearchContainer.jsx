@@ -32,7 +32,8 @@ class SearchContainer extends React.Component {
 
 
     render() {
-        const { selectedCountry, selectedCity, locations, currentPage, pageCount, nextPage } = this.props;
+        const { selectedCountry, selectedCity, locations, currentPage, resultCount, nextPage } = this.props;
+        
         return(
             <div>
                 <SearchFilter sendRequest={ (values) => this.sendSearchRequest( currentPage,
@@ -47,9 +48,11 @@ class SearchContainer extends React.Component {
                 />                             
                                                                                 
                 <SearchPage/>   
-                <HotelPageBar currentPage={currentPage} 
-                               nextPage={nextPage}
-                               setCurrentPage={this.setCurrentPage}/>
+                { (resultCount > 0) &&
+                    <HotelPageBar  currentPage={currentPage} 
+                                   nextPage={nextPage}
+                                   setCurrentPage={this.setCurrentPage}/>
+                }
             </div>
         );
     }
