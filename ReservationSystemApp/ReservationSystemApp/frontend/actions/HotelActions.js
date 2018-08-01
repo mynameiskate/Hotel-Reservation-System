@@ -60,6 +60,19 @@ class HotelActions {
         }
     }
 
+    static updateHotelPage (prevProps) {
+        const prevPage = prevProps ? prevProps.currentPage : null;
+
+        return (dispatch, stateAccessor) => {
+            const state = stateAccessor().hotels;
+            const { currentPage } = state;
+
+            if (currentPage && prevPage && currentPage !== prevPage) {
+                dispatch(this.getHotelPage(currentPage));
+            }
+        }        
+    }
+
     static getHotelPage(page, filters) {
         const getRequest = (page, filters) => {
             return { type: hotelConstants.GET_HOTEL_PAGE_REQUEST, payload: { page, filters } }
@@ -71,7 +84,17 @@ class HotelActions {
             return { type: hotelConstants.GET_HOTEL_PAGE_FAILURE, payload: { error } };
         };
 
-        return dispatch => {
+        return (dispatch, stateAccessor) => {
+            const state = stateAccessor().hotels;    
+
+            if (!page) {
+                page = state.currentPage;
+            }
+            
+            if (!filters) {
+                filters = state.filters;
+            }
+            
             dispatch(getRequest(page, filters));
             HotelService.getHotelPage(page, filters)
                 .then(handleError)

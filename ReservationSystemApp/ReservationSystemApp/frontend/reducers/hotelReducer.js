@@ -219,7 +219,9 @@ export function hotelReducer(state = initialState, action) {
                     value: ''
                 },
                 selectedCountry: {
-                    value: ''
+                    value: '',
+                    id: '',
+                    name: ''            
                 },
                 filters: {}
             }

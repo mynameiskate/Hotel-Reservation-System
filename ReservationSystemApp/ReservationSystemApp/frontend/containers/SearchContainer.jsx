@@ -34,7 +34,9 @@ class SearchContainer extends React.Component {
     render() {
         const { selectedCountry, selectedCity, locations, 
                 currentPage, resultCount, nextPage, sendSearchRequest } = this.props;
+
         const countryId = selectedCountry ? selectedCountry.id : '';
+        const cityName = (typeof selectedCity === "string") ? selectedCity : '';
         return(
             <div>
                 <SearchFilter sendRequest={ (values) => sendSearchRequest( 1,  {...values, 

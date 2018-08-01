@@ -13,26 +13,25 @@ class HotelSearchPage extends React.Component {
         return this.props.match.params.id;
     }
 
-    getHotelPage = () => {
-        this.props.dispatch(HotelActions.getHotelPage(this.getPageId()));
+    getHotelPage = (page, options) => {
+        this.props.dispatch(HotelActions.getHotelPage(page, options));
+    }
+
+    updateHotelPage = (prevProps) => {
+        this.props.dispatch(HotelActions.updateHotelPage(prevProps));
     }
 
     sendSearchRequest = (page, options) => {
         this.props.history.push(links.HOTEL_ID_SEARCH_PAGE(page));
-        this.props.dispatch(HotelActions.getHotelPage(page, options));
+        this.getHotelPage(page, options);
     }
     
     componentDidMount() {
-        this.getHotelPage(this.props.currentPage, this.props.filters);
+        this.getHotelPage(this.getPageId());
     }
 
     componentDidUpdate(prevProps) {       
-        const { currentPage } = this.props;
-        const prevPage = prevProps ? prevProps.currentPage : null;
-        if (currentPage && prevPage &&
-            currentPage !== prevPage) {
-            this.getHotelPage();
-        }      
+        this.updateHotelPage(prevProps);     
     }
 
     render() {
