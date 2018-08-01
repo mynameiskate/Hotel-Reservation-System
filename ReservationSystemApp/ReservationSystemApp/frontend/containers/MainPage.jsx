@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import HotelActions from '../actions/HotelActions';
-import SearchPage from './SearchPage.jsx';
 import { Link } from 'react-router-dom';
 import { links } from '../config/links.js';
 
@@ -40,7 +39,9 @@ class Main extends React.Component {
                  <Link to={ links.PROFILE_PAGE } >
                         My profile
                  </Link>
-	        	 <SearchPage/>
+                 <Link to={ links.HOTEL_ID_SEARCH_PAGE(1) } >
+                        Hotels
+                 </Link>
                  { error  && <h3>Loading error</h3>}
 	        </div>
 	    );

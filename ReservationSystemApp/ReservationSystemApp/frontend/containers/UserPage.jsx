@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import  UserActions  from '../actions/UserActions.js';
-import  HotelActions from '../actions/HotelActions.js';
-import  SearchContainer  from './SearchContainer.jsx';
 
 class UserPage extends React.Component {
     constructor(props) {
@@ -13,10 +11,6 @@ class UserPage extends React.Component {
         this.props.dispatch(UserActions.reset());
     }
 
-    sendSearchRequest = (info) => {
-    }
-
-
     render() {
         const { userInfo } = this.props;
         return(
@@ -25,7 +19,6 @@ class UserPage extends React.Component {
                                            userInfo.email ||
                                            (userInfo.isAdmin? "guest" : "admin")}
                             </h1> }
-                <SearchContainer/>
             </div>
         );
     }
