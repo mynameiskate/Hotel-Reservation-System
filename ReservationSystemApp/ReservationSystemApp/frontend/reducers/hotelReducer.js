@@ -160,9 +160,15 @@ export function hotelReducer(state = initialState, action) {
                 selectedCity: data.selectedCity
             }
         case hotelConstants.SET_CURRENT_PAGE:
-            return {
-                ...state,
-                currentPage: data.currentPage
+            {
+                const { pageCount } = state;
+                const { currentPage } = data;
+                const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
+                return {
+                    ...state,
+                    currentPage,
+                    nextPage
+                }
             }
         case hotelConstants.GET_HOTEL_PAGE_REQUEST:
             return {
@@ -173,20 +179,22 @@ export function hotelReducer(state = initialState, action) {
                 isSent: true
             }
         case hotelConstants.GET_HOTEL_PAGE_SUCCESS:
-            const resultCount = data.info.totalHotelAmount;
-            const pageSize = data.info.pageSize;
-            const currentPage = data.info.number;
-            const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
-            const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
-            return {
-                ...state,
-                info: data.info,
-                isSent: false,
-                currentPage,
-                resultCount,
-                pageSize,
-                pageCount,
-                nextPage
+            {
+                const resultCount = data.info.totalHotelAmount;
+                const pageSize = data.info.pageSize;
+                const currentPage = data.info.number;
+                const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
+                const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
+                return {
+                    ...state,
+                    info: data.info,
+                    isSent: false,
+                    currentPage,
+                    resultCount,
+                    pageSize,
+                    pageCount,
+                    nextPage
+                }
             }
         case hotelConstants.GET_HOTEL_PAGE_FAILURE:
             return {

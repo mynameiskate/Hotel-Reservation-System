@@ -11,10 +11,6 @@ class SearchPage extends React.Component {
         this.hideHotel = this.hideHotel.bind(this); 
     }
 
-    componentDidMount() {
-        this.props.dispatch(HotelActions.getHotelPage(this.props.currentPage));
-    }
-
     sendRemoveRequest = (id) => {
         this.props.dispatch(HotelActions.removeHotel(id));
     }
@@ -28,7 +24,7 @@ class SearchPage extends React.Component {
     }
 
     render() {
-        const { info, error, isSent, removing, currentPage, resultCount } = this.props;
+        const { info, error, isSent, removing, resultCount } = this.props;
     	return ( 
 	        <div className='searchPage'>
                  { isSent ? <h3>Loading hotels..</h3>
