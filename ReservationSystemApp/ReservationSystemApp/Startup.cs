@@ -42,12 +42,10 @@ namespace ReservationSystemApp
 
             services.AddDbContext<DataContext>
                 (options => options.UseSqlServer(connection));
-            services.AddScoped<IHotelService>
-                (provider => new HotelService(provider.GetRequiredService<DataContext>()));
             services.AddScoped<IAccountService>
                 (provider => new AccountService(provider.GetRequiredService<DataContext>()));
-            services.AddScoped<IHotelPageService>
-               (provider => new HotelPageService(provider.GetRequiredService<DataContext>(),
+            services.AddScoped<IHotelService>
+               (provider => new HotelService(provider.GetRequiredService<DataContext>(),
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"])));
             services.AddScoped<ILocationService>

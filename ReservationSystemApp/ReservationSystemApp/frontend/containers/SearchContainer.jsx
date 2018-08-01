@@ -11,6 +11,11 @@ class SearchContainer extends React.Component {
     }
 
     componentDidMount() {
+        this.resetFilter();
+    }
+
+    resetFilter = () => {
+        this.props.dispatch(HotelActions.resetFilter());
         this.props.dispatch(HotelActions.getLocations());
     }
 
@@ -29,13 +34,13 @@ class SearchContainer extends React.Component {
     render() {
         const { selectedCountry, selectedCity, locations, 
                 currentPage, resultCount, nextPage, sendSearchRequest } = this.props;
-        const countryId = selectedCountry ? selectedCountry.id : null;
+        const countryId = selectedCountry ? selectedCountry.id : '';
         return(
             <div>
                 <SearchFilter sendRequest={ (values) => sendSearchRequest( 1,  {...values, 
                                                                                 city: selectedCity, 
                                                                                 countryId }) }
-                              onCancel = {() => sendSearchRequest(1)}                                                 
+                              onCancel = {this.resetFilter}                                                 
                               locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}

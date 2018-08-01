@@ -1,16 +1,26 @@
 class SelectService {
+    static getEmptyOption() {
+        return [{
+            value: '',
+            label: ''
+        }];
+    }
+
     static getOptions(options, labelProperty, valueProperty = null) {
         if (!valueProperty) {
             valueProperty = labelProperty;
         }
 
-        return (options) ?
-            options.map(obj => {
-                return ({
-                    value: obj[valueProperty],
-                    label: obj[labelProperty]
-                });
-            }) : [];
+        let selectEntries = this.getEmptyOption();
+
+        if (options) {
+            options.forEach(obj => selectEntries.push({
+                value: obj[valueProperty],
+                label: obj[labelProperty]
+            }));
+        }
+
+        return selectEntries;
     }
 
     static getFilteredOptions(options, filterProp, filterValue, property) {

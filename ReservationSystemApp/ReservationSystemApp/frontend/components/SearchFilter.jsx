@@ -13,11 +13,13 @@ const SearchFilter = (props) => {
         <form onSubmit={handleSubmit(sendRequest)}>           
             <Field name='name' label='Name' component={InputField} /> 
             <Select
+                value = { selectedCountry.value } 
                 options={SelectService.getOptions(locations, 'country', 'countryId')}
                 isSearchable={true}
                 onChange={country => onCountrySelect(country.value, country.label)} 
             />      
             <Select
+                value = { selectedCity.value }
                 options={SelectService.getFilteredOptions(locations, 'countryId', selectedCountry.id, 'city')}
                 onChange={city => onCitySelect(city.value)}
                 isSearchable={true}

@@ -212,6 +212,17 @@ export function hotelReducer(state = initialState, action) {
                 currentPage: 0,
                 resultCount: 0
             }
+        case hotelConstants.RESET_FILTER:
+            return {
+                ...state,
+                selectedCity: {
+                    value: ''
+                },
+                selectedCountry: {
+                    value: ''
+                },
+                filters: {}
+            }
         default:
             return state;
     }

@@ -13,22 +13,19 @@ namespace ReservationSystemApp.Controllers
     {
         private readonly ILogger<HotelController> _logger;
         private readonly IHotelService _hotelService;
-        private readonly IHotelPageService _pageService;
 
         public HotelController(ILogger<HotelController> logger,
-                               IHotelService hotelService, 
-                               IHotelPageService pageService)
+                               IHotelService hotelService)
         {
             _logger = logger;
             _hotelService = hotelService;
-            _pageService = pageService;
         }
 
         // GET: api/hotels/?
         [HttpGet]
         public async Task<PageModel> GetHotelList([FromQuery]PageRequestModel requestModel)
         {
-            return await _pageService.GetHotelPage(requestModel);
+            return await _hotelService.GetHotelPage(requestModel);
         }
 
         // GET: api/hotels/details/5

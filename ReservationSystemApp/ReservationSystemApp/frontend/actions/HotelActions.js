@@ -50,9 +50,19 @@ class HotelActions {
 
     }
 
-    static getHotelPage(id, filters) {
-        const getRequest = (id, filters) => {
-            return { type: hotelConstants.GET_HOTEL_PAGE_REQUEST, payload: { id, filters } }
+    static resetFilter() {
+        const resetRequest = () => {
+            return { type: hotelConstants.RESET_FILTER, payload: {} }
+        }
+
+        return dispatch => {
+            dispatch(resetRequest());
+        }
+    }
+
+    static getHotelPage(page, filters) {
+        const getRequest = (page, filters) => {
+            return { type: hotelConstants.GET_HOTEL_PAGE_REQUEST, payload: { page, filters } }
         };
         const getSuccess = (info) => {
             return { type: hotelConstants.GET_HOTEL_PAGE_SUCCESS, payload: { info } };
@@ -62,8 +72,8 @@ class HotelActions {
         };
 
         return dispatch => {
-            dispatch(getRequest(id, filters));
-            HotelService.getHotelPage(id, filters)
+            dispatch(getRequest(page, filters));
+            HotelService.getHotelPage(page, filters)
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {
