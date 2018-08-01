@@ -170,6 +170,13 @@ export function hotelReducer(state = initialState, action) {
                     nextPage
                 }
             }
+        case hotelConstants.RESET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: 1,
+                nextPage: null,
+                pageCount: 0
+            }
         case hotelConstants.GET_HOTEL_PAGE_REQUEST:
             return {
                 ...state,

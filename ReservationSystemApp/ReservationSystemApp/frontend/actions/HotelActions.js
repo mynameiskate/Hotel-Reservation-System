@@ -129,6 +129,16 @@ class HotelActions {
         }
     }
 
+    static resetCurrentPage() {
+        const resetRequest = (page) => {
+            return { type: hotelConstants.RESET_CURRENT_PAGE, payload: {} }
+        };
+
+        return dispatch => {
+            dispatch(resetRequest());
+        }
+    }
+
     static removeHotel(hotelId) {
         const removeFailure = (id, error) => {
             return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } };

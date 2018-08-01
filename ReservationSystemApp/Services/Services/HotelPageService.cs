@@ -47,9 +47,10 @@ namespace Services.Services
                     .ThenInclude(c => c.Country)
                     .Select(hotel => new HotelModel(hotel));
 
+                int resultCount = await entityList.CountAsync();
                 var listForPage = CutList(resultQuery, size, request.Page);
 
-                return new PageModel(request.Page, size, await entityList.CountAsync(), listForPage);
+                return new PageModel(request.Page, size, resultCount, listForPage);
             }
             catch(Exception e)
             {
@@ -60,10 +61,10 @@ namespace Services.Services
         }
 
         private IEnumerable<HotelModel> CutList(IQueryable<HotelModel> hotels, 
-                                                int count, int pageNumber = 1)
+                                                int pageSize, int pageNumber = 1)
         {
-            int startAfter = (pageNumber-1) * count;
-            return hotels.Skip(startAfter).Take(count);
+            int startAfter = (pageNumber-1) * pageSize;
+            return hotels.Skip(startAfter).Take(pageSize);
         }
 
         private IQueryable<Hotel> FilterHotels(IQueryable<Hotel> hotels, FilterModel filters)

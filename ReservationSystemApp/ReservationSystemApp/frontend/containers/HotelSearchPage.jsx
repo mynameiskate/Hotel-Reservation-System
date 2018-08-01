@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SearchContainer from './SearchContainer.jsx';
 import  HotelActions from '../actions/HotelActions.js';
+import { links } from '../config/links.js';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {
@@ -15,9 +16,14 @@ class HotelSearchPage extends React.Component {
     getHotelPage = () => {
         this.props.dispatch(HotelActions.getHotelPage(this.getPageId()));
     }
+
+    sendSearchRequest = (page, options) => {
+        this.props.history.push(links.HOTEL_ID_SEARCH_PAGE(page));
+        this.props.dispatch(HotelActions.getHotelPage(page, options));
+    }
     
     componentDidMount() {
-        this.getHotelPage();
+        this.getHotelPage(this.props.currentPage, this.props.filters);
     }
 
     componentDidUpdate(prevProps) {       
@@ -31,14 +37,15 @@ class HotelSearchPage extends React.Component {
 
     render() {
     	return ( 
-            <SearchContainer/>
+            <SearchContainer sendSearchRequest={this.sendSearchRequest}/>
 	    );
     } 
 }
 
 const mapStateToProps = (state) => {
     return {
-        currentPage: state.hotels.currentPage
+        currentPage: state.hotels.currentPage,
+        filters: state.hotels.filters
     }
 }
 

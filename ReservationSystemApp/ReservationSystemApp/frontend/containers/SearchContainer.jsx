@@ -22,29 +22,25 @@ class SearchContainer extends React.Component {
         this.props.dispatch(HotelActions.setCurrentCity(city));
     }
 
-    sendSearchRequest = (page, options) => {
-        this.props.dispatch(HotelActions.getHotelPage(page, options));
-    }
-
     setCurrentPage = (page) => {
         this.props.dispatch(HotelActions.setCurrentPage(page));
     }
 
-
     render() {
-        const { selectedCountry, selectedCity, locations, currentPage, resultCount, nextPage } = this.props;
-        
+        const { selectedCountry, selectedCity, locations, 
+                currentPage, resultCount, nextPage, sendSearchRequest } = this.props;
+        const countryId = selectedCountry ? selectedCountry.id : null;
         return(
             <div>
-                <SearchFilter sendRequest={ (values) => this.sendSearchRequest( currentPage,
-                                                                                {...values, 
+                <SearchFilter sendRequest={ (values) => sendSearchRequest( 1,  {...values, 
                                                                                 city: selectedCity, 
-                                                                                countryId: selectedCountry.id}) }
-                            locations={locations}
-                            selectedCountry={selectedCountry}
-                            selectedCity={selectedCity}
-                            onCountrySelect={this.setCountry}
-                            onCitySelect={this.setCity}
+                                                                                countryId }) }
+                              onCancel = {() => sendSearchRequest(1)}                                                 
+                              locations={locations}
+                              selectedCountry={selectedCountry}
+                              selectedCity={selectedCity}
+                              onCountrySelect={this.setCountry}
+                              onCitySelect={this.setCity}
                 />                             
                                                                                 
                 <SearchPage/>   

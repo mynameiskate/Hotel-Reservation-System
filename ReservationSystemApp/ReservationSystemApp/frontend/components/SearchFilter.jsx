@@ -5,32 +5,9 @@ import Select from 'react-select';
 import SelectService from '../services/SelectService.js';
 
 const SearchFilter = (props) => {
-    const { sendRequest, handleSubmit, onCancelClick, 
+    const { sendRequest, handleSubmit, onCancel, 
             locations, selectedCity, selectedCountry, 
             onCountrySelect, onCitySelect } = props;
-
-    /*const getOptions = (list, labelProperty, valueProperty = null) => {
-        if (!valueProperty) {
-            valueProperty = labelProperty;
-        }
-
-        return (list) ?
-                list.map(obj => { 
-                    return ({   value: obj[valueProperty],
-                                label: obj[labelProperty] });
-                })
-                : [];
-    }
-
-    const getFilteredOptions = (list, filterProp, filterValue, property) => {
-        if (!list) {
-            return [];
-        }
-        else {
-            let filteredList = list.filter(obj => obj[filterProp] === filterValue);
-            return getOptions(filteredList, property);
-        }       
-    }*/
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>           
@@ -48,7 +25,7 @@ const SearchFilter = (props) => {
             <button type='submit'>
                 Submit
             </button>
-            <button type='button' onClick={onCancelClick}>Cancel</button>
+            <button type='button' onClick={onCancel}>Reset filter</button>
         </form>
     );
 }
