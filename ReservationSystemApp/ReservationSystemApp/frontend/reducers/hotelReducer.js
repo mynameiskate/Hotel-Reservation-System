@@ -1,4 +1,6 @@
-import { hotelConstants } from '../constants/hotelConstants.js';
+import {
+    hotelConstants
+} from '../constants/hotelConstants.js';
 
 const initialState = {
     isSent: false,
@@ -11,7 +13,7 @@ const initialState = {
     locations: null,
     selectedCountry: '',
     selectedCity: '',
-    currentPage: 1,
+    page: 1,
     resultCount: 0,
     filters: {},
     pageSize: 0,
@@ -48,7 +50,9 @@ export function hotelReducer(state = initialState, action) {
                 isSent: true,
                 removing: true,
                 info: (state.info.map(hotel =>
-                    (hotel.hotelId === data.id) ? {...hotel, isRemoved: true } :
+                    (hotel.hotelId === data.id) ? {...hotel,
+                        isRemoved: true
+                    } :
                     hotel))
             }
         case hotelConstants.REMOVE_HOTEL_SUCCESS:
@@ -65,7 +69,9 @@ export function hotelReducer(state = initialState, action) {
                 isSent: false,
                 removing: false,
                 info: (state.info.map(hotel =>
-                    (hotel.hotelId === data.id) ? {...hotel, isRemoved: false } :
+                    (hotel.hotelId === data.id) ? {...hotel,
+                        isRemoved: false
+                    } :
                     hotel))
             }
         case hotelConstants.EDIT_HOTEL_REQUEST:
@@ -161,26 +167,30 @@ export function hotelReducer(state = initialState, action) {
             }
         case hotelConstants.SET_CURRENT_PAGE:
             {
-                const { pageCount } = state;
-                const { currentPage } = data;
-                const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
+                const {
+                    pageCount
+                } = state;
+                const {
+                    page
+                } = data;
+                const nextPage = (page < pageCount) ? (page + 1) : null;
                 return {
                     ...state,
-                    currentPage,
+                    page,
                     nextPage
                 }
             }
         case hotelConstants.RESET_CURRENT_PAGE:
             return {
                 ...state,
-                currentPage: 1,
+                page: 1,
                 nextPage: null,
                 pageCount: 0
             }
         case hotelConstants.GET_HOTEL_PAGE_REQUEST:
             return {
                 ...state,
-                currentPage: data.currentPage,
+                page: data.page,
                 error: null,
                 filters: data.filters,
                 isSent: true
@@ -189,14 +199,14 @@ export function hotelReducer(state = initialState, action) {
             {
                 const resultCount = data.info.totalHotelAmount;
                 const pageSize = data.info.pageSize;
-                const currentPage = data.info.number;
+                const page = data.info.number;
                 const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
-                const nextPage = (currentPage < pageCount) ? (currentPage + 1) : null;
+                const nextPage = (page < pageCount) ? (page + 1) : null;
                 return {
                     ...state,
                     info: data.info,
                     isSent: false,
-                    currentPage,
+                    page,
                     resultCount,
                     pageSize,
                     pageCount,
@@ -209,7 +219,7 @@ export function hotelReducer(state = initialState, action) {
                 error: data.error,
                 isSent: false,
                 info: null,
-                currentPage: 0,
+                page: 0,
                 resultCount: 0
             }
         case hotelConstants.RESET_FILTER:
@@ -221,7 +231,7 @@ export function hotelReducer(state = initialState, action) {
                 selectedCountry: {
                     value: '',
                     id: '',
-                    name: ''            
+                    name: ''
                 },
                 filters: {}
             }

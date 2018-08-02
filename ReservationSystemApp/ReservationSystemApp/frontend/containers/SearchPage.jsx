@@ -45,7 +45,6 @@ class SearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentPage: state.hotels.currentPage,
         info: state.hotels.info,
         error: state.hotels.error,
         isSent: state.hotels.isSent,

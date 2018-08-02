@@ -4,6 +4,7 @@ import  HotelActions from '../actions/HotelActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
 import  HotelPageBar  from '../components/HotelPageBar.jsx';
 import SearchPage from './SearchPage.jsx';
+import { addUrlProps, UrlQueryParamTypes, UrlUpdateTypes } from 'react-url-query';
 
 class SearchContainer extends React.Component {
     constructor(props) {
@@ -33,10 +34,9 @@ class SearchContainer extends React.Component {
 
     render() {
         const { selectedCountry, selectedCity, locations, 
-                currentPage, resultCount, nextPage, sendSearchRequest } = this.props;
+                page, resultCount, nextPage, sendSearchRequest } = this.props;
 
         const countryId = selectedCountry ? selectedCountry.id : '';
-        const cityName = (typeof selectedCity === "string") ? selectedCity : '';
         return(
             <div>
                 <SearchFilter sendRequest={ (values) => sendSearchRequest( 1,  {...values, 
@@ -52,7 +52,7 @@ class SearchContainer extends React.Component {
                                                                                 
                 <SearchPage/>   
                 { (resultCount > 0) &&
-                    <HotelPageBar  currentPage={currentPage} 
+                    <HotelPageBar  currentPage={page} 
                                    nextPage={nextPage}
                                    setCurrentPage={this.setCurrentPage}/>
                 }
@@ -64,7 +64,7 @@ class SearchContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentPage: state.hotels.currentPage,
+        //currentPage: state.hotels.currentPage,
         info: state.hotels.info,
         error: state.hotels.error,
         isSent: state.hotels.isSent,
@@ -79,4 +79,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(SearchContainer); 
+
+const urlPropsQueryConfig = {
+    page: { type: UrlQueryParamTypes.number, updateType: UrlUpdateTypes.pushIn },
+    filters: { type: UrlQueryParamTypes.custom, updateType: UrlUpdateTypes.pushIn}
+}
+
+export default addUrlProps({ urlPropsQueryConfig })(connect(mapStateToProps)(SearchContainer)); 

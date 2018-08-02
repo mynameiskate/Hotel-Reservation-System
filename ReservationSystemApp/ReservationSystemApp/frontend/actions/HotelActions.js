@@ -1,11 +1,31 @@
-﻿﻿import { hotelConstants } from '../constants/hotelConstants.js';
+﻿﻿import {
+    hotelConstants
+} from '../constants/hotelConstants.js';
 import HotelService from '../services/HotelService.js';
 
 class HotelActions {
     static findAll(refresh = true) {
-        const sendRequest = () => { return { type: hotelConstants.GET_HOTELS_REQUEST } };
-        const receiveData = (info) => { return { type: hotelConstants.GET_HOTELS_SUCCESS, payload: { info } }; };
-        const failToFind = (error) => { return { type: hotelConstants.GET_HOTELS_FAILURE, payload: { error } }; };
+        const sendRequest = () => {
+            return {
+                type: hotelConstants.GET_HOTELS_REQUEST
+            }
+        };
+        const receiveData = (info) => {
+            return {
+                type: hotelConstants.GET_HOTELS_SUCCESS,
+                payload: {
+                    info
+                }
+            };
+        };
+        const failToFind = (error) => {
+            return {
+                type: hotelConstants.GET_HOTELS_FAILURE,
+                payload: {
+                    error
+                }
+            };
+        };
 
         return (dispatch, stateAccessor) => {
             let hotels = stateAccessor().hotels.info;
@@ -27,13 +47,28 @@ class HotelActions {
 
     static filterHotels(options) {
         const filterRequest = (options) => {
-            return { type: hotelConstants.FILTER_HOTELS_REQUEST, payload: { options } }
+            return {
+                type: hotelConstants.FILTER_HOTELS_REQUEST,
+                payload: {
+                    options
+                }
+            }
         };
         const filterSuccess = (info) => {
-            return { type: hotelConstants.FILTER_HOTELS_SUCCESS, payload: { info } };
+            return {
+                type: hotelConstants.FILTER_HOTELS_SUCCESS,
+                payload: {
+                    info
+                }
+            };
         };
         const filterFailure = (error) => {
-            return { type: hotelConstants.FILTER_HOTELS_FAILURE, payload: { error } };
+            return {
+                type: hotelConstants.FILTER_HOTELS_FAILURE,
+                payload: {
+                    error
+                }
+            };
         };
 
         return dispatch => {
@@ -52,7 +87,10 @@ class HotelActions {
 
     static resetFilter() {
         const resetRequest = () => {
-            return { type: hotelConstants.RESET_FILTER, payload: {} }
+            return {
+                type: hotelConstants.RESET_FILTER,
+                payload: {}
+            }
         }
 
         return dispatch => {
@@ -60,41 +98,59 @@ class HotelActions {
         }
     }
 
-    static updateHotelPage (prevProps) {
-        const prevPage = prevProps ? prevProps.currentPage : null;
+    static updateHotelPage(prevProps) {
+        const prevPage = prevProps ? prevProps.page : null;
 
         return (dispatch, stateAccessor) => {
             const state = stateAccessor().hotels;
-            const { currentPage } = state;
+            const {
+                page
+            } = state;
 
-            if (currentPage && prevPage && currentPage !== prevPage) {
-                dispatch(this.getHotelPage(currentPage));
+            if (page && prevPage && page !== prevPage) {
+                dispatch(this.getHotelPage(page));
             }
-        }        
+        }
     }
 
     static getHotelPage(page, filters) {
         const getRequest = (page, filters) => {
-            return { type: hotelConstants.GET_HOTEL_PAGE_REQUEST, payload: { page, filters } }
+            return {
+                type: hotelConstants.GET_HOTEL_PAGE_REQUEST,
+                payload: {
+                    page,
+                    filters
+                }
+            }
         };
         const getSuccess = (info) => {
-            return { type: hotelConstants.GET_HOTEL_PAGE_SUCCESS, payload: { info } };
+            return {
+                type: hotelConstants.GET_HOTEL_PAGE_SUCCESS,
+                payload: {
+                    info
+                }
+            };
         };
         const getFailure = (error) => {
-            return { type: hotelConstants.GET_HOTEL_PAGE_FAILURE, payload: { error } };
+            return {
+                type: hotelConstants.GET_HOTEL_PAGE_FAILURE,
+                payload: {
+                    error
+                }
+            };
         };
 
         return (dispatch, stateAccessor) => {
-            const state = stateAccessor().hotels;    
+            const state = stateAccessor().hotels;
 
             if (!page) {
-                page = state.currentPage;
+                page = state.page;
             }
-            
+
             if (!filters) {
                 filters = state.filters;
             }
-            
+
             dispatch(getRequest(page, filters));
             HotelService.getHotelPage(page, filters)
                 .then(handleError)
@@ -109,13 +165,26 @@ class HotelActions {
 
     static getLocations() {
         const getFailure = (error) => {
-            return { type: hotelConstants.GET_LOCATIONS_FAILURE, payload: { error } };
+            return {
+                type: hotelConstants.GET_LOCATIONS_FAILURE,
+                payload: {
+                    error
+                }
+            };
         };
         const getSuccess = (locations) => {
-            return { type: hotelConstants.GET_LOCATIONS_SUCCESS, payload: { locations } };
+            return {
+                type: hotelConstants.GET_LOCATIONS_SUCCESS,
+                payload: {
+                    locations
+                }
+            };
         };
         const getRequest = () => {
-            return { type: hotelConstants.GET_LOCATIONS_REQUEST, payload: {} };
+            return {
+                type: hotelConstants.GET_LOCATIONS_REQUEST,
+                payload: {}
+            };
         };
 
         return dispatch => {
@@ -132,9 +201,17 @@ class HotelActions {
     }
 
     static setCurrentCountry(id, name) {
-        const country = { id, name }
+        const country = {
+            id,
+            name
+        }
         const setRequest = (country) => {
-            return { type: hotelConstants.SET_CURRENT_COUNTRY, payload: { selectedCountry: country } }
+            return {
+                type: hotelConstants.SET_CURRENT_COUNTRY,
+                payload: {
+                    selectedCountry: country
+                }
+            }
         };
 
         return dispatch => {
@@ -144,7 +221,12 @@ class HotelActions {
 
     static setCurrentCity(value) {
         const setRequest = (city) => {
-            return { type: hotelConstants.SET_CURRENT_CITY, payload: { selectedCity: city } }
+            return {
+                type: hotelConstants.SET_CURRENT_CITY,
+                payload: {
+                    selectedCity: city
+                }
+            }
         };
 
         return dispatch => {
@@ -154,7 +236,12 @@ class HotelActions {
 
     static setCurrentPage(page) {
         const setRequest = (page) => {
-            return { type: hotelConstants.SET_CURRENT_PAGE, payload: { currentPage: page } }
+            return {
+                type: hotelConstants.SET_CURRENT_PAGE,
+                payload: {
+                    page
+                }
+            }
         };
 
         return dispatch => {
@@ -163,8 +250,11 @@ class HotelActions {
     }
 
     static resetCurrentPage() {
-        const resetRequest = (page) => {
-            return { type: hotelConstants.RESET_CURRENT_PAGE, payload: {} }
+        const resetRequest = () => {
+            return {
+                type: hotelConstants.RESET_CURRENT_PAGE,
+                payload: {}
+            }
         };
 
         return dispatch => {
@@ -174,13 +264,29 @@ class HotelActions {
 
     static removeHotel(hotelId) {
         const removeFailure = (id, error) => {
-            return { type: hotelConstants.REMOVE_HOTEL_FAILURE, payload: { id, error } };
+            return {
+                type: hotelConstants.REMOVE_HOTEL_FAILURE,
+                payload: {
+                    id,
+                    error
+                }
+            };
         };
         const removeSuccess = (id) => {
-            return { type: hotelConstants.REMOVE_HOTEL_SUCCESS, payload: { id } };
+            return {
+                type: hotelConstants.REMOVE_HOTEL_SUCCESS,
+                payload: {
+                    id
+                }
+            };
         };
         const removeRequest = (id) => {
-            return { type: hotelConstants.REMOVE_HOTEL_REQUEST, payload: { id } };
+            return {
+                type: hotelConstants.REMOVE_HOTEL_REQUEST,
+                payload: {
+                    id
+                }
+            };
         };
 
         return dispatch => {
@@ -202,13 +308,28 @@ class HotelActions {
 
     static showHotel(hotelId) {
         const showRequest = (id) => {
-            return { type: hotelConstants.SHOW_HOTEL_REQUEST, payload: { id } };
+            return {
+                type: hotelConstants.SHOW_HOTEL_REQUEST,
+                payload: {
+                    id
+                }
+            };
         };
         const showSuccess = (loaded) => {
-            return { type: hotelConstants.SHOW_HOTEL_SUCCESS, payload: { loaded } };
+            return {
+                type: hotelConstants.SHOW_HOTEL_SUCCESS,
+                payload: {
+                    loaded
+                }
+            };
         };
         const showFailure = (error) => {
-            return { type: hotelConstants.SHOW_HOTEL_FAILURE, payload: { error } };
+            return {
+                type: hotelConstants.SHOW_HOTEL_FAILURE,
+                payload: {
+                    error
+                }
+            };
         };
 
         return (dispatch, stateAccessor) => {
@@ -231,7 +352,14 @@ class HotelActions {
     }
 
     static hideHotel(hotelId) {
-        const hideRequest = (id) => { return { type: hotelConstants.HIDE_HOTEL, payload: { id } }; };
+        const hideRequest = (id) => {
+            return {
+                type: hotelConstants.HIDE_HOTEL,
+                payload: {
+                    id
+                }
+            };
+        };
 
         return dispatch => {
             dispatch(hideRequest(hotelId));
@@ -240,7 +368,13 @@ class HotelActions {
 
     static startEditing(hotelId, hotelInfo) {
         const showEditor = (id, selected) => {
-            return { type: hotelConstants.START_EDITING, payload: { id, selected } };
+            return {
+                type: hotelConstants.START_EDITING,
+                payload: {
+                    id,
+                    selected
+                }
+            };
         }
 
         return dispatch => {
@@ -250,7 +384,10 @@ class HotelActions {
 
     static stopEditing() {
         const hideEditor = () => {
-            return { type: hotelConstants.STOP_EDITING, payload: {} };
+            return {
+                type: hotelConstants.STOP_EDITING,
+                payload: {}
+            };
         }
 
         return dispatch => {
@@ -260,10 +397,31 @@ class HotelActions {
 
     static editHotel(hotelId, hotelInfo) {
         const editFailure = (id, error) => {
-            return { type: hotelConstants.EDIT_HOTEL_FAILURE, payload: { id, error } };
+            return {
+                type: hotelConstants.EDIT_HOTEL_FAILURE,
+                payload: {
+                    id,
+                    error
+                }
+            };
         };
-        const editSuccess = (id) => { return { type: hotelConstants.EDIT_HOTEL_SUCCESS, payload: { id } }; };
-        const editRequest = (id, hotelInfo) => { return { type: hotelConstants.EDIT_HOTEL_REQUEST, payload: { id, hotelInfo } }; };
+        const editSuccess = (id) => {
+            return {
+                type: hotelConstants.EDIT_HOTEL_SUCCESS,
+                payload: {
+                    id
+                }
+            };
+        };
+        const editRequest = (id, hotelInfo) => {
+            return {
+                type: hotelConstants.EDIT_HOTEL_REQUEST,
+                payload: {
+                    id,
+                    hotelInfo
+                }
+            };
+        };
 
         return dispatch => {
             dispatch(editRequest(hotelId, hotelInfo));
