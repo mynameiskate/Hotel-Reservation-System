@@ -180,6 +180,11 @@ export function hotelReducer(state = initialState, action) {
                     nextPage
                 }
             }
+        case hotelConstants.SET_FILTERS:
+            return {
+                ...state,
+                filters: data.filters
+            }
         case hotelConstants.RESET_CURRENT_PAGE:
             return {
                 ...state,

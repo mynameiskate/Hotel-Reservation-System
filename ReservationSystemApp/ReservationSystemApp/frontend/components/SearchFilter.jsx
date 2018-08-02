@@ -5,12 +5,12 @@ import Select from 'react-select';
 import SelectService from '../services/SelectService.js';
 
 const SearchFilter = (props) => {
-    const { sendRequest, handleSubmit, onCancel, 
+    const { sendRequest, setFilter, handleSubmit, onCancel, 
             locations, selectedCity, selectedCountry, 
             onCountrySelect, onCitySelect } = props;
 
     return (
-        <form onSubmit={handleSubmit(sendRequest)}>           
+        <form onSubmit={handleSubmit(setFilter)}>           
             <Field name='name' label='Name' component={InputField} /> 
             <Select
                 value = { selectedCountry.value } 

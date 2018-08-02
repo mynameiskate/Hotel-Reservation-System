@@ -4,7 +4,6 @@ import  HotelActions from '../actions/HotelActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
 import  HotelPageBar  from '../components/HotelPageBar.jsx';
 import SearchPage from './SearchPage.jsx';
-import { addUrlProps, UrlQueryParamTypes, UrlUpdateTypes } from 'react-url-query';
 
 class SearchContainer extends React.Component {
     constructor(props) {
@@ -28,12 +27,12 @@ class SearchContainer extends React.Component {
         this.props.dispatch(HotelActions.setCurrentCity(city));
     }
 
-    setCurrentPage = (page) => {
-        this.props.dispatch(HotelActions.setCurrentPage(page));
+    setFilters = (filters) => {
+        this.props.dispatch(HotelActions.setFilters(filters));
     }
 
     render() {
-        const { selectedCountry, selectedCity, locations, 
+        const { selectedCountry, selectedCity, locations, goToPage,
                 page, resultCount, nextPage, sendSearchRequest } = this.props;
 
         const countryId = selectedCountry ? selectedCountry.id : '';
@@ -42,6 +41,9 @@ class SearchContainer extends React.Component {
                 <SearchFilter sendRequest={ (values) => sendSearchRequest( 1,  {...values, 
                                                                                 city: selectedCity, 
                                                                                 countryId }) }
+                              setFilter= { (values) => this.setFilters( {...values, 
+                                                                city: selectedCity, 
+                                                                countryId })}
                               onCancel = {this.resetFilter}                                                 
                               locations={locations}
                               selectedCountry={selectedCountry}
@@ -54,7 +56,7 @@ class SearchContainer extends React.Component {
                 { (resultCount > 0) &&
                     <HotelPageBar  currentPage={page} 
                                    nextPage={nextPage}
-                                   setCurrentPage={this.setCurrentPage}/>
+                                   goToPage={goToPage}/>
                 }
             </div>
         );
@@ -64,7 +66,6 @@ class SearchContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        //currentPage: state.hotels.currentPage,
         info: state.hotels.info,
         error: state.hotels.error,
         isSent: state.hotels.isSent,
@@ -72,17 +73,12 @@ const mapStateToProps = (state) => {
         locations: state.hotels.locations,
         selectedCountry: state.hotels.selectedCountry,
         selectedCity: state.hotels.selectedCity,
-        resultCount: state.hotels.resultCount,
-        pageSize: state.hotels.pageSize,
-        nextPage: state.hotels.nextPage,
-        pageCount: state.hotels.pageCount
+        resultCount: state.search.resultCount,
+        pageSize: state.search.pageSize,
+        nextPage: state.search.nextPage,
+        pageCount: state.search.pageCount,
+        page: state.search.page
     }
 }
 
-
-const urlPropsQueryConfig = {
-    page: { type: UrlQueryParamTypes.number, updateType: UrlUpdateTypes.pushIn },
-    filters: { type: UrlQueryParamTypes.custom, updateType: UrlUpdateTypes.pushIn}
-}
-
-export default addUrlProps({ urlPropsQueryConfig })(connect(mapStateToProps)(SearchContainer)); 
+export default connect(mapStateToProps)(SearchContainer); 

@@ -1,5 +1,9 @@
-import { hotelService } from 'HotelService.1.js';
-import { links } from '../config/links.js';
+import {
+    hotelService
+} from 'HotelService.1.js';
+import {
+    links
+} from '../config/links.js';
 import RequestOptions from '../constants/RequestOptions';
 
 class RequestService {
@@ -7,19 +11,19 @@ class RequestService {
         this.baseUrl = baseUrl;
     }
 
-    callFetch(path, options) {
+    request(path, options) {
         return fetch(this.baseUrl + path, options);
     }
 
-    createGetRequest(url, token = null) {
+    get(url, token = null) {
         const options = RequestOptions.createGetOptions(token);
-        return this.callFetch(url, options);
+        return this.request(url, options);
     }
 
-    createPostRequest(url, body) {
-        const options = ReqnpuestOptions.createPostOptions(body);
-        return this.callFetch(url, options);
+    post(url, body) {
+        const options = RequestOptions.createPostOptions(body);
+        return this.request(url, options);
     }
 }
 
-export export const requestService = new RequestService();
+export const requestService = new RequestService();

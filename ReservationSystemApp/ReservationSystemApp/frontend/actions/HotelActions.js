@@ -85,6 +85,21 @@ class HotelActions {
 
     }
 
+    static setFilters(filters) {
+        const setFilters = (filters) => {
+            return {
+                type: hotelConstants.SET_FILTERS,
+                payload: {
+                    filters
+                }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setFilters(filters));
+        }
+    }
+
     static resetFilter() {
         const resetRequest = () => {
             return {
@@ -98,7 +113,7 @@ class HotelActions {
         }
     }
 
-    static updateHotelPage(prevProps) {
+    static updateHotelPage(prevProps) { //TODO
         const prevPage = prevProps ? prevProps.page : null;
 
         return (dispatch, stateAccessor) => {

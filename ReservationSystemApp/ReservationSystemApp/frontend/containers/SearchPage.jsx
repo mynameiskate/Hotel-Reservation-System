@@ -45,12 +45,12 @@ class SearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        info: state.hotels.info,
-        error: state.hotels.error,
-        isSent: state.hotels.isSent,
+        info: state.search.info,
+        error: state.search.error,
+        isSent: state.search.isSent,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
-        resultCount: state.hotels.resultCount
+        resultCount: state.search.resultCount
     }
 }
 

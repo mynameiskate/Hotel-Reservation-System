@@ -1,22 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { links } from '../config/links.js';
 
-const HotelPageBar = ( {currentPage, nextPage, setCurrentPage} ) => (
+const HotelPageBar = ( {currentPage, nextPage, goToPage} ) => (
     <div>        
         {   
             (currentPage - 1 > 0) &&
-            <Link to={ links.HOTEL_ID_SEARCH_PAGE(currentPage - 1) } onClick={() => setCurrentPage(currentPage - 1)} >
-                back
-            </Link>  
-            //<button type='button' onClick={() => setCurrentPage(currentPage - 1)}>back</button>
+                <button type='button' onClick={() => goToPage(currentPage - 1)}>back</button>
         }
         <h4>{currentPage}</h4>
         {   nextPage &&
-           // <button type='button' onClick={() => setCurrentPage(nextPage)}>forward</button>
-            <Link to={ links.HOTEL_ID_SEARCH_PAGE(nextPage) } onClick={() => setCurrentPage(nextPage)}>
-                forward
-            </Link>  
+                <button type='button' onClick={() => goToPage(nextPage)}>forward</button>
         }
     </div>
 )
