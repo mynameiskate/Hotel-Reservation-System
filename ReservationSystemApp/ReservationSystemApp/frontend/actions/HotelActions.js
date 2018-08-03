@@ -4,102 +4,6 @@
 import HotelService from '../services/HotelService.js';
 
 class HotelActions {
-    static findAll(refresh = true) {
-        const sendRequest = () => {
-            return {
-                type: hotelConstants.GET_HOTELS_REQUEST
-            }
-        };
-        const receiveData = (info) => {
-            return {
-                type: hotelConstants.GET_HOTELS_SUCCESS,
-                payload: {
-                    info
-                }
-            };
-        };
-        const failToFind = (error) => {
-            return {
-                type: hotelConstants.GET_HOTELS_FAILURE,
-                payload: {
-                    error
-                }
-            };
-        };
-
-        return (dispatch, stateAccessor) => {
-            let hotels = stateAccessor().hotels.info;
-            if (hotels && !refresh) {
-                dispatch(receiveData(hotels));
-            } else {
-                dispatch(sendRequest());
-                HotelService.getAll()
-                    .then(handleError)
-                    .then(result => result.json())
-                    .then(jsonInfo => {
-                        dispatch(receiveData(jsonInfo));
-                        return jsonInfo;
-                    })
-                    .catch(error => dispatch(failToFind(error)));
-            }
-        }
-    }
-
-    static filterHotels(options) {
-        const filterRequest = (options) => {
-            return {
-                type: hotelConstants.FILTER_HOTELS_REQUEST,
-                payload: {
-                    options
-                }
-            }
-        };
-        const filterSuccess = (info) => {
-            return {
-                type: hotelConstants.FILTER_HOTELS_SUCCESS,
-                payload: {
-                    info
-                }
-            };
-        };
-        const filterFailure = (error) => {
-            return {
-                type: hotelConstants.FILTER_HOTELS_FAILURE,
-                payload: {
-                    error
-                }
-            };
-        };
-
-        return dispatch => {
-            dispatch(filterRequest(options));
-            HotelService.filterHotels(options)
-                .then(handleError)
-                .then(result => result.json())
-                .then(jsonInfo => {
-                    dispatch(filterSuccess(jsonInfo));
-                    return jsonInfo;
-                })
-                .catch(error => dispatch(filterFailure(error)));
-        }
-
-    }
-
-    static setFilters(filters) {
-        const setFilters = (filters) => {
-            return {
-                type: hotelConstants.SET_FILTERS,
-                payload: {
-                    filters
-                }
-            }
-        }
-
-        return dispatch => {
-            dispatch(setFilters(filters));
-        }
-    }
-
     static resetFilter() {
         const resetRequest = () => {
             return {
@@ -112,72 +16,7 @@ class HotelActions {
             dispatch(resetRequest());
         }
     }
-
-    static updateHotelPage(prevProps) { //TODO
-        const prevPage = prevProps ? prevProps.page : null;
-
-        return (dispatch, stateAccessor) => {
-            const state = stateAccessor().hotels;
-            const {
-                page
-            } = state;
-
-            if (page && prevPage && page !== prevPage) {
-                dispatch(this.getHotelPage(page));
-            }
-        }
-    }
-
-    static getHotelPage(page, filters) {
-        const getRequest = (page, filters) => {
-            return {
-                type: hotelConstants.GET_HOTEL_PAGE_REQUEST,
-                payload: {
-                    page,
-                    filters
-                }
-            }
-        };
-        const getSuccess = (info) => {
-            return {
-                type: hotelConstants.GET_HOTEL_PAGE_SUCCESS,
-                payload: {
-                    info
-                }
-            };
-        };
-        const getFailure = (error) => {
-            return {
-                type: hotelConstants.GET_HOTEL_PAGE_FAILURE,
-                payload: {
-                    error
-                }
-            };
-        };
-
-        return (dispatch, stateAccessor) => {
-            const state = stateAccessor().hotels;
-
-            if (!page) {
-                page = state.page;
-            }
-
-            if (!filters) {
-                filters = state.filters;
-            }
-
-            dispatch(getRequest(page, filters));
-            HotelService.getHotelPage(page, filters)
-                .then(handleError)
-                .then(result => result.json())
-                .then(jsonInfo => {
-                    dispatch(getSuccess(jsonInfo));
-                    return jsonInfo;
-                })
-                .catch(error => dispatch(getFailure(error)));
-        }
-    }
-
+    
     static getLocations() {
         const getFailure = (error) => {
             return {
@@ -246,34 +85,6 @@ class HotelActions {
 
         return dispatch => {
             dispatch(setRequest(value));
-        }
-    }
-
-    static setCurrentPage(page) {
-        const setRequest = (page) => {
-            return {
-                type: hotelConstants.SET_CURRENT_PAGE,
-                payload: {
-                    page
-                }
-            }
-        };
-
-        return dispatch => {
-            dispatch(setRequest(page));
-        }
-    }
-
-    static resetCurrentPage() {
-        const resetRequest = () => {
-            return {
-                type: hotelConstants.RESET_CURRENT_PAGE,
-                payload: {}
-            }
-        };
-
-        return dispatch => {
-            dispatch(resetRequest());
         }
     }
 

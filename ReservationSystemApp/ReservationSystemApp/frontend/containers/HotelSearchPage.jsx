@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SearchContainer from './SearchContainer.jsx';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
 import QueryService from '../services/QueryService.js';
+import  SearchFilter  from '../components/SearchFilter.jsx';
+import  HotelPageBar  from '../components/HotelPageBar.jsx';
+import SearchDisplay from '../components/SearchDisplay.jsx';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {
@@ -20,37 +22,78 @@ class HotelSearchPage extends React.Component {
         this.props.history.push(newQuery);
     }
 
-    updateHotelPage = (prevProps) => {
-        this.props.dispatch(HotelActions.updateHotelPage(prevProps));
+    setCountry = (id, name) => {
+        this.props.dispatch(HotelActions.setCurrentCountry(id, name));
     }
 
-    componentWillReceiveProps(next) {
-        console.log(next);
+    setCity = (city) => {
+        this.props.dispatch(HotelActions.setCurrentCity(city));
+    }
+
+    setFilters = (filters) => {
+        this.props.dispatch(HotelActions.setFilters(filters));
+    }
+
+    componentDidUpdate() {
         this.getHotelPage();
     }
 
-    componentDidMount() {
-       this.getHotelPage();
+    shouldComponentUpdate(nextProps) {
+        return nextProps.page && (nextProps.page !== this.props.page);
     }
 
-    /*componentDidUpdate(prevProps) {       
-        this.updateHotelPage(prevProps);     
-    }*/
+    componentDidMount() {
+        this.props.dispatch(HotelActions.getLocations());
+        this.getHotelPage();
+    }
 
     render() {
-    	return ( 
-            <SearchContainer sendSearchRequest={this.getHotelPage}
-                             goToPage={this.goToPage}/>
+        const { selectedCountry, selectedCity, locations, 
+                page, pageCount, nextPage } = this.props;
+        const countryId = selectedCountry ? selectedCountry.id : '';
+
+        return(
+            <div>
+                <SearchFilter sendRequest={ (values) => this.sendSearchRequest( 1,  {...values, 
+                                                                                city: selectedCity, 
+                                                                                countryId }) }
+                              setFilter= { (values) => this.setFilters( {...values, 
+                                                                city: selectedCity, 
+                                                                countryId })}
+                              onCancel = {this.resetFilter}                                                 
+                              locations={locations}
+                              selectedCountry={selectedCountry}
+                              selectedCity={selectedCity}
+                              onCountrySelect={this.setCountry}
+                              onCitySelect={this.setCity}
+                />                             
+                                                                                
+                <SearchDisplay/>   
+               {// (pageCount > 0) &&
+                    <HotelPageBar  currentPage={page} 
+                                   nextPage={nextPage}
+                                   goToPage={this.goToPage}/>
+                }            
+            </div>
 	    );
     } 
 }
 
 const mapStateToProps = (state) => {
     return {
-        page: state.hotels.page,
-        filters: state.hotels.filters
+        filters: state.hotels.filters,
+        info: state.search.info,
+        error: state.search.error,
+        isLoading: state.search.isLoading,
+        locations: state.hotels.locations,
+        selectedCountry: state.hotels.selectedCountry,
+        selectedCity: state.hotels.selectedCity,
+        resultCount: state.search.resultCount,
+        pageSize: state.search.pageSize,
+        nextPage: state.search.nextPage,
+        pageCount: state.search.pageCount,
+        page: state.search.page
     }
 }
-
 
 export default connect(mapStateToProps)(HotelSearchPage); 

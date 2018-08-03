@@ -3,12 +3,6 @@ import { links } from '../config/links.js';
 import RequestOptions from '../constants/RequestOptions';
 
 class HotelService {
-    static getAll() {
-        const path = links.HOTEL_LIST_PAGE;
-        const options = RequestOptions.createGetOptions();
-        return fetch(settings.baseUrl + path, options);
-    }
-
     static getHotel(id) {
         const path = links.HOTEL_ID_PAGE(id);
         const options = RequestOptions.createGetOptions();
@@ -27,13 +21,7 @@ class HotelService {
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }
-
-    static filterHotels(params) {
-        const path = RequestOptions.buildUri(links.HOTEL_FILTER_PAGE, params);
-        const options = RequestOptions.createGetOptions();
-        return fetch(settings.baseUrl + path, options);
-    }
-
+    
     static update(id, info) {
         const path = links.HOTEL_ID_PAGE(id);
         const options = RequestOptions.createPutOptions(info);

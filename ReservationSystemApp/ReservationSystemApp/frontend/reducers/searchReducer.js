@@ -14,7 +14,7 @@ const initialState = {
     pageSize: 0,
     pageCount: 1,
     nextPage: null,
-    isSent: false
+    isLoading: false
 }
 
 export function searchReducer(state = initialState, action) {
@@ -25,19 +25,19 @@ export function searchReducer(state = initialState, action) {
                 ...state,
                 page: data.page,
                 error: null,
-                isSent: true,
+                isLoading: true,
                 nextPage: null
             }
         case searchConstants.GET_HOTELS_SUCCESS:
-            const resultCount = data.pageCount;
-            const pageSize = data.pageSize;
-            const page = data.page;
+            const resultCount = data.info.totalHotelAmount;
+            const pageSize = data.info.pageSize;
+            const page = data.info.number;
             const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
             const nextPage = (page < pageCount) ? (page + 1) : null;
             return {
                 ...state,
                 info: data.info,
-                isSent: false,
+                isLoading: false,
                 page,
                 resultCount,
                 pageSize,
@@ -47,7 +47,7 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.GET_HOTELS_FAILURE:
             return {...state,
                 filters: {},
-                error: data.error
+                error: data.error,
             }
         default:
             return state;

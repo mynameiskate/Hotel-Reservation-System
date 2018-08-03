@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
 import HotelActions from '../actions/HotelActions';
-import HotelList from '../components/HotelList.jsx';
+import HotelList from './HotelList.jsx';
 
-class SearchPage extends React.Component {
+class SearchDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
@@ -47,11 +47,11 @@ const mapStateToProps = (state) => {
     return {
         info: state.search.info,
         error: state.search.error,
-        isSent: state.search.isSent,
+        isLoading: state.search.isLoading,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
         resultCount: state.search.resultCount
     }
 }
 
-export default connect(mapStateToProps)(SearchPage); 
+export default connect(mapStateToProps)(SearchDisplay); 

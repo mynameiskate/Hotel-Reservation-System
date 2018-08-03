@@ -24,25 +24,6 @@ const initialState = {
 export function hotelReducer(state = initialState, action) {
     let data = action.payload;
     switch (action.type) {
-        case hotelConstants.GET_HOTELS_SUCCESS:
-            return {
-                ...state,
-                error: null,
-                info: data.info,
-                isSent: false
-            };
-        case hotelConstants.GET_HOTELS_FAILURE:
-            return {
-                ...state,
-                isSent: false,
-                error: data.error
-            };
-        case hotelConstants.GET_HOTELS_REQUEST:
-            return {
-                ...state,
-                error: null,
-                isSent: true
-            };
         case hotelConstants.REMOVE_HOTEL_REQUEST:
             return {
                 ...state,
@@ -165,67 +146,10 @@ export function hotelReducer(state = initialState, action) {
                 ...state,
                 selectedCity: data.selectedCity
             }
-        case hotelConstants.SET_CURRENT_PAGE:
-            {
-                const {
-                    pageCount
-                } = state;
-                const {
-                    page
-                } = data;
-                const nextPage = (page < pageCount) ? (page + 1) : null;
-                return {
-                    ...state,
-                    page,
-                    nextPage
-                }
-            }
         case hotelConstants.SET_FILTERS:
             return {
                 ...state,
                 filters: data.filters
-            }
-        case hotelConstants.RESET_CURRENT_PAGE:
-            return {
-                ...state,
-                page: 1,
-                nextPage: null,
-                pageCount: 0
-            }
-        case hotelConstants.GET_HOTEL_PAGE_REQUEST:
-            return {
-                ...state,
-                page: data.page,
-                error: null,
-                filters: data.filters,
-                isSent: true
-            }
-        case hotelConstants.GET_HOTEL_PAGE_SUCCESS:
-            {
-                const resultCount = data.info.totalHotelAmount;
-                const pageSize = data.info.pageSize;
-                const page = data.info.number;
-                const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
-                const nextPage = (page < pageCount) ? (page + 1) : null;
-                return {
-                    ...state,
-                    info: data.info,
-                    isSent: false,
-                    page,
-                    resultCount,
-                    pageSize,
-                    pageCount,
-                    nextPage
-                }
-            }
-        case hotelConstants.GET_HOTEL_PAGE_FAILURE:
-            return {
-                ...state,
-                error: data.error,
-                isSent: false,
-                info: null,
-                page: 0,
-                resultCount: 0
             }
         case hotelConstants.RESET_FILTER:
             return {

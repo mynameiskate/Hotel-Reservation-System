@@ -4,7 +4,7 @@ import HotelActions from '../actions/HotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
 
-class HotelPage extends React.Component {
+class HotelInfoPage extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -67,4 +67,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(HotelPage); 
+export default connect(mapStateToProps)(HotelInfoPage); 
