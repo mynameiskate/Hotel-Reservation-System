@@ -24,17 +24,19 @@ class SearchDisplay extends React.Component {
     }
 
     render() {
-        const { info, error, isSent, removing, resultCount } = this.props;
+        const { info, error, isLoading, removing, resultCount } = this.props;
     	return ( 
 	        <div className='searchPage'>
-                 { isSent ? <h3>Loading hotels..</h3>
-                          : <h3> Search results: {resultCount} destination(s)</h3>}
-                 { info && info.totalHotelAmount ?
-                    <HotelList  info={info.hotels}
-                                removing={removing}
-                                onDeleteClick={this.sendRemoveRequest}
-                                onEditClick={this.sendEditRequest}
-                    /> 
+                 { isLoading && <h3>Loading hotels..</h3> }
+                 { resultCount ?
+                    <div>
+                        <h3> Search results: {resultCount} destination(s)</h3>
+                        <HotelList  info={info.hotels}
+                                    removing={removing}
+                                    onDeleteClick={this.sendRemoveRequest}
+                                    onEditClick={this.sendEditRequest}
+                        /> 
+                    </div>
                     : <h3>No results, try again?</h3>
                  }
                  { error  && <h3>Loading error</h3>}

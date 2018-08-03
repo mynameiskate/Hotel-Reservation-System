@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { error, isSent, redirect } = this.props;
+        const { error, isLoading, redirect } = this.props;
         return(
             <div>
                 {
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => {
         loggedIn: state.users.loggedIn,
         userInfo: state.users.info,
         error: state.users.error,
-        isSent: state.users.isSent,
+        isLoading: state.users.isLoading,
         isValid: state.users.isValid,
         redirect: state.users.redirect
     }

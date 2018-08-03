@@ -8,7 +8,7 @@ const initialState = {
     locations: null,
     selectedCountry: '',
     selectedCity: '',
-    page: 1,
+    page: null,
     resultCount: 0,
     filters: {},
     pageSize: 0,
@@ -23,7 +23,6 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.GET_HOTELS_REQUEST:
             return {
                 ...state,
-                page: data.page,
                 error: null,
                 isLoading: true,
                 nextPage: null

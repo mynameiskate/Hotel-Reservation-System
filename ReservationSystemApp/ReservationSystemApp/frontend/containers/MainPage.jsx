@@ -26,7 +26,7 @@ class Main extends React.Component {
     }
 
     render() {
-    	const { info, error, isSent, removing } = this.props;
+    	const { info, error, isLoading, removing } = this.props;
     	return ( 
 	        <div className='mainPage'>
 	        	 <h1>Welcome to hotel reservation system</h1>
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => {
     return {
         info: state.hotels.info,
         error: state.hotels.error,
-        isSent: state.hotels.isSent,
+        isLoading: state.hotels.isLoading,
         removing: state.hotels.removing,
         selected: state.hotels.selected  
     }

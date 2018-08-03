@@ -34,7 +34,7 @@ class HotelInfoPage extends React.Component {
     }
 
     render() {
-    	const { loaded, error, isSent, editing } = this.props;
+    	const { loaded, error, isLoading, editing } = this.props;
     	return ( 
 	        <div>
                 {loaded &&              
@@ -61,7 +61,7 @@ const mapStateToProps = (state) => {
     return {
         info: state.hotels.info,
         error: state.hotels.error,
-        isSent: state.hotels.isSent,
+        isLoading: state.hotels.isLoading,
         editing: state.hotels.editing,
         loaded: state.hotels.loaded,
     }

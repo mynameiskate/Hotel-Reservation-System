@@ -34,12 +34,10 @@ class HotelSearchPage extends React.Component {
         this.props.dispatch(HotelActions.setFilters(filters));
     }
 
-    componentDidUpdate() {
-        this.getHotelPage();
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return nextProps.page && (nextProps.page !== this.props.page);
+    componentDidUpdate(prevProps) {
+        if (this.props.location.search !== prevProps.location.search) {
+            this.getHotelPage();
+        } 
     }
 
     componentDidMount() {
@@ -69,7 +67,7 @@ class HotelSearchPage extends React.Component {
                 />                             
                                                                                 
                 <SearchDisplay/>   
-               {// (pageCount > 0) &&
+               { (pageCount > 0) &&
                     <HotelPageBar  currentPage={page} 
                                    nextPage={nextPage}
                                    goToPage={this.goToPage}/>

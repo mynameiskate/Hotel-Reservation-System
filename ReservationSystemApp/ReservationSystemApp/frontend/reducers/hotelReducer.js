@@ -3,7 +3,7 @@ import {
 } from '../constants/hotelConstants.js';
 
 const initialState = {
-    isSent: false,
+    isLoading: false,
     info: [],
     error: null,
     removing: false,
@@ -28,7 +28,7 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                isSent: true,
+                isLoading: true,
                 removing: true,
                 info: (state.info.map(hotel =>
                     (hotel.hotelId === data.id) ? {...hotel,
@@ -40,14 +40,14 @@ export function hotelReducer(state = initialState, action) {
             return {
                 error: null,
                 info: state.info.filter(hotel => hotel.hotelId !== data.id),
-                isSent: false,
+                isLoading: false,
                 removing: false
             }
         case hotelConstants.REMOVE_HOTEL_FAILURE:
             return {
                 ...state,
                 error: data.error,
-                isSent: false,
+                isLoading: false,
                 removing: false,
                 info: (state.info.map(hotel =>
                     (hotel.hotelId === data.id) ? {...hotel,
@@ -59,14 +59,14 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: null,
-                isSent: true,
+                isLoading: true,
                 editing: true
             }
         case hotelConstants.EDIT_HOTEL_SUCCESS:
             return {
                 ...state,
                 error: null,
-                isSent: false,
+                isLoading: false,
                 info: (state.info.map(hotel =>
                     (hotel.hotelId === data.id) ?
                     state.hotelInfo :
@@ -77,20 +77,20 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error,
-                isSent: false
+                isLoading: false
             }
 
         case hotelConstants.SHOW_HOTEL_REQUEST:
             return {
                 ...state,
                 error: null,
-                isSent: true,
+                isLoading: true,
                 loaded: data.loaded,
             }
         case hotelConstants.SHOW_HOTEL_SUCCESS:
             return {
                 ...state,
-                isSent: false,
+                isLoading: false,
                 loaded: data.loaded,
                 editing: false
             }
@@ -98,7 +98,7 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error,
-                isSent: false,
+                isLoading: false,
                 loaded: null
             }
         case hotelConstants.HIDE_HOTEL:

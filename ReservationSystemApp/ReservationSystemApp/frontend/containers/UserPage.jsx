@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
         loggedIn: state.users.loggedIn,
         userInfo: state.users.userInfo,
         error: state.users.error,
-        isSent: state.users.isSent,
+        isLoading: state.users.isLoading,
         isValid: state.users.isValid
     }
 }
