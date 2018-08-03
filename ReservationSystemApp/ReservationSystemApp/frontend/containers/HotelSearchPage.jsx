@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 
+import {change } from 'redux-form';
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
@@ -32,8 +33,13 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(HotelSearchActions.setCurrentCity(params.city));
         }
 
-        if (params.page && this.props.page !== params.page) {
+        if (nextProps.page && this.props.page !== params.page) {
             this.props.dispatch(HotelSearchActions.setCurrentPage(params.page));
+        }
+
+        if (this.props.hotelName != params.name) {
+            this.props.dispatch(HotelSearchActions.setCurrentHotelName(params.name));
+            this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
         }
     }
 
@@ -41,25 +47,30 @@ class HotelSearchPage extends React.Component {
         this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.search));
     }
 
-    resetFilters() {
-        this.props.dispatch(push(''));
+    resetFilters = () => {
+        this.buildQuery();
     }
 
     setCountry = (country) => {
-        this.props.dispatch(HotelSearchActions.setCurrentCountry(country.value));
-        this.buildQuery(country.value, this.props.selectedCity);
+        this.buildQuery(country.value, null, this.props.hotelName);
     }
 
     setCity = (city) => {
-        this.props.dispatch(HotelSearchActions.setCurrentCity(city.value));
-        this.buildQuery(this.props.selectedCountry, city.value);
+        const { selectedCountry, hotelName } = this.props;
+        this.buildQuery(selectedCountry, city.value, hotelName);
     }
 
     setPage = (page) => {
-        this.buildQuery(this.props.selectedCountry, this.props.selectedCity, page);
+        const {selectedCountry, selectedCity, hotelName} = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, page);
     }
 
-    buildQuery = (selectedCountry, selectedCity, page = 1) => {
+    setHotelName = (hotelName) => {
+        const {selectedCountry, selectedCity, page} = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName)
+    }
+
+    buildQuery = (selectedCountry, selectedCity, hotelName, page = 1) => {
         const params = {
             page
         };
@@ -72,13 +83,16 @@ class HotelSearchPage extends React.Component {
             params.city = selectedCity;
         }
 
+        if (hotelName) {
+            params.name = hotelName;
+        }
+
         const query = queryString.stringify(params);
         this.props.dispatch(push(`${links.HOTEL_SEARCH_PAGE}?${query}`));
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.search !== prevProps.search ||
-            this.props.pathname !== prevProps.pathname) {
+        if (this.props.search !== prevProps.search) {
             this.getHotelPage();
         } 
     }
@@ -89,12 +103,13 @@ class HotelSearchPage extends React.Component {
 
         return(
             <div>
-                <SearchFilter onCancel = {this.resetFilter}
+                <SearchFilter onCancel = {this.resetFilters}
                               locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
+                              onNameChange={this.setHotelName}
                 />
 
                 <SearchDisplay/>
@@ -110,6 +125,7 @@ class HotelSearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        hotelName: state.search.hotelName,
         search: state.router.location.search,
         info: state.search.info,
         error: state.search.error,

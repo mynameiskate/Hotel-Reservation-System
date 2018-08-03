@@ -13,7 +13,8 @@ const initialState = {
     pageSize: 0,
     pageCount: 1,
     nextPage: null,
-    isLoading: false
+    isLoading: false,
+    hotelName: null
 }
 
 export function searchReducer(state = initialState, action) {
@@ -64,8 +65,12 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.SET_CURRENT_PAGE:
             return {
                 ...state,
-                selectedCity: data.selectedCity,
                 page: data.currentPage
+            }
+        case searchConstants.SET_CURRENT_HOTEL_NAME:
+            return {
+                ...state,
+                hotelName: data.hotelName
             }
         default:
             return state;

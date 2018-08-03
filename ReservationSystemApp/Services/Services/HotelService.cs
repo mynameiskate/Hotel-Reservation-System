@@ -48,10 +48,11 @@ namespace Services.Services
                     .Select(hotel => new HotelModel(hotel));
 
                 int resultCount = await entityList.CountAsync();
+                int currentPage = (request.Page > 0) ? request.Page : 1;
 
-                var listForPage = CutList(resultQuery, size, request.Page);
+                var listForPage = CutList(resultQuery, size, currentPage);
 
-                return new PageModel(request.Page, size, resultCount, listForPage);
+                return new PageModel(currentPage, size, resultCount, listForPage);
             }
             catch(Exception e)
             {
@@ -64,7 +65,7 @@ namespace Services.Services
         private IEnumerable<HotelModel> CutList(IQueryable<HotelModel> hotels, 
                                                 int pageSize, int pageNumber = 1)
         {
-            int startAfter = (pageNumber-1) * pageSize;
+            int startAfter = (pageNumber - 1) * pageSize;
             return hotels.Skip(startAfter).Take(pageSize);
         }
 

@@ -85,6 +85,21 @@ class HotelSearchActions {
             dispatch(setRequest(city));
         }
     }
+
+    static setCurrentHotelName(name) {
+        const setRequest = (name) => {
+            return {
+                type: searchConstants.SET_CURRENT_HOTEL_NAME,
+                payload: {
+                    hotelName: name
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(name));
+        }
+    }
 }
 
 
