@@ -23,12 +23,12 @@ class SelectService {
         return selectEntries;
     }
 
-    static getFilteredOptions(options, filterProp, filterValue, property) {
+    static getFilteredOptions(options, filterProp, filterValue, labelProp, labelValue) {
         if (!options) {
             return [];
         } else {
             let filteredList = options.filter(obj => obj[filterProp] === filterValue);
-            return this.getOptions(filteredList, property);
+            return this.getOptions(filteredList, labelProp, labelValue);
         }
     }
 }

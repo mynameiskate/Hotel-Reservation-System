@@ -48,6 +48,7 @@ namespace Services.Services
                     .Select(hotel => new HotelModel(hotel));
 
                 int resultCount = await entityList.CountAsync();
+
                 var listForPage = CutList(resultQuery, size, request.Page);
 
                 return new PageModel(request.Page, size, resultCount, listForPage);

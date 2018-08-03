@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
+
 import HotelActions from '../actions/HotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';

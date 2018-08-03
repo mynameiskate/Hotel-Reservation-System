@@ -76,7 +76,7 @@ class RequestOptions {
         let query = Object.keys(params)
             .map(key => esc(key) + '=' + esc(params[key]))
             .join('&');
-        return path + query;
+        return `${path}?${query}`;
     }
 }
 

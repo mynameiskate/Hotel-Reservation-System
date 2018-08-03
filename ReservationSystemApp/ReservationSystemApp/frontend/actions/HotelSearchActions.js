@@ -2,7 +2,6 @@ import {
     searchConstants
 } from '../constants/searchConstants.js';
 import HotelService from '../services/HotelService.js';
-import QueryService from '../services/QueryService.js';
 
 class HotelSearchActions {
     static loadFromQuery(query) {
@@ -12,13 +11,11 @@ class HotelSearchActions {
                 payload: {}
             }
         };
-        const getSuccess = (info, page, filters) => {
+        const getSuccess = (info) => {
             return {
                 type: searchConstants.GET_HOTELS_SUCCESS,
                 payload: {
-                    info,
-                    page,
-                    filters
+                    info
                 }
             };
         };
@@ -32,20 +29,60 @@ class HotelSearchActions {
         };
 
         return (dispatch) => {
-            const searchParams = QueryService.getParams(query);
-            const {
-                page,
-                ...filters
-            } = searchParams;
             dispatch(getRequest());
-            HotelService.getHotelPage(page, filters)
+            HotelService.getHotelPageWithQuery(query)
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {
-                    dispatch(getSuccess(jsonInfo, page, filters));
+                    dispatch(getSuccess(jsonInfo));
                     return jsonInfo;
                 })
                 .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
+    static setCurrentCountry(country) {
+        const setRequest = (country) => {
+            return {
+                type: searchConstants.SET_CURRENT_COUNTRY,
+                payload: {
+                    selectedCountry: country
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(country));
+        }
+    }
+
+    static setCurrentPage(page) {
+        const setRequest = (page) => {
+            return {
+                type: searchConstants.SET_CURRENT_PAGE,
+                payload: {
+                    currentPage: page
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(page));
+        }
+    }
+
+    static setCurrentCity(city) {
+        const setRequest = (city) => {
+            return {
+                type: searchConstants.SET_CURRENT_CITY,
+                payload: {
+                    selectedCity: city
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(city));
         }
     }
 }

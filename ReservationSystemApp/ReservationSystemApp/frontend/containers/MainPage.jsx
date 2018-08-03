@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux'; 
-import HotelActions from '../actions/HotelActions';
 import { Link } from 'react-router-dom';
+
+import HotelActions from '../actions/HotelActions';
 import { links } from '../config/links.js';
 
 class Main extends React.Component {
-
     constructor(props) {
         super(props);
         this.sendRemoveRequest = this.sendRemoveRequest.bind(this);

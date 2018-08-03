@@ -5,30 +5,30 @@ import Select from 'react-select';
 import SelectService from '../services/SelectService.js';
 
 const SearchFilter = (props) => {
-    const { sendRequest, setFilter, handleSubmit, onCancel, 
-            locations, selectedCity, selectedCountry, 
+    const { onCancel, locations, selectedCity, selectedCountry, 
             onCountrySelect, onCitySelect } = props;
-
+    const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
+    const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
+console.log(selectedCity);
+console.log(cityOptions);
+console.log(cityOptions.find(c => c.value == selectedCity));
     return (
-        <form onSubmit={handleSubmit(setFilter)}>           
+        <div>
             <Field name='name' label='Name' component={InputField} /> 
             <Select
-                value = { selectedCountry.value } 
-                options={SelectService.getOptions(locations, 'country', 'countryId')}
+                value = {countryOptions.find(c => c.value == selectedCountry) || {}} 
+                options={countryOptions}
                 isSearchable={true}
-                onChange={country => onCountrySelect(country.value, country.label)} 
-            />      
+                onChange={country => onCountrySelect(country)}
+            />
             <Select
-                value = { selectedCity.value }
-                options={SelectService.getFilteredOptions(locations, 'countryId', selectedCountry.id, 'city')}
-                onChange={city => onCitySelect(city.value)}
+                value = {cityOptions.find(c => c.value == selectedCity) || {}}
+                options={cityOptions}
+                onChange={city => onCitySelect(city)}
                 isSearchable={true}
             /> 
-            <button type='submit'>
-                Submit
-            </button>
             <button type='button' onClick={onCancel}>Reset filter</button>
-        </form>
+        </div>
     );
 }
 

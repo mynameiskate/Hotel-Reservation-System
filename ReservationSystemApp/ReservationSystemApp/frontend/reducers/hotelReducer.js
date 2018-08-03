@@ -11,8 +11,6 @@ const initialState = {
     loaded: null,
     isValid: false,
     locations: null,
-    selectedCountry: '',
-    selectedCity: '',
     page: 1,
     resultCount: 0,
     filters: {},
@@ -134,17 +132,6 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error
-            }
-        case hotelConstants.SET_CURRENT_COUNTRY:
-            return {
-                ...state,
-                selectedCity: '',
-                selectedCountry: data.selectedCountry
-            }
-        case hotelConstants.SET_CURRENT_CITY:
-            return {
-                ...state,
-                selectedCity: data.selectedCity
             }
         case hotelConstants.SET_FILTERS:
             return {

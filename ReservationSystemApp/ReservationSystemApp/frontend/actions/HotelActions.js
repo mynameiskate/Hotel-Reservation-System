@@ -16,7 +16,7 @@ class HotelActions {
             dispatch(resetRequest());
         }
     }
-    
+
     static getLocations() {
         const getFailure = (error) => {
             return {
@@ -51,40 +51,6 @@ class HotelActions {
                     return jsonInfo;
                 })
                 .catch(error => dispatch(getFailure(error)));
-        }
-    }
-
-    static setCurrentCountry(id, name) {
-        const country = {
-            id,
-            name
-        }
-        const setRequest = (country) => {
-            return {
-                type: hotelConstants.SET_CURRENT_COUNTRY,
-                payload: {
-                    selectedCountry: country
-                }
-            }
-        };
-
-        return dispatch => {
-            dispatch(setRequest(country));
-        }
-    }
-
-    static setCurrentCity(value) {
-        const setRequest = (city) => {
-            return {
-                type: hotelConstants.SET_CURRENT_CITY,
-                payload: {
-                    selectedCity: city
-                }
-            }
-        };
-
-        return dispatch => {
-            dispatch(setRequest(value));
         }
     }
 

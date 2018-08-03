@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import queryString from 'query-string';
+
+import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
-import QueryService from '../services/QueryService.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
 import  HotelPageBar  from '../components/HotelPageBar.jsx';
 import SearchDisplay from '../components/SearchDisplay.jsx';
@@ -12,66 +15,94 @@ class HotelSearchPage extends React.Component {
         super(props);
     }
 
-    getHotelPage = () => {
-        this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.location.search));
-    }
-
-    goToPage = (page) => {
-        const { pathname, search } = this.props.location;
-        let newQuery = QueryService.addParameter('page', page, search, pathname);
-        this.props.history.push(newQuery);
-    }
-
-    setCountry = (id, name) => {
-        this.props.dispatch(HotelActions.setCurrentCountry(id, name));
-    }
-
-    setCity = (city) => {
-        this.props.dispatch(HotelActions.setCurrentCity(city));
-    }
-
-    setFilters = (filters) => {
-        this.props.dispatch(HotelActions.setFilters(filters));
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.location.search !== prevProps.location.search) {
-            this.getHotelPage();
-        } 
-    }
-
     componentDidMount() {
         this.props.dispatch(HotelActions.getLocations());
         this.getHotelPage();
     }
 
+    componentWillReceiveProps(nextProps) {
+        const query = nextProps.search;
+        const params = queryString.parse(query);
+
+        if (this.props.selectedCountry !== params.countryId) {
+            this.props.dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
+        }
+
+        if (this.props.selectedCity !== params.city) {
+            this.props.dispatch(HotelSearchActions.setCurrentCity(params.city));
+        }
+
+        if (params.page && this.props.page !== params.page) {
+            this.props.dispatch(HotelSearchActions.setCurrentPage(params.page));
+        }
+    }
+
+    getHotelPage = () => {
+        this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.search));
+    }
+
+    resetFilters() {
+        this.props.dispatch(push(''));
+    }
+
+    setCountry = (country) => {
+        this.props.dispatch(HotelSearchActions.setCurrentCountry(country.value));
+        this.buildQuery(country.value, this.props.selectedCity);
+    }
+
+    setCity = (city) => {
+        this.props.dispatch(HotelSearchActions.setCurrentCity(city.value));
+        this.buildQuery(this.props.selectedCountry, city.value);
+    }
+
+    setPage = (page) => {
+        this.buildQuery(this.props.selectedCountry, this.props.selectedCity, page);
+    }
+
+    buildQuery = (selectedCountry, selectedCity, page = 1) => {
+        const params = {
+            page
+        };
+
+        if (selectedCountry) {
+            params.countryId = selectedCountry;
+        }
+
+        if (selectedCity) {
+            params.city = selectedCity;
+        }
+
+        const query = queryString.stringify(params);
+        this.props.dispatch(push(`${links.HOTEL_SEARCH_PAGE}?${query}`));
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.search !== prevProps.search ||
+            this.props.pathname !== prevProps.pathname) {
+            this.getHotelPage();
+        } 
+    }
+
     render() {
         const { selectedCountry, selectedCity, locations, 
                 page, pageCount, nextPage } = this.props;
-        const countryId = selectedCountry ? selectedCountry.id : '';
 
         return(
             <div>
-                <SearchFilter sendRequest={ (values) => this.sendSearchRequest( 1,  {...values, 
-                                                                                city: selectedCity, 
-                                                                                countryId }) }
-                              setFilter= { (values) => this.setFilters( {...values, 
-                                                                city: selectedCity, 
-                                                                countryId })}
-                              onCancel = {this.resetFilter}                                                 
+                <SearchFilter onCancel = {this.resetFilter}
                               locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
-                />                             
-                                                                                
-                <SearchDisplay/>   
+                />
+
+                <SearchDisplay/>
                { (pageCount > 0) &&
                     <HotelPageBar  currentPage={page} 
                                    nextPage={nextPage}
-                                   goToPage={this.goToPage}/>
-                }            
+                                   goToPage={(num) => this.setPage(num)}/>
+                }
             </div>
 	    );
     } 
@@ -79,13 +110,13 @@ class HotelSearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        filters: state.hotels.filters,
+        search: state.router.location.search,
         info: state.search.info,
         error: state.search.error,
         isLoading: state.search.isLoading,
         locations: state.hotels.locations,
-        selectedCountry: state.hotels.selectedCountry,
-        selectedCity: state.hotels.selectedCity,
+        selectedCountry: state.search.selectedCountry,
+        selectedCity: state.search.selectedCity,
         resultCount: state.search.resultCount,
         pageSize: state.search.pageSize,
         nextPage: state.search.nextPage,
