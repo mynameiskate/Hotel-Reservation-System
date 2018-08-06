@@ -5,23 +5,23 @@ namespace Services.Models
 {
     public class ReservationModel
     {
-        public int RoomReservationId { get; set; }
+        public int? RoomReservationId { get; set; }
         public DateTimeOffset ReservationTime { get; set; }
         public DateTimeOffset MoveInTime { get; set; }
         public DateTimeOffset MoveOutTime { get; set; }
         public int UserId { get; set; }
         public int HotelRoomId { get; set; }
 
-        public ReservationModel(RoomReservation reservaion)
+        public ReservationModel(RoomReservation reservation)
         {
-            if (reservaion != null)
+            if (reservation != null)
             {
-                RoomReservationId = reservaion.RoomReservationId;
-                ReservationTime = reservaion.ReservationTime;
-                MoveInTime = reservaion.MoveInTime;
-                MoveOutTime = reservaion.MoveOutTime;
-                UserId = reservaion.UserId;
-                HotelRoomId = reservaion.HotelRoomId;
+                RoomReservationId = reservation.RoomReservationId;
+                ReservationTime = reservation.Created;
+                MoveInTime = reservation.MoveInTime;
+                MoveOutTime = reservation.MoveOutTime;
+                UserId = reservation.UserId;
+                HotelRoomId = reservation.HotelRoomId;
             }
         }
 

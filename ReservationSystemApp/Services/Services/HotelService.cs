@@ -93,6 +93,15 @@ namespace Services.Services
                     }
                 }
 
+                if (!(filters.MoveInTime == null || filters.MoveOutTime == null))
+                {
+                    filteredList = from h in filteredList
+                                   join hr in _dataContext.HotelRooms on h.HotelId equals hr.HotelId
+                                   join r in _dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId
+                                   where (r.RoomReservationId == null) || !(r.MoveInTime <= filters.MoveOutTime && r.MoveOutTime >= filters.MoveInTime) 
+                                   select h;
+                }
+
                 return filteredList;
             }
             else

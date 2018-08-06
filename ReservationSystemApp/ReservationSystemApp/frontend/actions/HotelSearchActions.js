@@ -100,8 +100,37 @@ class HotelSearchActions {
             dispatch(setRequest(name));
         }
     }
-}
 
+    static setStartDate(date) {
+        const setRequest = (date) => {
+            return {
+                type: searchConstants.SET_START_DATE,
+                payload: {
+                    startDate: date
+                }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setRequest(date));
+        }
+    }
+
+    static setEndDate(date) {
+        const setRequest = (date) => {
+            return {
+                type: searchConstants.SET_END_DATE,
+                payload: {
+                    endDate: date
+                }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setRequest(date));
+        }
+    }
+}
 
 let handleError = function(response) {
     if (!response.ok) {

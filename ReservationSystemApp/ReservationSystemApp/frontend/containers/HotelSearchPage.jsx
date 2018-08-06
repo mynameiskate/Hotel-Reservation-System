@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 
+import moment from 'moment';
 import {change } from 'redux-form';
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
@@ -41,6 +42,20 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(HotelSearchActions.setCurrentHotelName(params.name));
             this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
         }
+
+        if (this.props.startDate != params.startDate) {
+            this.props.dispatch(HotelSearchActions.setStartDate(params.startDate));
+        }
+
+        if (this.props.endDate != params.endDate) {
+            this.props.dispatch(HotelSearchActions.setEndDate(params.endDate));
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.search !== prevProps.search) {
+            this.getHotelPage();
+        } 
     }
 
     getHotelPage = () => {
@@ -52,25 +67,36 @@ class HotelSearchPage extends React.Component {
     }
 
     setCountry = (country) => {
-        this.buildQuery(country.value, null, this.props.hotelName);
+        const { hotelName, startDate, endDate} = this.props;
+        this.buildQuery(country.value, null, hotelName, startDate, endDate);
     }
 
     setCity = (city) => {
-        const { selectedCountry, hotelName } = this.props;
-        this.buildQuery(selectedCountry, city.value, hotelName);
+        const { selectedCountry, hotelName, startDate, endDate } = this.props;
+        this.buildQuery(selectedCountry, city.value, hotelName, startDate, endDate);
     }
 
     setPage = (page) => {
-        const {selectedCountry, selectedCity, hotelName} = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, page);
+        const {selectedCountry, selectedCity, hotelName, startDate, endDate} = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate, page);
     }
 
     setHotelName = (hotelName) => {
-        const {selectedCountry, selectedCity, page} = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName)
+        const {selectedCountry, selectedCity, startDate, endDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
     }
 
-    buildQuery = (selectedCountry, selectedCity, hotelName, page = 1) => {
+    setStartDate = (startDate) => {
+        const { hotelName, selectedCountry, selectedCity, endDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
+    }
+
+    setEndDate = (endDate) => {
+        const { hotelName, selectedCountry, selectedCity, startDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
+    }
+
+    buildQuery = (selectedCountry, selectedCity, hotelName, startDate, endDate, page = 1) => {
         const params = {
             page
         };
@@ -87,19 +113,28 @@ class HotelSearchPage extends React.Component {
             params.name = hotelName;
         }
 
+        if (startDate) {
+            params.startDate = startDate;
+        }
+
+        if (endDate) {
+            params.endDate = endDate;
+        }
+
         const query = queryString.stringify(params);
         this.props.dispatch(push(`${links.HOTEL_SEARCH_PAGE}?${query}`));
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.search !== prevProps.search) {
-            this.getHotelPage();
-        } 
-    }
+    parseDate = (date) => (
+        moment(date, "YYYY-MM-DD")
+    )
 
     render() {
         const { selectedCountry, selectedCity, locations, 
-                page, pageCount, nextPage } = this.props;
+                page, pageCount, nextPage, startDate, endDate } = this.props;
+
+        const start = this.parseDate(startDate);
+        const end = this.parseDate(endDate);
 
         return(
             <div>
@@ -110,6 +145,10 @@ class HotelSearchPage extends React.Component {
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
                               onNameChange={this.setHotelName}
+                              startDate={start}
+                              endDate={end}
+                              setStartDate={this.setStartDate}
+                              setEndDate={this.setEndDate}
                 />
 
                 <SearchDisplay/>
@@ -137,7 +176,9 @@ const mapStateToProps = (state) => {
         pageSize: state.search.pageSize,
         nextPage: state.search.nextPage,
         pageCount: state.search.pageCount,
-        page: state.search.page
+        page: state.search.page,
+        startDate: state.search.startDate,
+        endDate: state.search.endDate
     }
 }
 

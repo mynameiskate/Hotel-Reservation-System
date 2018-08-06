@@ -8,6 +8,8 @@ namespace DataLayer
         public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
+        public DbSet<RoomReservation> Reservations { get; set; }
 
         public DataContext(DbContextOptions options)
             : base(options)

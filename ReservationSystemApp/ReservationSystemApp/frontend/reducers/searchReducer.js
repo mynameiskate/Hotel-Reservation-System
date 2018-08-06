@@ -1,6 +1,7 @@
 import {
     searchConstants
 } from '../constants/searchConstants.js';
+import moment from 'moment';
 
 const initialState = {
     info: [],
@@ -14,7 +15,9 @@ const initialState = {
     pageCount: 1,
     nextPage: null,
     isLoading: false,
-    hotelName: null
+    hotelName: null,
+    startDate: moment(new Date()).format("YYYY/MM/DD"),
+    endDate: moment(new Date()).format("YYYY/MM/DD")
 }
 
 export function searchReducer(state = initialState, action) {
@@ -42,12 +45,13 @@ export function searchReducer(state = initialState, action) {
                 resultCount,
                 pageSize,
                 pageCount,
-                nextPage
+                nextPage,
+                startDate: data.startDate,
+                endDate: data.endDate
             }
         case searchConstants.GET_HOTELS_FAILURE:
             return {...state,
-                filters: {},
-                error: data.error,
+                error: data.error
             }
         case searchConstants.SET_CURRENT_COUNTRY:
             return {
@@ -71,6 +75,16 @@ export function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 hotelName: data.hotelName
+            }
+        case searchConstants.SET_START_DATE:
+            return {
+                ...state,
+                startDate: data.startDate
+            }
+        case searchConstants.SET_END_DATE:
+            return {
+                ...state,
+                endDate: data.endDate
             }
         default:
             return state;

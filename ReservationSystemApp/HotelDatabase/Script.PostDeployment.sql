@@ -10,6 +10,15 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+IF (EXISTS(SELECT * FROM [dbo].[ReservationStatuses]))
+BEGIN
+    DELETE FROM [dbo].[ReservationStatuses]
+END
+
+INSERT INTO [dbo].[ReservationStatuses] VALUES 
+(1, 'Pending'), (2, 'Confirmed'), (3, 'Paid'),
+(4, 'Cancelled');
+
 IF (EXISTS(SELECT * FROM [dbo].[RoomTypes]))
 BEGIN
     DELETE FROM [dbo].[RoomTypes]

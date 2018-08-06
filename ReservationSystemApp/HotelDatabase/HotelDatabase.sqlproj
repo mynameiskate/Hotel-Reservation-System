@@ -85,5 +85,6 @@
     <Build Include="Views\BookingView.sql" />
     <Build Include="Tables\RoomReservations.sql" />
     <Build Include="Procedures\GetBookingHistory.sql" />
+    <Build Include="Tables\ReservationStatuses.sql" />
   </ItemGroup>
 </Project>

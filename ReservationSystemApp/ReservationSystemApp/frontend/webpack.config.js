@@ -17,21 +17,22 @@ module.exports = {
         path: path.resolve(__dirname, bundleFolder)
     },
     module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /(node_modules)/,
-                loader: "babel-loader",
-                query: {
-                    presets: ["react", "env", "stage-0"]
-                }
+        rules: [{
+            test: /\.(js|jsx)$/,
+            exclude: /(node_modules)/,
+            loader: "babel-loader",
+            query: {
+                presets: ["react", "env", "stage-0"]
             }
-        ]
+
+        }, {
+            test: /\.css$/,
+            use: ["style-loader", "css-loader"]
+        }]
     },
     devServer: {
         historyApiFallback: true
     },
 
-    plugins: [
-    ]
+    plugins: []
 };
