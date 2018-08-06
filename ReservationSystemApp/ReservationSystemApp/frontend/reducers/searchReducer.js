@@ -16,8 +16,8 @@ const initialState = {
     nextPage: null,
     isLoading: false,
     hotelName: null,
-    startDate: moment(new Date()).format("YYYY/MM/DD"),
-    endDate: moment(new Date()).format("YYYY/MM/DD")
+    moveInTime: null,
+    moveOutTime: null
 }
 
 export function searchReducer(state = initialState, action) {
@@ -37,6 +37,7 @@ export function searchReducer(state = initialState, action) {
             const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
             const page = (requestPage > pageCount) ? 1 : requestPage;
             const nextPage = (page < pageCount) ? (page + 1) : null;
+
             return {
                 ...state,
                 info: data.info,
@@ -46,8 +47,8 @@ export function searchReducer(state = initialState, action) {
                 pageSize,
                 pageCount,
                 nextPage,
-                startDate: data.startDate,
-                endDate: data.endDate
+                moveInTime: data.moveInTime || state.moveInTime,
+                moveOutTime: data.moveOutTime || state.moveOutTime
             }
         case searchConstants.GET_HOTELS_FAILURE:
             return {...state,
@@ -79,12 +80,12 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.SET_START_DATE:
             return {
                 ...state,
-                startDate: data.startDate
+                moveInTime: data.moveInTime || state.moveInTime
             }
         case searchConstants.SET_END_DATE:
             return {
                 ...state,
-                endDate: data.endDate
+                moveOutTime: data.moveOutTime || state.moveOutTime
             }
         default:
             return state;

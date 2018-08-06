@@ -25,6 +25,9 @@ class HotelSearchPage extends React.Component {
     componentWillReceiveProps(nextProps) {
         const query = nextProps.search;
         const params = queryString.parse(query);
+        const moveInTime = this.stringToMoment(params.moveInTime);
+        const moveOutTime = this.stringToMoment(params.moveOutTime);
+
 
         if (this.props.selectedCountry !== params.countryId) {
             this.props.dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
@@ -43,12 +46,12 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
         }
 
-        if (this.props.startDate != params.startDate) {
-            this.props.dispatch(HotelSearchActions.setStartDate(params.startDate));
+        if (moveInTime && !moveInTime.isSame(this.props.moveInTime)) {
+            this.props.dispatch(HotelSearchActions.setMoveInTime(moveInTime));
         }
 
-        if (this.props.endDate != params.endDate) {
-            this.props.dispatch(HotelSearchActions.setEndDate(params.endDate));
+        if (moveOutTime && !moveOutTime.isSame(this.props.moveOutTime)) {
+            this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));
         }
     }
 
@@ -57,6 +60,12 @@ class HotelSearchPage extends React.Component {
             this.getHotelPage();
         } 
     }
+
+    stringToMoment = (strDate) => {
+        let date =  strDate ? moment(strDate, 'YYYY/MM/DD') : null;
+        return date;
+    }
+    
 
     getHotelPage = () => {
         this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.search));
@@ -67,36 +76,36 @@ class HotelSearchPage extends React.Component {
     }
 
     setCountry = (country) => {
-        const { hotelName, startDate, endDate} = this.props;
-        this.buildQuery(country.value, null, hotelName, startDate, endDate);
+        const { hotelName, moveInTime, moveOutTime} = this.props;
+        this.buildQuery(country.value, null, hotelName, moveInTime, moveOutTime);
     }
 
     setCity = (city) => {
-        const { selectedCountry, hotelName, startDate, endDate } = this.props;
-        this.buildQuery(selectedCountry, city.value, hotelName, startDate, endDate);
+        const { selectedCountry, hotelName, moveInTime, moveOutTime } = this.props;
+        this.buildQuery(selectedCountry, city.value, hotelName, moveInTime, moveOutTime);
     }
 
     setPage = (page) => {
-        const {selectedCountry, selectedCity, hotelName, startDate, endDate} = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate, page);
+        const {selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime} = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime, page);
     }
 
     setHotelName = (hotelName) => {
-        const {selectedCountry, selectedCity, startDate, endDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
+        const {selectedCountry, selectedCity, moveInTime, moveOutTime } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
     }
 
-    setStartDate = (startDate) => {
-        const { hotelName, selectedCountry, selectedCity, endDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
+    setMoveInTime = (moveInTime) => {
+        const { hotelName, selectedCountry, selectedCity, moveOutTime } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
     }
 
-    setEndDate = (endDate) => {
-        const { hotelName, selectedCountry, selectedCity, startDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, startDate, endDate);
+    setMoveOutTime = (moveOutTime) => {
+        const { hotelName, selectedCountry, selectedCity, moveInTime } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
     }
 
-    buildQuery = (selectedCountry, selectedCity, hotelName, startDate, endDate, page = 1) => {
+    buildQuery = (selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime, page = 1) => {
         const params = {
             page
         };
@@ -113,28 +122,28 @@ class HotelSearchPage extends React.Component {
             params.name = hotelName;
         }
 
-        if (startDate) {
-            params.startDate = startDate;
+        if (moveInTime) {
+            params.moveInTime = moveInTime.format('YYYY/MM/DD');
         }
 
-        if (endDate) {
-            params.endDate = endDate;
+        if (moveOutTime) {
+            params.moveOutTime = moveOutTime.format('YYYY/MM/DD');
         }
 
         const query = queryString.stringify(params);
         this.props.dispatch(push(`${links.HOTEL_SEARCH_PAGE}?${query}`));
     }
 
-    parseDate = (date) => (
-        moment(date, "YYYY-MM-DD")
-    )
+    parseDate = (date) => {
+        return moment(date);
+    }
 
     render() {
         const { selectedCountry, selectedCity, locations, 
-                page, pageCount, nextPage, startDate, endDate } = this.props;
+                page, pageCount, nextPage, moveInTime, moveOutTime } = this.props;
 
-        const start = this.parseDate(startDate);
-        const end = this.parseDate(endDate);
+        /*const start = this.parseDate(moveInTime);
+        const end = this.parseDate(moveOutTime);*/
 
         return(
             <div>
@@ -145,10 +154,10 @@ class HotelSearchPage extends React.Component {
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
                               onNameChange={this.setHotelName}
-                              startDate={start}
-                              endDate={end}
-                              setStartDate={this.setStartDate}
-                              setEndDate={this.setEndDate}
+                              moveInTime={moveInTime}
+                              moveOutTime={moveOutTime}
+                              setMoveInTime={this.setMoveInTime}
+                              setMoveOutTime={this.setMoveOutTime}
                 />
 
                 <SearchDisplay/>
@@ -177,8 +186,8 @@ const mapStateToProps = (state) => {
         nextPage: state.search.nextPage,
         pageCount: state.search.pageCount,
         page: state.search.page,
-        startDate: state.search.startDate,
-        endDate: state.search.endDate
+        moveInTime: state.search.moveInTime,
+        moveOutTime: state.search.moveOutTime
     }
 }
 

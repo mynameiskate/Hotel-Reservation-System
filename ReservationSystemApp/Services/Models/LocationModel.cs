@@ -18,7 +18,7 @@ namespace Services.Models
                 Country = city.Country?.Name;
                 CountryId = city.Country?.CountryId;
             }
-            Address = location.Address;
+            Address = location?.Address;
         }
 
         public LocationModel() {}

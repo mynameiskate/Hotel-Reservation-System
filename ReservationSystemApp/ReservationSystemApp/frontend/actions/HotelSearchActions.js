@@ -101,12 +101,12 @@ class HotelSearchActions {
         }
     }
 
-    static setStartDate(date) {
+    static setMoveInTime(date) {
         const setRequest = (date) => {
             return {
                 type: searchConstants.SET_START_DATE,
                 payload: {
-                    startDate: date
+                    moveInTime: date
                 }
             }
         }
@@ -116,12 +116,12 @@ class HotelSearchActions {
         }
     }
 
-    static setEndDate(date) {
+    static setMoveOutTime(date) {
         const setRequest = (date) => {
             return {
                 type: searchConstants.SET_END_DATE,
                 payload: {
-                    endDate: date
+                    moveOutTime: date
                 }
             }
         }

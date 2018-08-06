@@ -39,7 +39,7 @@ namespace Services.Services
             {
                 var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
-                entityList = FilterHotels(entityList, request);
+                entityList = FilterHotels(entityList, request).Distinct();
 
                 var resultQuery = entityList
                     .Include(h => h.Location)
@@ -97,8 +97,10 @@ namespace Services.Services
                 {
                     filteredList = from h in filteredList
                                    join hr in _dataContext.HotelRooms on h.HotelId equals hr.HotelId
-                                   join r in _dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId
-                                   where (r.RoomReservationId == null) || !(r.MoveInTime <= filters.MoveOutTime && r.MoveOutTime >= filters.MoveInTime) 
+                                   join r in _dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId into res
+                                   from r in res.DefaultIfEmpty()
+                                   where (r.RoomReservationId == null) ||
+                                   !(r.MoveInTime <= filters.MoveOutTime && r.MoveOutTime >= filters.MoveInTime)
                                    select h;
                 }
 

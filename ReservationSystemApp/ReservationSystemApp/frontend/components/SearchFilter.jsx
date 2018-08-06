@@ -8,8 +8,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const SearchFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry, 
-            onCountrySelect, onCitySelect, onNameChange, startDate,
-            endDate, setStartDate, setEndDate } = props;
+            onCountrySelect, onCitySelect, onNameChange, moveInTime,
+            moveOutTime, setMoveInTime, setMoveOutTime} = props;
     const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
     
@@ -37,12 +37,14 @@ const SearchFilter = (props) => {
                 isSearchable={true}
             /> 
             <DatePicker
-                selected = {startDate}
-                onChange={date => setStartDate(date)}
+                dateFormat = "DD/MM/YYYY"
+                selected = {moveInTime}
+                onChange={date => setMoveInTime(date)}
             />
             <DatePicker
-                selected = {endDate}
-                onChange={date => setEndDate(date)}
+                dateFormat = "DD/MM/YYYY"
+                selected = {moveOutTime}
+                onChange={date => setMoveOutTime(date)}
             />
             <button type='button' onClick={onCancel}>Reset filter</button>
         </div>
