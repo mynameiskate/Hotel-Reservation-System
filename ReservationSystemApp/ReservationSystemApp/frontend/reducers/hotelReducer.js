@@ -13,7 +13,6 @@ const initialState = {
     locations: null,
     page: 1,
     resultCount: 0,
-    filters: {},
     pageSize: 0,
     pageCount: 1,
     nextPage: null
@@ -132,11 +131,6 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error
-            }
-        case hotelConstants.SET_FILTERS:
-            return {
-                ...state,
-                filters: data.filters
             }
         case hotelConstants.RESET_FILTER:
             return {

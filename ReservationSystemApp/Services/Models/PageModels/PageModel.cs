@@ -1,13 +1,19 @@
-﻿namespace Services.Models.PageModels
+﻿using System.Collections.Generic;
+
+namespace Services.Models.PageModels
 {
-    public abstract class PageModel
+    public class PageModel<T> 
     {
-        public int Number { get; set; }
+        public IEnumerable<T> Entities { get; set; }
+        public int PageNumber { get; set; } 
         public int PageSize { get; set; }
-        public PageModel(int number, int size)
+        public int TotalAmount { get; set; }
+        public PageModel(int number, int size, int amount, IEnumerable<T> entities)
         {
-            Number = number;
+            PageNumber = number;
             PageSize = size;
+            TotalAmount = amount;
+            Entities = entities;
         }
     }
 }

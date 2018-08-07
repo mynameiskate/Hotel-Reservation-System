@@ -31,16 +31,16 @@ export function searchReducer(state = initialState, action) {
                 nextPage: null
             }
         case searchConstants.GET_HOTELS_SUCCESS:
-            const resultCount = data.info.totalHotelAmount;
+            const resultCount = data.info.totalAmount;
             const pageSize = data.info.pageSize;
-            const requestPage = data.info.number;
+            const requestPage = data.info.pageNumber;
             const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
             const page = (requestPage > pageCount) ? 1 : requestPage;
             const nextPage = (page < pageCount) ? (page + 1) : null;
 
             return {
                 ...state,
-                info: data.info,
+                info: data.info.entities,
                 isLoading: false,
                 page,
                 resultCount,

@@ -31,7 +31,7 @@ class SearchDisplay extends React.Component {
                  { resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>
-                        <HotelList  info={info.hotels}
+                        <HotelList  info={info}
                                     removing={removing}
                                     onDeleteClick={this.sendRemoveRequest}
                                     onEditClick={this.sendEditRequest}

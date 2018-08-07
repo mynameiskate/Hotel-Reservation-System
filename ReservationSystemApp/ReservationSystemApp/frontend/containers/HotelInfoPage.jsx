@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import HotelActions from '../actions/HotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
+import RoomPage from './RoomPage.jsx';
 
 class HotelInfoPage extends React.Component {
     constructor(props) {
@@ -44,7 +45,8 @@ class HotelInfoPage extends React.Component {
                             !editing ?
                             <div>
                                 <HotelInfo hotel={ loaded }/> 
-                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button>        
+                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button> 
+                                <RoomPage hotelId = {this.getHotelId()}/>      
                             </div>
                             :   <HotelEditField hotel={ loaded }
                                               sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}

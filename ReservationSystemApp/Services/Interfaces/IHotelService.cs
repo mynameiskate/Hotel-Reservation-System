@@ -7,9 +7,9 @@ namespace Services.Interfaces
 {
     public interface IHotelService
     {
-        Task<RoomPageModel> GetHotelRooms(RoomFilterModel request);
+        Task<PageModel<HotelRoomModel>> GetHotelRooms(RoomFilterModel request);
         Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);
-        Task<HotelPageModel> GetHotelPage(HotelFilterModel request);
+        Task<PageModel<HotelModel>> GetHotelPage(HotelFilterModel request);
     }
 }

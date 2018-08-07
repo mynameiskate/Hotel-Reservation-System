@@ -30,7 +30,7 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
-        public async Task<HotelPageModel> GetHotelPage(HotelFilterModel request)
+        public async Task<PageModel<HotelModel>> GetHotelPage(HotelFilterModel request)
         {
             int size = request.PageSize ?? _pageSize; 
             if (size > _maxPageSize)
@@ -55,7 +55,7 @@ namespace Services.Services
 
                 var listForPage = resultQuery.CutList(size, currentPage);
 
-                return new HotelPageModel(currentPage, size, resultCount, listForPage);
+                return new PageModel<HotelModel>(currentPage, size, resultCount, listForPage);
             }
             catch(Exception e)
             {
@@ -64,7 +64,7 @@ namespace Services.Services
             }
         }
 
-        public async Task<RoomPageModel> GetHotelRooms(RoomFilterModel request)
+        public async Task<PageModel<HotelRoomModel>> GetHotelRooms(RoomFilterModel request)
         {
             int size = request.PageSize ?? _pageSize;
             if (size > _maxPageSize)
@@ -86,7 +86,7 @@ namespace Services.Services
 
                 var listForPage = resultQuery.CutList(size, currentPage);
 
-                return new RoomPageModel(currentPage, size, resultCount, listForPage);
+                return new PageModel<HotelRoomModel>(currentPage, size, resultCount, listForPage);
             }
             catch (Exception e)
             {
