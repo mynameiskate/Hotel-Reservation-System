@@ -4,7 +4,7 @@ import {
 import RoomService from '../services/RoomService';
 
 class RoomSearchActions {
-    static loadFromQuery(query) {
+    static loadFromQuery(id) {
         const getRequest = () => {
             return {
                 type: roomConstants.GET_ROOMS_REQUEST,
@@ -30,7 +30,7 @@ class RoomSearchActions {
 
         return (dispatch) => {
             dispatch(getRequest());
-            RoomService.getRoomPageWithQuery(query)
+            RoomService.getRoomPageWithQuery(id)
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {

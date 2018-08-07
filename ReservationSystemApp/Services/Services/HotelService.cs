@@ -64,7 +64,7 @@ namespace Services.Services
             }
         }
 
-        public async Task<PageModel<HotelRoomModel>> GetHotelRooms(RoomFilterModel request)
+        public async Task<PageModel<HotelRoomModel>> GetHotelRooms(int hotelId, RoomFilterModel request)
         {
             int size = request.PageSize ?? _pageSize;
             if (size > _maxPageSize)
@@ -78,7 +78,7 @@ namespace Services.Services
 
                 var resultQuery = entityList
                     .Include(r => r.RoomType)
-                    .Where(r => r.HotelId == request.HotelId)
+                    .Where(r => r.HotelId == hotelId)
                     .Select(r => new HotelRoomModel(r));
 
                 int resultCount = await entityList.CountAsync();

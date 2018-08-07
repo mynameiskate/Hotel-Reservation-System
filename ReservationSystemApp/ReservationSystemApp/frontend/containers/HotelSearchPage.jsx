@@ -165,8 +165,7 @@ class HotelSearchPage extends React.Component {
                 <SearchDisplay/>
                { (pageCount > 0) &&
                     <HotelPageBar  currentPage={page} 
-                                   nextPage={nextPage}
-                                   goToPage={(num) => this.setPage(num)}/>
+                                   nextPage={nextPage}/>
                 }
             </div>
 	    );

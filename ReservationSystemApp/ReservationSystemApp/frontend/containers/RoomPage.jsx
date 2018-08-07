@@ -9,22 +9,33 @@ class RoomPage extends React.Component {
         super(props);
     }
 
+    getHotelId() {
+        return this.props.match.params.id;
+    }
+
     componentDidMount() {
-        const { hotelId } = this.props;
+        const hotelId = this.props.hotelId || this.getHotelId();
         this.props.dispatch(RoomSearchActions.loadFromQuery(hotelId));
     }
 
     render() {
-    	const { error, isLoading, info } = this.props;
+    	const { error, isLoading, info, pageCount, nextPage } = this.props;
     	return ( 
 	        <div>
                 {!isLoading &&
                     <div>
+                        <h3> Available rooms </h3>
                         {
                             <RoomList info={info} />
                         }
                         {error && <p>error</p>}
+                        
                     </div>
+                }
+                { (pageCount > 0) &&
+                    <HotelPageBar  currentPage={page} 
+                                   nextPage={nextPage}
+                                   goToPage={(num) => this.setPage(num)}/>
                 }
 	        </div>
 	    );

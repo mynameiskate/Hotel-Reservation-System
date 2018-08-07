@@ -5,6 +5,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import HotelInfoPage from './HotelInfoPage.jsx';
 import SignUpPage from './SignUpPage.jsx';
+import RoomPage from './RoomPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import HotelSearchPage from './HotelSearchPage.jsx';
@@ -34,6 +35,7 @@ class Main extends React.Component {
                         <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelInfoPage }/> 
                         <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
                         <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
+                        <Route exact path={links.ROOM_PAGE} component={RoomPage}/>
                         <Route path={links.HOTEL_SEARCH_PAGE_PATH} component={ HotelSearchPage }/>
                         <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
                     </Switch>

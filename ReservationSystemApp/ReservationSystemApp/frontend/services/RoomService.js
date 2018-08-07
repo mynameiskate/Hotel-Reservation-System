@@ -8,7 +8,7 @@ import RequestOptions from '../constants/RequestOptions';
 
 class RoomService {
     static getRoomPageWithQuery(id) {
-        let path = links.ROOM_PAGE(id);
+        let path = links.ROOM_ID_PAGE(id);
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }

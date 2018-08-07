@@ -31,9 +31,9 @@ namespace ReservationSystemApp.Controllers
         }
 
         [HttpGet("{id}/rooms")]
-        public async Task<PageModel<HotelRoomModel>> GetRoomList([FromQuery]RoomFilterModel requestModel)
+        public async Task<PageModel<HotelRoomModel>> GetRoomList(int id, [FromQuery]RoomFilterModel requestModel)
         {
-            return await _hotelService.GetHotelRooms(requestModel);
+            return await _hotelService.GetHotelRooms(id, requestModel);
         }
 
         // GET: api/hotels/details/5
