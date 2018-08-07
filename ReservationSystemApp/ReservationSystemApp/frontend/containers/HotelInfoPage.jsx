@@ -51,13 +51,12 @@ class HotelInfoPage extends React.Component {
                                 <HotelInfo hotel={ loaded }/> 
                                 <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button> 
                                 <Link to={links.ROOM_ID_PAGE(hotelId)}> See available rooms </Link>
-                                <RoomPage hotelId = {hotelId}/>      
                             </div>
                             :   <HotelEditField hotel={ loaded }
                                               sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
                                               onCancelClick={this.hideEditField} />
                         }
-                        {error && <p>error</p>}
+                        {error && <p>{error}</p>}
                     </div>          
                 }
 	        </div>

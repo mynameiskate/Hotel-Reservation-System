@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HotelPageBar = ( {currentPage, nextPage, goToPage} ) => (
+const PageBar = ( {currentPage, nextPage, goToPage} ) => (
     <div>        
         {   
             (currentPage - 1 > 0) &&
@@ -13,4 +13,4 @@ const HotelPageBar = ( {currentPage, nextPage, goToPage} ) => (
     </div>
 )
 
-export default HotelPageBar;
+export default PageBar;

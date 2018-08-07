@@ -1,10 +1,11 @@
 import {
     roomConstants
 } from '../constants/roomConstants.js';
+
 import RoomService from '../services/RoomService';
 
 class RoomSearchActions {
-    static loadFromQuery(id) {
+    static loadFromQuery(id, query) {
         const getRequest = () => {
             return {
                 type: roomConstants.GET_ROOMS_REQUEST,
@@ -30,7 +31,7 @@ class RoomSearchActions {
 
         return (dispatch) => {
             dispatch(getRequest());
-            RoomService.getRoomPageWithQuery(id)
+            RoomService.getRoomPageWithQuery(id, query)
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {
@@ -38,6 +39,21 @@ class RoomSearchActions {
                     return jsonInfo;
                 })
                 .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
+    static setCurrentPage(page) {
+        const setRequest = (page) => {
+            return {
+                type: roomConstants.SET_CURRENT_PAGE,
+                payload: {
+                    currentPage: page
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(page));
         }
     }
 }

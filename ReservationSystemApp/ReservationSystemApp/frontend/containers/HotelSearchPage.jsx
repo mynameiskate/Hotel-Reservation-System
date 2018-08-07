@@ -9,7 +9,7 @@ import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
 import  SearchFilter  from '../components/SearchFilter.jsx';
-import  HotelPageBar  from '../components/HotelPageBar.jsx';
+import  PageBar  from '../components/PageBar.jsx';
 import SearchDisplay from '../components/SearchDisplay.jsx';
 
 class HotelSearchPage extends React.Component {
@@ -164,8 +164,9 @@ class HotelSearchPage extends React.Component {
 
                 <SearchDisplay/>
                { (pageCount > 0) &&
-                    <HotelPageBar  currentPage={page} 
-                                   nextPage={nextPage}/>
+                    <PageBar  currentPage={page} 
+                              nextPage={nextPage}
+                              goToPage={this.setPage}/>
                 }
             </div>
 	    );

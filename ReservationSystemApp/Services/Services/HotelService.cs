@@ -81,7 +81,7 @@ namespace Services.Services
                     .Where(r => r.HotelId == hotelId)
                     .Select(r => new HotelRoomModel(r));
 
-                int resultCount = await entityList.CountAsync();
+                int resultCount = await resultQuery.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
 
                 var listForPage = resultQuery.CutList(size, currentPage);
