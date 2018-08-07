@@ -1,7 +1,6 @@
 import {
     searchConstants
 } from '../constants/searchConstants.js';
-import moment from 'moment';
 
 const initialState = {
     info: [],
@@ -89,10 +88,10 @@ export function searchReducer(state = initialState, action) {
                 moveOutTime: data.moveOutTime || state.moveOutTime,
                 dateError: null
             }
-        case searchConstants.INCORRECT_DATE_ERROR: 
+        case searchConstants.INCORRECT_DATE_ERROR:
             return {
                 ...state,
-                dateError: data.error
+                dateError: data.dateError
             }
         default:
             return state;

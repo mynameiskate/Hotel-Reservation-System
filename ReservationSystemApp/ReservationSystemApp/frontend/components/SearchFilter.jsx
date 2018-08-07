@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const SearchFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry, 
             onCountrySelect, onCitySelect, onNameChange, moveInTime,
-            moveOutTime, setMoveInTime, setMoveOutTime, error} = props;
+            moveOutTime, setMoveInTime, setMoveOutTime, dateError} = props;
     const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
 
@@ -39,7 +39,7 @@ const SearchFilter = (props) => {
                 selected = {moveOutTime}
                 onChange={date => setMoveOutTime(date)}
             />
-            {error && <h2>{error}</h2>}
+            {dateError && <h2>{dateError}</h2>}
             <button type='button' onClick={onCancel}>Reset filter</button>
         </div>
     );

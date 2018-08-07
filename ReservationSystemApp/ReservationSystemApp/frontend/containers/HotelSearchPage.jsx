@@ -51,12 +51,7 @@ class HotelSearchPage extends React.Component {
         }
 
         if (moveOutTime && !moveOutTime.isSame(this.props.moveOutTime))  {
-            if (moveOutTime.isBefore(this.props.moveInTime)) {
-                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutTime));
-            }
-            else {
-                this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));
-            }           
+            this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));         
         }
     }
 
@@ -129,10 +124,15 @@ class HotelSearchPage extends React.Component {
 
         if (moveInTime) {
             params.moveInTime = moveInTime.format('YYYY/MM/DD');
-        }
+        }  
 
         if (moveOutTime) {
-            params.moveOutTime = moveOutTime.format('YYYY/MM/DD');
+            if (!moveOutTime.isBefore(moveInTime)) {
+                params.moveOutTime = moveOutTime.format('YYYY/MM/DD');
+            }
+            else {
+                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutTime));
+            }
         }
 
         const query = queryString.stringify(params);
@@ -159,7 +159,7 @@ class HotelSearchPage extends React.Component {
                               moveOutTime={moveOutTime}
                               setMoveInTime={this.setMoveInTime}
                               setMoveOutTime={this.setMoveOutTime}
-                              error={dateError}
+                              dateError={dateError}
                 />
 
                 <SearchDisplay/>

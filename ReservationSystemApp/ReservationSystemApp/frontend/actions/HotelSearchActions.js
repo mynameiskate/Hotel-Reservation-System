@@ -142,23 +142,8 @@ class HotelSearchActions {
             }
         }
 
-        const setFailure = () => {
-            return {
-                type: searchConstants.INCORRECT_DATE_ERROR,
-                payload: {
-                    error: "Incorrect date interval!"
-                }
-            }
-        }
-
-        return (dispatch, stateAccessor) => {
-            const { moveInTime } = stateAccessor().search;
-            if (moveInTime.isBefore(date)) {
-                dispatch(setRequest(date));    
-            }
-            else {
-                dispatch(setFailure());
-            }
+        return (dispatch) => {
+            dispatch(setRequest(date));
         }
     }
 }
