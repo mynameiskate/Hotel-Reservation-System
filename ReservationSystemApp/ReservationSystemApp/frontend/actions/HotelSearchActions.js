@@ -116,6 +116,22 @@ class HotelSearchActions {
         }
     }
 
+    static setDateFailure(date) {
+        const setFailure = () => {
+            return {
+                type: searchConstants.INCORRECT_DATE_ERROR,
+                payload: {
+                    dateError: "Incorrect date interval!"
+                }
+            }
+        }
+
+        return (dispatch) => {
+            dispatch(setFailure());
+        }
+
+    }
+
     static setMoveOutTime(date) {
         const setRequest = (date) => {
             return {
@@ -126,8 +142,23 @@ class HotelSearchActions {
             }
         }
 
-        return dispatch => {
-            dispatch(setRequest(date));
+        const setFailure = () => {
+            return {
+                type: searchConstants.INCORRECT_DATE_ERROR,
+                payload: {
+                    error: "Incorrect date interval!"
+                }
+            }
+        }
+
+        return (dispatch, stateAccessor) => {
+            const { moveInTime } = stateAccessor().search;
+            if (moveInTime.isBefore(date)) {
+                dispatch(setRequest(date));    
+            }
+            else {
+                dispatch(setFailure());
+            }
         }
     }
 }

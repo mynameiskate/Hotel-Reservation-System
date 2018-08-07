@@ -17,7 +17,8 @@ const initialState = {
     isLoading: false,
     hotelName: null,
     moveInTime: null,
-    moveOutTime: null
+    moveOutTime: null,
+    dateError: null
 }
 
 export function searchReducer(state = initialState, action) {
@@ -85,7 +86,13 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.SET_END_DATE:
             return {
                 ...state,
-                moveOutTime: data.moveOutTime || state.moveOutTime
+                moveOutTime: data.moveOutTime || state.moveOutTime,
+                dateError: null
+            }
+        case searchConstants.INCORRECT_DATE_ERROR: 
+            return {
+                ...state,
+                dateError: data.error
             }
         default:
             return state;

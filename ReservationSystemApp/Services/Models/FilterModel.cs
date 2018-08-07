@@ -9,7 +9,7 @@ namespace Services.Models
         public string Name { get; set; }
         public string City { get; set; }
         public string CountryId { get; set; }
-        public DateTimeOffset? MoveInTime { get; set; }
-        public DateTimeOffset? MoveOutTime { get; set; }
+        public DateTime? MoveInTime { get; set; }
+        public DateTime? MoveOutTime { get; set; }
     }
 }

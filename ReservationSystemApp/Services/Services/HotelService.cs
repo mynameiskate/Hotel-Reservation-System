@@ -92,6 +92,16 @@ namespace Services.Services
                             .Where(h => h.Location.City.Name == filters.City);
                     }
                 }
+                
+                var moveInTime = filters.MoveInTime ?? DateTime.UtcNow.Date;
+                var moveOutTime = filters.MoveOutTime;
+
+                if (moveOutTime < moveInTime || moveOutTime == null)
+                {
+                    moveOutTime = moveInTime.AddDays(1);
+                }
+
+                if (moveOutTime <= moveInTime)
 
                 if (!(filters.MoveInTime == null || filters.MoveOutTime == null))
                 {

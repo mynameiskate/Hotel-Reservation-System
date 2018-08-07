@@ -50,8 +50,13 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(HotelSearchActions.setMoveInTime(moveInTime));
         }
 
-        if (moveOutTime && !moveOutTime.isSame(this.props.moveOutTime)) {
-            this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));
+        if (moveOutTime && !moveOutTime.isSame(this.props.moveOutTime))  {
+            if (moveOutTime.isBefore(this.props.moveInTime)) {
+                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutTime));
+            }
+            else {
+                this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));
+            }           
         }
     }
 
@@ -139,12 +144,8 @@ class HotelSearchPage extends React.Component {
     }
 
     render() {
-        const { selectedCountry, selectedCity, locations, 
+        const { selectedCountry, selectedCity, locations, dateError,
                 page, pageCount, nextPage, moveInTime, moveOutTime } = this.props;
-
-        /*const start = this.parseDate(moveInTime);
-        const end = this.parseDate(moveOutTime);*/
-
         return(
             <div>
                 <SearchFilter onCancel = {this.resetFilters}
@@ -158,6 +159,7 @@ class HotelSearchPage extends React.Component {
                               moveOutTime={moveOutTime}
                               setMoveInTime={this.setMoveInTime}
                               setMoveOutTime={this.setMoveOutTime}
+                              error={dateError}
                 />
 
                 <SearchDisplay/>
@@ -177,6 +179,7 @@ const mapStateToProps = (state) => {
         search: state.router.location.search,
         info: state.search.info,
         error: state.search.error,
+        dateError: state.search.dateError,
         isLoading: state.search.isLoading,
         locations: state.hotels.locations,
         selectedCountry: state.search.selectedCountry,
