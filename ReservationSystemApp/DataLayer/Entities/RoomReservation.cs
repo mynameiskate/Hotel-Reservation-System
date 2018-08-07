@@ -6,7 +6,7 @@ namespace DataLayer.Entities
     [Table("RoomReservations")]
     public class RoomReservation
     {
-        public int? RoomReservationId { get; set; }
+        public int RoomReservationId { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset MoveInTime { get; set; }
         public DateTimeOffset MoveOutTime { get; set; }

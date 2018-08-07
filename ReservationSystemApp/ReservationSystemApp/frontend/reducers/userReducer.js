@@ -60,7 +60,7 @@ export function userReducer(state = initialState, action) {
         case userConstants.SIGN_UP_FAILURE:
             return {
                 ...state,
-                error: data.error,
+                error: data.error || null,
                 isValid: false,
                 isLoading: false,
                 loggedIn: false,

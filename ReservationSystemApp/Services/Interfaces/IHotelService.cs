@@ -1,13 +1,15 @@
 ﻿using Services.Models;
-using System.Collections.Generic;
+using Services.Models.PageModels;
+using Services.Models.RequestModels;
 using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
     public interface IHotelService
     {
+        Task<RoomPageModel> GetHotelRooms(RoomFilterModel request);
         Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);
-        Task<PageModel> GetHotelPage(PageRequestModel request);
+        Task<HotelPageModel> GetHotelPage(HotelFilterModel request);
     }
 }

@@ -8,10 +8,10 @@ namespace Services.Models
     {
         public int Number { get; set; }
         public bool Available { get; set; }
-        public float Size { get; set; }
-        public float Cost { get; set; }
+        public double Size { get; set; }
+        public double Cost { get; set; }
         public int CanPlace { get; set; }
-        public RoomType RoomType { get; set; }
+        public string RoomType { get; set; }
         public List<string> Images { get; set; }
 
         public HotelRoomModel(HotelRoom room)
@@ -23,7 +23,7 @@ namespace Services.Models
                 Size = room.Size;
                 Cost = room.Cost;
                 CanPlace = room.CanPlace;
-                RoomType = room.RoomType;
+                RoomType = room.RoomType?.RoomTypeName;
 
                 Images = room.Images?
                         .Select(img => img.Path)

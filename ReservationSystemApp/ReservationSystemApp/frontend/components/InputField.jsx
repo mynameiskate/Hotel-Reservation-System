@@ -1,10 +1,10 @@
 import React from 'react';
 
-const InputField = ({ input, label, defaultValue, meta: { touched, error, warning } }) => (
+const InputField = ({ input, label, defaultValue, type, meta: { touched, error, warning } }) => (
     <div>
         <h3>{label}</h3>
         <div>
-            <input {...input} placeholder={defaultValue} type='text'/>
+            <input {...input} placeholder={defaultValue} type={type}/>
             {touched && 
                 ((error && <span>{error}</span>) || 
                 (warning && <span>{warning}</span>))}

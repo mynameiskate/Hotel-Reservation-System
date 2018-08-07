@@ -3,8 +3,11 @@ using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
+using Services.Extensions;
 using Services.Interfaces;
 using Services.Models;
+using Services.Models.PageModels;
+using Services.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +30,7 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
-        public async Task<PageModel> GetHotelPage(PageRequestModel request)
+        public async Task<HotelPageModel> GetHotelPage(HotelFilterModel request)
         {
             int size = request.PageSize ?? _pageSize; 
             if (size > _maxPageSize)
@@ -50,26 +53,49 @@ namespace Services.Services
                 int resultCount = await entityList.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
 
-                var listForPage = CutList(resultQuery, size, currentPage);
+                var listForPage = resultQuery.CutList(size, currentPage);
 
-                return new PageModel(currentPage, size, resultCount, listForPage);
+                return new HotelPageModel(currentPage, size, resultCount, listForPage);
             }
             catch(Exception e)
             {
                 _logger.LogInformation(e.Message);
                 return null;
             }
-
         }
 
-        private IEnumerable<HotelModel> CutList(IQueryable<HotelModel> hotels, 
-                                                int pageSize, int pageNumber = 1)
+        public async Task<RoomPageModel> GetHotelRooms(RoomFilterModel request)
         {
-            int startAfter = (pageNumber - 1) * pageSize;
-            return hotels.Skip(startAfter).Take(pageSize);
+            int size = request.PageSize ?? _pageSize;
+            if (size > _maxPageSize)
+            {
+                size = _pageSize;
+            }
+
+            try
+            {
+                var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
+
+                var resultQuery = entityList
+                    .Include(r => r.RoomType)
+                    .Where(r => r.HotelId == request.HotelId)
+                    .Select(r => new HotelRoomModel(r));
+
+                int resultCount = await entityList.CountAsync();
+                int currentPage = (request.Page > 0) ? request.Page : 1;
+
+                var listForPage = resultQuery.CutList(size, currentPage);
+
+                return new RoomPageModel(currentPage, size, resultCount, listForPage);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message);
+                return null;
+            }
         }
 
-        private IQueryable<Hotel> FilterHotels(IQueryable<Hotel> hotels, FilterModel filters)
+        private IQueryable<Hotel> FilterHotels(IQueryable<Hotel> hotels, HotelFilterModel filters)
         {
             if (filters != null)
             {
@@ -107,7 +133,9 @@ namespace Services.Services
                                    join hr in _dataContext.HotelRooms on h.HotelId equals hr.HotelId
                                    join r in _dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId into res
                                    from r in res.DefaultIfEmpty()
-                                   where (r.RoomReservationId == null) ||
+                                   //Here left join is used, that's why RoomReseservationId can be null. 
+                                   //This check is necessary for including hotels with available rooms but without existing reservations.
+                                   where (r.RoomReservationId == null) ||   
                                    !(r.MoveInTime <= filters.MoveOutTime && r.MoveOutTime >= filters.MoveInTime)
                                    select h;
                 }

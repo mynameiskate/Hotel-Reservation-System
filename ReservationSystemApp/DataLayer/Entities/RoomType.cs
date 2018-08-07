@@ -1,17 +1,12 @@
-﻿namespace DataLayer.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataLayer.Entities
 {
-    public enum RoomType
+    [Table("RoomTypes")]
+    public class RoomType
     {
-        Single,
-        Double,
-        Triple,
-        Quad,
-        Queen,
-        King,
-        Twin,
-        Suite,
-        Apartment,
-        PresidentSuite,
-        ConnectingRooms
+        [Column("RoomType")]
+        public string RoomTypeName { get; set; }
+        public int RoomTypeId { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Interfaces;
 using Services.Models;
+using Services.Models.PageModels;
+using Services.Models.RequestModels;
 
 namespace ReservationSystemApp.Controllers
 {
@@ -23,9 +25,15 @@ namespace ReservationSystemApp.Controllers
 
         // GET: api/hotels/?
         [HttpGet]
-        public async Task<PageModel> GetHotelList([FromQuery]PageRequestModel requestModel)
+        public async Task<HotelPageModel> GetHotelList([FromQuery]HotelFilterModel requestModel)
         {
             return await _hotelService.GetHotelPage(requestModel);
+        }
+
+        [HttpGet("rooms")]
+        public async Task<RoomPageModel> GetRoomList([FromQuery]RoomFilterModel requestModel)
+        {
+            return await _hotelService.GetHotelRooms(requestModel);
         }
 
         // GET: api/hotels/details/5
