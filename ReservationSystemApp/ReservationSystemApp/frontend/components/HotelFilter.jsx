@@ -6,7 +6,7 @@ import SelectService from '../services/SelectService.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const SearchFilter = (props) => {
+const HotelFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry, 
             onCountrySelect, onCitySelect, onNameChange, moveInTime,
             moveOutTime, setMoveInTime, setMoveOutTime, dateError} = props;
@@ -47,4 +47,4 @@ const SearchFilter = (props) => {
 
 export default reduxForm({ 
     form: 'searchFilterForm'
-})(SearchFilter)
+})(HotelFilter)

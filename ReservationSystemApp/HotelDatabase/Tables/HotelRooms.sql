@@ -5,7 +5,7 @@
 	IsAvailable bit DEFAULT 1 NOT NULL,
 	Cost FLOAT NULL,
 	Size FLOAT NULL,
-	CanPlace int,
+	Adults int,
 	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
 	RoomTypeId int FOREIGN KEY REFERENCES RoomTypes(RoomTypeId)
 )

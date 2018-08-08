@@ -6,6 +6,19 @@ class SelectService {
         }];
     }
 
+    static getNumericOptions(maxValue, minValue = 1) {
+        let selectEntries = this.getEmptyOption();
+
+        for (let i = minValue; i <= maxValue; i++) {
+            selectEntries.push({
+                value: i,
+                label: i
+            });
+        }
+
+        return selectEntries;
+    }
+
     static getOptions(options, labelProperty, valueProperty = null) {
         if (!valueProperty) {
             valueProperty = labelProperty;

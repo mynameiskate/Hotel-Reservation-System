@@ -2,7 +2,7 @@
 
 namespace Services.Models.RequestModels
 {
-    public class HotelFilterModel : PageRequestModel
+    public class FilteredHotelsRequestModel : PageRequestModel
     {
         public string Name { get; set; }
         public string City { get; set; }

@@ -4,7 +4,7 @@
 			  IsAvailable,
 			  Cost,
 			  Size,
-			  CanPlace,
+			  Adults,
 			  HotelId,
 			  RoomTypes.RoomType
 	FROM [HotelRooms]

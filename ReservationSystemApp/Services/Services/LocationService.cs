@@ -14,9 +14,9 @@ namespace Services.Services
     public class LocationService : ILocationService
     {
         private readonly ILogger _logger;
-        private DataContext _dataContext;
+        private HotelDbContext _dataContext;
 
-        public LocationService(DataContext dataContext)
+        public LocationService(HotelDbContext dataContext)
         {
             _dataContext = dataContext;
             _logger = AppLogging.LoggerFactory.CreateLogger<LocationService>();

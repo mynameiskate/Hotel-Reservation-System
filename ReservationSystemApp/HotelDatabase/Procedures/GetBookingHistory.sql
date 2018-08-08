@@ -3,8 +3,8 @@
 AS
 	SELECT RoomReservationId,
 		   ReservationTime,
-		   MoveInTime,
-		   MoveOutTime,
+		   MoveInDate,
+		   MoveOutDate,
 		   UserId,
 		   HotelId,
 		   Cost,

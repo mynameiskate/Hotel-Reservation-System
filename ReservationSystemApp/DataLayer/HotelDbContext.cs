@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
 {
-    public class DataContext : DbContext
+    public class HotelDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
@@ -11,7 +11,7 @@ namespace DataLayer
         public DbSet<HotelRoom> HotelRooms { get; set; }
         public DbSet<RoomReservation> Reservations { get; set; }
 
-        public DataContext(DbContextOptions options)
+        public HotelDbContext(DbContextOptions options)
             : base(options)
         {
             Database.EnsureCreated();

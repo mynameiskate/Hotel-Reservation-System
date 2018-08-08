@@ -22,7 +22,7 @@ namespace Services.Models
                 Available = room.IsAvailable;
                 Size = room.Size;
                 Cost = room.Cost;
-                CanPlace = room.CanPlace;
+                CanPlace = room.Adults;
                 RoomType = room.RoomType?.RoomTypeName;
 
                 Images = room.Images?

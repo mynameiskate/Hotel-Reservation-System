@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="e9fcb753-975f-4a6d-95c0-1a11e209c05a" ChangeDateTime="08/08/2018 10:13:08">
+    <Property Name="ElementName" Value="[dbo].[RoomReservations].[MoveInTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RoomReservations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MoveInDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ecaed7a3-7592-44db-b816-c05613011704" ChangeDateTime="08/08/2018 10:13:23">
+    <Property Name="ElementName" Value="[dbo].[RoomReservations].[MoveOutTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RoomReservations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MoveOutDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3b1caf7d-1500-4a0f-b083-0d853ba5fdbd" ChangeDateTime="08/08/2018 10:20:00">
+    <Property Name="ElementName" Value="[dbo].[HotelRooms].[CanPlace]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HotelRooms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Adults" />
+  </Operation>
+</Operations>

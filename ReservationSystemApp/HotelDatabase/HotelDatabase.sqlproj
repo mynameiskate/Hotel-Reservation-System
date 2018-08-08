@@ -87,4 +87,7 @@
     <Build Include="Procedures\GetBookingHistory.sql" />
     <Build Include="Tables\ReservationStatuses.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="HotelDatabase.refactorlog" />
+  </ItemGroup>
 </Project>

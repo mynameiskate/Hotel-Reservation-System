@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 
+import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
 import RoomSearchActions from '../actions/RoomSearchActions.js';
@@ -24,12 +25,20 @@ class RoomPage extends React.Component {
         if (nextProps.page && this.props.page !== params.page) {
             this.props.dispatch(RoomSearchActions.setCurrentPage(params.page));
         }
+
+        if (this.props.adults !== params.canPlace) {
+            this.props.dispatch(RoomSearchActions.setAdults(params.canPlace));
+        }
     }
 
-    buildQuery = (page = 1) => {
+    buildQuery = (canPlace, page = 1) => {
         const params = {
             page
         };
+
+        if (canPlace) {
+            params.canPlace = canPlace;
+        }
 
         const query = queryString.stringify(params);
         this.props.dispatch(push(`${links.ROOM_ID_PAGE(this.getHotelId())}?${query}`));
@@ -55,35 +64,58 @@ class RoomPage extends React.Component {
     }
 
     setPage = (page) => {
-        this.buildQuery(page);
+        const { stars } = this.props;
+        this.buildQuery(stars, page);
+    }
+
+    setAdults = (adults) => {
+        this.buildQuery(adults);
+    }
+
+    setCost = (cost) => {
+        
+    }
+
+    resetFilters = () => {
+        this.buildQuery();
     }
 
     render() {
-    	const { error, isLoading, info, pageCount, nextPage, page } = this.props;
-    	return ( 
-	        <div>
-                {!isLoading &&
-                    <div>
-                        <h3> Available rooms </h3>
-                        {
-                            <RoomList info={info} />
-                        }
-                        {error && <p>error</p>}
-                        
-                    </div>
-                }
-                { (pageCount > 0) &&
-                    <PageBar  currentPage={page} 
-                              nextPage={nextPage}
-                              goToPage={(num) => this.setPage(num)}/>
+        const { error, isLoading, info, pageCount, 
+            nextPage, page, adults, cost } = this.props;
+        return ( 
+            <div>
+                <RoomFilter selectedCost={cost}
+                            adultsAmount={adults}
+                            onCostChange={this.setCost}
+                            onAdultsChange={this.setAdults}
+                            onCancel={this.resetFilters}
+                />
+                { pageCount ? 
+                    (!isLoading && 
+                        <div>
+                            <h3> Available rooms </h3>
+                            {
+                                <RoomList info={info} />
+                            }
+                            {error && <p>error</p>}
+
+                            <PageBar  currentPage={page} 
+                                nextPage={nextPage}
+                                goToPage={(num) => this.setPage(num)}/>
+                        </div>
+                    )
+                    : <h3>No available rooms with given parameters found.</h3>
                 }
 	        </div>
 	    );
     } 
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
+        adults: state.rooms.adults,
+        cost: state.rooms.cost,
         info: state.rooms.info,
         error: state.rooms.error,
         isLoading: state.rooms.isLoading,

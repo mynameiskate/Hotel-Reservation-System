@@ -40,16 +40,16 @@ namespace ReservationSystemApp
 
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<DataContext>
+            services.AddDbContext<HotelDbContext>
                 (options => options.UseSqlServer(connection));
             services.AddScoped<IAccountService>
-                (provider => new AccountService(provider.GetRequiredService<DataContext>()));
+                (provider => new AccountService(provider.GetRequiredService<HotelDbContext>()));
             services.AddScoped<IHotelService>
-               (provider => new HotelService(provider.GetRequiredService<DataContext>(),
+               (provider => new HotelService(provider.GetRequiredService<HotelDbContext>(),
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"])));
             services.AddScoped<ILocationService>
-                (provider => new LocationService(provider.GetRequiredService<DataContext>()));
+                (provider => new LocationService(provider.GetRequiredService<HotelDbContext>()));
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);

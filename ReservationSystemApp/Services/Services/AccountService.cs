@@ -16,11 +16,11 @@ namespace Services.Services
     public class AccountService : IAccountService
     {
         private readonly ILogger _logger;
-        private readonly DataContext _dataContext;
+        private readonly HotelDbContext _dataContext;
         private static RNGCryptoServiceProvider _cryptoProvider;
         private const int _saltLength = 32;
 
-        public AccountService(DataContext dataContext)
+        public AccountService(HotelDbContext dataContext)
         {
             _dataContext = dataContext;
             _cryptoProvider = new RNGCryptoServiceProvider();

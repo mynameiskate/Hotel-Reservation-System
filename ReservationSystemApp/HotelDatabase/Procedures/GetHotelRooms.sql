@@ -6,7 +6,7 @@ AS
 		   IsAvailable,
 		   Cost,
 		   Size,
-		   CanPlace,
+		   Adults,
 		   RoomType
 	FROM HotelRoomView
 	WHERE (@HotelId = HotelRoomView.HotelId)

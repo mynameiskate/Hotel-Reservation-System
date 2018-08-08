@@ -8,7 +8,7 @@ import {change } from 'redux-form';
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
-import  SearchFilter  from '../components/SearchFilter.jsx';
+import  HotelFilter  from '../components/HotelFilter.jsx';
 import  PageBar  from '../components/PageBar.jsx';
 import SearchDisplay from '../components/SearchDisplay.jsx';
 
@@ -148,7 +148,7 @@ class HotelSearchPage extends React.Component {
                 page, pageCount, nextPage, moveInTime, moveOutTime } = this.props;
         return(
             <div>
-                <SearchFilter onCancel = {this.resetFilters}
+                <HotelFilter onCancel = {this.resetFilters}
                               locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}

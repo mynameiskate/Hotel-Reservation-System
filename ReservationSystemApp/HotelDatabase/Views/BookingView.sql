@@ -1,8 +1,8 @@
 ﻿CREATE VIEW [dbo].[BookingView]
 	AS SELECT RoomReservationId,
 			  ReservationTime,
-			  MoveInTime,
-			  MoveOutTime,
+			  MoveInDate,
+			  MoveOutDate,
 			  UserId,
 			  room.HotelId,
 			  room.Cost,

@@ -10,7 +10,8 @@ const initialState = {
     resultCount: 0,
     pageSize: 0,
     pageCount: 1,
-    nextPage: null
+    nextPage: null,
+    adults: 1
 }
 
 export function roomReducer(state = initialState, action) {
@@ -35,6 +36,7 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 info: data.info.entities,
                 isLoading: false,
+                selectedStars: data.selectedStars,
                 page,
                 resultCount,
                 pageSize,
@@ -46,6 +48,16 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 error: data.error,
                 isLoading: false
+            }
+        case roomConstants.SET_ADULTS:
+            return {
+                ...state,
+                adults: data.adults
+            }
+        case roomConstants.SET_CURRENT_PAGE:
+            return {
+                ...state,
+                page: data.currentPage
             }
         default:
             return state;

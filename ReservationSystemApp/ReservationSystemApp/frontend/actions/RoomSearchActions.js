@@ -56,6 +56,21 @@ class RoomSearchActions {
             dispatch(setRequest(page));
         }
     }
+
+    static setAdults(adults) {
+        const setRequest = (adults) => {
+            return {
+                type: roomConstants.SET_ADULTS,
+                payload: {
+                    adults
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(adults));
+        }
+    }
 }
 
 let handleError = function(response) {

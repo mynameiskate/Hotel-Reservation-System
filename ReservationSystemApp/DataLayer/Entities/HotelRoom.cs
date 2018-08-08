@@ -12,7 +12,7 @@ namespace DataLayer.Entities
         public bool IsAvailable { get; set; }
         public double Size { get; set; }
         public double Cost { get; set; }
-        public int CanPlace { get; set; }
+        public int Adults { get; set; }
 
         public RoomType RoomType { get; set; }
         public int RoomTypeId { get; set; }

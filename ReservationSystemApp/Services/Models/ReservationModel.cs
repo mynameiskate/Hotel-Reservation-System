@@ -18,8 +18,8 @@ namespace Services.Models
             {
                 RoomReservationId = reservation.RoomReservationId;
                 ReservationTime = reservation.Created;
-                MoveInTime = reservation.MoveInTime;
-                MoveOutTime = reservation.MoveOutTime;
+                MoveInTime = reservation.MoveInDate;
+                MoveOutTime = reservation.MoveOutDate;
                 UserId = reservation.UserId;
                 HotelRoomId = reservation.HotelRoomId;
             }
