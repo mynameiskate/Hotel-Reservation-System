@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 
+import BookingModal from '../components/BookingModal.jsx';
 import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
@@ -12,6 +13,12 @@ import RoomList from '../components/RoomList.jsx';
 class RoomPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isBooking: false,
+            currentRoom: {},
+            hotelId: this.getHotelId()
+        };   
     }
 
     componentDidMount() {
@@ -41,7 +48,7 @@ class RoomPage extends React.Component {
         }
 
         const query = queryString.stringify(params);
-        this.props.dispatch(push(`${links.ROOM_ID_PAGE(this.getHotelId())}?${query}`));
+        this.props.dispatch(push(`${links.ROOM_ID_PAGE(this.state.hotelId)}?${query}`));
     }
 
     componentDidUpdate(prevProps) {
@@ -80,6 +87,14 @@ class RoomPage extends React.Component {
         this.buildQuery();
     }
 
+    openModal = (room) => {
+        this.setState({isBooking: true, currentRoom: room});
+    }
+    
+    closeModal = () => {
+        this.setState({isBooking: false, currentRoom: {}});
+    }
+
     render() {
         const { error, isLoading, info, pageCount, 
             nextPage, page, adults, cost } = this.props;
@@ -97,7 +112,9 @@ class RoomPage extends React.Component {
                         <div>
                             <h3> Available rooms </h3>
                             {
-                                <RoomList info={info} />
+                                <RoomList info={info}
+                                          showBookModal={this.openModal}
+                                />
                             }
                             {error && <p>error</p>}
 
@@ -113,6 +130,11 @@ class RoomPage extends React.Component {
                         </div>
                     )
                 }
+                <BookingModal userInfo={this.state.userInfo}
+                              isBooking={this.state.isBooking}
+                              onClose={this.closeModal}
+                              room={this.state.currentRoom}
+                 />
 	        </div>
 	    );
     } 
@@ -120,6 +142,8 @@ class RoomPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        info: state.hotels.info,
+        userInfo: state.users.userInfo,
         adults: state.rooms.adults,
         cost: state.rooms.cost,
         info: state.rooms.info,
