@@ -91,8 +91,9 @@ class RoomPage extends React.Component {
                             onAdultsChange={this.setAdults}
                             onCancel={this.resetFilters}
                 />
-                { pageCount ? 
-                    (!isLoading && 
+                { isLoading ?
+                        <h2>Loading rooms...</h2>
+                  : ( pageCount ?
                         <div>
                             <h3> Available rooms </h3>
                             {
@@ -104,8 +105,13 @@ class RoomPage extends React.Component {
                                 nextPage={nextPage}
                                 goToPage={(num) => this.setPage(num)}/>
                         </div>
+                    
+                      :   
+                        <div>
+                            <h3>No available rooms with given parameters found.</h3> 
+                            <button onClick={this.resetFilters}>Back</button>
+                        </div>
                     )
-                    : <h3>No available rooms with given parameters found.</h3>
                 }
 	        </div>
 	    );
@@ -121,7 +127,7 @@ const mapStateToProps = (state) => {
         isLoading: state.rooms.isLoading,
         page: state.rooms.page,
         nextPage: state.rooms.nextPage,
-        pageCount: state.rooms.nextPage,
+        pageCount: state.rooms.pageCount,
         search: state.router.location.search
     }
 }

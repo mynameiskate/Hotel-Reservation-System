@@ -80,6 +80,7 @@ namespace Services.Services
                     .Include(r => r.RoomType)
                     .Where(r => r.HotelId == hotelId)
                     .FilterRooms(request)
+                    .Distinct()
                     .Select(r => new HotelRoomModel(r));
 
                 int resultCount = await resultQuery.CountAsync();

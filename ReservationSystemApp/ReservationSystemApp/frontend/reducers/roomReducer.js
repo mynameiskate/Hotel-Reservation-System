@@ -28,7 +28,7 @@ export function roomReducer(state = initialState, action) {
             const resultCount = data.info.totalAmount;
             const pageSize = data.info.pageSize;
             const requestPage = data.info.pageNumber;
-            const pageCount = pageSize ? Math.ceil(resultCount / pageSize) : 0;
+            const pageCount = (pageSize > 0) ? Math.ceil(resultCount / pageSize) : 0;
             const page = (requestPage > pageCount) ? 1 : requestPage;
             const nextPage = (page < pageCount) ? (page + 1) : null;
 
