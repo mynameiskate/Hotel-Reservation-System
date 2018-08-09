@@ -7,7 +7,7 @@ namespace Services.Interfaces
 {
     public interface IHotelService
     {
-        Task<ReservationModel> Book(int roomId, string email);
+        Task<ReservationModel> Book(string userEmail, ReservationModel reservation);
         Task<PageModel<HotelRoomModel>> GetHotelRooms(int hotelId, FilteredRoomsRequestModel request);
         Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);

@@ -32,34 +32,25 @@ namespace ReservationSystemApp.Controllers
         [Authorize]
         public async Task<IActionResult> BookAsync([FromBody]ReservationModel reservation)
         {
-            return Ok();
-        }
-
-        [HttpGet("{roomId}")]
-        [Authorize]
-        public async Task<IActionResult> BookAsync(int roomId)
-        {
             try
             {
                 string email = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
 
                 if (email != null)
                 {
-                    var reservationModel = await _hotelService.Book(roomId, email);
+                    var reservationModel = await _hotelService.Book(email, reservation);
                     return Ok(reservationModel);
                 }
                 else
                 {
                     return BadRequest();
                 }
-                
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogInformation(e.Message);
                 return BadRequest();
             }
         }
-
     }
 }
