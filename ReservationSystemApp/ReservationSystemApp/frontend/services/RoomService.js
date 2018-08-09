@@ -12,6 +12,12 @@ class RoomService {
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }
+
+    static book(roomId) {
+        let path = links.BOOKING_ID_PAGE(roomId);
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
 }
 
 export default RoomService;

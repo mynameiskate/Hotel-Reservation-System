@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import RoomInfo from '../components/RoomInfo.jsx';
 
 const BookingModal = ( {room, hotel, userInfo, isBooking,
-                        onClose} ) => (
+                        onClose, onBook} ) => (
     <Modal
         isOpen={isBooking}
         onRequestClose={onClose}
@@ -12,6 +12,7 @@ const BookingModal = ( {room, hotel, userInfo, isBooking,
     >
         <h2>Confirm booking</h2>
         <RoomInfo room={room}/>
+        <button onClick={() => onBook(room.id)}>Confirm</button>
         <button onClick={onClose}>Cancel</button>
     </Modal>
 ) 

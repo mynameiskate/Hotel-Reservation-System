@@ -6,6 +6,7 @@ namespace Services.Models
 {
     public class HotelRoomModel
     {
+        public int Id { get; set; }
         public int Number { get; set; }
         public bool Available { get; set; }
         public double Size { get; set; }
@@ -18,6 +19,7 @@ namespace Services.Models
         {
             if (room != null)
             {
+                Id = room.HotelRoomId;
                 Number = room.Number;
                 Available = room.IsAvailable;
                 Size = room.Size;

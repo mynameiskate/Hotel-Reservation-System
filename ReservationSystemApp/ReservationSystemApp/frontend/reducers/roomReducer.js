@@ -11,7 +11,8 @@ const initialState = {
     pageSize: 0,
     pageCount: 1,
     nextPage: null,
-    adults: 1
+    adults: 1,
+    currentRoomId: null
 }
 
 export function roomReducer(state = initialState, action) {
@@ -58,6 +59,25 @@ export function roomReducer(state = initialState, action) {
             return {
                 ...state,
                 page: data.currentPage
+            }
+        case roomConstants.BOOK_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                currentRoomId: data.roomId               
+            }
+        case roomConstants.BOOK_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                isLoading: false,              
+            }
+        case roomConstants.BOOK_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                isLoading: false             
             }
         default:
             return state;

@@ -8,6 +8,7 @@ import SignUpPage from './SignUpPage.jsx';
 import RoomPage from './RoomPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import BookingPage from './BookingPage.jsx';
 import HotelSearchPage from './HotelSearchPage.jsx';
 import UserPage from './UserPage.jsx';
 import { links } from '../config/links.js';
@@ -23,7 +24,7 @@ class Main extends React.Component {
     }
 
     render() {
-        const { isLoading } = this.props;
+        const { isLoading, location } = this.props;
         return (
             <div>
                 {isLoading ?
@@ -38,6 +39,7 @@ class Main extends React.Component {
                         <Route exact path={links.ROOM_PAGE} component={RoomPage}/>
                         <Route path={links.HOTEL_SEARCH_PAGE_PATH} component={ HotelSearchPage }/>
                         <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
+                        <Route exact path={links.BOOKING_PAGE} component={ RoomPage } />
                     </Switch>
                 </BrowserRouter>
                 }
@@ -48,6 +50,7 @@ class Main extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        isBooking: state.isBooking,
         loggedIn: state.users.loggedIn,
         userInfo: state.users.info,
         error: state.users.error,
