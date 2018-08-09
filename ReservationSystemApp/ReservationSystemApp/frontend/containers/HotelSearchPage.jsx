@@ -46,13 +46,14 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
         }
 
+        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
+            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
+        }
+
         if (moveInDate && !moveInDate.isSame(this.props.moveInDate)) {
             this.props.dispatch(HotelSearchActions.setMoveInDate(moveInDate));
         }
 
-        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
-            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
-        }
     }
 
     componentDidUpdate(prevProps) {

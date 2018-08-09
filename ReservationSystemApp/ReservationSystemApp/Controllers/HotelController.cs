@@ -37,7 +37,7 @@ namespace ReservationSystemApp.Controllers
         }
 
         // GET: api/hotels/details/5
-        [HttpGet("details/{id}")]
+        [HttpGet("{id}/details")]
         public async Task<HotelModel> Get(int id)
         {
             var hotel = await _hotelService.GetHotelInfo(id);

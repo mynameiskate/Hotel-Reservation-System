@@ -16,11 +16,15 @@ import {
 import {
     roomReducer
 } from '../reducers/roomReducer.js';
+import {
+    reservationReducer
+} from '../reducers/reservationReducer.js';
 
 export const rootReducer = combineReducers({
     hotels: hotelReducer,
     form: reduxFormReducer,
     users: userReducer,
     search: searchReducer,
-    rooms: roomReducer
+    rooms: roomReducer,
+    reservations: reservationReducer
 });

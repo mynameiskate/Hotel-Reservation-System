@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Interfaces;
+using Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,26 @@ namespace ReservationSystemApp.Controllers
 {
     [Route("api/booking")]
     [ApiController]
-    public class BookingController : ControllerBase
+    public class ReservationController : ControllerBase
     {
         private readonly ILogger<HotelController> _logger;
         private readonly IHotelService _hotelService;
         private readonly IAccountService _accountService;
 
-        public BookingController(ILogger<HotelController> logger,
+        public ReservationController(ILogger<HotelController> logger,
                           IHotelService hotelService,
                           IAccountService accountService)
         {
             _logger = logger;
             _hotelService = hotelService;
             _accountService = accountService;
+        }
+
+        [HttpPost("{roomId}")]
+        [Authorize]
+        public async Task<IActionResult> BookAsync([FromBody]ReservationModel reservation)
+        {
+            return Ok();
         }
 
         [HttpGet("{roomId}")]

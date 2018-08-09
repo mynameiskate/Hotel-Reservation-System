@@ -13,15 +13,8 @@ class RoomService {
         return fetch(settings.baseUrl + path, options);
     }
 
-    static book(roomId) {
-        let path = links.BOOKING_ID_PAGE(roomId);
-        const token = localStorage.getItem('token');
-        const options = RequestOptions.createGetOptions(token);
-        return fetch(settings.baseUrl + path, options);
-    }
-
     static bookRoom(reservationInfo) {
-        let path = links.BOOKING_ID_PAGE(roomId);
+        let path = links.BOOKING_ID_PAGE(reservationInfo.hotelRoomId);
         const token = localStorage.getItem('token');
         const options = RequestOptions.createPostOptions(reservationInfo, token);
         return fetch(settings.baseUrl + path, options);

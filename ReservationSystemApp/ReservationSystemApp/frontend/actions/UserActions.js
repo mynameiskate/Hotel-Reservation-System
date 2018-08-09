@@ -140,7 +140,7 @@ class UserActions {
         };
 
         return (dispatch, stateAccessor) => {
-            let isLoggedIn = stateAccessor().users.loggedIn;
+            const isLoggedIn = stateAccessor().users.loggedIn;
             if (!isLoggedIn) {
                 dispatch(getRequest());
                 UserService.getProfile()

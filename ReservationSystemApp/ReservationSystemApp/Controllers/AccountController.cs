@@ -35,7 +35,7 @@ namespace ReservationSystemApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginModel user)
+        public async Task<IActionResult> Authenticate([FromBody]LoginModel user)
         {
             var loggedUser = await _accountService.Authenticate(user.Email, user.Password);
             if (loggedUser == null)
@@ -51,7 +51,7 @@ namespace ReservationSystemApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("signup")]
-        public async Task<IActionResult> Register([FromBody] SignUpModel userModel)
+        public async Task<IActionResult> Register([FromBody]SignUpModel userModel)
         {
              User user = userModel.ConvertToUser();
              var signedUpUser = await _accountService.SignUp(user, userModel.Password);

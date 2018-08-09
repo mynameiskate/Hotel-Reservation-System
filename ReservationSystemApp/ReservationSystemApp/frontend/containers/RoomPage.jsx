@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
+import  moment  from 'moment';
 
 import BookingModal from '../components/BookingModal.jsx';
 import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
 import RoomActions from '../actions/RoomActions.js';
+import ReservationActions from '../actions/ReservationActions.js';
+import HotelSearchActions from '../actions/HotelSearchActions.js';
 import RoomList from '../components/RoomList.jsx';
 
 class RoomPage extends React.Component {
@@ -29,6 +32,16 @@ class RoomPage extends React.Component {
     componentWillReceiveProps(nextProps) {
         const query = nextProps.search;
         const params = queryString.parse(query);
+        const moveInDate = this.stringToMoment(params.moveInDate);
+        const moveOutDate = this.stringToMoment(params.moveOutDate);
+
+        if (moveInDate && !moveInDate.isSame(this.props.moveInDate)) {
+            this.props.dispatch(HotelSearchActions.setMoveInDate(moveInDate));
+        }
+
+        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
+            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
+        }
 
         if (nextProps.page && this.props.page !== params.page) {
             this.props.dispatch(RoomActions.setCurrentPage(params.page));
@@ -39,13 +52,26 @@ class RoomPage extends React.Component {
         }
     }
 
-    buildQuery = (canPlace, page = 1) => {
+    stringToMoment = (strDate) => {
+        let date =  strDate ? moment(strDate, 'YYYY/MM/DD') : null;
+        return date;
+    }
+
+    buildQuery = (moveInDate, moveOutDate, adults, page = 1) => {
         const params = {
             page
         };
 
-        if (canPlace) {
-            params.canPlace = canPlace;
+        if (moveInDate) {
+            params.moveInDate =  moveInDate.format('YYYY/MM/DD');
+        }
+
+        if (moveOutDate) {
+            params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
+        }
+
+        if (adults) {
+            params.adults = adults;
         }
 
         const query = queryString.stringify(params);
@@ -72,16 +98,13 @@ class RoomPage extends React.Component {
     }
 
     setPage = (page) => {
-        const { stars } = this.props;
-        this.buildQuery(stars, page);
+        const { adults, moveInDate, moveOutDate } = this.props;
+        this.buildQuery(moveInDate, moveOutDate, adults, page);
     }
 
     setAdults = (adults) => {
-        this.buildQuery(adults);
-    }
-
-    setCost = (cost) => {
-
+        const { moveInDate, moveOutDate } = this.props;
+        this.buildQuery(moveInDate, moveOutDate, adults);
     }
 
     resetFilters = () => {
@@ -97,7 +120,7 @@ class RoomPage extends React.Component {
     }
 
     bookRoom = (roomId) => {
-        this.props.dispatch(RoomActions.bookRoom(roomId));
+        this.props.dispatch(ReservationActions.book(roomId));
     }
 
     render() {

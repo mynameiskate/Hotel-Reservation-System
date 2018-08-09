@@ -71,42 +71,6 @@ class RoomActions {
             dispatch(setRequest(adults));
         }
     }
-
-    static bookRoom(roomId) {
-        const bookFailure = (id, error) => {
-            return {
-                type: roomConstants.BOOK_FAILURE,
-                payload: {
-                    id,
-                    error
-                }
-            };
-        };
-        const bookSuccess = (id) => {
-            return {
-                type: roomConstants.BOOK_SUCCESS,
-                payload: {
-                    id
-                }
-            };
-        };
-        const bookRequest = (id) => {
-            return {
-                type: roomConstants.BOOK_REQUEST,
-                payload: {
-                    id
-                }
-            };
-        };
-
-        return dispatch => {
-            dispatch(bookRequest(roomId));
-            RoomService.book(roomId)
-                .then(handleError)
-                .then(dispatch(bookSuccess(roomId)))
-                .catch(error => dispatch(bookFailure(roomId, error)));
-        }
-    }
 }
 
 let handleError = function(response) {
