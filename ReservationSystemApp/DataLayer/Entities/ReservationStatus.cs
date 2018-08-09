@@ -1,10 +1,12 @@
-﻿namespace DataLayer.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataLayer.Entities
 {
-    public enum ReservationStatus
-    {   
-        Pending,
-        Confirmed,
-        Paid,
-        Cancelled,       
+    [Table("ReservationStatuses")]
+    public class ReservationStatus
+    {
+        [Column("StatusId")]
+        public int ReservationStatusId { get; set; }
+        public string Status { get; set; }
     }
 }

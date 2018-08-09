@@ -10,7 +10,7 @@ namespace DataLayer.Entities
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset MoveInDate { get; set; }
         public DateTimeOffset MoveOutDate { get; set; }
-        public ReservationStatus Status { get; set; }
+        public int StatusId { get; set; }
         public int UserId { get; set; }
         public int HotelRoomId { get; set; }
         public User User { get; set; }

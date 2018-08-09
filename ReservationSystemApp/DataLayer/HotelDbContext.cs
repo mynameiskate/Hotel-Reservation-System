@@ -10,6 +10,7 @@ namespace DataLayer
         public DbSet<Location> Locations { get; set; }
         public DbSet<HotelRoom> HotelRooms { get; set; }
         public DbSet<RoomReservation> Reservations { get; set; }
+        public DbSet<ReservationStatus> ReservationStatuses { get; set; }
 
         public HotelDbContext(DbContextOptions options)
             : base(options)

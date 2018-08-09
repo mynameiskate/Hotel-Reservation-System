@@ -15,7 +15,8 @@ class RoomService {
 
     static book(roomId) {
         let path = links.BOOKING_ID_PAGE(roomId);
-        const options = RequestOptions.createGetOptions();
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createGetOptions(token);
         return fetch(settings.baseUrl + path, options);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
@@ -97,6 +98,39 @@ namespace Services.Services
             }
         }
 
+        public async Task<ReservationModel> Book(int roomId, string email)
+        {
+            var roomEntity = await _dataContext.HotelRooms
+                         .FirstOrDefaultAsync(r => r.HotelRoomId == roomId);
+            var userEntity = await _dataContext.Users
+                         .FirstOrDefaultAsync(u => u.Email == email);
+
+            var status = await _dataContext.ReservationStatuses
+                        .FirstOrDefaultAsync(s => s.Status == ReservationStatusEnum.Confirmed.ToString());
+
+            if (userEntity == null)
+            {
+                throw new Exception("User does not exist");
+            }
+
+            if (roomEntity == null)
+            {
+                throw new Exception("Room cannot be booked");
+            }
+
+            var reservation = new RoomReservation
+            {
+                StatusId = status.ReservationStatusId,
+                UserId = userEntity.UserId,
+                HotelRoomId = roomId
+            };
+
+            await _dataContext.Reservations.AddAsync(reservation);
+            _dataContext.SaveChanges();
+
+            return new ReservationModel(reservation);
+        }
+
         public async Task<HotelModel> GetHotelInfo(int id)
         {
             var hotelEntity = await _dataContext.Hotels
@@ -112,7 +146,6 @@ namespace Services.Services
             {
                 return null;
             }
-
         }
 
         public async void UpdateHotelInfo(int id, Hotel newValue)
