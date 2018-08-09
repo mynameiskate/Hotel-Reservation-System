@@ -7,44 +7,48 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const HotelFilter = (props) => {
-    const { onCancel, locations, selectedCity, selectedCountry, 
-            onCountrySelect, onCitySelect, onNameChange, moveInTime,
-            moveOutTime, setMoveInTime, setMoveOutTime, dateError} = props;
+    const { onCancel, locations, selectedCity, selectedCountry,
+            onCountrySelect, onCitySelect, onNameChange, moveInDate,
+            moveOutDate, setMoveInDate, setMoveOutDate, dateError} = props;
     const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
 
     return (
         <div>
             <Field name='name' label='Name' onChange={e => onNameChange(e.target.value)}
-                component={InputField} /> 
+                component={InputField} />
+            <h3>Destination country</h3>
             <Select
-                value = {countryOptions.find(c => c.value == selectedCountry) || {}} 
+                value = {countryOptions.find(c => c.value == selectedCountry) || {}}
                 options={countryOptions}
                 isSearchable={true}
                 onChange={country => onCountrySelect(country)}
             />
+            <h3>Destination city</h3>
             <Select
                 value = {cityOptions.find(c => c.value == selectedCity) || {}}
                 options={cityOptions}
                 onChange={city => onCitySelect(city)}
                 isSearchable={true}
-            /> 
-            <DatePicker
-                dateFormat = "DD/MM/YYYY"
-                selected = {moveInTime}
-                onChange={date => setMoveInTime(date)}
             />
+            <h3>Move in date</h3>
             <DatePicker
-                dateFormat = "DD/MM/YYYY"
-                selected = {moveOutTime}
-                onChange={date => setMoveOutTime(date)}
+                dateFormat = 'DD/MM/YYYY'
+                selected = {moveInDate}
+                onChange={date => setMoveInDate(date)}
             />
-            {dateError && <h2>{dateError}</h2>}
+            <h3>Move in date</h3>
+            <DatePicker
+                dateFormat = 'DD/MM/YYYY'
+                selected = {moveOutDate}
+                onChange={date => setMoveOutDate(date)}
+            />
+            {dateError && <h3>{dateError}</h3>}
             <button type='button' onClick={onCancel}>Reset filter</button>
         </div>
     );
 }
 
-export default reduxForm({ 
+export default reduxForm({
     form: 'searchFilterForm'
 })(HotelFilter)

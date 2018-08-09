@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const RoomList = ( {info, showBookModal, bookingLink} ) => (
     <div>
-        { Array.isArray(info) && 
+        { Array.isArray(info) &&
             info.map((room) =>
             <div key={room.number}>
                 <RoomInfo room={room}/>

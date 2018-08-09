@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import  UserActions  from '../actions/UserActions.js';
 
 class UserPage extends React.Component {
@@ -17,7 +17,7 @@ class UserPage extends React.Component {
             <div>
                 {userInfo && <h1>Welcome, {userInfo.shortName ||
                                            userInfo.email ||
-                                           (userInfo.isAdmin? "guest" : "admin")}
+                                           (userInfo.isAdmin? 'guest' : 'admin')}
                             </h1> }
             </div>
         );
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(UserPage); 
+export default connect(mapStateToProps)(UserPage);

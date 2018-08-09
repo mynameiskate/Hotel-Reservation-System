@@ -101,12 +101,12 @@ class HotelSearchActions {
         }
     }
 
-    static setMoveInTime(date) {
+    static setMoveInDate(date) {
         const setRequest = (date) => {
             return {
                 type: searchConstants.SET_START_DATE,
                 payload: {
-                    moveInTime: date
+                    moveInDate: date
                 }
             }
         }
@@ -121,7 +121,7 @@ class HotelSearchActions {
             return {
                 type: searchConstants.INCORRECT_DATE_ERROR,
                 payload: {
-                    dateError: "Incorrect date interval!"
+                    dateError: 'Incorrect date interval!'
                 }
             }
         }
@@ -132,12 +132,12 @@ class HotelSearchActions {
 
     }
 
-    static setMoveOutTime(date) {
+    static setMoveOutDate(date) {
         const setRequest = (date) => {
             return {
                 type: searchConstants.SET_END_DATE,
                 payload: {
-                    moveOutTime: date
+                    moveOutDate: date
                 }
             }
         }

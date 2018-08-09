@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 
 import SignUpField from '../components/SignUpField.jsx';
 import { links } from '../config/links.js';
@@ -17,7 +17,7 @@ class SignUpPage extends React.Component {
         this.props.dispatch(UserActions.reset());
     }
 
-    hideSignUpField = (info) => {    
+    hideSignUpField = (info) => {
     }
 
     sendSignUpRequest(info) {
@@ -39,9 +39,9 @@ class SignUpPage extends React.Component {
                     !(redirect)?
                     <div>
                         <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
-                                    onCancelClick={this.hideSignUpField}/>  
-                        { error && <h2>Failed to sign up, try again?</h2>}  
-                    </div> 
+                                    onCancelClick={this.hideSignUpField}/>
+                        { error && <h2>Failed to sign up, try again?</h2>}
+                    </div>
                     : <Redirect to={links.PROFILE_PAGE}/>
                 }
             </div>
@@ -61,4 +61,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(SignUpPage); 
+export default connect(mapStateToProps)(SignUpPage);

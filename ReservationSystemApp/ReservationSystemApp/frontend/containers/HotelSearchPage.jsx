@@ -25,8 +25,8 @@ class HotelSearchPage extends React.Component {
     componentWillReceiveProps(nextProps) {
         const query = nextProps.search;
         const params = queryString.parse(query);
-        const moveInTime = this.stringToMoment(params.moveInTime);
-        const moveOutTime = this.stringToMoment(params.moveOutTime);
+        const moveInDate = this.stringToMoment(params.moveInDate);
+        const moveOutDate = this.stringToMoment(params.moveOutDate);
 
 
         if (this.props.selectedCountry !== params.countryId) {
@@ -46,26 +46,26 @@ class HotelSearchPage extends React.Component {
             this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
         }
 
-        if (moveInTime && !moveInTime.isSame(this.props.moveInTime)) {
-            this.props.dispatch(HotelSearchActions.setMoveInTime(moveInTime));
+        if (moveInDate && !moveInDate.isSame(this.props.moveInDate)) {
+            this.props.dispatch(HotelSearchActions.setMoveInDate(moveInDate));
         }
 
-        if (moveOutTime && !moveOutTime.isSame(this.props.moveOutTime))  {
-            this.props.dispatch(HotelSearchActions.setMoveOutTime(moveOutTime));         
+        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
+            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
             this.getHotelPage();
-        } 
+        }
     }
 
     stringToMoment = (strDate) => {
         let date =  strDate ? moment(strDate, 'YYYY/MM/DD') : null;
         return date;
     }
-    
+
 
     getHotelPage = () => {
         this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.search));
@@ -76,36 +76,36 @@ class HotelSearchPage extends React.Component {
     }
 
     setCountry = (country) => {
-        const { hotelName, moveInTime, moveOutTime} = this.props;
-        this.buildQuery(country.value, null, hotelName, moveInTime, moveOutTime);
+        const { hotelName, moveInDate, moveOutDate} = this.props;
+        this.buildQuery(country.value, null, hotelName, moveInDate, moveOutDate);
     }
 
     setCity = (city) => {
-        const { selectedCountry, hotelName, moveInTime, moveOutTime } = this.props;
-        this.buildQuery(selectedCountry, city.value, hotelName, moveInTime, moveOutTime);
+        const { selectedCountry, hotelName, moveInDate, moveOutDate } = this.props;
+        this.buildQuery(selectedCountry, city.value, hotelName, moveInDate, moveOutDate);
     }
 
     setPage = (page) => {
-        const {selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime} = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime, page);
+        const {selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate} = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page);
     }
 
     setHotelName = (hotelName) => {
-        const {selectedCountry, selectedCity, moveInTime, moveOutTime } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
+        const {selectedCountry, selectedCity, moveInDate, moveOutDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
-    setMoveInTime = (moveInTime) => {
-        const { hotelName, selectedCountry, selectedCity, moveOutTime } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
+    setMoveInDate = (moveInDate) => {
+        const { hotelName, selectedCountry, selectedCity, moveOutDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
-    setMoveOutTime = (moveOutTime) => {
-        const { hotelName, selectedCountry, selectedCity, moveInTime } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime);
+    setMoveOutDate = (moveOutDate) => {
+        const { hotelName, selectedCountry, selectedCity, moveInDate } = this.props;
+        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
-    buildQuery = (selectedCountry, selectedCity, hotelName, moveInTime, moveOutTime, page = 1) => {
+    buildQuery = (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page = 1) => {
         const params = {
             page
         };
@@ -122,16 +122,16 @@ class HotelSearchPage extends React.Component {
             params.name = hotelName;
         }
 
-        if (moveInTime) {
-            params.moveInTime = moveInTime.format('YYYY/MM/DD');
-        }  
+        if (moveInDate) {
+            params.moveInDate = moveInDate.format('YYYY/MM/DD');
+        }
 
-        if (moveOutTime) {
-            if (!moveOutTime.isBefore(moveInTime)) {
-                params.moveOutTime = moveOutTime.format('YYYY/MM/DD');
+        if (moveOutDate) {
+            if (!moveOutDate.isBefore(moveInDate)) {
+                params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
             }
             else {
-                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutTime));
+                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
             }
         }
 
@@ -145,7 +145,7 @@ class HotelSearchPage extends React.Component {
 
     render() {
         const { selectedCountry, selectedCity, locations, dateError,
-                page, pageCount, nextPage, moveInTime, moveOutTime } = this.props;
+                page, pageCount, nextPage, moveInDate, moveOutDate } = this.props;
         return(
             <div>
                 <HotelFilter onCancel = {this.resetFilters}
@@ -155,22 +155,22 @@ class HotelSearchPage extends React.Component {
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
                               onNameChange={this.setHotelName}
-                              moveInTime={moveInTime}
-                              moveOutTime={moveOutTime}
-                              setMoveInTime={this.setMoveInTime}
-                              setMoveOutTime={this.setMoveOutTime}
+                              moveInDate={moveInDate}
+                              moveOutDate={moveOutDate}
+                              setMoveInDate={this.setMoveInDate}
+                              setMoveOutDate={this.setMoveOutDate}
                               dateError={dateError}
                 />
 
                 <SearchDisplay/>
                { (pageCount > 0) &&
-                    <PageBar  currentPage={page} 
+                    <PageBar  currentPage={page}
                               nextPage={nextPage}
                               goToPage={this.setPage}/>
                 }
             </div>
-	    );
-    } 
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -189,9 +189,9 @@ const mapStateToProps = (state) => {
         nextPage: state.search.nextPage,
         pageCount: state.search.pageCount,
         page: state.search.page,
-        moveInTime: state.search.moveInTime,
-        moveOutTime: state.search.moveOutTime
+        moveInDate: state.search.moveInDate,
+        moveOutDate: state.search.moveOutDate
     }
 }
 
-export default connect(mapStateToProps)(HotelSearchPage); 
+export default connect(mapStateToProps)(HotelSearchPage);

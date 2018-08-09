@@ -44,14 +44,17 @@ class RequestOptions {
             options);
     }
 
-    static createPostOptions(body) {
+    static createPostOptions(body, token = null) {
         let options = {};
+        if (token) {
+            options = this.addToken(token, options);
+        }
         return this.addJsonDataType(
             this.addMethod('POST',
                 this.addBody(body, options)));
     };
 
-    static createGetOptions(token) {
+    static createGetOptions(token = null) {
         let options = {};
         if (token) {
             options = this.addToken(token, options);

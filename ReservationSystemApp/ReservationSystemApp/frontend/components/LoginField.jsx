@@ -6,13 +6,13 @@ import { isRequired, maxLength, minLength } from './validationRules.js';
 const LoginField = (props) => {
     const { sendRequest, handleSubmit, onCancelClick, invalid, pristine, submitting } = props;
     return (
-        <form onSubmit={handleSubmit(sendRequest)}>           
-            <Field name='email' label='Email' component={InputField} 
-                validate={[isRequired, maxLength(20)]}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-            />        
-            <Field name='password' label='Password' component={InputField} 
-                validate={[isRequired, maxLength(20)]}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-            />     
+        <form onSubmit={handleSubmit(sendRequest)}>
+            <Field name='email' label='Email' component={InputField}
+                validate={[isRequired, maxLength(20)]}
+            />
+            <Field name='password' label='Password' component={InputField}
+                validate={[isRequired, maxLength(20)]}
+            />
             <button type='submit'
                     disabled={invalid || pristine || submitting}>
                 Submit
@@ -22,6 +22,6 @@ const LoginField = (props) => {
     );
 }
 
-export default reduxForm({ 
+export default reduxForm({
     form: 'LoginForm'
 })(LoginField)

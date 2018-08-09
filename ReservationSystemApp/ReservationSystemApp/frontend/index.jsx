@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
 
 render(
    <Provider store={store}>
-        <ConnectedRouter history={history}> 
+        <ConnectedRouter history={history}>
             <Main/>
         </ConnectedRouter>
    </Provider>,

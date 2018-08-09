@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { links } from '../config/links.js';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 
 import LoginField from '../components/LoginField.jsx';
 import  UserActions  from '../actions/UserActions.js';
@@ -18,8 +18,8 @@ class LoginPage extends React.Component {
         this.props.dispatch(UserActions.getInfo());
     }
 
-    sendSignInRequest(info) {      
-        this.props.dispatch(UserActions.logIn(info));   
+    sendSignInRequest(info) {
+        this.props.dispatch(UserActions.logIn(info));
     }
 
     render() {
@@ -27,12 +27,12 @@ class LoginPage extends React.Component {
         return(
             <div>
                 {
-                    !redirect? 
+                    !redirect?
                         <div>
                             <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
-                                onCancelClick={this.hideLoginField} />  
+                                onCancelClick={this.hideLoginField} />
                             { error && <h2> Wrong username or password! </h2>}
-                        </div> 
+                        </div>
                     : <Redirect to={links.PROFILE_PAGE}/>
                }
             </div>
@@ -51,4 +51,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(LoginPage); 
+export default connect(mapStateToProps)(LoginPage);

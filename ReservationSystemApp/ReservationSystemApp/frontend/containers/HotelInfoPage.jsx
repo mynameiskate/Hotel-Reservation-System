@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { links } from '../config/links.js';
 import HotelActions from '../actions/HotelActions.js';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
-import RoomPage from './RoomPage.jsx';
 
 class HotelInfoPage extends React.Component {
     constructor(props) {
@@ -41,27 +40,28 @@ class HotelInfoPage extends React.Component {
         const { loaded, error, isLoading, editing } = this.props;
         const hotelId = this.getHotelId();
 
-    	return ( 
-	        <div>
-                {loaded &&              
+        return (
+            <div>
+                {loaded &&
                     <div>
                         {
-                            !editing ?
-                            <div>
-                                <HotelInfo hotel={ loaded }/> 
-                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button> 
+                            !editing
+                            ? <div>
+                                <HotelInfo hotel={loaded}/>
+                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button>
                                 <Link to={links.ROOM_ID_PAGE(hotelId)}> See available rooms </Link>
                             </div>
-                            :   <HotelEditField hotel={ loaded }
-                                              sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
-                                              onCancelClick={this.hideEditField} />
+                            :   <HotelEditField
+                                    hotel={loaded}
+                                    sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
+                                    onCancelClick={this.hideEditField} />
                         }
                         {error && <p>{error}</p>}
-                    </div>          
+                    </div>
                 }
-	        </div>
-	    );
-    } 
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -74,4 +74,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(HotelInfoPage); 
+export default connect(mapStateToProps)(HotelInfoPage);

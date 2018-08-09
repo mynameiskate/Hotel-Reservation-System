@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
@@ -33,7 +33,7 @@ class Main extends React.Component {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={links.MAIN_PAGE_PATH} component={ MainPage }/>
-                        <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelInfoPage }/> 
+                        <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelInfoPage }/>
                         <Route exact path={links.SIGN_IN_PAGE} component={LoginPage}/>
                         <Route exact path={links.SIGN_UP_PAGE} component={SignUpPage}/>
                         <Route exact path={links.ROOM_PAGE} component={RoomPage}/>

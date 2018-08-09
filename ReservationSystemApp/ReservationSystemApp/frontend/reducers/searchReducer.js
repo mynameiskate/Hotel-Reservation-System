@@ -15,8 +15,8 @@ const initialState = {
     nextPage: null,
     isLoading: false,
     hotelName: null,
-    moveInTime: null,
-    moveOutTime: null,
+    moveInDate: null,
+    moveOutDate: null,
     dateError: null
 }
 
@@ -47,8 +47,8 @@ export function searchReducer(state = initialState, action) {
                 pageSize,
                 pageCount,
                 nextPage,
-                moveInTime: data.moveInTime || state.moveInTime,
-                moveOutTime: data.moveOutTime || state.moveOutTime
+                moveInDate: data.moveInDate || state.moveInDate,
+                moveOutDate: data.moveOutDate || state.moveOutDate
             }
         case searchConstants.GET_HOTELS_FAILURE:
             return {...state,
@@ -80,12 +80,12 @@ export function searchReducer(state = initialState, action) {
         case searchConstants.SET_START_DATE:
             return {
                 ...state,
-                moveInTime: data.moveInTime || state.moveInTime
+                moveInDate: data.moveInDate || state.moveInDate
             }
         case searchConstants.SET_END_DATE:
             return {
                 ...state,
-                moveOutTime: data.moveOutTime || state.moveOutTime,
+                moveOutDate: data.moveOutDate || state.moveOutDate,
                 dateError: null
             }
         case searchConstants.INCORRECT_DATE_ERROR:

@@ -65,19 +65,19 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                currentRoomId: data.roomId               
+                currentRoomId: data.roomId
             }
         case roomConstants.BOOK_SUCCESS:
             return {
                 ...state,
                 error: null,
-                isLoading: false,              
+                isLoading: false,
             }
         case roomConstants.BOOK_FAILURE:
             return {
                 ...state,
                 error: data.error,
-                isLoading: false             
+                isLoading: false
             }
         default:
             return state;

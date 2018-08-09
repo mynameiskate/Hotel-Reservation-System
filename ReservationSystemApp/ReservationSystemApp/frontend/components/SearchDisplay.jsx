@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import HotelActions from '../actions/HotelActions';
 import HotelList from './HotelList.jsx';
 
@@ -8,7 +8,7 @@ class SearchDisplay extends React.Component {
         super(props);
         this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
         this.sendEditRequest = this.sendEditRequest.bind(this);
-        this.hideHotel = this.hideHotel.bind(this); 
+        this.hideHotel = this.hideHotel.bind(this);
     }
 
     sendRemoveRequest = (id) => {
@@ -25,8 +25,8 @@ class SearchDisplay extends React.Component {
 
     render() {
         const { info, error, isLoading, removing, resultCount } = this.props;
-    	return ( 
-	        <div className='searchPage'>
+        return (
+            <div className='searchPage'>
                  { isLoading && <h3>Loading hotels..</h3> }
                  { resultCount ?
                     <div>
@@ -35,14 +35,14 @@ class SearchDisplay extends React.Component {
                                     removing={removing}
                                     onDeleteClick={this.sendRemoveRequest}
                                     onEditClick={this.sendEditRequest}
-                        /> 
+                        />
                     </div>
                     : <h3>No results, try again?</h3>
                  }
                  { error  && <h3>Loading error</h3>}
-	        </div>
-	    );
-    } 
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -56,4 +56,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(SearchDisplay); 
+export default connect(mapStateToProps)(SearchDisplay);

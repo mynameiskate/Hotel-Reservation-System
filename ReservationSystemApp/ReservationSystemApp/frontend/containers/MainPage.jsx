@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import HotelActions from '../actions/HotelActions';
@@ -12,7 +12,7 @@ class Main extends React.Component {
         this.sendEditRequest = this.sendEditRequest.bind(this);
         this.hideHotel = this.hideHotel.bind(this); //this.hideHotel = ::this.hideHotel()
     }
-    
+
     sendRemoveRequest = (id) => {
         this.props.dispatch(HotelActions.removeHotel(id));
     }
@@ -26,16 +26,16 @@ class Main extends React.Component {
     }
 
     render() {
-    	const { info, error, isLoading, removing } = this.props;
-    	return ( 
-	        <div className='mainPage'>
-	        	 <h1>Welcome to hotel reservation system</h1>
+        const { info, error, isLoading, removing } = this.props;
+        return (
+            <div className='mainPage'>
+                 <h1>Welcome to hotel reservation system</h1>
                  <Link to={ links.SIGN_IN_PAGE } >
                         Log in
-                 </Link>  
+                 </Link>
                  <Link to={ links.SIGN_UP_PAGE } >
                         Sign up
-                 </Link> 
+                 </Link>
                  <Link to={ links.PROFILE_PAGE } >
                         My profile
                  </Link>
@@ -43,9 +43,9 @@ class Main extends React.Component {
                         Hotels
                  </Link>
                  { error  && <h3>Loading error</h3>}
-	        </div>
-	    );
-    } 
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -54,8 +54,8 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,
         removing: state.hotels.removing,
-        selected: state.hotels.selected  
+        selected: state.hotels.selected
     }
 }
 
-export default connect(mapStateToProps)(Main); 
+export default connect(mapStateToProps)(Main);

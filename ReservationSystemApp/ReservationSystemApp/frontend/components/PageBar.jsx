@@ -1,8 +1,8 @@
 import React from 'react';
 
 const PageBar = ( {currentPage, nextPage, goToPage} ) => (
-    <div>        
-        {   
+    <div>
+        {
             (currentPage - 1 > 0) &&
                 <button type='button' onClick={() => goToPage(currentPage - 1)}>back</button>
         }

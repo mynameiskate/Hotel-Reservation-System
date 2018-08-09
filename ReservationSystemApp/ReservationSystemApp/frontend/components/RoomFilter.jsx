@@ -17,7 +17,7 @@ const RoomFilter = (props) => {
         <div>
             <h3>Adults</h3>
             <Select
-                value = {personOptions.find(o => o.value == adultsAmount) || {}} 
+                value = {personOptions.find(o => o.value == adultsAmount) || {}}
                 options={personOptions}
                 onChange={adults => onAdultsChange(adults.value)}
             />
@@ -32,6 +32,6 @@ const RoomFilter = (props) => {
     );
 }
 
-export default reduxForm({ 
+export default reduxForm({
     form: 'searchFilterForm'
 })(RoomFilter)

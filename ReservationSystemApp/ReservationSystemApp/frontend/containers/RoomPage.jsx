@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ class RoomPage extends React.Component {
             isBooking: false,
             currentRoom: {},
             hotelId: this.getHotelId()
-        };   
+        };
     }
 
     componentDidMount() {
@@ -55,9 +55,9 @@ class RoomPage extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
             this.getRoomPage();
-        } 
+        }
     }
-   
+
     getRoomPage() {
         const hotelId = this.getHotelId();
         this.props.dispatch(RoomActions.loadFromQuery(hotelId, this.props.search));
@@ -81,7 +81,7 @@ class RoomPage extends React.Component {
     }
 
     setCost = (cost) => {
-        
+
     }
 
     resetFilters = () => {
@@ -91,7 +91,7 @@ class RoomPage extends React.Component {
     openModal = (room) => {
         this.setState({isBooking: true, currentRoom: room});
     }
-    
+
     closeModal = () => {
         this.setState({isBooking: false, currentRoom: {}});
     }
@@ -101,9 +101,9 @@ class RoomPage extends React.Component {
     }
 
     render() {
-        const { error, isLoading, info, pageCount, 
+        const { error, isLoading, info, pageCount,
             nextPage, page, adults, cost } = this.props;
-        return ( 
+        return (
             <div>
                 <RoomFilter selectedCost={cost}
                             adultsAmount={adults}
@@ -124,31 +124,36 @@ class RoomPage extends React.Component {
                             }
                             {error && <p>error</p>}
 
-                            <PageBar  currentPage={page} 
+                            <PageBar  currentPage={page}
                                 nextPage={nextPage}
                                 goToPage={(num) => this.setPage(num)}/>
                         </div>
-                    
-                      :   
+
+                      :
                         <div>
-                            <h3>No available rooms with given parameters found.</h3> 
+                            <h3>No available rooms with given parameters found.</h3>
                             <button onClick={this.resetFilters}>Back</button>
                         </div>
                     )
                 }
-                <BookingModal userInfo={this.state.userInfo}
+                <BookingModal moveInDate={this.props.moveInDate}
+                              moveOutDate={this.props.moveOutDate}
+                              userInfo={this.state.userInfo}
                               isBooking={this.state.isBooking}
                               onClose={this.closeModal}
                               onBook={this.bookRoom}
                               room={this.state.currentRoom}
                  />
-	        </div>
-	    );
-    } 
+                 <Link to={links.BOOKING_ID_PAGE(1)}>test link </Link>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
     return {
+        moveInDate: state.search.moveInDate,
+        moveOutDate: state.search.moveOutDate,
         info: state.hotels.info,
         userInfo: state.users.userInfo,
         adults: state.rooms.adults,
@@ -163,4 +168,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(RoomPage); 
+export default connect(mapStateToProps)(RoomPage);
