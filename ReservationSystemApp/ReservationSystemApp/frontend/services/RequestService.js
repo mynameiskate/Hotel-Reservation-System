@@ -24,6 +24,13 @@ class RequestService {
         const options = RequestOptions.createPostOptions(body);
         return this.request(url, options);
     }
+
+    handleError = function(response) {
+        if (!response.ok) {
+            throw Error(response.status)
+        }
+        return response;
+    }
 }
 
 export const requestService = new RequestService();

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import HotelActions from '../actions/HotelActions';
 import { links } from '../config/links.js';
 
 class Main extends React.Component {
@@ -11,7 +10,7 @@ class Main extends React.Component {
     }
 
     render() {
-        const { info, error, isLoading, removing } = this.props;
+        const { error } = this.props;
         return (
             <div className='mainPage'>
                  <h1>Welcome to hotel reservation system</h1>

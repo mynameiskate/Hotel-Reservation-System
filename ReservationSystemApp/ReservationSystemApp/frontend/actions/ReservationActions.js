@@ -2,8 +2,11 @@ import moment from 'moment';
 
 import {
     reservationConstants
-} from '../constants/reservationConstants.js';
-import RoomService from '../services/RoomService.js';
+} from '../constants/reservationConstants';
+import RoomService from '../services/RoomService';
+import {
+    dateFormats
+} from '../constants/dateFormats';
 
 class ReservationActions {
     static book(roomId) {
@@ -41,16 +44,16 @@ class ReservationActions {
 
             const reservation = {
                 hotelRoomId: roomId,
-                created: moment().format('YYYY-MM-DD[T]HH:mm:ss'),
+                created: moment().format(dateFormats.CREATION_TIME_FORMAT),
                 status: 'pending'
             };
 
             if (moveInDate) {
-                reservation.moveInDate = moveInDate.format('YYYY-MM-DD[T]HH:mm:ss');
+                reservation.moveInDate = moveInDate.format(dateFormats.CREATION_TIME_FORMAT);
             }
 
             if (moveOutDate) {
-                reservation.moveOutDate = moveOutDate.format('YYYY-MM-DD[T]HH:mm:ss');
+                reservation.moveOutDate = moveOutDate.format(dateFormats.CREATION_TIME_FORMAT);
             }
 
             dispatch(bookRequest(roomId));

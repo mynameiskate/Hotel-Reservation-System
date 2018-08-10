@@ -2,14 +2,14 @@ import queryString from 'query-string';
 import {
     push
 } from 'connected-react-router';
-import moment from 'moment';
 
 import {
     roomConstants
-} from '../constants/roomConstants.js';
-import HotelSearchActions from './HotelSearchActions.js';
+} from '../constants/roomConstants';
+import MomentExtensions from '../extensions/MomentExtensions';
+import HotelSearchActions from './HotelSearchActions';
 import RoomService from '../services/RoomService';
-import HelperActions from './HelperActions.js';
+import HelperActions from './HistoryActions';
 
 class RoomActions {
     static loadFromQuery(id, query) {
@@ -81,8 +81,8 @@ class RoomActions {
 
     static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
-        const paramMoveInDate = HelperActions.stringToMoment(params.moveInDate);
-        const paramMoveOutDate = HelperActions.stringToMoment(params.moveOutDate);
+        const paramMoveInDate = MomentExtensions.stringToMoment(params.moveInDate);
+        const paramMoveOutDate = MomentExtensions.stringToMoment(params.moveOutDate);
 
         return (dispatch, stateAccessor) => {
             const {

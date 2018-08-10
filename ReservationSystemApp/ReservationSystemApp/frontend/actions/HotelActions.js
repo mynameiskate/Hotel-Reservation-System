@@ -1,7 +1,7 @@
 ﻿﻿import {
     hotelConstants
-} from '../constants/hotelConstants.js';
-import HotelService from '../services/HotelService.js';
+} from '../constants/hotelConstants';
+import HotelService from '../services/HotelService';
 
 class HotelActions {
     static resetFilter() {

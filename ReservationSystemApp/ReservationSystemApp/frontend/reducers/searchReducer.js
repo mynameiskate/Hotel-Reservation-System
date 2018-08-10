@@ -16,8 +16,8 @@ const initialState = {
     nextPage: null,
     isLoading: false,
     hotelName: null,
-    moveInDate: moment(),
-    moveOutDate: moment().add(1, 'day').endOf('day'),
+    moveInDate: null,
+    moveOutDate: null,
     dateError: null
 }
 

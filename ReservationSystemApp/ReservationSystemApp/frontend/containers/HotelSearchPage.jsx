@@ -7,7 +7,7 @@ import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
 import  HotelFilter  from '../components/HotelFilter.jsx';
 import  PageBar  from '../components/PageBar.jsx';
-import SearchDisplay from '../components/SearchDisplay.jsx';
+import SearchDisplay from './SearchDisplay.jsx';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {
@@ -15,11 +15,7 @@ class HotelSearchPage extends React.Component {
     }
 
     componentDidMount() {
-        const { selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate } = this.props;
         this.props.getLocations();
-        if (!moveInDate || !moveOutDate) {
-            this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
-        }
         this.props.getHotelPage(this.props.search);
     }
 
@@ -134,7 +130,7 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         buildQuery: (selectedCountry, selectedCity, hotelName,
-            moveInDate = moment(), moveOutDate = moment(), page = 1) => {
+            moveInDate, moveOutDate, page = 1) => {
             dispatch(HotelSearchActions.buildQuery(
                 links.HOTEL_SEARCH_PAGE,
                 selectedCountry, selectedCity,

@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import { dateFormats } from '../constants/dateFormats';
 import RoomInfo from '../components/RoomInfo.jsx';
 
 const BookingModal = ( {room, hotel, userInfo, isBooking,
@@ -15,13 +16,13 @@ const BookingModal = ( {room, hotel, userInfo, isBooking,
         { moveInDate &&
             <div>
                 <h3>Move in date: </h3>
-                <p>{moveInDate.format('dddd, DD/MM/YYYY')}</p>
+                <p>{moveInDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
         { moveOutDate &&
             <div>
                 <h3>Move out date: </h3>
-                <p>{moveOutDate.format('dddd, DD/MM/YYYY')}</p>
+                <p>{moveOutDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
         <button onClick={() => onBook(room.id)}>Confirm</button>

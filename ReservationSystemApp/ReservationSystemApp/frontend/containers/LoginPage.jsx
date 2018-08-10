@@ -23,7 +23,7 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { error, isLoading, redirect } = this.props;
+        const { error, redirect } = this.props;
         return(
             <div>
                 {

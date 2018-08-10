@@ -13,11 +13,7 @@ class SignUpPage extends React.Component {
     }
 
     componentDidMount() {
-        //this.props.dispatch(UserActions.getInfo());
         this.props.dispatch(UserActions.reset());
-    }
-
-    hideSignUpField = (info) => {
     }
 
     sendSignUpRequest(info) {

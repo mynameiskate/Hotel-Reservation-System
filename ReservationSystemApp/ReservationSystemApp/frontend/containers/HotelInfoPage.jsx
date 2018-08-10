@@ -21,7 +21,7 @@ class HotelInfoPage extends React.Component {
     }
 
     render() {
-        const { loaded, error, isLoading, editing } = this.props;
+        const { loaded, error, editing } = this.props;
         const hotelId = this.getHotelId();
 
         return (

@@ -4,11 +4,14 @@ import {
 } from 'connected-react-router';
 import moment from 'moment';
 
-import HelperActions from './HelperActions.js';
+import {
+    dateFormats
+} from '../constants/dateFormats';
+import MomentExtensions from '../extensions/MomentExtensions';
 import {
     searchConstants
-} from '../constants/searchConstants.js';
-import HotelService from '../services/HotelService.js';
+} from '../constants/searchConstants';
+import HotelService from '../services/HotelService';
 
 class HotelSearchActions {
     static loadFromQuery(query) {
@@ -123,7 +126,7 @@ class HotelSearchActions {
         }
     }
 
-    static setDateFailure(date) {
+    static setDateFailure() {
         const setFailure = () => {
             return {
                 type: searchConstants.INCORRECT_DATE_ERROR,
@@ -172,28 +175,27 @@ class HotelSearchActions {
             params.name = hotelName;
         }
 
-        if (moveInDate) {
-            params.moveInDate = moveInDate.format('YYYY/MM/DD');
-        }
+        const paramMoveInDate = (moveInDate) || moment();
+        params.moveInDate = paramMoveInDate.format(dateFormats.REQUEST_DATE_FORMAT);
 
-        if (moveOutDate) {
-            if (!moveOutDate.isBefore(moveInDate)) {
-                params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
-            } else {
-                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
-            }
+        const paramMoveOutDate = (moveOutDate) || moment().add(1, 'day').endOf('day');
+
+        if (!paramMoveOutDate.isBefore(paramMoveInDate)) {
+            params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
+        } else {
+            this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
         }
 
         const query = queryString.stringify(params);
         return dispatch => {
-            dispatch(HelperActions.pushUrl(link, query));
+            dispatch(HistoryActions.pushUrl(link, query));
         }
     }
 
     static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
-        const paramMoveInDate = HelperActions.stringToMoment(params.moveInDate);
-        const paramMoveOutDate = HelperActions.stringToMoment(params.moveOutDate);
+        const paramMoveInDate = MomentExtensions.stringToMoment(params.moveInDate);
+        const paramMoveOutDate = MomentExtensions.stringToMoment(params.moveOutDate);
 
         return (dispatch, stateAccessor) => {
             const {

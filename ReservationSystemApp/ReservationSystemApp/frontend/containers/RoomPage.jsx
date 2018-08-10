@@ -7,9 +7,8 @@ import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
 import RoomActions from '../actions/RoomActions.js';
-import HelperActions from '../actions/HelperActions.js';
+import HistoryActions from '../actions/HistoryActions.js';
 import ReservationActions from '../actions/ReservationActions.js';
-import HotelSearchActions from '../actions/HotelSearchActions.js';
 import RoomList from '../components/RoomList.jsx';
 
 class RoomPage extends React.Component {
@@ -24,7 +23,6 @@ class RoomPage extends React.Component {
     }
 
     componentDidMount() {
-        //this.props.syncParamsWithQuery(this.props.search);
         const { moveInDate, moveOutDate, adults } = this.props;
         this.props.buildQuery(moveInDate, moveOutDate, adults);
         this.props.getRoomPage(this.props.search);
@@ -142,7 +140,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
 
         pushUrl: (link, query) => {
-            dispatch(HelperActions.pushUrl(link, query));
+            dispatch(HistoryActions.pushUrl(link, query));
         },
 
         buildQuery: (moveInDate, moveOutDate, adults, page) => {

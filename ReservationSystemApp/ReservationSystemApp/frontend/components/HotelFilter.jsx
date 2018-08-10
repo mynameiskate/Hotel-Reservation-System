@@ -1,10 +1,12 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import InputField from './InputField.jsx';
 import Select from 'react-select';
-import SelectService from '../services/SelectService.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+import InputField from './InputField.jsx';
+import SelectService from '../services/SelectService.js';
+import { dateFormats } from '../constants/dateFormats.js';
 
 const HotelFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry,
@@ -33,13 +35,13 @@ const HotelFilter = (props) => {
             />
             <h3>Move in date</h3>
             <DatePicker
-                dateFormat = 'DD/MM/YYYY'
+                dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveInDate}
                 onChange={date => setMoveInDate(date)}
             />
             <h3>Move in date</h3>
             <DatePicker
-                dateFormat = 'DD/MM/YYYY'
+                dateFormat =  {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveOutDate}
                 onChange={date => setMoveOutDate(date)}
             />

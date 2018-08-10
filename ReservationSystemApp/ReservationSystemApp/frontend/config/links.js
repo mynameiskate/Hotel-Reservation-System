@@ -14,5 +14,5 @@ export const links = {
     ROOM_ID_PAGE: (hotelId) => `/hotels/${hotelId}/rooms`,
     ROOM_PAGE: '/hotels/:id/rooms',
     BOOKING_PAGE: '/booking/:id',
-    BOOKING_ID_PAGE: (roomId) => `/booking/${roomId}`
+    BOOKING_ID_PAGE: (roomId = 1) => `/booking/${roomId}`
 }

@@ -8,7 +8,6 @@ import SignUpPage from './SignUpPage.jsx';
 import RoomPage from './RoomPage.jsx';
 import MainPage from './MainPage.jsx';
 import LoginPage from './LoginPage.jsx';
-import BookingPage from './BookingPage.jsx';
 import HotelSearchPage from './HotelSearchPage.jsx';
 import UserPage from './UserPage.jsx';
 import { links } from '../config/links.js';
@@ -24,7 +23,7 @@ class Main extends React.Component {
     }
 
     render() {
-        const { isLoading, location } = this.props;
+        const { isLoading } = this.props;
         return (
             <div>
                 {isLoading ?

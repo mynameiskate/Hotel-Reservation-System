@@ -1,26 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import HotelActions from '../actions/HotelActions';
-import HotelList from './HotelList.jsx';
+import HotelList from '../components/HotelList.jsx';
 
 class SearchDisplay extends React.Component {
     constructor(props) {
         super(props);
-        this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
-        this.sendEditRequest = this.sendEditRequest.bind(this);
-        this.hideHotel = this.hideHotel.bind(this);
-    }
-
-    sendRemoveRequest = (id) => {
-        this.props.dispatch(HotelActions.removeHotel(id));
-    }
-
-    sendEditRequest = (id, info) => {
-        this.props.dispatch(HotelActions.editHotel(id, info));
-    }
-
-    hideHotel = (info) => {
-        this.props.dispatch(HotelActions.hideHotel(info));
     }
 
     render() {
@@ -33,8 +18,8 @@ class SearchDisplay extends React.Component {
                         <h3> Search results: {resultCount} destination(s)</h3>
                         <HotelList  info={info}
                                     removing={removing}
-                                    onDeleteClick={this.sendRemoveRequest}
-                                    onEditClick={this.sendEditRequest}
+                                    onDeleteClick={this.props.sendRemoveRequest}
+                                    onEditClick={this.props.sendEditRequest}
                         />
                     </div>
                     : <h3>No results, try again?</h3>
@@ -56,4 +41,21 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(SearchDisplay);
+const mapDispatchToProps = dispatch => {
+    return {
+        sendRemoveRequest: (id) => {
+            dispatch(HotelActions.removeHotel(id));
+        },
+
+        sendEditRequest: (id, info) => {
+            dispatch(HotelActions.editHotel(id, info));
+        },
+
+        hideHotel: (info) => {
+            dispatch(HotelActions.hideHotel(info));
+        }
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchDisplay);

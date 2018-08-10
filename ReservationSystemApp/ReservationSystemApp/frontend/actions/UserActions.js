@@ -1,7 +1,7 @@
 import {
     userConstants
-} from '../constants/userConstants.js';
-import UserService from '../services/UserService.js';
+} from '../constants/userConstants';
+import UserService from '../services/UserService';
 
 class UserActions {
     static logIn(userInfo) {
