@@ -56,7 +56,7 @@ namespace Services.Extensions
                    moveOutTime = moveInTime.AddDays(1);
                }*/
 
-                if (!(filters.MoveInTime == null || filters.MoveOutTime == null))
+                if (!(filters.MoveInDate == null || filters.MoveOutDate == null))
                 {
                     filteredList = from h in filteredList
                                    join hr in dataContext.HotelRooms on h.HotelId equals hr.HotelId
@@ -65,7 +65,7 @@ namespace Services.Extensions
                                        //Here left join is used, that's why RoomReseservationId can be null. 
                                        //This check is necessary for including hotels with available rooms but without existing reservations.
                                    where (r.RoomReservationId == null) ||
-                                   !(r.MoveInDate <= filters.MoveOutTime && r.MoveOutDate >= filters.MoveInTime)
+                                   !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
                                    select h;
                 }
 
@@ -84,10 +84,10 @@ namespace Services.Extensions
             {
                 var filteredList = rooms;
 
-                if (filters.CanPlace > 0)
+                if (filters.Adults > 0)
                 {
                     filteredList = filteredList
-                        .Where(r => r.Adults == filters.CanPlace);
+                        .Where(r => r.Adults == filters.Adults);
                 }
 
                 if (filters.MinCost > 0) 

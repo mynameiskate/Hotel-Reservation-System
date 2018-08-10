@@ -1,5 +1,7 @@
 import queryString from 'query-string';
-import { push } from 'connected-react-router';
+import {
+    push
+} from 'connected-react-router';
 import moment from 'moment';
 
 import {
@@ -77,25 +79,34 @@ class RoomActions {
         }
     }
 
-    static syncParamsWithQuery(query, props) {
+    static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
-        const moveInDate = HelperActions.stringToMoment(params.moveInDate);
-        const moveOutDate = HelperActions.stringToMoment(params.moveOutDate);
+        const paramMoveInDate = HelperActions.stringToMoment(params.moveInDate);
+        const paramMoveOutDate = HelperActions.stringToMoment(params.moveOutDate);
 
-        return (dispatch) => {
-            if (moveInDate && !moveInDate.isSame(props.moveInDate)) {
-                dispatch(HotelSearchActions.setMoveInDate(moveInDate));
+        return (dispatch, stateAccessor) => {
+            const {
+                page,
+                adults
+            } = stateAccessor().rooms;
+            const {
+                moveInDate,
+                moveOutDate
+            } = stateAccessor().search;
+
+            if (paramMoveInDate && !paramMoveInDate.isSame(moveInDate)) {
+                dispatch(HotelSearchActions.setMoveInDate(paramMoveInDate));
             }
 
-            if (moveOutDate && !moveOutDate.isSame(props.moveOutDate))  {
-                dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
+            if (paramMoveOutDate && !paramMoveOutDate.isSame(moveOutDate)) {
+                dispatch(HotelSearchActions.setMoveOutDate(paramMoveOutDate));
             }
 
-            if (params.page && props.page !== params.page) {
+            if (params.page && page !== params.page) {
                 dispatch(RoomActions.setCurrentPage(params.page));
             }
 
-            if (params.adults && props.adults !== params.adults) {
+            if (params.adults && adults !== params.adults) {
                 dispatch(RoomActions.setAdults(params.adults));
             }
         }
@@ -107,7 +118,7 @@ class RoomActions {
         };
 
         if (moveInDate) {
-            params.moveInDate =  moveInDate.format('YYYY/MM/DD');
+            params.moveInDate = moveInDate.format('YYYY/MM/DD');
         }
 
         if (moveOutDate) {

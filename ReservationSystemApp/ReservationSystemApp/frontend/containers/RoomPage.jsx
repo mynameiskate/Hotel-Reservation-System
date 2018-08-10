@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
-import queryString from 'query-string';
 import { Link } from 'react-router-dom';
-import  moment  from 'moment';
-import { bindActionCreators } from 'redux';
 
 import BookingModal from '../components/BookingModal.jsx';
 import RoomFilter from '../components/RoomFilter.jsx';
@@ -28,9 +24,10 @@ class RoomPage extends React.Component {
     }
 
     componentDidMount() {
+        //this.props.syncParamsWithQuery(this.props.search);
         const { moveInDate, moveOutDate, adults } = this.props;
-        this.props.getRoomPage();
         this.props.buildQuery(moveInDate, moveOutDate, adults);
+        this.props.getRoomPage(this.props.search);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,7 +37,7 @@ class RoomPage extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
-            this.props.getRoomPage();
+            this.props.getRoomPage(this.props.search);
         }
     }
 
@@ -135,13 +132,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        syncParamsWithQuery: (query, nextPage) => {
-            dispatch(RoomActions.syncParamsWithQuery(ownProps, query));
+        syncParamsWithQuery: (query) => {
+            dispatch(RoomActions.syncParamsWithQuery(query));
         },
 
-        getRoomPage: () => {
+        getRoomPage: (search) => {
             dispatch(RoomActions.loadFromQuery(ownProps.match.params.id,
-                ownProps.search));
+                search));
         },
 
         pushUrl: (link, query) => {

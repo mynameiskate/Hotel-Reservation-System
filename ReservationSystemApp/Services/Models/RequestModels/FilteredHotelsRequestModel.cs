@@ -7,7 +7,7 @@ namespace Services.Models.RequestModels
         public string Name { get; set; }
         public string City { get; set; }
         public string CountryId { get; set; }
-        public DateTime? MoveInTime { get; set; }
-        public DateTime? MoveOutTime { get; set; }
+        public DateTime? MoveInDate { get; set; }
+        public DateTime? MoveOutDate { get; set; }
     }
 }

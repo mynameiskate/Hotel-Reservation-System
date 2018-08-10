@@ -13,4 +13,5 @@ ReservationSystemApp/.vs/
 ReservationSystemApp/HotelDatabase/HotelDatabase.dbmdl
 ReservationSystemApp/HotelDatabase/HotelDatabase.jfm
 ReservationSystemApp/ReservationSystemApp/package-lock.json
+ReservationSystemApp/ReservationSystemApp/frontend/package-lock.json
 ReservationSystemApp/ReservationSystemApp/frontend/yarn.lock

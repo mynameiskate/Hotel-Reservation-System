@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
-import queryString from 'query-string';
 
 import moment from 'moment';
-import {change } from 'redux-form';
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
@@ -126,17 +123,18 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        syncParamsWithQuery: (query, nextPage) => {
-            dispatch(HotelSearchActions.syncParamsWithQuery(ownProps, query));
+        syncParamsWithQuery: (query) => {
+            dispatch(HotelSearchActions.syncParamsWithQuery(query));
         },
 
         getLocations: () => {
             dispatch(HotelActions.getLocations());
         },
 
-        buildQuery: (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page = 1) => {
+        buildQuery: (selectedCountry, selectedCity, hotelName,
+            moveInDate = moment(), moveOutDate = moment(), page = 1) => {
             dispatch(HotelSearchActions.buildQuery(
                 links.HOTEL_SEARCH_PAGE,
                 selectedCountry, selectedCity,

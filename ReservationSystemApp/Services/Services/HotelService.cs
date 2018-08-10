@@ -51,7 +51,7 @@ namespace Services.Services
                     .ThenInclude(c => c.Country)
                     .Select(hotel => new HotelModel(hotel));
 
-                int resultCount = await entityList.CountAsync();
+                int resultCount = await resultQuery.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
 
                 var listForPage = resultQuery.CutList(size, currentPage);

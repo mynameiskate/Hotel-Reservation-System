@@ -66,20 +66,22 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    showHotel: (id) => {
-        dispatch(HotelActions.showHotel(id));
-    }
+    return {
+        showHotel: (id) => {
+            dispatch(HotelActions.showHotel(id));
+        },
 
-    showEditField: (id, info) => {
-        dispatch(HotelActions.startEditing(id, info));
-    }
+        showEditField: (id, info) => {
+            dispatch(HotelActions.startEditing(id, info));
+        },
 
-    hideEditField: (id, info) => {
-        dispatch(HotelActions.stopEditing(id, info));
-    }
+        hideEditField: (id, info) => {
+            dispatch(HotelActions.stopEditing(id, info));
+        },
 
-    sendEditRequest: (id, info) => {
-        dispatch(HotelActions.editHotel(id, info));
+        sendEditRequest: (id, info) => {
+            dispatch(HotelActions.editHotel(id, info));
+        }
     }
 }
 
