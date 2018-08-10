@@ -12,6 +12,7 @@ import {
     searchConstants
 } from '../constants/searchConstants';
 import HotelService from '../services/HotelService';
+import HistoryActions from '../actions/HistoryActions.js';
 
 class HotelSearchActions {
     static loadFromQuery(query) {

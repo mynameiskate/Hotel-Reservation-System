@@ -2,10 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import HotelActions from '../actions/HotelActions';
 import HotelList from '../components/HotelList.jsx';
+import RoomActions from '../actions/RoomActions';
+import { links } from '../config/links';
 
 class SearchDisplay extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    onViewDetailsClick = (id) => {
+        const { moveInDate, moveOutDate, adults } = this.props;
+        this.props.buildDetailsQuery(id, moveInDate, moveOutDate, adults);
     }
 
     render() {
@@ -20,6 +27,7 @@ class SearchDisplay extends React.Component {
                                     removing={removing}
                                     onDeleteClick={this.props.sendRemoveRequest}
                                     onEditClick={this.props.sendEditRequest}
+                                    onViewDetailsClick={this.onViewDetailsClick}
                         />
                     </div>
                     : <h3>No results, try again?</h3>
@@ -41,7 +49,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         sendRemoveRequest: (id) => {
             dispatch(HotelActions.removeHotel(id));
@@ -53,6 +61,12 @@ const mapDispatchToProps = dispatch => {
 
         hideHotel: (info) => {
             dispatch(HotelActions.hideHotel(info));
+        },
+
+        buildDetailsQuery: (id, moveInDate, moveOutDate, adults, page) => {
+            dispatch(RoomActions.buildQuery(
+                links.HOTEL_ID_PAGE(id),
+                moveInDate, moveOutDate, adults, page));
         }
     }
 

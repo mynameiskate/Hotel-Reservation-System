@@ -18,7 +18,7 @@ class RoomPage extends React.Component {
         this.state = {
             isBooking: false,
             currentRoom: {},
-            hotelId: this.getHotelId()
+            hotelId: this.props.getHotelId()
         };
     }
 
@@ -37,10 +37,6 @@ class RoomPage extends React.Component {
         if (this.props.search !== prevProps.search) {
             this.props.getRoomPage(this.props.search);
         }
-    }
-
-    getHotelId() {
-        return this.props.match.params.id;
     }
 
     setPage = (page) => {
@@ -135,7 +131,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
 
         getRoomPage: (search) => {
-            dispatch(RoomActions.loadFromQuery(ownProps.match.params.id,
+            dispatch(RoomActions.loadFromQuery(ownProps.hotelId,
                 search));
         },
 
@@ -145,7 +141,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         buildQuery: (moveInDate, moveOutDate, adults, page) => {
             dispatch(RoomActions.buildQuery(
-                links.ROOM_ID_PAGE(ownProps.match.params.id),
+                links.ROOM_ID_PAGE(ownProps.hotelId),
                 moveInDate, moveOutDate, adults, page));
         },
 
@@ -155,6 +151,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         resetFilters: () => {
             dispatch(RoomActions.buildQuery());
+        },
+
+        getHotelId: () => {
+            return ownProps.hotelId;
         }
     }
 }

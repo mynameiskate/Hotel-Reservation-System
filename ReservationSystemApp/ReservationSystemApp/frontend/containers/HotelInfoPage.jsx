@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { links } from '../config/links.js';
-import HotelActions from '../actions/HotelActions.js';
+import RoomPage from './RoomPage.jsx';
+import HotelActions from '../actions/HotelActions';
 import HotelEditField from '../components/HotelEditField.jsx';
 import HotelInfo from '../components/HotelInfo.jsx';
 
@@ -35,9 +34,10 @@ class HotelInfoPage extends React.Component {
                                 <button onClick={() => this.props.showEditField(loaded.id, loaded )}>
                                     Edit
                                 </button>
-                                <Link to={links.ROOM_ID_PAGE(hotelId)}>
+                                {/*<Link to={links.ROOM_ID_PAGE(hotelId)}>
                                     See available rooms
-                                </Link>
+                                    </Link>*/}
+                                <RoomPage hotelId={hotelId} />
                             </div>
                             :   <HotelEditField
                                     hotel={loaded}
