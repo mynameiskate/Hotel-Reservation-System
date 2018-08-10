@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Exceptions;
 using Services.Interfaces;
 using Services.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,21 +16,21 @@ namespace ReservationSystemApp.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly ILogger<HotelController> _logger;
-        private readonly IHotelService _hotelService;
+        private readonly IReservationService _reservationService;
         private readonly IAccountService _accountService;
 
         public ReservationController(ILogger<HotelController> logger,
-                          IHotelService hotelService,
+                          IReservationService reservationService,
                           IAccountService accountService)
         {
             _logger = logger;
-            _hotelService = hotelService;
+            _reservationService = reservationService;
             _accountService = accountService;
         }
 
         [HttpPost("{roomId}")]
         [Authorize]
-        public async Task<IActionResult> BookAsync([FromBody]ReservationModel reservation)
+        public async Task<IActionResult> Book([FromBody]ReservationModel reservation)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace ReservationSystemApp.Controllers
 
                 if (email != null)
                 {
-                    var reservationModel = await _hotelService.Book(email, reservation);
+                    var reservationModel = await _reservationService.Book(email, reservation);
                     return Ok(reservationModel);
                 }
                 else
@@ -46,10 +46,21 @@ namespace ReservationSystemApp.Controllers
                     return BadRequest();
                 }
             }
-            catch (Exception e)
+            catch (BookingException)
             {
-                _logger.LogInformation(e.Message);
+                return BadRequest(StatusCodes.Status403Forbidden);
+            }
+            catch (UserNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            catch (ArgumentException)
+            {
                 return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

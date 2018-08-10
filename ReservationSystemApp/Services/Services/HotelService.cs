@@ -1,9 +1,9 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
+using Services.Exceptions;
 using Services.Extensions;
 using Services.Interfaces;
 using Services.Models;
@@ -61,7 +61,7 @@ namespace Services.Services
             catch(Exception e)
             {
                 _logger.LogInformation(e.Message);
-                return null;
+                throw;
             }
         }
 
@@ -94,82 +94,8 @@ namespace Services.Services
             catch (Exception e)
             {
                 _logger.LogInformation(e.Message);
-                return null;
+                throw;
             }
-        }
-
-        public async Task<ReservationModel> Book(int roomId, string email)
-        {
-            var roomEntity = await _dataContext.HotelRooms
-                         .FirstOrDefaultAsync(r => r.HotelRoomId == roomId);
-            var userEntity = await _dataContext.Users
-                         .FirstOrDefaultAsync(u => u.Email == email);
-
-            var status = await _dataContext.ReservationStatuses
-                        .FirstOrDefaultAsync(s => s.Status == ReservationStatusEnum.Confirmed.ToString());
-
-            if (userEntity == null)
-            {
-                throw new Exception("User does not exist");
-            }
-
-            if (roomEntity == null)
-            {
-                throw new Exception("Room cannot be booked");
-            }
-
-            var reservation = new RoomReservation
-            {
-                StatusId = status.ReservationStatusId,
-                UserId = userEntity.UserId,
-                HotelRoomId = roomId
-            };
-
-            await _dataContext.Reservations.AddAsync(reservation);
-            _dataContext.SaveChanges();
-
-            return new ReservationModel(reservation);
-        }
-
-        public async Task<ReservationModel> Book(string userEmail, ReservationModel reservationModel)
-        {
-            if (reservationModel.MoveInDate == null || reservationModel.MoveOutDate == null)
-            {
-                throw new Exception("Incorrect reservation dates");
-            }
-
-            var roomEntity = await _dataContext.HotelRooms
-                         .FirstOrDefaultAsync(r => r.HotelRoomId == reservationModel.HotelRoomId);
-            var userEntity = await _dataContext.Users
-                         .FirstOrDefaultAsync(u => u.Email == userEmail);
-
-            var status = await _dataContext.ReservationStatuses
-                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
-
-            if (userEntity == null)
-            {
-                throw new Exception("User does not exist");
-            }
-
-            if (roomEntity == null)
-            {
-                throw new Exception("Room cannot be booked");
-            }
-
-            var reservation = new RoomReservation
-            {
-                StatusId = status.ReservationStatusId,
-                UserId = userEntity.UserId,
-                HotelRoomId = roomEntity.HotelRoomId,
-                Created = reservationModel.Created,
-                MoveInDate = reservationModel.MoveInDate,
-                MoveOutDate = reservationModel.MoveOutDate
-            };
-
-            await _dataContext.Reservations.AddAsync(reservation);
-            _dataContext.SaveChanges();
-
-            return new ReservationModel(reservation);
         }
 
         public async Task<HotelModel> GetHotelInfo(int id)
