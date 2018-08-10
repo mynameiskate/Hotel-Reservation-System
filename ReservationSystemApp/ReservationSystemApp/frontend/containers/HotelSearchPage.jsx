@@ -18,126 +18,57 @@ class HotelSearchPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(HotelActions.getLocations());
-        this.getHotelPage();
+        const { selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate } = this.props;
+        this.props.getLocations();
+        if (!moveInDate || !moveOutDate) {
+            this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        }
+        this.props.getHotelPage(this.props.search);
     }
 
     componentWillReceiveProps(nextProps) {
         const query = nextProps.search;
-        const params = queryString.parse(query);
-        const moveInDate = this.stringToMoment(params.moveInDate);
-        const moveOutDate = this.stringToMoment(params.moveOutDate);
-
-
-        if (this.props.selectedCountry !== params.countryId) {
-            this.props.dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
-        }
-
-        if (this.props.selectedCity !== params.city) {
-            this.props.dispatch(HotelSearchActions.setCurrentCity(params.city));
-        }
-
-        if (nextProps.page && this.props.page !== params.page) {
-            this.props.dispatch(HotelSearchActions.setCurrentPage(params.page));
-        }
-
-        if (this.props.hotelName != params.name) {
-            this.props.dispatch(HotelSearchActions.setCurrentHotelName(params.name));
-            this.props.dispatch(change('searchFilterForm', 'name', params.name || ''));
-        }
-
-        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
-            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
-        }
-
-        if (moveInDate && !moveInDate.isSame(this.props.moveInDate)) {
-            this.props.dispatch(HotelSearchActions.setMoveInDate(moveInDate));
-        }
-
+        this.props.syncParamsWithQuery(query);
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
-            this.getHotelPage();
+            this.props.getHotelPage(this.props.search);
         }
     }
 
-    stringToMoment = (strDate) => {
-        let date =  strDate ? moment(strDate, 'YYYY/MM/DD') : null;
-        return date;
-    }
-
-
-    getHotelPage = () => {
-        this.props.dispatch(HotelSearchActions.loadFromQuery(this.props.search));
-    }
-
     resetFilters = () => {
-        this.buildQuery();
+        this.props.buildQuery();
     }
 
     setCountry = (country) => {
         const { hotelName, moveInDate, moveOutDate} = this.props;
-        this.buildQuery(country.value, null, hotelName, moveInDate, moveOutDate);
+        this.props.buildQuery(country.value, null, hotelName, moveInDate, moveOutDate);
     }
 
     setCity = (city) => {
         const { selectedCountry, hotelName, moveInDate, moveOutDate } = this.props;
-        this.buildQuery(selectedCountry, city.value, hotelName, moveInDate, moveOutDate);
+        this.props.buildQuery(selectedCountry, city.value, hotelName, moveInDate, moveOutDate);
     }
 
     setPage = (page) => {
         const {selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate} = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page);
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page);
     }
 
     setHotelName = (hotelName) => {
         const {selectedCountry, selectedCity, moveInDate, moveOutDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
     setMoveInDate = (moveInDate) => {
         const { hotelName, selectedCountry, selectedCity, moveOutDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
     setMoveOutDate = (moveOutDate) => {
         const { hotelName, selectedCountry, selectedCity, moveInDate } = this.props;
-        this.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
-    }
-
-    buildQuery = (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page = 1) => {
-        const params = {
-            page
-        };
-
-        if (selectedCountry) {
-            params.countryId = selectedCountry;
-        }
-
-        if (selectedCity) {
-            params.city = selectedCity;
-        }
-
-        if (hotelName) {
-            params.name = hotelName;
-        }
-
-        if (moveInDate) {
-            params.moveInDate = moveInDate.format('YYYY/MM/DD');
-        }
-
-        if (moveOutDate) {
-            if (!moveOutDate.isBefore(moveInDate)) {
-                params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
-            }
-            else {
-                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
-            }
-        }
-
-        const query = queryString.stringify(params);
-        this.props.dispatch(push(`${links.HOTEL_SEARCH_PAGE}?${query}`));
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
     }
 
     parseDate = (date) => {
@@ -195,4 +126,29 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(HotelSearchPage);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        syncParamsWithQuery: (query, nextPage) => {
+            dispatch(HotelSearchActions.syncParamsWithQuery(ownProps, query));
+        },
+
+        getLocations: () => {
+            dispatch(HotelActions.getLocations());
+        },
+
+        buildQuery: (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page = 1) => {
+            dispatch(HotelSearchActions.buildQuery(
+                links.HOTEL_SEARCH_PAGE,
+                selectedCountry, selectedCity,
+                hotelName, moveInDate, moveOutDate, page)
+            );
+        },
+
+        getHotelPage: (search) => {
+            dispatch(HotelSearchActions.loadFromQuery(search));
+        }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HotelSearchPage);

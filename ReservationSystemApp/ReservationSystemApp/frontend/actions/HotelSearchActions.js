@@ -1,3 +1,8 @@
+import queryString from 'query-string';
+import { push } from 'connected-react-router';
+import moment from 'moment';
+
+import HelperActions from './HelperActions.js';
 import {
     searchConstants
 } from '../constants/searchConstants.js';
@@ -144,6 +149,76 @@ class HotelSearchActions {
 
         return (dispatch) => {
             dispatch(setRequest(date));
+        }
+    }
+
+    static buildQuery = (link, selectedCountry, selectedCity,
+        hotelName, moveInDate, moveOutDate, page = 1) => {
+        const params = {
+            page
+        };
+
+        if (selectedCountry) {
+            params.countryId = selectedCountry;
+        }
+
+        if (selectedCity) {
+            params.city = selectedCity;
+        }
+
+        if (hotelName) {
+            params.name = hotelName;
+        }
+
+        if (moveInDate) {
+            params.moveInDate =  moveInDate.format('YYYY/MM/DD');
+        }
+
+        if (moveOutDate) {
+            if (!moveOutDate.isBefore(moveInDate)) {
+                params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
+            }
+            else {
+                this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
+            }
+        }
+
+        const query = queryString.stringify(params);
+        return dispatch => {
+            dispatch(HelperActions.pushUrl(link, query));
+        }
+    }
+
+    static syncParamsWithQuery(props, query) {
+        const params = queryString.parse(query);
+        const moveInDate = HelperActions.stringToMoment(params.moveInDate);
+        const moveOutDate =  HelperActions.stringToMoment(params.moveOutDate);
+
+        return (dispatch) => {
+            if (props.selectedCountry !== params.countryId) {
+                dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
+            }
+
+            if (props.selectedCity !== params.city) {
+                dispatch(HotelSearchActions.setCurrentCity(params.city));
+            }
+
+            if (params.page && props.page !== params.page) {
+                dispatch(HotelSearchActions.setCurrentPage(params.page));
+            }
+
+            if (props.hotelName != params.name) {
+                dispatch(HotelSearchActions.setCurrentHotelName(params.name));
+                dispatch(change('searchFilterForm', 'name', params.name || ''));
+            }
+
+            if (moveInDate && !moveInDate.isSame(props.moveInDate)) {
+                dispatch(HotelSearchActions.setMoveInDate(moveInDate));
+            }
+
+            if (moveOutDate && !moveOutDate.isSame(props.moveOutDate))  {
+                dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
+            }
         }
     }
 }

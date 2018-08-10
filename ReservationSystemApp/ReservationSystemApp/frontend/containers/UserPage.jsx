@@ -8,17 +8,20 @@ class UserPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(UserActions.reset());
+        this.props.reset();
     }
 
     render() {
         const { userInfo } = this.props;
         return(
             <div>
-                {userInfo && <h1>Welcome, {userInfo.shortName ||
-                                           userInfo.email ||
-                                           (userInfo.isAdmin? 'guest' : 'admin')}
-                            </h1> }
+                {userInfo
+                 &&
+                 <h1>Welcome, {userInfo.shortName ||
+                               userInfo.email ||
+                               (userInfo.isAdmin? 'guest' : 'admin')}
+                </h1>
+                }
             </div>
         );
     }
@@ -35,4 +38,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(UserPage);
+const mapDispatchToProps = dispatch => {
+    reset: () => dispatch(UserActions.reset());
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

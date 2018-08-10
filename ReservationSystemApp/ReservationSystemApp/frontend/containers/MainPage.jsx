@@ -8,21 +8,6 @@ import { links } from '../config/links.js';
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.sendRemoveRequest = this.sendRemoveRequest.bind(this);
-        this.sendEditRequest = this.sendEditRequest.bind(this);
-        this.hideHotel = this.hideHotel.bind(this); //this.hideHotel = ::this.hideHotel()
-    }
-
-    sendRemoveRequest = (id) => {
-        this.props.dispatch(HotelActions.removeHotel(id));
-    }
-
-    sendEditRequest = (id, info) => {
-        this.props.dispatch(HotelActions.editHotel(id, info));
-    }
-
-    hideHotel = (info) => {
-        this.props.dispatch(HotelActions.hideHotel(info));
     }
 
     render() {

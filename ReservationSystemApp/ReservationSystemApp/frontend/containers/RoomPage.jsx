@@ -4,12 +4,14 @@ import { push } from 'connected-react-router';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import  moment  from 'moment';
+import { bindActionCreators } from 'redux';
 
 import BookingModal from '../components/BookingModal.jsx';
 import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
 import RoomActions from '../actions/RoomActions.js';
+import HelperActions from '../actions/HelperActions.js';
 import ReservationActions from '../actions/ReservationActions.js';
 import HotelSearchActions from '../actions/HotelSearchActions.js';
 import RoomList from '../components/RoomList.jsx';
@@ -26,89 +28,34 @@ class RoomPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getRoomPage();
+        const { moveInDate, moveOutDate, adults } = this.props;
+        this.props.getRoomPage();
+        this.props.buildQuery(moveInDate, moveOutDate, adults);
     }
 
     componentWillReceiveProps(nextProps) {
         const query = nextProps.search;
-        const params = queryString.parse(query);
-        const moveInDate = this.stringToMoment(params.moveInDate);
-        const moveOutDate = this.stringToMoment(params.moveOutDate);
-
-        if (moveInDate && !moveInDate.isSame(this.props.moveInDate)) {
-            this.props.dispatch(HotelSearchActions.setMoveInDate(moveInDate));
-        }
-
-        if (moveOutDate && !moveOutDate.isSame(this.props.moveOutDate))  {
-            this.props.dispatch(HotelSearchActions.setMoveOutDate(moveOutDate));
-        }
-
-        if (nextProps.page && this.props.page !== params.page) {
-            this.props.dispatch(RoomActions.setCurrentPage(params.page));
-        }
-
-        if (this.props.adults !== params.canPlace) {
-            this.props.dispatch(RoomActions.setAdults(params.canPlace));
-        }
-    }
-
-    stringToMoment = (strDate) => {
-        let date =  strDate ? moment(strDate, 'YYYY/MM/DD') : null;
-        return date;
-    }
-
-    buildQuery = (moveInDate, moveOutDate, adults, page = 1) => {
-        const params = {
-            page
-        };
-
-        if (moveInDate) {
-            params.moveInDate =  moveInDate.format('YYYY/MM/DD');
-        }
-
-        if (moveOutDate) {
-            params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
-        }
-
-        if (adults) {
-            params.adults = adults;
-        }
-
-        const query = queryString.stringify(params);
-        this.props.dispatch(push(`${links.ROOM_ID_PAGE(this.state.hotelId)}?${query}`));
+        this.props.syncParamsWithQuery(query);
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
-            this.getRoomPage();
+            this.props.getRoomPage();
         }
-    }
-
-    getRoomPage() {
-        const hotelId = this.getHotelId();
-        this.props.dispatch(RoomActions.loadFromQuery(hotelId, this.props.search));
     }
 
     getHotelId() {
         return this.props.match.params.id;
     }
 
-    resetFilters = () => {
-        this.buildQuery();
-    }
-
     setPage = (page) => {
         const { adults, moveInDate, moveOutDate } = this.props;
-        this.buildQuery(moveInDate, moveOutDate, adults, page);
+        this.props.buildQuery(moveInDate, moveOutDate, adults, page);
     }
 
     setAdults = (adults) => {
         const { moveInDate, moveOutDate } = this.props;
-        this.buildQuery(moveInDate, moveOutDate, adults);
-    }
-
-    resetFilters = () => {
-        this.buildQuery();
+        this.props.buildQuery(moveInDate, moveOutDate, adults);
     }
 
     openModal = (room) => {
@@ -117,10 +64,6 @@ class RoomPage extends React.Component {
 
     closeModal = () => {
         this.setState({isBooking: false, currentRoom: {}});
-    }
-
-    bookRoom = (roomId) => {
-        this.props.dispatch(ReservationActions.book(roomId));
     }
 
     render() {
@@ -147,15 +90,14 @@ class RoomPage extends React.Component {
                             }
                             {error && <p>error</p>}
 
-                            <PageBar  currentPage={page}
+                            <PageBar currentPage={page}
                                 nextPage={nextPage}
                                 goToPage={(num) => this.setPage(num)}/>
                         </div>
-
                       :
                         <div>
                             <h3>No available rooms with given parameters found.</h3>
-                            <button onClick={this.resetFilters}>Back</button>
+                            <button onClick={this.props.resetFilters}>Back</button>
                         </div>
                     )
                 }
@@ -164,7 +106,7 @@ class RoomPage extends React.Component {
                               userInfo={this.state.userInfo}
                               isBooking={this.state.isBooking}
                               onClose={this.closeModal}
-                              onBook={this.bookRoom}
+                              onBook={this.props.bookRoom}
                               room={this.state.currentRoom}
                  />
                  <Link to={links.BOOKING_ID_PAGE(1)}>test link </Link>
@@ -191,4 +133,35 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(RoomPage);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        syncParamsWithQuery: (query, nextPage) => {
+            dispatch(RoomActions.syncParamsWithQuery(ownProps, query));
+        },
+
+        getRoomPage: () => {
+            dispatch(RoomActions.loadFromQuery(ownProps.match.params.id,
+                ownProps.search));
+        },
+
+        pushUrl: (link, query) => {
+            dispatch(HelperActions.pushUrl(link, query));
+        },
+
+        buildQuery: (moveInDate, moveOutDate, adults, page) => {
+            dispatch(RoomActions.buildQuery(
+                links.ROOM_ID_PAGE(ownProps.match.params.id),
+                moveInDate, moveOutDate, adults, page));
+        },
+
+        bookRoom: (roomId) => {
+            dispatch(ReservationActions.book(roomId));
+        },
+
+        resetFilters: () => {
+            dispatch(RoomActions.buildQuery());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomPage);

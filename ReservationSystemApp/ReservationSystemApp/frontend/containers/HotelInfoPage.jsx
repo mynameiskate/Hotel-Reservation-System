@@ -16,24 +16,8 @@ class HotelInfoPage extends React.Component {
         return this.props.match.params.id;
     }
 
-    showHotel = (id) => {
-        this.props.dispatch(HotelActions.showHotel(id));
-    }
-
     componentWillMount() {
-       this.showHotel(this.getHotelId());
-    }
-
-    showEditField = (id, info) => {
-        this.props.dispatch(HotelActions.startEditing(id, info));
-    }
-
-    hideEditField = (id, info) => {
-        this.props.dispatch(HotelActions.stopEditing(id, info));
-    }
-
-    sendEditRequest = (id, info) => {
-        this.props.dispatch(HotelActions.editHotel(id, info));
+       this.props.showHotel(this.getHotelId());
     }
 
     render() {
@@ -48,13 +32,20 @@ class HotelInfoPage extends React.Component {
                             !editing
                             ? <div>
                                 <HotelInfo hotel={loaded}/>
-                                <button onClick={() => this.showEditField(loaded.id, loaded )}>Edit</button>
-                                <Link to={links.ROOM_ID_PAGE(hotelId)}> See available rooms </Link>
+                                <button onClick={() => this.props.showEditField(loaded.id, loaded )}>
+                                    Edit
+                                </button>
+                                <Link to={links.ROOM_ID_PAGE(hotelId)}>
+                                    See available rooms
+                                </Link>
                             </div>
                             :   <HotelEditField
                                     hotel={loaded}
-                                    sendRequest={(values) => this.sendEditRequest(loaded.hotelId, values)}
-                                    onCancelClick={this.hideEditField} />
+                                    sendRequest={(values) =>
+                                        this.props.sendEditRequest(loaded.hotelId, values)
+                                    }
+                                    onCancelClick={this.props.hideEditField}
+                                />
                         }
                         {error && <p>{error}</p>}
                     </div>
@@ -74,4 +65,22 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(HotelInfoPage);
+const mapDispatchToProps = dispatch => {
+    showHotel: (id) => {
+        dispatch(HotelActions.showHotel(id));
+    }
+
+    showEditField: (id, info) => {
+        dispatch(HotelActions.startEditing(id, info));
+    }
+
+    hideEditField: (id, info) => {
+        dispatch(HotelActions.stopEditing(id, info));
+    }
+
+    sendEditRequest: (id, info) => {
+        dispatch(HotelActions.editHotel(id, info));
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HotelInfoPage);

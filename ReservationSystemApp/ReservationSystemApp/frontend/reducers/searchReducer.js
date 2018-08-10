@@ -1,6 +1,7 @@
 import {
     searchConstants
 } from '../constants/searchConstants.js';
+import moment from 'moment';
 
 const initialState = {
     info: [],
@@ -15,8 +16,8 @@ const initialState = {
     nextPage: null,
     isLoading: false,
     hotelName: null,
-    moveInDate: null,
-    moveOutDate: null,
+    moveInDate: moment(),
+    moveOutDate: moment().add(1, 'day').endOf('day'),
     dateError: null
 }
 
