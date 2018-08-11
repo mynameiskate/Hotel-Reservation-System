@@ -7,9 +7,18 @@ import RoomService from '../services/RoomService';
 import {
     dateFormats
 } from '../constants/dateFormats';
+import { statuses } from '../constants/reservationStatuses';
 
 class ReservationActions {
-    static book(roomId) {
+    static createReservation = (roomId) => (
+        ReservationActions.book(roomId, statuses.PENDING)
+    )
+
+    static confirmReservation = (roomId) => (
+        ReservationActions.book(roomId, statuses.CONFIRMED)
+    )
+
+    static book(roomId, status) {
         const bookFailure = (id, error) => {
             return {
                 type: reservationConstants.BOOK_FAILURE,
@@ -45,7 +54,7 @@ class ReservationActions {
             const reservation = {
                 hotelRoomId: roomId,
                 created: moment().format(dateFormats.CREATION_TIME_FORMAT),
-                status: 'pending'
+                status: status
             };
 
             if (moveInDate) {

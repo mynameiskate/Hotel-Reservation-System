@@ -11,13 +11,14 @@ namespace Services.Models
         public DateTimeOffset MoveOutDate { get; set; }
         public int UserId { get; set; }
         public int HotelRoomId { get; set; }
-
         public string Status { get; set; }
+        public double TotalCost { get; set; }
 
         public ReservationModel(RoomReservation reservation)
         {
             if (reservation != null)
             {
+                TotalCost = reservation.TotalCost;
                 RoomReservationId = reservation.RoomReservationId;
                 Created = reservation.Created;
                 MoveInDate = reservation.MoveInDate;

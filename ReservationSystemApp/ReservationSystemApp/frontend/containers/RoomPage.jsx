@@ -18,7 +18,8 @@ class RoomPage extends React.Component {
         this.state = {
             isBooking: false,
             currentRoom: {},
-            hotelId: this.props.getHotelId()
+            hotelId: this.props.getHotelId(),
+            moveInTime: '10:00'
         };
     }
 
@@ -39,12 +40,17 @@ class RoomPage extends React.Component {
         }
     }
 
+    onTimeChange = (moveInTime) => {
+        this.setState({  moveInTime });
+    }
+
     setPage = (page) => {
         const { adults, moveInDate, moveOutDate } = this.props;
         this.props.buildQuery(moveInDate, moveOutDate, adults, page);
     }
 
     openModal = (room) => {
+        this.props.createReservation(room.id);
         this.setState({isBooking: true, currentRoom: room});
     }
 
@@ -65,7 +71,6 @@ class RoomPage extends React.Component {
                             {
                                 <RoomList info={info}
                                           showBookModal={this.openModal}
-                                          bookingLink={links.BOOKING_ID_PAGE}
                                 />
                             }
                             {error && <p>error</p>}
@@ -87,8 +92,10 @@ class RoomPage extends React.Component {
                               userInfo={this.state.userInfo}
                               isBooking={this.state.isBooking}
                               onClose={this.closeModal}
-                              onBook={this.props.bookRoom}
+                              onBook={this.props.confirmReservation}
                               room={this.state.currentRoom}
+                              time={this.state.moveInTime}
+                              onTimeChange={this.onTimeChange}
                  />
             </div>
         );
@@ -134,8 +141,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 moveInDate, moveOutDate, adults, page));
         },
 
-        bookRoom: (roomId) => {
-            dispatch(ReservationActions.book(roomId));
+        confirmReservation: (roomId) => {
+            dispatch(ReservationActions.confirmReservation(roomId));
         },
 
         resetFilters: () => {
@@ -144,6 +151,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         getHotelId: () => {
             return ownProps.hotelId;
+        },
+
+        createReservation: (roomId) => {
+            dispatch(ReservationActions.createReservation(roomId));
         }
     }
 }

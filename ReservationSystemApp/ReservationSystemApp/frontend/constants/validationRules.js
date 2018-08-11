@@ -25,3 +25,8 @@ export const minLength = min => {
         `Minimum length is ${min}.` :
         null;
 }
+
+export const isFullName = () => {
+    const regexp = new RegExp('^[a-z]([-\']?[a-z]+)*( [a-z]([-\']?[a-z]+)*)+$');
+    return name => regexp.test(name)?  null : 'Are you sure this is your name?';
+}

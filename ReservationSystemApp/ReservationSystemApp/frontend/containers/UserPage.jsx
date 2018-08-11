@@ -39,7 +39,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    reset: () => dispatch(UserActions.reset());
+    return {
+        reset: () => dispatch(UserActions.reset())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

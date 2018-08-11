@@ -1,7 +1,7 @@
 import React from 'react';
 import RoomInfo from './RoomInfo.jsx';
 
-const RoomList = ( {info, showBookModal, bookingLink} ) => (
+const RoomList = ( {info, showBookModal } ) => (
     <div>
         { Array.isArray(info) &&
             info.map((room) =>

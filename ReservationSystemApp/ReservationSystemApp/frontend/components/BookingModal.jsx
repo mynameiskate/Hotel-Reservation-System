@@ -1,11 +1,16 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { reduxForm, Field } from 'redux-form';
+import TimePicker from 'react-time-picker';
 
+import InputField from './InputField.jsx';
+import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules.js';
 import { dateFormats } from '../constants/dateFormats';
 import RoomInfo from '../components/RoomInfo.jsx';
 
-const BookingModal = ( {room, hotel, userInfo, isBooking,
-                        onClose, onBook, moveInDate, moveOutDate } ) => (
+const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
+                        onClose, onBook, moveInDate, moveOutDate, invalid,
+                        pristine, submitting, totalPrice } ) => (
     <Modal
         isOpen={isBooking}
         onRequestClose={onClose}
@@ -25,9 +30,24 @@ const BookingModal = ( {room, hotel, userInfo, isBooking,
                 <p>{moveOutDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
-        <button onClick={() => onBook(room.id)}>Confirm</button>
-        <button onClick={onClose}>Cancel</button>
+        <form onSubmit={() => onBook(room.id)}>
+            <Field name='name' label='Enter your full name:' component={InputField}
+                validate={[isRequired, maxLength(40), minLength(5), isFullName()]}
+            />
+            <TimePicker
+                onChange={onTimeChange}
+                value={time}
+            />
+            <button type='submit'
+                    disabled={invalid || pristine || submitting}>
+                Confirm
+            </button>
+            <button onClick={onClose}>Cancel</button>
+        </form>
     </Modal>
 )
 
-export default BookingModal;
+export default reduxForm({
+    form: 'bookingForm'
+})(BookingModal);
+

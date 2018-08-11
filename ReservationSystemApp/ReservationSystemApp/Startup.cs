@@ -50,6 +50,10 @@ namespace ReservationSystemApp
                                                  Convert.ToInt32(Configuration["pages:maxSize"])));
             services.AddScoped<ILocationService>
                 (provider => new LocationService(provider.GetRequiredService<HotelDbContext>()));
+            services.AddScoped<IReservationService>
+                (provider => new ReservationService(provider.GetRequiredService<HotelDbContext>(),
+                                                 Convert.ToInt32(Configuration["pages:size"]),
+                                                 Convert.ToInt32(Configuration["pages:maxSize"])));
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
@@ -103,6 +107,15 @@ namespace ReservationSystemApp
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+        }
+
+        protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder
+                .UseSqlServer(
+                   connection,
+                    options => options.EnableRetryOnFailure());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

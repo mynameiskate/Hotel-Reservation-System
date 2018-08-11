@@ -20,7 +20,7 @@ class HotelService {
     }
 
     static getHotelPageWithQuery(query) {
-        let path = `${links.HOTEL_SEARCH_PAGE}${query}`;
+        let path = `${links.HOTEL_SEARCH_PAGE}?${query}`;
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }

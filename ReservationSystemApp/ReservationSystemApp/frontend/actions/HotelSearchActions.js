@@ -199,6 +199,19 @@ class HotelSearchActions {
         }
     }
 
+    static addRequiredParamsToQuery(link, query) {
+        const params = queryString.parse(query);
+        if (!params.moveInDate) {
+            const moveInDate = moment();
+            const moveOutDate = moment().add(1, 'day').endOf('day');
+            params.moveInDate = moveInDate.format(dateFormats.REQUEST_DATE_FORMAT);
+            params.moveOutDate = moveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
+        }
+        return dispatch => {
+            dispatch(HistoryActions.pushUrl(link, queryString.stringify(params)));
+        }
+    }
+
     static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
         const paramMoveInDate = MomentExtensions.stringToMoment(params.moveInDate);

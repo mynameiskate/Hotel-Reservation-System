@@ -16,6 +16,7 @@ class HotelSearchPage extends React.Component {
 
     componentDidMount() {
         this.props.getLocations();
+        this.props.addRequiredParams(this.props.search);
         this.props.getHotelPage(this.props.search);
     }
 
@@ -79,7 +80,7 @@ class HotelSearchPage extends React.Component {
                 isLoading, adults } = this.props;
         return(
             <div>
-                <HotelFilter onCancel = {this.resetFilters}
+                <HotelFilter  onCancel = {this.resetFilters}
                               locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
@@ -148,6 +149,10 @@ const mapDispatchToProps = (dispatch) => {
 
         getHotelPage: (search) => {
             dispatch(HotelSearchActions.loadFromQuery(search));
+        },
+
+        addRequiredParams: (search) => {
+            dispatch(HotelSearchActions.addRequiredParamsToQuery(links.HOTEL_SEARCH_PAGE, search));
         }
     }
 }

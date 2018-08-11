@@ -21,11 +21,12 @@ class HotelInfoPage extends React.Component {
     }
 
     render() {
-        const { loaded, error, editing, userInfo } = this.props;
+        const { loaded, error, editing, userInfo, isLoading } = this.props;
         const hotelId = this.getHotelId();
 
         return (
             <div>
+                { isLoading && <h3>Loading</h3>}
                 {loaded &&
                     <div>
                         {
@@ -62,6 +63,7 @@ const mapStateToProps = (state) => {
         isLoading: state.hotels.isLoading,
         editing: state.hotels.editing,
         loaded: state.hotels.loaded,
+        isLoading: state.hotels.isLoading
     }
 }
 
