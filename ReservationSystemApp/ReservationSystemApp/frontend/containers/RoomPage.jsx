@@ -44,11 +44,6 @@ class RoomPage extends React.Component {
         this.props.buildQuery(moveInDate, moveOutDate, adults, page);
     }
 
-    setAdults = (adults) => {
-        const { moveInDate, moveOutDate } = this.props;
-        this.props.buildQuery(moveInDate, moveOutDate, adults);
-    }
-
     openModal = (room) => {
         this.setState({isBooking: true, currentRoom: room});
     }
@@ -62,12 +57,6 @@ class RoomPage extends React.Component {
             nextPage, page, adults, cost } = this.props;
         return (
             <div>
-                <RoomFilter selectedCost={cost}
-                            adultsAmount={adults}
-                            onCostChange={this.setCost}
-                            onAdultsChange={this.setAdults}
-                            onCancel={this.resetFilters}
-                />
                 { isLoading ?
                         <h2>Loading rooms...</h2>
                   : ( pageCount ?
@@ -80,10 +69,11 @@ class RoomPage extends React.Component {
                                 />
                             }
                             {error && <p>error</p>}
-
-                            <PageBar currentPage={page}
-                                nextPage={nextPage}
-                                goToPage={(num) => this.setPage(num)}/>
+                            {!isLoading &&
+                                <PageBar currentPage={page}
+                                    nextPage={nextPage}
+                                    goToPage={(num) => this.setPage(num)}/>
+                            }
                         </div>
                       :
                         <div>
@@ -100,7 +90,6 @@ class RoomPage extends React.Component {
                               onBook={this.props.bookRoom}
                               room={this.state.currentRoom}
                  />
-                 <Link to={links.BOOKING_ID_PAGE(1)}>test link </Link>
             </div>
         );
     }

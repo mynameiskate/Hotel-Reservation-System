@@ -18,6 +18,7 @@ import {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const history = createBrowserHistory();
+
 export const store = createStore(
     connectRouter(history)(rootReducer),
     composeEnhancers(

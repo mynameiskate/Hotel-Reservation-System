@@ -30,6 +30,13 @@ namespace Services.Extensions
             {
                 var filteredList = hotels;
 
+                if (filters.HotelId != null)
+                {
+                    filteredList = filteredList
+                        .Where(h => h.HotelId == filters.HotelId);
+                    return filteredList;
+                }
+
                 if (!string.IsNullOrEmpty(filters.Name))
                 {
                     filteredList = filteredList
@@ -60,6 +67,7 @@ namespace Services.Extensions
                 {
                     filteredList = from h in filteredList
                                    join hr in dataContext.HotelRooms on h.HotelId equals hr.HotelId
+                                   where (filters.Adults == 0 || hr.Adults == filters.Adults)
                                    join r in dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId into res
                                    from r in res.DefaultIfEmpty()
                                        //Here left join is used, that's why RoomReseservationId can be null. 

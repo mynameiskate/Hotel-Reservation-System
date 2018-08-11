@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import RoomPage from './RoomPage.jsx';
 import HotelActions from '../actions/HotelActions';
@@ -20,7 +21,7 @@ class HotelInfoPage extends React.Component {
     }
 
     render() {
-        const { loaded, error, editing } = this.props;
+        const { loaded, error, editing, userInfo } = this.props;
         const hotelId = this.getHotelId();
 
         return (
@@ -28,15 +29,13 @@ class HotelInfoPage extends React.Component {
                 {loaded &&
                     <div>
                         {
-                            !editing
+                            (!editing)
                             ? <div>
                                 <HotelInfo hotel={loaded}/>
+                                {userInfo && userInfo.isAdmin &&
                                 <button onClick={() => this.props.showEditField(loaded.id, loaded )}>
                                     Edit
-                                </button>
-                                {/*<Link to={links.ROOM_ID_PAGE(hotelId)}>
-                                    See available rooms
-                                    </Link>*/}
+                                </button> }
                                 <RoomPage hotelId={hotelId} />
                             </div>
                             :   <HotelEditField
@@ -57,6 +56,7 @@ class HotelInfoPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        userInfo: state.users.info,
         info: state.hotels.info,
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,
@@ -85,4 +85,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HotelInfoPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotelInfoPage));

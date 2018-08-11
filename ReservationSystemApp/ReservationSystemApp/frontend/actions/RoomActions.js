@@ -9,7 +9,7 @@ import {
 import MomentExtensions from '../extensions/MomentExtensions';
 import HotelSearchActions from './HotelSearchActions';
 import RoomService from '../services/RoomService';
-import HelperActions from './HistoryActions';
+import HistoryActions from './HistoryActions';
 
 class RoomActions {
     static loadFromQuery(id, query) {
@@ -113,25 +113,9 @@ class RoomActions {
     }
 
     static buildQuery = (link, moveInDate, moveOutDate, adults, page = 1) => {
-        const params = {
-            page
-        };
-
-        if (moveInDate) {
-            params.moveInDate = moveInDate.format('YYYY/MM/DD');
-        }
-
-        if (moveOutDate) {
-            params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
-        }
-
-        if (adults) {
-            params.adults = adults;
-        }
-
-        const query = queryString.stringify(params);
+        const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults, page);
         return dispatch => {
-            dispatch(HelperActions.pushUrl(link, query));
+            dispatch(HistoryActions.pushUrl(link, query));
         }
     }
 }

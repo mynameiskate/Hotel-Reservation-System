@@ -125,7 +125,7 @@ class HotelActions {
         };
 
         return (dispatch, stateAccessor) => {
-            let hotel = this.getHotelById(hotelId, stateAccessor().hotels.info);
+            const hotel = this.getHotelById(hotelId, stateAccessor().hotels.info);
             if (hotel) {
                 dispatch(showSuccess(hotel));
                 return hotel;

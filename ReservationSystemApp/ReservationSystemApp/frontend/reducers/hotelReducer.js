@@ -88,7 +88,7 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                loaded: data.loaded,
+                loaded: data.loaded.entities ?  data.loaded.entities[0] : null,
                 editing: false
             }
         case hotelConstants.SHOW_HOTEL_FAILURE:

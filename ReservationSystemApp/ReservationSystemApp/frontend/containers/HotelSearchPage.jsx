@@ -35,33 +35,38 @@ class HotelSearchPage extends React.Component {
     }
 
     setCountry = (country) => {
-        const { hotelName, moveInDate, moveOutDate} = this.props;
-        this.props.buildQuery(country.value, null, hotelName, moveInDate, moveOutDate);
+        const { hotelName, moveInDate, moveOutDate, adults } = this.props;
+        this.props.buildQuery(country.value, null, hotelName, moveInDate, moveOutDate, adults);
     }
 
     setCity = (city) => {
-        const { selectedCountry, hotelName, moveInDate, moveOutDate } = this.props;
-        this.props.buildQuery(selectedCountry, city.value, hotelName, moveInDate, moveOutDate);
+        const { selectedCountry, hotelName, moveInDate, moveOutDate, adults } = this.props;
+        this.props.buildQuery(selectedCountry, city.value, hotelName, moveInDate, moveOutDate, adults);
     }
 
     setPage = (page) => {
-        const {selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate} = this.props;
-        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, page);
+        const {selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults} = this.props;
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults, page);
     }
 
     setHotelName = (hotelName) => {
-        const {selectedCountry, selectedCity, moveInDate, moveOutDate } = this.props;
-        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        const {selectedCountry, selectedCity, moveInDate, moveOutDate, adults } = this.props;
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults);
     }
 
     setMoveInDate = (moveInDate) => {
-        const { hotelName, selectedCountry, selectedCity, moveOutDate } = this.props;
-        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        const { hotelName, selectedCountry, selectedCity, moveOutDate, adults } = this.props;
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults);
     }
 
     setMoveOutDate = (moveOutDate) => {
-        const { hotelName, selectedCountry, selectedCity, moveInDate } = this.props;
-        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate);
+        const { hotelName, selectedCountry, selectedCity, moveInDate, adults } = this.props;
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults);
+    }
+
+    setAdults = (adults) => {
+        const { hotelName, selectedCountry, selectedCity, moveInDate, moveOutDate } = this.props;
+        this.props.buildQuery(selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults);
     }
 
     parseDate = (date) => {
@@ -70,7 +75,8 @@ class HotelSearchPage extends React.Component {
 
     render() {
         const { selectedCountry, selectedCity, locations, dateError,
-                page, pageCount, nextPage, moveInDate, moveOutDate } = this.props;
+                page, pageCount, nextPage, moveInDate, moveOutDate,
+                isLoading, adults } = this.props;
         return(
             <div>
                 <HotelFilter onCancel = {this.resetFilters}
@@ -82,13 +88,14 @@ class HotelSearchPage extends React.Component {
                               onNameChange={this.setHotelName}
                               moveInDate={moveInDate}
                               moveOutDate={moveOutDate}
+                              adultsAmount={adults}
+                              onAdultsChange={this.setAdults}
                               setMoveInDate={this.setMoveInDate}
                               setMoveOutDate={this.setMoveOutDate}
                               dateError={dateError}
                 />
-
                 <SearchDisplay/>
-               { (pageCount > 0) &&
+               { (pageCount > 0 && !isLoading) &&
                     <PageBar  currentPage={page}
                               nextPage={nextPage}
                               goToPage={this.setPage}/>
@@ -100,6 +107,7 @@ class HotelSearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        adults: state.rooms.adults,
         hotelName: state.search.hotelName,
         search: state.router.location.search,
         info: state.search.info,
@@ -130,11 +138,11 @@ const mapDispatchToProps = (dispatch) => {
         },
 
         buildQuery: (selectedCountry, selectedCity, hotelName,
-            moveInDate, moveOutDate, page = 1) => {
+            moveInDate, moveOutDate, adults, page = 1) => {
             dispatch(HotelSearchActions.buildQuery(
                 links.HOTEL_SEARCH_PAGE,
                 selectedCountry, selectedCity,
-                hotelName, moveInDate, moveOutDate, page)
+                hotelName, moveInDate, moveOutDate, adults, page)
             );
         },
 

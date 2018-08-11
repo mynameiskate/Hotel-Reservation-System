@@ -3,6 +3,7 @@ import {
     push
 } from 'connected-react-router';
 import moment from 'moment';
+import { change } from 'redux-form';
 
 import {
     dateFormats
@@ -12,7 +13,8 @@ import {
     searchConstants
 } from '../constants/searchConstants';
 import HotelService from '../services/HotelService';
-import HistoryActions from '../actions/HistoryActions.js';
+import HistoryActions from '../actions/HistoryActions';
+import RoomActions from '../actions/RoomActions';
 
 class HotelSearchActions {
     static loadFromQuery(query) {
@@ -159,7 +161,7 @@ class HotelSearchActions {
     }
 
     static buildQuery = (link, selectedCountry, selectedCity,
-        hotelName, moveInDate, moveOutDate, page = 1) => {
+        hotelName, moveInDate, moveOutDate, adults, page = 1) => {
         const params = {
             page
         };
@@ -174,6 +176,10 @@ class HotelSearchActions {
 
         if (hotelName) {
             params.name = hotelName;
+        }
+
+        if (adults) {
+            params.adults = adults;
         }
 
         const paramMoveInDate = (moveInDate) || moment();
@@ -205,8 +211,9 @@ class HotelSearchActions {
                 page,
                 hotelName,
                 moveInDate,
-                moveOutDate
+                moveOutDate,
             } = stateAccessor().search;
+            const { adults } = stateAccessor().search;
 
             if (selectedCountry !== params.countryId) {
                 dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
@@ -223,6 +230,10 @@ class HotelSearchActions {
             if (hotelName != params.name) {
                 dispatch(HotelSearchActions.setCurrentHotelName(params.name));
                 dispatch(change('searchFilterForm', 'name', params.name || ''));
+            }
+
+            if (params.adults && adults != params.adults) {
+                dispatch(RoomActions.setAdults(params.adults));
             }
 
             if (paramMoveInDate && !paramMoveInDate.isSame(moveInDate)) {

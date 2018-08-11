@@ -11,9 +11,12 @@ import { dateFormats } from '../constants/dateFormats.js';
 const HotelFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry,
             onCountrySelect, onCitySelect, onNameChange, moveInDate,
-            moveOutDate, setMoveInDate, setMoveOutDate, dateError} = props;
+            moveOutDate, setMoveInDate, setMoveOutDate, dateError,
+            adultsAmount, onAdultsChange } = props;
+
     const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
+    const personOptions = SelectService.getNumericOptions(10);
 
     return (
         <div>
@@ -44,6 +47,12 @@ const HotelFilter = (props) => {
                 dateFormat =  {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveOutDate}
                 onChange={date => setMoveOutDate(date)}
+            />
+            <h3>Adults</h3>
+            <Select
+                value = {personOptions.find(o => o.value == adultsAmount) || {}}
+                options={personOptions}
+                onChange={adults => onAdultsChange(adults.value)}
             />
             {dateError && <h3>{dateError}</h3>}
             <button type='button' onClick={onCancel}>Reset filter</button>
