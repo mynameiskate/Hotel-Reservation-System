@@ -35,9 +35,7 @@ namespace Services.Services
         {
             try
             {
-
                 var entityList = _dataContext.HotelServices as IQueryable<DataLayer.Entities.HotelService>;
-
 
                 var resultQuery = entityList
                     .Where(s => s.HotelId == hotelId)
@@ -77,7 +75,6 @@ namespace Services.Services
                     .ThenInclude(c => c.Country)
                     .Select(hotel => new HotelModel(hotel));
                
-
                 int resultCount = await resultQuery.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
 
@@ -107,7 +104,7 @@ namespace Services.Services
                 var resultQuery = entityList
                     .Include(r => r.RoomType)
                     .Where(r => r.HotelId == hotelId)
-                    .FilterRooms(request)
+                    .FilterRooms(request, _dataContext)
                     .Distinct()
                     .Select(r => new HotelRoomModel(r));
 

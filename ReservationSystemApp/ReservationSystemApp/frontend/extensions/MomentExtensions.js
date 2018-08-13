@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment-duration-format';
 
 import {
     dateFormats
@@ -7,6 +8,10 @@ import {
 class MomentExtensions {
     static stringToMoment(strDate) {
         return strDate ? moment(strDate, dateFormats.REQUEST_DATE_FORMAT) : null;
+    }
+
+    static formatTime(timeStr) {
+        return time ? moment.duration(`${timeStr}:00`).format(dateFormats.MOVE_IN_TIME_FORMAT) : null;
     }
 }
 

@@ -71,8 +71,11 @@ namespace Services.Extensions
                                    from r in res.DefaultIfEmpty()
                                        //Here left join is used, that's why RoomReseservationId can be null. 
                                        //This check is necessary for including hotels with available rooms but without existing reservations.
-                                   where (r.RoomReservationId == null) ||
-                                   !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
+                                   where (r.RoomReservationId == null) 
+                                        || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
+                                   join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
+                                   from service in srv.DefaultIfEmpty()
+                                   where (service.Status == null || service.Status == ReservationStatusEnum.Cancelled.ToString())
                                    select h;
                 }
 
@@ -116,6 +119,21 @@ namespace Services.Extensions
                 {
                     filteredList = filteredList
                         .Where(r => r.Cost <= filters.MaxCost);
+                }
+
+                if (!(filters.MoveInDate == null || filters.MoveOutDate == null))
+                {
+                    filteredList = from hr in filteredList
+                                   join r in dataContext.RoomReservations on hr.HotelRoomId equals r.HotelRoomId into res
+                                   from r in res.DefaultIfEmpty()
+                                       //Here left join is used, that's why RoomReseservationId can be null. 
+                                       //This check is necessary for including available rooms but without existing reservations.
+                                   where (r.RoomReservationId == null)
+                                        || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
+                                   join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
+                                   from service in srv.DefaultIfEmpty()
+                                   where (service.Status == null || service.Status == ReservationStatusEnum.Cancelled.ToString())
+                                   select hr;
                 }
 
                 if (!string.IsNullOrEmpty(filters.RoomType)) //TODO: add some checks for room types

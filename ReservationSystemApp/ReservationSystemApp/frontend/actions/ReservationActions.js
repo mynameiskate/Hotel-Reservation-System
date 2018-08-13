@@ -1,5 +1,4 @@
 import moment from 'moment';
-import 'moment-duration-format';
 
 import {
     reservationConstants
@@ -11,6 +10,7 @@ import {
 import {
     statuses
 } from '../constants/reservationStatuses';
+import MomentExtensions from '../extensions/MomentExtensions';
 
 class ReservationActions {
     static createReservation = (room) => (
@@ -44,7 +44,6 @@ class ReservationActions {
             };
         };
 
-        const moveInTime = time ? moment.duration(`${time}:00`).format(dateFormats.MOVE_IN_TIME_FORMAT) : null;
         return (dispatch, stateAccessor) => {
             let {
                 reservation,
@@ -61,7 +60,7 @@ class ReservationActions {
                 status,
                 totalCost,
                 guestName,
-                moveInTime
+                moveInTime: MomentExtensions.formatTime(time)
             };
 
             dispatch(updateRequest(reservation));
