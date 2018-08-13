@@ -54,7 +54,7 @@ namespace ReservationSystemApp
                 (provider => new ReservationService(provider.GetRequiredService<HotelDbContext>(),
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"])));
-
+             
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
             var validationParameters = new TokenValidationParameters

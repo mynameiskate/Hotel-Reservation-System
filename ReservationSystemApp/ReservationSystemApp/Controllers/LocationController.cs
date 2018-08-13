@@ -25,8 +25,7 @@ namespace ReservationSystemApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<LocationModel>> GetLocationList()
         {
-            var locations = await _locationService.GetLocationList();
-            return locations;
+            return await _locationService.GetLocationList();
         }
     }
 }

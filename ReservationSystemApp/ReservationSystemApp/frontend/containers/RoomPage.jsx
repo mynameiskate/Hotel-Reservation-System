@@ -148,11 +148,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 moveInDate, moveOutDate, adults, page)
         ),
 
-        confirmReservation: (room) => ReservationActions.confirmReservation(room),
+        confirmReservation: (room, moveInTime) => ReservationActions.confirmReservation(room, moveInTime),
 
         resetFilters: () => RoomActions.buildQuery(),
 
-        createReservation: (room) => ReservationActions.createReservation(room),
+        createReservation: (room, moveInTime) => ReservationActions.createReservation(room, moveInTime),
 
         getServices: (id) => ReservationActions.getServices(id),
 

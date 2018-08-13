@@ -5,6 +5,8 @@
 	MoveInDate date,
 	MoveOutDate date,
 	TotalCost FLOAT,
+	MoveInTime time(7),
+	GuestName nvarchar(MAX),
 	StatusId int REFERENCES ReservationStatuses(StatusId) NOT NULL,
 	UserId int	FOREIGN KEY REFERENCES Users(UserId),
 	HotelRoomId int FOREIGN KEY REFERENCES HotelRooms(HotelRoomId)

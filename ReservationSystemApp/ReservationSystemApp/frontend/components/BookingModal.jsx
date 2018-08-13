@@ -9,7 +9,7 @@ import { isRequired, maxLength, minLength, isFullName } from '../constants/valid
 import { dateFormats } from '../constants/dateFormats';
 import RoomInfo from './RoomInfo.jsx';
 
-const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
+const BookingModal = ( {room, isBooking, onTimeChange, time,
                         onClose, onBook, moveInDate, moveOutDate, invalid,
                         pristine, submitting, totalCost, services,
                         addService, removeService } ) => (
@@ -32,7 +32,7 @@ const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
                 <p>{moveOutDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
-        <form onSubmit={() => onBook(room)}>
+        <form onSubmit={() => onBook(room, time)}>
             <Field name='name' label='Enter your full name:' component={InputField}
                 validate={[isRequired, maxLength(40), minLength(5), isFullName()]}
             />

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment-duration-format';
 
 import {
     reservationConstants
@@ -7,18 +8,20 @@ import RoomService from '../services/RoomService';
 import {
     dateFormats
 } from '../constants/dateFormats';
-import { statuses } from '../constants/reservationStatuses';
+import {
+    statuses
+} from '../constants/reservationStatuses';
 
 class ReservationActions {
     static createReservation = (room) => (
         ReservationActions.book(room, statuses.PENDING)
     )
 
-    static confirmReservation = (room) => (
-        ReservationActions.update(room, statuses.CONFIRMED)
+    static confirmReservation = (room, time) => (
+        ReservationActions.update(room, time, statuses.CONFIRMED)
     )
 
-    static update(room, status) {
+    static update(room, time, status) {
         const updateFailure = (error) => {
             return {
                 type: reservationConstants.UPDATE_FAILURE,
@@ -41,18 +44,30 @@ class ReservationActions {
             };
         };
 
+        const moveInTime = time ? moment.duration(`${time}:00`).format(dateFormats.MOVE_IN_TIME_FORMAT) : null;
         return (dispatch, stateAccessor) => {
-            let { reservation, totalCost } = stateAccessor().reservations;
+            let {
+                reservation,
+                totalCost
+            } = stateAccessor().reservations;
+
+            const {
+                values
+            } = stateAccessor().form.bookingForm;
+            const guestName = (values) ? values.name : null;
+
             reservation = {
                 ...reservation,
                 status,
-                totalCost
+                totalCost,
+                guestName,
+                moveInTime
             };
 
             dispatch(updateRequest(reservation));
             RoomService.updateReservation(reservation)
                 .then(handleError)
-                .then(dispatch(updateSuccess(jsonInfo)))
+                .then(dispatch(updateSuccess(reservation)))
                 .catch(error => dispatch(updateFailure(error)));
         }
     }

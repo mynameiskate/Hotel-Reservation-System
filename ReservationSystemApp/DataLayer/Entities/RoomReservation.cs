@@ -9,6 +9,8 @@ namespace DataLayer.Entities
         public int RoomReservationId { get; set; }
         public DateTimeOffset Created { get; set; }
         public double TotalCost { get; set; }
+        public TimeSpan MoveInTime { get; set;}
+        public string GuestName { get; set; }
         public DateTime MoveInDate { get; set; }
         public DateTime MoveOutDate { get; set; }
         public int StatusId { get; set; }
