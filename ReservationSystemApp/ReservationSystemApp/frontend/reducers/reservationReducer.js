@@ -23,7 +23,9 @@ export function reservationReducer(state = initialState, action) {
                 currentRoomId: data.roomId
             }
         case reservationConstants.BOOK_SUCCESS:
-            const { reservation } = data;
+            const {
+                reservation
+            } = data;
             return {
                 ...state,
                 error: null,
@@ -37,43 +39,46 @@ export function reservationReducer(state = initialState, action) {
                 error: data.error,
                 isLoading: false
             }
-        case reservationConstants.ADD_SERVICE: {
-            const services = state.reservation.services || [];
-            const { service } = data;
-            const updatedServices = [...services, service ];
-            return {
-                ...state,
-                reservation: {
-                    ...state.reservation,
-                    services: updatedServices
-                },
-                totalCost: state.totalCost + service.cost
-            }
-        }
-        case reservationConstants.REMOVE_SERVICE: {
-            const services = state.reservation.services || [];
-            const id = data.service.hotelServiceId;
-            const targetIndex = services.findIndex(service => service.hotelServiceId == id);
-
-            if (targetIndex < 0) {
-                return state;
-            }
-            else {
-                const updatedServices = [
-                    ...services.slice(0, targetIndex),
-                    ...services.slice(targetIndex + 1)
-                ];
-
+        case reservationConstants.ADD_SERVICE:
+            {
+                const services = state.reservation.services || [];
+                const {
+                    service
+                } = data;
+                const updatedServices = [...services, service];
                 return {
                     ...state,
                     reservation: {
                         ...state.reservation,
                         services: updatedServices
                     },
-                    totalCost: state.totalCost - data.service.cost
+                    totalCost: state.totalCost + service.cost
                 }
             }
-        }
+        case reservationConstants.REMOVE_SERVICE:
+            {
+                const services = state.reservation.services || [];
+                const id = data.service.hotelServiceId;
+                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+
+                if (targetIndex < 0) {
+                    return state;
+                } else {
+                    const updatedServices = [
+                        ...services.slice(0, targetIndex),
+                        ...services.slice(targetIndex + 1)
+                    ];
+
+                    return {
+                        ...state,
+                        reservation: {
+                            ...state.reservation,
+                            services: updatedServices
+                        },
+                        totalCost: state.totalCost - data.service.cost
+                    }
+                }
+            }
         case reservationConstants.GET_SERVICES_SUCCESS:
             return {
                 ...state,

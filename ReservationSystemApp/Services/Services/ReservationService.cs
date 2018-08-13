@@ -50,6 +50,20 @@ namespace Services.Services
             reservationEntity.StatusId = status.ReservationStatusId;
             reservationEntity.TotalCost = reservationModel.TotalCost;
 
+            if (reservationModel.Services?.Count > 0)
+            {
+                foreach (ServiceModel service in reservationModel.Services)
+                {
+                    var reservationService = new DataLayer.Entities.ReservationService
+                    {
+                        ReservationId = (int)reservationModel.RoomReservationId,
+                        HotelServiceId = service.HotelServiceId
+                    };
+
+                    await _dataContext.ReservationServices.AddAsync(reservationService);
+                }
+            }
+
             _dataContext.RoomReservations.Update(reservationEntity);
             _dataContext.SaveChanges();
         }

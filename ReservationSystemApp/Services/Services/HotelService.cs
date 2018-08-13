@@ -36,11 +36,15 @@ namespace Services.Services
             try
             {
 
-                var entityList = _dataContext.Services as IQueryable<DataLayer.Entities.HotelService>;
+                var entityList = _dataContext.HotelServices as IQueryable<DataLayer.Entities.HotelService>;
+
 
                 var resultQuery = entityList
                     .Where(s => s.HotelId == hotelId)
-                    .Select(s => new ServiceModel(s));
+                    .Join(_dataContext.Services,
+                     hs => hs.ServiceId,
+                     s => s.ServiceId,
+                     (hs, s) => new ServiceModel(hs, s.Name));
 
                 return await resultQuery.ToListAsync();
             }

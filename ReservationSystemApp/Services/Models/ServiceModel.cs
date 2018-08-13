@@ -8,12 +8,12 @@ namespace Services.Models
         public string Name { get; set; }
         public double Cost { get; set; }
 
-        public ServiceModel (HotelService service)
+        public ServiceModel (HotelService service, string serviceName = null)
         {
             if (service != null)
             {
                 HotelServiceId = service.HotelServiceId;
-                Name = service.Name;
+                Name = serviceName;
                 Cost = service.Cost;
             }
         }
