@@ -7,6 +7,7 @@ namespace Services.Models
     public class ReservationModel
     {
         public int? RoomReservationId { get; set; }
+        public DateTimeOffset Confirmed { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTime MoveInDate { get; set; }
         public DateTime MoveOutDate { get; set; }

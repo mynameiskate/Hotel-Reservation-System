@@ -33,8 +33,9 @@ const BookingModal = ( {room, isBooking, onTimeChange, time,
             </div>
         }
         <form onSubmit={(e) => {
-            e.preventDefault();
-            onBook(room, time);
+                e.preventDefault();
+                onBook(room, time);
+                onClose();
             }
         }>
             <Field name='name' label='Enter your full name:' component={InputField}

@@ -39,11 +39,15 @@ namespace ReservationSystemApp.Controllers
             }
             catch (BookingException)
             {
-                return BadRequest(StatusCodes.Status403Forbidden);
+                return StatusCode(StatusCodes.Status403Forbidden);
             }
             catch (UserNotFoundException)
             {
                 return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            catch(TimeoutException)
+            {
+                return StatusCode(StatusCodes.Status408RequestTimeout);
             }
             catch (ArgumentException)
             {

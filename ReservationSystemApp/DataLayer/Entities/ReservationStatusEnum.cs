@@ -2,9 +2,9 @@
 {
     public enum ReservationStatusEnum
     {   
-        Pending,
-        Confirmed,
-        Paid,
-        Cancelled,       
+        PENDING,
+        CONFIRMED,
+        PAID,
+        CANCELLED,       
     }
 }

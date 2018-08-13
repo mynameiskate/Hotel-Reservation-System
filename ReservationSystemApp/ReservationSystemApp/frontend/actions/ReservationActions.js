@@ -60,7 +60,8 @@ class ReservationActions {
                 status,
                 totalCost,
                 guestName,
-                moveInTime: MomentExtensions.formatTime(time)
+                moveInTime: MomentExtensions.formatTime(time),
+                confirmed: moment().format(dateFormats.CREATION_TIME_FORMAT)
             };
 
             dispatch(updateRequest(reservation));

@@ -75,7 +75,7 @@ namespace Services.Extensions
                                         || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
                                    join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
                                    from service in srv.DefaultIfEmpty()
-                                   where (service.Status == null || service.Status == ReservationStatusEnum.Cancelled.ToString())
+                                   where (service.Status == null || service.Status == ReservationStatusEnum.CANCELLED.ToString())
                                    select h;
                 }
 
@@ -132,7 +132,7 @@ namespace Services.Extensions
                                         || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
                                    join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
                                    from service in srv.DefaultIfEmpty()
-                                   where (service.Status == null || service.Status == ReservationStatusEnum.Cancelled.ToString())
+                                   where (service.Status == null || service.Status == ReservationStatusEnum.CANCELLED.ToString())
                                    select hr;
                 }
 

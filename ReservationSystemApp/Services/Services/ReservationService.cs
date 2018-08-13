@@ -7,6 +7,7 @@ using Services.Exceptions;
 using Services.Interfaces;
 using Services.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.Services
@@ -17,19 +18,27 @@ namespace Services.Services
         private HotelDbContext _dataContext;
         private int _pageSize;
         private int _maxPageSize;
+        private int _maxElapsedMinutes;
 
-        public ReservationService(HotelDbContext dataContext, int pageSize, int maxPageSize)
+        public ReservationService(HotelDbContext dataContext, int pageSize, int maxPageSize, int maxElapsedMinutes)
         {
             _dataContext = dataContext;
             _pageSize = pageSize;
             _maxPageSize = maxPageSize;
+            _maxElapsedMinutes = maxElapsedMinutes;
             _logger = AppLogging.LoggerFactory.CreateLogger<ReservationService>();
         }
 
         public async Task UpdateReservation(ReservationModel reservationModel)
         {
+            var status = await _dataContext.ReservationStatuses
+                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
+
             var reservationEntity = await _dataContext.RoomReservations
-                         .FirstOrDefaultAsync(r => r.RoomReservationId == reservationModel.RoomReservationId);
+                         .FirstOrDefaultAsync(r =>
+                             (r.RoomReservationId == reservationModel.RoomReservationId) 
+                             && !(status.ReservationStatusId == r.StatusId)
+                         );
 
             if (reservationEntity == null)
             {
@@ -44,11 +53,20 @@ namespace Services.Services
                 throw new UserNotFoundException();
             }
 
-            var status = await _dataContext.ReservationStatuses
-                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
 
             reservationEntity.StatusId = status.ReservationStatusId;
             reservationEntity.TotalCost = reservationModel.TotalCost;
+
+            if (reservationModel.Status == ReservationStatusEnum.CONFIRMED.ToString())
+            {
+                var elapsedMinutes = (reservationModel.Confirmed - reservationModel.Created).TotalMinutes;
+
+                if (elapsedMinutes > _maxElapsedMinutes)
+                {
+                    throw new TimeoutException();
+                }
+             
+            }
 
             if (reservationModel.Services?.Count > 0)
             {
