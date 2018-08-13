@@ -11,7 +11,7 @@ class MomentExtensions {
     }
 
     static formatTime(timeStr) {
-        return time ? moment.duration(`${timeStr}:00`).format(dateFormats.MOVE_IN_TIME_FORMAT) : null;
+        return timeStr ? moment.duration(`${timeStr}:00`).format(dateFormats.MOVE_IN_TIME_FORMAT) : null;
     }
 }
 

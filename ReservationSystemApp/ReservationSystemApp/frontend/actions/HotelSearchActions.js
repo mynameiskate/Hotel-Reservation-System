@@ -3,7 +3,9 @@ import {
     push
 } from 'connected-react-router';
 import moment from 'moment';
-import { change } from 'redux-form';
+import {
+    change
+} from 'redux-form';
 
 import {
     dateFormats
@@ -194,8 +196,7 @@ class HotelSearchActions {
             if (!paramMoveOutDate.isBefore(paramMoveInDate)) {
                 params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
                 dispatch(HistoryActions.pushUrl(link, query));
-            }
-            else {
+            } else {
                 dispatch(HotelSearchActions.setDateFailure(moveOutDate));
             }
         }
@@ -226,9 +227,11 @@ class HotelSearchActions {
                 page,
                 hotelName,
                 moveInDate,
-                moveOutDate,
+                moveOutDate
             } = stateAccessor().search;
-            const { adults } = stateAccessor().search;
+            const {
+                adults
+            } = stateAccessor().rooms;
 
             if (selectedCountry !== params.countryId) {
                 dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
@@ -247,7 +250,7 @@ class HotelSearchActions {
                 dispatch(change('searchFilterForm', 'name', params.name || ''));
             }
 
-            if (params.adults && adults != params.adults) {
+            if (adults != params.adults) {
                 dispatch(RoomActions.setAdults(params.adults));
             }
 

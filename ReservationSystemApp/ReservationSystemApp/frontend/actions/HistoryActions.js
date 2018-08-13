@@ -1,7 +1,9 @@
 import {
     push
 } from 'connected-react-router';
-import { history } from '../store/store.js';
+import {
+    history
+} from '../store/store.js';
 import queryString from 'query-string';
 
 class HistoryActions {
@@ -11,7 +13,7 @@ class HistoryActions {
         }
     }
 
-    static getQuery( moveInDate, moveOutDate, adults, page = 1){
+    static getQuery(moveInDate, moveOutDate, adults, page = 1) {
         const params = {
             page
         };

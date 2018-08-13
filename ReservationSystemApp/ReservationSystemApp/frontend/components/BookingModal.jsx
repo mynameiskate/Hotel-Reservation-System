@@ -32,7 +32,11 @@ const BookingModal = ( {room, isBooking, onTimeChange, time,
                 <p>{moveOutDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
-        <form onSubmit={() => onBook(room, time)}>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            onBook(room, time);
+            }
+        }>
             <Field name='name' label='Enter your full name:' component={InputField}
                 validate={[isRequired, maxLength(40), minLength(5), isFullName()]}
             />

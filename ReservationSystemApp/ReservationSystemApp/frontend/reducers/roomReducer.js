@@ -11,7 +11,7 @@ const initialState = {
     pageSize: 0,
     pageCount: 1,
     nextPage: null,
-    adults: 1,
+    adults: null,
     currentRoomId: null
 }
 

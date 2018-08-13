@@ -64,8 +64,8 @@ const mapDispatchToProps = (dispatch) => {
 
         hideHotel: bindActionCreators((info) => HotelActions.hideHotel(info), dispatch),
 
-        getDetailsLink: (id, moveInDate, moveOutDate, adults, page) => {
-            const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults, page);
+        getDetailsLink: (id, moveInDate, moveOutDate, adults) => {
+            const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults);
             return (`${links.HOTEL_ID_PAGE(id)}?${query}`);
         }
     }
