@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { links } from '../config/links';
 import HotelActions from '../actions/HotelActions';
 import HistoryActions from '../actions/HistoryActions';
 import HotelList from '../components/HotelList.jsx';
-import RoomActions from '../actions/RoomActions';
-import { links } from '../config/links';
 
 class SearchDisplay extends React.Component {
     constructor(props) {
@@ -57,24 +58,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendRemoveRequest: (id) => {
-            dispatch(HotelActions.removeHotel(id));
-        },
+        sendRemoveRequest: bindActionCreators((id) => HotelActions.removeHotel(id), dispatch),
 
-        sendEditRequest: (id, info) => {
-            dispatch(HotelActions.editHotel(id, info));
-        },
+        sendEditRequest: bindActionCreators((id, info) => HotelActions.editHotel(id, info), dispatch),
 
-        hideHotel: (info) => {
-            dispatch(HotelActions.hideHotel(info));
-        },
+        hideHotel: bindActionCreators((info) => HotelActions.hideHotel(info), dispatch),
 
         getDetailsLink: (id, moveInDate, moveOutDate, adults, page) => {
             const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults, page);
-            return (`${links.HOTEL_ID_PAGE(id)}?${query}`)
+            return (`${links.HOTEL_ID_PAGE(id)}?${query}`);
         }
     }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchDisplay);

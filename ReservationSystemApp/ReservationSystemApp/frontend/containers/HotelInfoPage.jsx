@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 import RoomPage from './RoomPage.jsx';
 import HotelActions from '../actions/HotelActions';
@@ -68,23 +68,15 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-        showHotel: (id) => {
-            dispatch(HotelActions.showHotel(id));
-        },
+    return bindActionCreators({
+        showHotel: (id) => HotelActions.showHotel(id),
 
-        showEditField: (id, info) => {
-            dispatch(HotelActions.startEditing(id, info));
-        },
+        showEditField: (id, info) => HotelActions.startEditing(id, info),
 
-        hideEditField: (id, info) => {
-            dispatch(HotelActions.stopEditing(id, info));
-        },
+        hideEditField: (id, info) =>  HotelActions.stopEditing(id, info),
 
-        sendEditRequest: (id, info) => {
-            dispatch(HotelActions.editHotel(id, info));
-        }
-    }
+        sendEditRequest: (id, info) => HotelActions.editHotel(id, info),
+    }, dispatch);
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HotelInfoPage));
+export default connect(mapStateToProps, mapDispatchToProps)(HotelInfoPage);

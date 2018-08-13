@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import moment from 'moment';
+import { bindActionCreators } from 'redux';
+
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions.js';
 import  HotelSearchActions from '../actions/HotelSearchActions.js';
@@ -129,32 +130,30 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        syncParamsWithQuery: (query) => {
-            dispatch(HotelSearchActions.syncParamsWithQuery(query));
-        },
+    return bindActionCreators({
+        syncParamsWithQuery: (query) => HotelSearchActions.syncParamsWithQuery(query),
 
-        getLocations: () => {
-            dispatch(HotelActions.getLocations());
-        },
+        getLocations: () => HotelActions.getLocations(),
 
-        buildQuery: (selectedCountry, selectedCity, hotelName,
-            moveInDate, moveOutDate, adults, page = 1) => {
-            dispatch(HotelSearchActions.buildQuery(
+        buildQuery: (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults, page = 1) => (
+            HotelSearchActions.buildQuery(
                 links.HOTEL_SEARCH_PAGE,
-                selectedCountry, selectedCity,
-                hotelName, moveInDate, moveOutDate, adults, page)
-            );
-        },
+                selectedCountry,
+                selectedCity,
+                hotelName,
+                moveInDate,
+                moveOutDate,
+                adults,
+                page
+            )
+        ),
 
-        getHotelPage: (search) => {
-            dispatch(HotelSearchActions.loadFromQuery(search));
-        },
+        getHotelPage: (search) => HotelSearchActions.loadFromQuery(search),
 
-        addRequiredParams: (search) => {
-            dispatch(HotelSearchActions.addRequiredParamsToQuery(links.HOTEL_SEARCH_PAGE, search));
-        }
-    }
+        addRequiredParams: (search) => (
+            HotelSearchActions.addRequiredParamsToQuery(links.HOTEL_SEARCH_PAGE, search)
+        ),
+    }, dispatch);
 }
 
 

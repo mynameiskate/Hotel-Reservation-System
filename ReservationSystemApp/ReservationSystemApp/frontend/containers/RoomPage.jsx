@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 import BookingModal from '../components/BookingModal.jsx';
-import RoomFilter from '../components/RoomFilter.jsx';
 import { links } from '../config/links.js';
 import  PageBar  from '../components/PageBar.jsx';
 import RoomActions from '../actions/RoomActions.js';
 import HistoryActions from '../actions/HistoryActions.js';
-import ReservationActions from '../actions/ReservationActions.js';
-import HotelActions from '../actions/HotelActions.js';
+import ReservationActions from '../actions/ReservationActions.js';;
 import RoomList from '../components/RoomList.jsx';
 
 class RoomPage extends React.Component {
@@ -137,53 +135,35 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        syncParamsWithQuery: (query) => {
-            dispatch(RoomActions.syncParamsWithQuery(query));
-        },
+    const bindedCreators = bindActionCreators({
+        syncParamsWithQuery: (query) => RoomActions.syncParamsWithQuery(query),
 
-        getRoomPage: (search) => {
-            dispatch(RoomActions.loadFromQuery(ownProps.hotelId,
-                search));
-        },
+        getRoomPage: (search) => RoomActions.loadFromQuery(ownProps.hotelId, search),
 
-        pushUrl: (link, query) => {
-            dispatch(HistoryActions.pushUrl(link, query));
-        },
+        pushUrl: (link, query) => HistoryActions.pushUrl(link, query),
 
-        buildQuery: (moveInDate, moveOutDate, adults, page) => {
-            dispatch(RoomActions.buildQuery(
+        buildQuery: (moveInDate, moveOutDate, adults, page) => (
+            RoomActions.buildQuery(
                 links.ROOM_ID_PAGE(ownProps.hotelId),
-                moveInDate, moveOutDate, adults, page));
-        },
+                moveInDate, moveOutDate, adults, page)
+        ),
 
-        confirmReservation: (room) => {
-            dispatch(ReservationActions.confirmReservation(room));
-        },
+        confirmReservation: (room) => ReservationActions.confirmReservation(room),
 
-        resetFilters: () => {
-            dispatch(RoomActions.buildQuery());
-        },
+        resetFilters: () => RoomActions.buildQuery(),
 
-        getHotelId: () => {
-            return ownProps.hotelId;
-        },
+        createReservation: (room) => ReservationActions.createReservation(room),
 
-        createReservation: (room) => {
-            dispatch(ReservationActions.createReservation(room));
-        },
+        getServices: (id) => ReservationActions.getServices(id),
 
-        getServices: (id) => {
-            dispatch(ReservationActions.getServices(id));
-        },
+        addService: (service) => ReservationActions.addService(service),
 
-        addService: (service) => {
-            dispatch(ReservationActions.addService(service));
-        },
+        removeService: (service) => ReservationActions.removeService(service),
+    }, dispatch);
 
-        removeService: (service) => {
-            dispatch(ReservationActions.removeService(service));
-        }
+    return {
+        ...bindedCreators,
+        getHotelId: () => ownProps.hotelId
     }
 }
 
