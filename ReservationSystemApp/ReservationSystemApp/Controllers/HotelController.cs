@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,12 @@ namespace ReservationSystemApp.Controllers
         public async Task<PageModel<HotelRoomModel>> GetRoomList(int id, [FromQuery]FilteredRoomsRequestModel requestModel)
         {
             return await _hotelService.GetHotelRooms(id, requestModel);
+        }
+
+        [HttpGet("{id}/services")]
+        public async Task<List<ServiceModel>> GetServiceList(int id)
+        {
+            return await _hotelService.GetAvailableServices(id);
         }
 
         // GET: api/hotels/details/5

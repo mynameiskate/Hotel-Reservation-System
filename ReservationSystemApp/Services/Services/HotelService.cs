@@ -31,6 +31,26 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
+        public async Task<List<ServiceModel>> GetAvailableServices(int hotelId)
+        {
+            try
+            {
+
+                var entityList = _dataContext.Services as IQueryable<DataLayer.Entities.HotelService>;
+
+                var resultQuery = entityList
+                    .Where(s => s.HotelId == hotelId)
+                    .Select(s => new ServiceModel(s));
+
+                return await resultQuery.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message);
+                throw;
+            }
+        }
+
         public async Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request)
         {
             int size = request.PageSize ?? _pageSize; 
@@ -41,15 +61,18 @@ namespace Services.Services
 
             try
             {
+
                 var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
                 var resultQuery = entityList
                     .FilterHotels(request, _dataContext)
                     .Distinct()
+                    .Include(h => h.Services)
                     .Include(h => h.Location)
                     .ThenInclude(l => l.City)
                     .ThenInclude(c => c.Country)
                     .Select(hotel => new HotelModel(hotel));
+               
 
                 int resultCount = await resultQuery.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
@@ -105,6 +128,7 @@ namespace Services.Services
                          .ThenInclude(l => l.City)
                          .ThenInclude(l => l.Country)
                          .FirstAsync(h => h.HotelId == id);
+
             if (hotelEntity != null)
             {
                 return new HotelModel(hotelEntity);
@@ -122,7 +146,7 @@ namespace Services.Services
             {
                 hotel = newValue;
                 /*work in progress*/
-                _dataContext.SaveChanges();
+            _dataContext.SaveChanges();
             }
         }
 

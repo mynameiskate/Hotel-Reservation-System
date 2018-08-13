@@ -28,6 +28,33 @@ namespace ReservationSystemApp.Controllers
             _accountService = accountService;
         }
 
+        [HttpPut("{reservationId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateReservation([FromBody]ReservationModel reservation)
+        {
+            try
+            {
+                await _reservationService.UpdateReservation(reservation);
+                return Ok();
+            }
+            catch (BookingException)
+            {
+                return BadRequest(StatusCodes.Status403Forbidden);
+            }
+            catch (UserNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpPost("{roomId}")]
         [Authorize]
         public async Task<IActionResult> Book([FromBody]ReservationModel reservation)

@@ -186,16 +186,18 @@ class HotelSearchActions {
         params.moveInDate = paramMoveInDate.format(dateFormats.REQUEST_DATE_FORMAT);
 
         const paramMoveOutDate = (moveOutDate) || moment().add(1, 'day').endOf('day');
-
-        if (!paramMoveOutDate.isBefore(paramMoveInDate)) {
-            params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
-        } else {
-            this.props.dispatch(HotelSearchActions.setDateFailure(moveOutDate));
-        }
+        params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
 
         const query = queryString.stringify(params);
         return dispatch => {
-            dispatch(HistoryActions.pushUrl(link, query));
+
+            if (!paramMoveOutDate.isBefore(paramMoveInDate)) {
+                params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
+                dispatch(HistoryActions.pushUrl(link, query));
+            }
+            else {
+                dispatch(HotelSearchActions.setDateFailure(moveOutDate));
+            }
         }
     }
 

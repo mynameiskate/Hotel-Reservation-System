@@ -62,8 +62,11 @@ class RequestOptions {
         return this.addMethod('GET', options);
     }
 
-    static createPutOptions(body) {
+    static createPutOptions(body, token = null) {
         let options = {};
+        if (token) {
+            options = this.addToken(token, options);
+        }
         return this.addJsonDataType(
             this.addMethod('PUT',
                 this.addBody(body, options)));

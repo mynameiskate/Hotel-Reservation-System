@@ -19,6 +19,19 @@ class RoomService {
         const options = RequestOptions.createPostOptions(reservationInfo, token);
         return fetch(settings.baseUrl + path, options);
     }
+
+    static updateReservation(reservationInfo) {
+        let path = links.BOOKING_ID_PAGE(reservationInfo.roomReservationId);
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createPutOptions(reservationInfo, token);
+        return fetch(settings.baseUrl + path, options);
+    }
+
+    static getServices(hotelId) {
+        const path = links.SERVICE_LIST(hotelId);
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
 }
 
 export default RoomService;

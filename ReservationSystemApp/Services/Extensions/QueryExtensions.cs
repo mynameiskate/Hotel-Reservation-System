@@ -67,13 +67,21 @@ namespace Services.Extensions
                 {
                     filteredList = from h in filteredList
                                    join hr in dataContext.HotelRooms on h.HotelId equals hr.HotelId
-                                   where (filters.Adults == 0 || hr.Adults == filters.Adults)
-                                   join r in dataContext.Reservations on hr.HotelRoomId equals r.HotelRoomId into res
+                                   join r in dataContext.RoomReservations on hr.HotelRoomId equals r.HotelRoomId into res
                                    from r in res.DefaultIfEmpty()
                                        //Here left join is used, that's why RoomReseservationId can be null. 
                                        //This check is necessary for including hotels with available rooms but without existing reservations.
                                    where (r.RoomReservationId == null) ||
                                    !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
+                                   select h;
+                }
+
+                if (filters.Adults > 0)
+                {
+                    filteredList = from hr in dataContext.HotelRooms
+                                   where (hr.Adults == filters.Adults)
+                                   join h in hotels on hr.HotelId equals h.HotelId into result
+                                   from h in result.DefaultIfEmpty()
                                    select h;
                 }
 

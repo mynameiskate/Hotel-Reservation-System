@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[RoomReservations]
 (
 	[RoomReservationId] int not null IDENTITY PRIMARY KEY,
-	ReservationTime datetimeoffset not null,
+	[Created] datetimeoffset not null,
 	MoveInDate date,
 	MoveOutDate date,
 	TotalCost FLOAT,

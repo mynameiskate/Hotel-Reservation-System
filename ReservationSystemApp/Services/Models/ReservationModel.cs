@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Services.Models
 {
@@ -7,12 +8,13 @@ namespace Services.Models
     {
         public int? RoomReservationId { get; set; }
         public DateTimeOffset Created { get; set; }
-        public DateTimeOffset MoveInDate { get; set; }
-        public DateTimeOffset MoveOutDate { get; set; }
+        public DateTime MoveInDate { get; set; }
+        public DateTime MoveOutDate { get; set; }
         public int UserId { get; set; }
         public int HotelRoomId { get; set; }
         public string Status { get; set; }
         public double TotalCost { get; set; }
+        public List<ServiceModel> Services { get; set; }
 
         public ReservationModel(RoomReservation reservation)
         {

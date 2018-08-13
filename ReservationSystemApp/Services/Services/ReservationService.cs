@@ -23,7 +23,35 @@ namespace Services.Services
             _dataContext = dataContext;
             _pageSize = pageSize;
             _maxPageSize = maxPageSize;
-            _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
+            _logger = AppLogging.LoggerFactory.CreateLogger<ReservationService>();
+        }
+
+        public async Task UpdateReservation(ReservationModel reservationModel)
+        {
+            var reservationEntity = await _dataContext.RoomReservations
+                         .FirstOrDefaultAsync(r => r.RoomReservationId == reservationModel.RoomReservationId);
+
+            if (reservationEntity == null)
+            {
+                throw new BookingException();
+            }
+
+            var userEntity = await _dataContext.Users
+                         .FirstOrDefaultAsync(u => u.UserId == reservationEntity.UserId);
+
+            if (userEntity == null || reservationEntity.UserId != userEntity.UserId)
+            {
+                throw new UserNotFoundException();
+            }
+
+            var status = await _dataContext.ReservationStatuses
+                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
+
+            reservationEntity.StatusId = status.ReservationStatusId;
+            reservationEntity.TotalCost = reservationModel.TotalCost;
+
+            _dataContext.RoomReservations.Update(reservationEntity);
+            _dataContext.SaveChanges();
         }
 
         public async Task<ReservationModel> Book(string userEmail, ReservationModel reservationModel)
@@ -58,10 +86,11 @@ namespace Services.Services
                 HotelRoomId = roomEntity.HotelRoomId,
                 Created = reservationModel.Created,
                 MoveInDate = reservationModel.MoveInDate,
-                MoveOutDate = reservationModel.MoveOutDate
+                MoveOutDate = reservationModel.MoveOutDate,
+                TotalCost = reservationModel.TotalCost
             };
 
-            await _dataContext.Reservations.AddAsync(reservation);
+            await _dataContext.RoomReservations.AddAsync(reservation);
             _dataContext.SaveChanges();
 
             return new ReservationModel(reservation);

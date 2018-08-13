@@ -16,11 +16,6 @@ class SearchDisplay extends React.Component {
         return this.props.getDetailsLink(id, moveInDate, moveOutDate, adults);
     }
 
-    onViewDetailsClick = (id) => {
-        const { moveInDate, moveOutDate, adults } = this.props;
-        this.props.buildDetailsQuery(id, moveInDate, moveOutDate, adults);
-    }
-
     render() {
         const { info, error, isLoading, removing, resultCount } = this.props;
         return (
@@ -34,7 +29,7 @@ class SearchDisplay extends React.Component {
                                     removing={removing}
                                     onDeleteClick={this.props.sendRemoveRequest}
                                     onEditClick={this.props.sendEditRequest}
-                                    getDetailsLink={this.props.getDetailsLink}
+                                    getDetailsLink={this.getDetailsLink}
                         />
                     </div>
                       : error ? <h3>Loading error</h3>
@@ -53,7 +48,10 @@ const mapStateToProps = (state) => {
         isLoading: state.search.isLoading,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
-        resultCount: state.search.resultCount
+        resultCount: state.search.resultCount,
+        moveInDate: state.search.moveInDate,
+        moveOutDate: state.search.moveOutDate,
+        adults: state.rooms.adults
     }
 }
 
@@ -69,12 +67,6 @@ const mapDispatchToProps = (dispatch) => {
 
         hideHotel: (info) => {
             dispatch(HotelActions.hideHotel(info));
-        },
-
-        buildDetailsQuery: (id, moveInDate, moveOutDate, adults, page) => {
-            dispatch(RoomActions.buildQuery(
-                links.HOTEL_ID_PAGE(id),
-                moveInDate, moveOutDate, adults, page));
         },
 
         getDetailsLink: (id, moveInDate, moveOutDate, adults, page) => {

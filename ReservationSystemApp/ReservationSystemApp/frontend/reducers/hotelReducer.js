@@ -76,7 +76,6 @@ export function hotelReducer(state = initialState, action) {
                 error: data.error,
                 isLoading: false
             }
-
         case hotelConstants.SHOW_HOTEL_REQUEST:
             return {
                 ...state,
@@ -117,20 +116,10 @@ export function hotelReducer(state = initialState, action) {
                 error: null,
                 loaded: state.loaded
             }
-        case hotelConstants.GET_HOTELS_REQUEST:
-            return {
-                ...state,
-                error: null
-            }
         case hotelConstants.GET_LOCATIONS_SUCCESS:
             return {
                 ...state,
                 locations: data.locations
-            }
-        case hotelConstants.GET_HOTELS_FAILURE:
-            return {
-                ...state,
-                error: data.error
             }
         case hotelConstants.RESET_FILTER:
             return {

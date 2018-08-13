@@ -2,7 +2,7 @@
 	@UserId int
 AS
 	SELECT RoomReservationId,
-		   ReservationTime,
+		   Created,
 		   MoveInDate,
 		   MoveOutDate,
 		   UserId,

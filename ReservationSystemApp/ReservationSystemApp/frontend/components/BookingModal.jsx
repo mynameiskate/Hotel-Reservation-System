@@ -3,14 +3,16 @@ import Modal from 'react-modal';
 import { reduxForm, Field } from 'redux-form';
 import TimePicker from 'react-time-picker';
 
+import CheckBox from './CheckBox';
 import InputField from './InputField.jsx';
 import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules.js';
 import { dateFormats } from '../constants/dateFormats';
-import RoomInfo from '../components/RoomInfo.jsx';
+import RoomInfo from './RoomInfo.jsx';
 
 const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
                         onClose, onBook, moveInDate, moveOutDate, invalid,
-                        pristine, submitting, totalPrice } ) => (
+                        pristine, submitting, totalCost, services,
+                        addService, removeService } ) => (
     <Modal
         isOpen={isBooking}
         onRequestClose={onClose}
@@ -30,7 +32,7 @@ const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
                 <p>{moveOutDate.format(dateFormats.RESERVATION_DISPLAY_FORMAT)}</p>
             </div>
         }
-        <form onSubmit={() => onBook(room.id)}>
+        <form onSubmit={() => onBook(room)}>
             <Field name='name' label='Enter your full name:' component={InputField}
                 validate={[isRequired, maxLength(40), minLength(5), isFullName()]}
             />
@@ -38,6 +40,20 @@ const BookingModal = ( {room, hotel, userInfo, isBooking, onTimeChange, time,
                 onChange={onTimeChange}
                 value={time}
             />
+            { services &&
+                <div>
+                    <h3>Choose additional options:</h3>
+                    {services.map(service =>
+                        <CheckBox
+                            label={service.name}
+                            id={service.id}
+                            addItem={() => addService(service)}
+                            removeItem={() => removeService(service)}
+                        />)
+                    }
+                </div>
+            }
+            {totalCost && <h3>Total cost: ${totalCost}</h3>}
             <button type='submit'
                     disabled={invalid || pristine || submitting}>
                 Confirm

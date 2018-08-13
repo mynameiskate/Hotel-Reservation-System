@@ -26,7 +26,7 @@ class HotelInfoPage extends React.Component {
 
         return (
             <div>
-                { isLoading && <h3>Loading</h3>}
+                { isLoading && <h2>Loading..</h2>}
                 {loaded &&
                     <div>
                         {

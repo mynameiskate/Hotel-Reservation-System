@@ -11,6 +11,7 @@ export const links = {
     USER_PAGE: '/account',
     PROFILE_PAGE: '/account/profile',
     LOCATION_LIST: '/locations',
+    SERVICE_LIST: (hotelId) => `/hotels/${hotelId}/services`,
     ROOM_ID_PAGE: (hotelId) => `/hotels/${hotelId}/rooms`,
     ROOM_PAGE: '/hotels/:id/rooms',
     BOOKING_PAGE: '/booking/:id',

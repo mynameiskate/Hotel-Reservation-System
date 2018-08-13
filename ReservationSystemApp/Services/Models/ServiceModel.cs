@@ -6,7 +6,7 @@ namespace Services.Models
     {
         public int HotelServiceId { get; set; }
         public string Name { get; set; }
-        public float Cost { get; set; }
+        public double Cost { get; set; }
 
         public ServiceModel (HotelService service)
         {

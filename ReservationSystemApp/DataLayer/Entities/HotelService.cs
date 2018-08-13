@@ -7,7 +7,7 @@ namespace DataLayer.Entities
     {
         public int HotelServiceId { get; set; }
         public string Name { get; set; }
-        public float Cost { get; set; }
+        public double Cost { get; set; }
 
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
