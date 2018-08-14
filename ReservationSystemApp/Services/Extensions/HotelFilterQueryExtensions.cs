@@ -33,10 +33,10 @@ namespace Services.Extensions
             var roomList = dataContext.HotelRooms;
 
             var filteredRoomList = roomList
-                .FilterByAdultAmount(filters.Adults)
-                .FilterByDateAvailability(filters.MoveInDate, filters.MoveOutDate, maxElapsedMinutes, dataContext);
+                .FilterByAdultAmount(filters.Adults);
+                //.FilterByDateAvailability(filters.MoveInDate, filters.MoveOutDate, maxElapsedMinutes, dataContext);
 
-            filteredList = from hr in filteredRoomList
+            filteredList = from hr in dataContext.HotelRooms
                            join h in filteredList on hr.HotelId equals h.HotelId into result
                            from h in result.DefaultIfEmpty()
                            select h;
