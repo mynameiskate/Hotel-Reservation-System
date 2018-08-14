@@ -17,11 +17,15 @@ class ReservationActions {
         ReservationActions.book(room, statuses.PENDING)
     )
 
-    static confirmReservation = (room, time) => (
-        ReservationActions.update(room, time, statuses.CONFIRMED)
+    static confirmReservation = (time) => (
+        ReservationActions.update(time, statuses.CONFIRMED)
     )
 
-    static update(room, time, status) {
+    static cancelReservation = () => (
+        ReservationActions.update(null, statuses.CANCELLED)
+    )
+
+    static update(time, status) {
         const updateFailure = (error) => {
             return {
                 type: reservationConstants.UPDATE_FAILURE,
@@ -60,7 +64,7 @@ class ReservationActions {
                 status,
                 totalCost,
                 guestName,
-                moveInTime: MomentExtensions.formatTime(time),
+                moveInTime: time ? MomentExtensions.formatTime(time) : null,
                 confirmed: moment().format(dateFormats.CREATION_TIME_FORMAT)
             };
 

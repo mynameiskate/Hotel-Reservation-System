@@ -2,7 +2,9 @@ import React from 'react';
 import Modal from 'react-modal';
 import { reduxForm, Field } from 'redux-form';
 import TimePicker from 'react-time-picker';
+import moment from 'moment';
 
+import Timer from '../components/Timer.jsx';
 import CheckBox from './CheckBox';
 import InputField from './InputField.jsx';
 import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules.js';
@@ -12,13 +14,17 @@ import RoomInfo from './RoomInfo.jsx';
 const BookingModal = ( {room, isBooking, onTimeChange, time,
                         onClose, onBook, moveInDate, moveOutDate, invalid,
                         pristine, submitting, totalCost, services,
-                        addService, removeService } ) => (
+                        addService, removeService, onCancel, secondsLimit } ) => (
     <Modal
         isOpen={isBooking}
         onRequestClose={onClose}
         ariaHideApp={false}
     >
         <h2>Confirm booking</h2>
+        <Timer
+            expiryTime={moment().add(secondsLimit, 'seconds')}
+            finishCallback={onCancel}
+        />
         <RoomInfo room={room}/>
         { moveInDate &&
             <div>
@@ -34,7 +40,7 @@ const BookingModal = ( {room, isBooking, onTimeChange, time,
         }
         <form onSubmit={(e) => {
                 e.preventDefault();
-                onBook(room, time);
+                onBook(time);
                 onClose();
             }
         }>
@@ -63,7 +69,7 @@ const BookingModal = ( {room, isBooking, onTimeChange, time,
                     disabled={invalid || pristine || submitting}>
                 Confirm
             </button>
-            <button onClick={onClose}>Cancel</button>
+            <button onClick={onCancel}>Cancel</button>
         </form>
     </Modal>
 )

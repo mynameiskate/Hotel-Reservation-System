@@ -9,6 +9,7 @@ import RoomActions from '../actions/RoomActions.js';
 import HistoryActions from '../actions/HistoryActions.js';
 import ReservationActions from '../actions/ReservationActions.js';;
 import RoomList from '../components/RoomList.jsx';
+import { settings } from '../config/settings';
 
 class RoomPage extends React.Component {
     constructor(props) {
@@ -55,6 +56,11 @@ class RoomPage extends React.Component {
         });
     }
 
+    onCancel = () => {
+        this.props.cancelReservation();
+        this.closeModal();
+    }
+
     closeModal = () => {
         this.setState({isBooking: false, currentRoom: {}});
     }
@@ -99,6 +105,7 @@ class RoomPage extends React.Component {
                               userInfo={this.state.userInfo}
                               isBooking={this.state.isBooking}
                               onClose={this.closeModal}
+                              onCancel={this.onCancel}
                               onBook={this.props.confirmReservation}
                               room={this.state.currentRoom}
                               time={this.state.moveInTime}
@@ -107,6 +114,7 @@ class RoomPage extends React.Component {
                               totalCost={totalCost}
                               addService={this.props.addService}
                               removeService={this.props.removeService}
+                              secondsLimit={settings.confirmationLimit}
                  />
             </div>
         );
@@ -148,7 +156,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 moveInDate, moveOutDate, adults, page)
         ),
 
-        confirmReservation: (room, moveInTime) => ReservationActions.confirmReservation(room, moveInTime),
+        confirmReservation: (moveInTime) => ReservationActions.confirmReservation(moveInTime),
+
+        cancelReservation: () => ReservationActions.cancelReservation(),
 
         resetFilters: () => RoomActions.buildQuery(),
 

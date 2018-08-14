@@ -1,3 +1,4 @@
 export const settings = {
-    baseUrl: '/api'
+    baseUrl: '/api',
+    confirmationLimit: 30 * 60
 }

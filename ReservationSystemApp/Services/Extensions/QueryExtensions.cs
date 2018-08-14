@@ -73,9 +73,9 @@ namespace Services.Extensions
                                        //This check is necessary for including hotels with available rooms but without existing reservations.
                                    where (r.RoomReservationId == null) 
                                         || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
-                                   join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
-                                   from service in srv.DefaultIfEmpty()
-                                   where (service.Status == null || service.Status == ReservationStatusEnum.CANCELLED.ToString())
+                                  /* join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
+                                   from status in srv.DefaultIfEmpty()
+                                   where (status.Status == null || status.Status == ReservationStatusEnum.CANCELLED.ToString())*/
                                    select h;
                 }
 
@@ -130,9 +130,9 @@ namespace Services.Extensions
                                        //This check is necessary for including available rooms but without existing reservations.
                                    where (r.RoomReservationId == null)
                                         || !(r.MoveInDate <= filters.MoveOutDate && r.MoveOutDate >= filters.MoveInDate)
-                                   join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
+                                   /*join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
                                    from service in srv.DefaultIfEmpty()
-                                   where (service.Status == null || service.Status == ReservationStatusEnum.CANCELLED.ToString())
+                                   where (service.Status == null || service.Status == ReservationStatusEnum.CANCELLED.ToString())*/
                                    select hr;
                 }
 

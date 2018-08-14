@@ -40,7 +40,7 @@ namespace Services.Services
                              && !(status.ReservationStatusId == r.StatusId)
                          );
 
-            if (reservationEntity == null)
+            if (reservationEntity == null || status == null)
             {
                 throw new BookingException();
             }
@@ -53,9 +53,7 @@ namespace Services.Services
                 throw new UserNotFoundException();
             }
 
-
             reservationEntity.StatusId = status.ReservationStatusId;
-            reservationEntity.TotalCost = reservationModel.TotalCost;
 
             if (reservationModel.Status == ReservationStatusEnum.CONFIRMED.ToString())
             {
@@ -65,20 +63,22 @@ namespace Services.Services
                 {
                     throw new TimeoutException();
                 }
-             
-            }
 
-            if (reservationModel.Services?.Count > 0)
-            {
-                foreach (ServiceModel service in reservationModel.Services)
+                reservationEntity.MoveInTime = reservationModel.MoveInTime;
+                reservationEntity.TotalCost = reservationModel.TotalCost;
+
+                if (reservationModel.Services?.Count > 0)
                 {
-                    var reservationService = new DataLayer.Entities.ReservationService
+                    foreach (ServiceModel service in reservationModel.Services)
                     {
-                        ReservationId = (int)reservationModel.RoomReservationId,
-                        HotelServiceId = service.HotelServiceId
-                    };
+                        var reservationService = new DataLayer.Entities.ReservationService
+                        {
+                            ReservationId = (int)reservationModel.RoomReservationId,
+                            HotelServiceId = service.HotelServiceId
+                        };
 
-                    await _dataContext.ReservationServices.AddAsync(reservationService);
+                        await _dataContext.ReservationServices.AddAsync(reservationService);
+                    }
                 }
             }
 
