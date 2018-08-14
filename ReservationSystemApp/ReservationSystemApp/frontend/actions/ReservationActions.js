@@ -170,6 +170,36 @@ class ReservationActions {
         }
     }
 
+    static setCurrentRoom(room) {
+        const setRequest = (room) => {
+            return {
+                type: reservationConstants.SET_CURRENT_ROOM,
+                payload: {
+                    room
+                }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setRequest(room));
+        }
+    }
+
+    static setMoveInTime(moveInTime) {
+        const setRequest = (moveInTime) => {
+            return {
+                type: reservationConstants.SET_MOVE_IN_TIME,
+                payload: {
+                    moveInTime
+                }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setRequest(moveInTime));
+        }
+    }
+
     static getServices(id) {
         const getFailure = (error) => {
             return {

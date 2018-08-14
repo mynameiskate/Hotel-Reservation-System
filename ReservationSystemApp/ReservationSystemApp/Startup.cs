@@ -47,7 +47,8 @@ namespace ReservationSystemApp
             services.AddScoped<IHotelService>
                (provider => new HotelService(provider.GetRequiredService<HotelDbContext>(),
                                                  Convert.ToInt32(Configuration["pages:size"]),
-                                                 Convert.ToInt32(Configuration["pages:maxSize"])));
+                                                 Convert.ToInt32(Configuration["pages:maxSize"]),
+                                                 Convert.ToInt32(Configuration["reservationRules:maxElapsedMinutes"])));
             services.AddScoped<ILocationService>
                 (provider => new LocationService(provider.GetRequiredService<HotelDbContext>()));
             services.AddScoped<IReservationService>

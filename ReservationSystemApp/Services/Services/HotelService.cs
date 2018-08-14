@@ -3,7 +3,6 @@ using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
-using Services.Exceptions;
 using Services.Extensions;
 using Services.Interfaces;
 using Services.Models;
@@ -22,12 +21,14 @@ namespace Services.Services
         private HotelDbContext _dataContext;
         private int _pageSize;
         private int _maxPageSize;
+        private int _maxElapsedMinutes; 
 
-        public HotelService(HotelDbContext dataContext, int pageSize, int maxPageSize)
+        public HotelService(HotelDbContext dataContext, int pageSize, int maxPageSize, int maxElapsedMinutes)
         {
             _dataContext = dataContext;
             _pageSize = pageSize;
             _maxPageSize = maxPageSize;
+            _maxElapsedMinutes = maxElapsedMinutes;
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
@@ -63,11 +64,10 @@ namespace Services.Services
 
             try
             {
-
                 var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
                 var resultQuery = entityList
-                    .FilterHotels(request, _dataContext)
+                    .FilterHotels(request, _maxElapsedMinutes, _dataContext)
                     .Distinct()
                     .Include(h => h.Services)
                     .Include(h => h.Location)
@@ -104,7 +104,7 @@ namespace Services.Services
                 var resultQuery = entityList
                     .Include(r => r.RoomType)
                     .Where(r => r.HotelId == hotelId)
-                    .FilterRooms(request, _dataContext)
+                    .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                     .Distinct()
                     .Select(r => new HotelRoomModel(r));
 

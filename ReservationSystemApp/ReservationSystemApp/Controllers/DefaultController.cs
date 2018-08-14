@@ -10,4 +10,4 @@ namespace ReservationSystemApp.Controllers
             return File(_indexPath, "text/html");
         }
     }
-}
+} 

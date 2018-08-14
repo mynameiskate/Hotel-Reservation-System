@@ -5,18 +5,18 @@ import TimePicker from 'react-time-picker';
 import moment from 'moment';
 
 import Timer from '../components/Timer.jsx';
-import CheckBox from './CheckBox';
+import CheckBox from './CheckBox.jsx';
 import InputField from './InputField.jsx';
 import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules.js';
 import { dateFormats } from '../constants/dateFormats';
 import RoomInfo from './RoomInfo.jsx';
 
-const BookingModal = ( {room, isBooking, onTimeChange, time,
+const BookingModal = ( {room, isOpen, onTimeChange, time,
                         onClose, onBook, moveInDate, moveOutDate, invalid,
                         pristine, submitting, totalCost, services,
                         addService, removeService, onCancel, secondsLimit } ) => (
     <Modal
-        isOpen={isBooking}
+        isOpen={isOpen}
         onRequestClose={onClose}
         ariaHideApp={false}
     >

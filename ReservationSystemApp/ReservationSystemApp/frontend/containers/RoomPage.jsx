@@ -16,10 +16,8 @@ class RoomPage extends React.Component {
         super(props);
 
         this.state = {
-            isBooking: false,
-            currentRoom: {},
-            hotelId: this.props.getHotelId(),
-            moveInTime: '10:00'
+            isBookingModalOpen: false,
+            hotelId: this.props.getHotelId()
         };
     }
 
@@ -38,10 +36,6 @@ class RoomPage extends React.Component {
         }
     }
 
-    onTimeChange = (moveInTime) => {
-        this.setState({  moveInTime });
-    }
-
     setPage = (page) => {
         const { adults, moveInDate, moveOutDate } = this.props;
         this.props.buildQuery(moveInDate, moveOutDate, adults, page);
@@ -51,9 +45,9 @@ class RoomPage extends React.Component {
         this.props.createReservation(room);
         this.props.getServices(this.state.hotelId);
         this.setState({
-            isBooking: true,
-            currentRoom: room
+            isBookingModalOpen: true
         });
+        this.props.setCurrentRoom(room);
     }
 
     onCancel = () => {
@@ -62,13 +56,13 @@ class RoomPage extends React.Component {
     }
 
     closeModal = () => {
-        this.setState({isBooking: false, currentRoom: {}});
+        this.setState({isBookingModalOpen: false, currentRoom: {}});
     }
 
     render() {
         const { error, isLoading, info, pageCount, totalCost,
-            moveInDate, moveOutDate, nextPage, page, adults,
-            services, loggedIn } = this.props;
+            moveInDate, moveOutDate, nextPage, page,
+            services, loggedIn, currentRoom, moveInTime } = this.props;
         const isBookingEnabled = loggedIn && moveInDate && moveOutDate;
         return (
             <div>
@@ -102,14 +96,13 @@ class RoomPage extends React.Component {
                 }
                 <BookingModal moveInDate={this.props.moveInDate}
                               moveOutDate={this.props.moveOutDate}
-                              userInfo={this.state.userInfo}
-                              isBooking={this.state.isBooking}
+                              isOpen={this.state.isBookingModalOpen}
                               onClose={this.closeModal}
                               onCancel={this.onCancel}
                               onBook={this.props.confirmReservation}
-                              room={this.state.currentRoom}
-                              time={this.state.moveInTime}
-                              onTimeChange={this.onTimeChange}
+                              room={currentRoom}
+                              time={moveInTime}
+                              onTimeChange={this.props.setMoveInTime}
                               services={services}
                               totalCost={totalCost}
                               addService={this.props.addService}
@@ -123,6 +116,7 @@ class RoomPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        currentRoom: state.reservations.currentRoom,
         totalCost: state.reservations.totalCost,
         loggedIn: state.users.loggedIn,
         services: state.reservations.services,
@@ -169,6 +163,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         addService: (service) => ReservationActions.addService(service),
 
         removeService: (service) => ReservationActions.removeService(service),
+
+        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
+
+        setMoveInTime: (time) => ReservationActions.setMoveInTime(time)
     }, dispatch);
 
     return {

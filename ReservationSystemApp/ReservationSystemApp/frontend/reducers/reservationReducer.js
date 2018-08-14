@@ -9,7 +9,9 @@ const initialState = {
     currentRoomId: null,
     reservation: null,
     totalCost: null,
-    services: []
+    services: [],
+    currentRoom: {},
+    moveInTime: '10:00'
 }
 
 export function reservationReducer(state = initialState, action) {
@@ -101,6 +103,16 @@ export function reservationReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false
+            }
+        case reservationConstants.SET_CURRENT_ROOM:
+            return {
+                ...state,
+                currentRoom: data.room
+            }
+        case reservationConstants.SET_MOVE_IN_TIME:
+            return {
+                ...state,
+                moveInTime: data.moveInTime
             }
         default:
             return state;

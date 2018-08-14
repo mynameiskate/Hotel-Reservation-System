@@ -7,7 +7,6 @@ using Services.Exceptions;
 using Services.Interfaces;
 using Services.Models;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.Services
@@ -29,18 +28,15 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<ReservationService>();
         }
 
-        public async Task UpdateReservation(ReservationModel reservationModel)
+        public async Task UpdateReservation(ReservationModel reservationModel) //DIVIDE 
         {
-            var status = await _dataContext.ReservationStatuses
-                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
-
             var reservationEntity = await _dataContext.RoomReservations
                          .FirstOrDefaultAsync(r =>
                              (r.RoomReservationId == reservationModel.RoomReservationId) 
-                             && !(status.ReservationStatusId == r.StatusId)
+                             && !(reservationModel.Status == r.StatusId)
                          );
 
-            if (reservationEntity == null || status == null)
+            if (reservationEntity == null)
             {
                 throw new BookingException();
             }
@@ -53,9 +49,9 @@ namespace Services.Services
                 throw new UserNotFoundException();
             }
 
-            reservationEntity.StatusId = status.ReservationStatusId;
+            reservationEntity.StatusId = reservationModel.Status;
 
-            if (reservationModel.Status == ReservationStatusEnum.CONFIRMED.ToString())
+            if (reservationModel.Status == (int)ReservationStatusEnum.Confirmed)
             {
                 var elapsedMinutes = (reservationModel.Confirmed - reservationModel.Created).TotalMinutes;
 
@@ -86,7 +82,7 @@ namespace Services.Services
             _dataContext.SaveChanges();
         }
 
-        public async Task<ReservationModel> Book(string userEmail, ReservationModel reservationModel)
+        public async Task<ReservationModel> CreateReservation(string userEmail, ReservationModel reservationModel) 
         {
             if (reservationModel.MoveInDate == null || reservationModel.MoveOutDate == null)
             {
@@ -97,9 +93,6 @@ namespace Services.Services
                          .FirstOrDefaultAsync(r => r.HotelRoomId == reservationModel.HotelRoomId);
             var userEntity = await _dataContext.Users
                          .FirstOrDefaultAsync(u => u.Email == userEmail);
-
-            var status = await _dataContext.ReservationStatuses
-                        .FirstOrDefaultAsync(s => s.Status == reservationModel.Status);
 
             if (userEntity == null)
             {
@@ -113,7 +106,7 @@ namespace Services.Services
 
             var reservation = new RoomReservation
             {
-                StatusId = status.ReservationStatusId,
+                StatusId = reservationModel.Status,
                 UserId = userEntity.UserId,
                 HotelRoomId = roomEntity.HotelRoomId,
                 Created = reservationModel.Created,

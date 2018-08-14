@@ -1,6 +1,6 @@
 export const statuses = {
-    PENDING: 'PENDING',
-    CONFIRMED: 'CONFIRMED',
-    PAID: 'PAID',
-    CANCELLED: 'CANCELLED'
+    PENDING: 1,
+    CONFIRMED: 2,
+    PAID: 3,
+    CANCELLED: 4
 }

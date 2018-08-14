@@ -69,7 +69,7 @@ namespace ReservationSystemApp.Controllers
 
                 if (email != null)
                 {
-                    var reservationModel = await _reservationService.Book(email, reservation);
+                    var reservationModel = await _reservationService.CreateReservation(email, reservation);
                     return Ok(reservationModel);
                 }
                 else
