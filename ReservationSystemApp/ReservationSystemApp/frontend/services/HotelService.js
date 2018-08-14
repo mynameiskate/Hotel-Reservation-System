@@ -1,9 +1,9 @@
 import {
     settings
-} from '../config/settings.js';
+} from '../config/settings';
 import {
     links
-} from '../config/links.js';
+} from '../config/links';
 import RequestOptions from '../constants/RequestOptions';
 
 class HotelService {

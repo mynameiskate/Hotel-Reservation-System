@@ -3,7 +3,7 @@ import 'moment-duration-format';
 
 import {
     dateFormats
-} from '../constants/dateFormats.js';
+} from '../constants/dateFormats';
 
 class MomentExtensions {
     static stringToMoment(strDate) {

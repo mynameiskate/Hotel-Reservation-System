@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import RoomPage from './RoomPage.jsx';
+import RoomPage from './RoomPage';
 import HotelActions from '../actions/HotelActions';
-import HotelEditField from '../components/HotelEditField.jsx';
-import HotelInfo from '../components/HotelInfo.jsx';
+import HotelEditField from '../components/HotelEditField';
+import HotelInfo from '../components/HotelInfo';
 
 class HotelInfoPage extends React.Component {
     constructor(props) {

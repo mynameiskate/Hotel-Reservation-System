@@ -2,9 +2,9 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import SignUpField from '../components/SignUpField.jsx';
-import { links } from '../config/links.js';
-import  UserActions  from '../actions/UserActions.js';
+import SignUpField from '../components/SignUpField';
+import { links } from '../config/links';
+import  UserActions  from '../actions/UserActions';
 
 class SignUpPage extends React.Component {
     constructor(props) {

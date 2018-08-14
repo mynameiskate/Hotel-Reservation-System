@@ -1,5 +1,5 @@
 import React from 'react';
-import RoomInfo from './RoomInfo.jsx';
+import RoomInfo from './RoomInfo';
 
 const RoomList = ( {info, showBookModal, isBookingEnabled } ) => (
     <div>

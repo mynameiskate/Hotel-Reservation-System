@@ -1,6 +1,6 @@
 import {
     hotelConstants
-} from '../constants/hotelConstants.js';
+} from '../constants/hotelConstants';
 
 const initialState = {
     isLoading: false,
@@ -87,7 +87,7 @@ export function hotelReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                loaded: data.loaded.entities ?  data.loaded.entities[0] : null,
+                loaded: data.loaded.entities ? data.loaded.entities[0] : null,
                 editing: false
             }
         case hotelConstants.SHOW_HOTEL_FAILURE:

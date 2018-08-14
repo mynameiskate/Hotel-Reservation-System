@@ -1,6 +1,6 @@
 import {
     roomConstants
-} from '../constants/roomConstants.js';
+} from '../constants/roomConstants';
 
 const initialState = {
     isLoading: false,

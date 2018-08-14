@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import HotelInfo from './HotelInfo.jsx';
+import HotelInfo from './HotelInfo';
 
 const HotelList = ( {info, removing, onDeleteClick, getDetailsLink, isAdmin} ) => (
     <div>

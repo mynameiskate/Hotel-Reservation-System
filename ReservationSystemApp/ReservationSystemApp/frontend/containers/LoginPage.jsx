@@ -1,10 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { links } from '../config/links.js';
+import { links } from '../config/links';
 import { connect } from 'react-redux';
 
-import LoginField from '../components/LoginField.jsx';
-import  UserActions  from '../actions/UserActions.js';
+import LoginField from '../components/LoginField';
+import  UserActions  from '../actions/UserActions';
 
 class LoginPage extends React.Component {
 

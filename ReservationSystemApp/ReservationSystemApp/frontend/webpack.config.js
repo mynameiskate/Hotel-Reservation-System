@@ -23,8 +23,7 @@ module.exports = {
             loader: 'babel-loader',
             query: {
                 presets: ['react', 'env', 'stage-0']
-            }
-
+            },
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader']
@@ -32,7 +31,24 @@ module.exports = {
             test: /\.(js|jsx)$/,
             enforce: 'pre',
             loader: 'eslint-loader'
+        }, {
+            test: /\.less$/,
+            use: [{
+                loader: "style-loader"
+            }, {
+                loader: "css-loader",
+                options: {
+                    sourceMap: true,
+                    modules: true,
+                    localIdentName: "[local]___[hash:base64:5]"
+                }
+            }, {
+                loader: "less-loader"
+            }]
         }]
+    },
+    resolve: {
+        extensions: [".js", ".jsx", ".less", ".css"]
     },
     devServer: {
         historyApiFallback: true

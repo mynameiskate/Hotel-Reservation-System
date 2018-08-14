@@ -8,7 +8,7 @@ import {
 } from 'history';
 import {
     rootReducer
-} from '../reducers/rootReducer.js';
+} from '../reducers/rootReducer';
 import thunkMiddleware from 'redux-thunk';
 import {
     connectRouter,

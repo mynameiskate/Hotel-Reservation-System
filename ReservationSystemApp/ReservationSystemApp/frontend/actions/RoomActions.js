@@ -1,7 +1,4 @@
 import queryString from 'query-string';
-import {
-    push
-} from 'connected-react-router';
 
 import {
     roomConstants

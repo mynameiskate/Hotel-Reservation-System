@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import BookingModal from '../components/BookingModal.jsx';
-import { links } from '../config/links.js';
-import  PageBar  from '../components/PageBar.jsx';
-import RoomActions from '../actions/RoomActions.js';
-import HistoryActions from '../actions/HistoryActions.js';
-import ReservationActions from '../actions/ReservationActions.js';;
-import RoomList from '../components/RoomList.jsx';
+import BookingModal from '../components/BookingModal';
+import { links } from '../config/links';
+import  PageBar  from '../components/PageBar';
+import RoomActions from '../actions/RoomActions';
+import HistoryActions from '../actions/HistoryActions';
+import ReservationActions from '../actions/ReservationActions';;
+import RoomList from '../components/RoomList';
 import { settings } from '../config/settings';
 
 class RoomPage extends React.Component {

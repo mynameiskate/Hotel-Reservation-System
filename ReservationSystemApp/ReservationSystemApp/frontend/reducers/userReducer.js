@@ -1,6 +1,6 @@
 import {
     userConstants
-} from '../constants/userConstants.js';
+} from '../constants/userConstants';
 
 const initialState = {
     isLoading: false,

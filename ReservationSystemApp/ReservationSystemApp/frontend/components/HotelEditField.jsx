@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import InputField from './InputField.jsx';
-import { isRequired, maxLength, minLength, isNumber, maxValue } from '../constants/validationRules.js';
+import InputField from './InputField';
+import { isRequired, maxLength, isNumber, maxValue } from '../constants/validationRules';
 
 const HotelEditField = (props) => {
     const { hotel, handleSubmit, sendRequest, onCancelClick, invalid, pristine, submitting } = props;

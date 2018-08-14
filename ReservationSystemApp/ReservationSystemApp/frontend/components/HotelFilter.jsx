@@ -4,9 +4,9 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import InputField from './InputField.jsx';
-import SelectService from '../services/SelectService.js';
-import { dateFormats } from '../constants/dateFormats.js';
+import InputField from './InputField';
+import SelectService from '../services/SelectService';
+import { dateFormats } from '../constants/dateFormats';
 
 const HotelFilter = (props) => {
     const { onCancel, locations, selectedCity, selectedCountry,

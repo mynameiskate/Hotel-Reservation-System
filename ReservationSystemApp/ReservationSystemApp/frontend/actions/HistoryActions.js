@@ -1,9 +1,6 @@
 import {
     push
 } from 'connected-react-router';
-import {
-    history
-} from '../store/store.js';
 import queryString from 'query-string';
 
 class HistoryActions {

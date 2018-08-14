@@ -1,13 +1,12 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import InputField from './InputField.jsx';
+import { reduxForm } from 'redux-form';
 import Select from 'react-select';
 import InputRange from 'react-input-range';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
 
-import SelectService from '../services/SelectService.js';
+import SelectService from '../services/SelectService';
 
 const RoomFilter = (props) => {
     const { onCancel, adultsAmount, onAdultsChange} = props;

@@ -3,22 +3,22 @@ import {
 } from 'redux';
 import {
     hotelReducer
-} from '../reducers/hotelReducer.js';
+} from '../reducers/hotelReducer';
 import {
     userReducer
-} from '../reducers/userReducer.js'
+} from '../reducers/userReducer'
 import {
     reducer as reduxFormReducer
 } from 'redux-form';
 import {
     searchReducer
-} from '../reducers/searchReducer.js';
+} from '../reducers/searchReducer';
 import {
     roomReducer
-} from '../reducers/roomReducer.js';
+} from '../reducers/roomReducer';
 import {
     reservationReducer
-} from '../reducers/reservationReducer.js';
+} from '../reducers/reservationReducer';
 
 export const rootReducer = combineReducers({
     hotels: hotelReducer,

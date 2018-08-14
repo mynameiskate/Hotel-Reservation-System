@@ -2,16 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import RoomPage from './RoomPage.jsx';
-import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import HotelInfoPage from './HotelInfoPage.jsx';
-import SignUpPage from './SignUpPage.jsx';
-import MainPage from './MainPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import HotelSearchPage from './HotelSearchPage.jsx';
-import UserPage from './UserPage.jsx';
-import { links } from '../config/links.js';
-import UserActions from '../actions/UserActions.js';
+import ProtectedRoute from '../components/ProtectedRoute';
+import HotelInfoPage from './HotelInfoPage';
+import SignUpPage from './SignUpPage';
+import MainPage from './MainPage';
+import LoginPage from './LoginPage';
+import HotelSearchPage from './HotelSearchPage';
+import UserPage from './UserPage';
+import { links } from '../config/links';
+import UserActions from '../actions/UserActions';
 
 class Main extends React.Component {
     constructor(props) {

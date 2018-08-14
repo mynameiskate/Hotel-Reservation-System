@@ -1,7 +1,6 @@
 import {
     searchConstants
-} from '../constants/searchConstants.js';
-import moment from 'moment';
+} from '../constants/searchConstants';
 
 const initialState = {
     info: [],

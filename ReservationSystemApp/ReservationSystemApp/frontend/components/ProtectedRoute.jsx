@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { links } from '../config/links.js';
+import { links } from '../config/links';
 import { connect } from 'react-redux';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (

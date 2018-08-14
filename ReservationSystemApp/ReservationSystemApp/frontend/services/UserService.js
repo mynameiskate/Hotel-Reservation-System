@@ -1,5 +1,9 @@
-import { settings } from '../config/settings.js';
-import { links } from '../config/links.js';
+import {
+    settings
+} from '../config/settings';
+import {
+    links
+} from '../config/links';
 import RequestOptions from '../constants/RequestOptions';
 
 class UserService {

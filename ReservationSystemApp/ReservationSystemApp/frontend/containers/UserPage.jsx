@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import  UserActions  from '../actions/UserActions.js';
+import  UserActions  from '../actions/UserActions';
 
 class UserPage extends React.Component {
     constructor(props) {

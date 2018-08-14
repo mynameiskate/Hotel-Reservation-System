@@ -1,6 +1,6 @@
 import {
     reservationConstants
-} from '../constants/reservationConstants.js';
+} from '../constants/reservationConstants';
 
 const initialState = {
     isLoading: false,

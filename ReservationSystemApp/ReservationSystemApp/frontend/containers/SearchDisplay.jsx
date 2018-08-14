@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { links } from '../config/links';
 import HotelActions from '../actions/HotelActions';
 import HistoryActions from '../actions/HistoryActions';
-import HotelList from '../components/HotelList.jsx';
+import HotelList from '../components/HotelList';
 
 class SearchDisplay extends React.Component {
     constructor(props) {

@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { links } from '../config/links.js';
+import style from '../styles/test';
+import { links } from '../config/links';
 
 class Main extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class Main extends React.Component {
     render() {
         const { error } = this.props;
         return (
-            <div className='mainPage'>
+            <div className={style.header}>
                  <h1>Welcome to hotel reservation system</h1>
                  <Link to={ links.SIGN_IN_PAGE } >
                         Log in

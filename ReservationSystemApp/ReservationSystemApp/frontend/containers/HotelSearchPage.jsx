@@ -4,11 +4,11 @@ import moment from 'moment';
 import { bindActionCreators } from 'redux';
 
 import { links } from '../config/links';
-import  HotelActions from '../actions/HotelActions.js';
-import  HotelSearchActions from '../actions/HotelSearchActions.js';
-import  HotelFilter  from '../components/HotelFilter.jsx';
-import  PageBar  from '../components/PageBar.jsx';
-import SearchDisplay from './SearchDisplay.jsx';
+import  HotelActions from '../actions/HotelActions';
+import  HotelSearchActions from '../actions/HotelSearchActions';
+import  HotelFilter  from '../components/HotelFilter';
+import  PageBar  from '../components/PageBar';
+import SearchDisplay from './SearchDisplay';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {

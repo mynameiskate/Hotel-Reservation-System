@@ -4,12 +4,12 @@ import { reduxForm, Field } from 'redux-form';
 import TimePicker from 'react-time-picker';
 import moment from 'moment';
 
-import Timer from '../components/Timer.jsx';
-import CheckBox from './CheckBox.jsx';
-import InputField from './InputField.jsx';
-import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules.js';
+import Timer from '../components/Timer';
+import CheckBox from './CheckBox';
+import InputField from './InputField';
+import { isRequired, maxLength, minLength, isFullName } from '../constants/validationRules';
 import { dateFormats } from '../constants/dateFormats';
-import RoomInfo from './RoomInfo.jsx';
+import RoomInfo from './RoomInfo';
 
 const BookingModal = ( {room, isOpen, onTimeChange, time,
                         onClose, onBook, moveInDate, moveOutDate, invalid,

@@ -1,9 +1,3 @@
-import {
-    hotelService
-} from 'HotelService.1.js';
-import {
-    links
-} from '../config/links.js';
 import RequestOptions from '../constants/RequestOptions';
 
 class RequestService {
