@@ -57,6 +57,7 @@ class RoomPage extends React.Component {
 
     closeModal = () => {
         this.setState({isBookingModalOpen: false, currentRoom: {}});
+        this.setPage(1);
     }
 
     render() {
