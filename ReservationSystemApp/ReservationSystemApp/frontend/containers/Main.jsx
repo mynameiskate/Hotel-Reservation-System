@@ -11,6 +11,7 @@ import HotelSearchPage from './HotelSearchPage';
 import UserPage from './UserPage';
 import { links } from '../config/links';
 import UserActions from '../actions/UserActions';
+import RoomSearchPage from './RoomSearchPage';
 
 class Main extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class Main extends React.Component {
                         <Route exact path={links.MAIN_PAGE_PATH} component={ MainPage }/>
                         <Route exact path={links.SIGN_IN_PAGE} component={ LoginPage }/>
                         <Route exact path={links.SIGN_UP_PAGE} component={ SignUpPage }/>
-                        <Route exact path={links.HOTEL_PAGE_PATH} component={ HotelInfoPage }/>
+                        <Route exact path={links.HOTEL_PAGE_PATH} component={ RoomSearchPage }/>
                         <Route exact path={links.HOTEL_SEARCH_PAGE} component={ HotelSearchPage }/>
                         <ProtectedRoute exact path={links.PROFILE_PAGE} component={ UserPage } />
                     </Switch>

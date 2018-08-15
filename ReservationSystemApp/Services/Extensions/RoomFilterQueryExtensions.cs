@@ -67,7 +67,7 @@ namespace Services.Extensions
                                from r in res.DefaultIfEmpty()
                                join s in dataContext.ReservationStatuses on r.StatusId equals s.ReservationStatusId into srv
                                from status in srv.DefaultIfEmpty()
-                               //Here left join is used, that's why RoomReservationId can be null. 
+                               //Here left join is used, that's why RoomReservationId and ReservationStatusId can be null. 
                                //This check is necessary for including available rooms but without existing reservations.
                                where (r.RoomReservationId == null)
                                         || (r.MoveInDate > moveOutDate || r.MoveOutDate < moveInDate)

@@ -8,6 +8,8 @@ using System;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
 using Services.Interfaces;
+using DataLayer.Entities;
+using Services.Exceptions;
 
 namespace Services.Services
 {
@@ -38,6 +40,27 @@ namespace Services.Services
                 _logger.LogInformation(e.Message);
                 throw;
             }
-        }   
+        } 
+
+        public async Task<Location> GetLocation(LocationModel locationModel)
+        {
+            var cityEntity = await FindCity(locationModel.City, locationModel.CountryId);
+
+            if (cityEntity == null)
+            {
+                throw new LocationNotFoundException();
+            }
+
+            return await _dataContext.Locations
+                          .FirstOrDefaultAsync(l => l.City.Name == locationModel.City
+                            && l.Address == locationModel.Address);
+        }
+
+        private async Task<City> FindCity(string countryId, string cityName)
+        {
+            return await _dataContext.Cities
+                          .FirstOrDefaultAsync(c => c.Name == cityName
+                             && c.CountryId == countryId);
+        }
     }
 }

@@ -66,7 +66,6 @@ const mapDispatchToProps = (dispatch) => {
 
         getDetailsLink: (id, moveInDate, moveOutDate, adults) => {
             const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults);
-            console.log(query)
             return ({pathname: links.HOTEL_ID_PAGE(id), search: query});
         }
     }

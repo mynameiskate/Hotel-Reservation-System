@@ -140,15 +140,20 @@ namespace Services.Services
             }
         }
 
-        public async void UpdateHotelInfo(int id, Hotel newValue)
+        public async Task UpdateHotelInfo(int id, HotelModel hotelInfo, Location hotelLocation)
         {
             var hotel = await _dataContext.Hotels.FindAsync(id);
-            if (hotel != null)
+            if (hotel == null || string.IsNullOrEmpty(hotelInfo.Name))
             {
-                hotel = newValue;
-                /*work in progress*/
-            _dataContext.SaveChanges();
+                throw new ArgumentException();
             }
+
+            var locationEntity = 
+
+
+            hotel.Name = hotelInfo.Name;
+            hotel.Stars = hotelInfo.Stars;
+            
         }
 
         public void Delete(int id)

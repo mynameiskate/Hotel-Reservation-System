@@ -28,7 +28,7 @@ class RoomActions {
             return {
                 type: roomConstants.GET_ROOMS_FAILURE,
                 payload: {
-                    error
+                    error: error || null
                 }
             };
         };

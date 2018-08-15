@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Exceptions;
 using Services.Interfaces;
 using Services.Models;
 using Services.Models.PageModels;
@@ -16,12 +19,15 @@ namespace ReservationSystemApp.Controllers
     {
         private readonly ILogger<HotelController> _logger;
         private readonly IHotelService _hotelService;
+        private readonly ILocationService _locationService;
 
         public HotelController(ILogger<HotelController> logger,
-                               IHotelService hotelService)
+                               IHotelService hotelService,
+                               ILocationService locationService)
         {
             _logger = logger;
             _hotelService = hotelService;
+            _locationService = locationService;
         }
 
         // GET: api/hotels/?
@@ -51,11 +57,36 @@ namespace ReservationSystemApp.Controllers
             return hotel;
         }
 
-        // PUT: api/hotels/5
-        [HttpPut("{id}")]
+        [HttpPut("{hotelId}")]
         [Authorize(Policy = "AdminOnly")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put([FromBody]HotelModel hotelModel)
         {
+            try
+            {
+                var location = await _locationService.GetLocation(hotelModel.Location);
+                
+                return Ok();
+            }
+            catch (LocationNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (BookingException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            catch (UserNotFoundException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
