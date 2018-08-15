@@ -67,7 +67,7 @@ export function searchReducer(state = initialState, action) {
                 selectedCity: data.selectedCity,
                 page: 1
             }
-        case searchConstants.SET_CURRENT_PAGE:
+        case searchConstants.SET_CURRENT_HOTEL_PAGE:
             return {
                 ...state,
                 page: data.currentPage

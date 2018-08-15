@@ -49,7 +49,7 @@ class RoomActions {
     static setCurrentPage(page) {
         const setRequest = (page) => {
             return {
-                type: roomConstants.SET_CURRENT_PAGE,
+                type: roomConstants.SET_CURRENT_ROOM_PAGE,
                 payload: {
                     currentPage: page
                 }

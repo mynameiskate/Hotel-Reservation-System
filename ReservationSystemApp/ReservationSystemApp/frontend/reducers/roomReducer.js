@@ -55,7 +55,7 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 adults: data.adults
             }
-        case roomConstants.SET_CURRENT_PAGE:
+        case roomConstants.SET_CURRENT_ROOM_PAGE:
             return {
                 ...state,
                 page: data.currentPage

@@ -12,7 +12,7 @@ class HistoryActions {
 
     static getQuery(moveInDate, moveOutDate, adults, page = 1) {
         const params = {
-            //page
+            page
         };
 
         if (moveInDate) {

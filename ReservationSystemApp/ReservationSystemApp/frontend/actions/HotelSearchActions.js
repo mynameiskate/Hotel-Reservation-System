@@ -71,7 +71,7 @@ class HotelSearchActions {
     static setCurrentPage(page) {
         const setRequest = (page) => {
             return {
-                type: searchConstants.SET_CURRENT_PAGE,
+                type: searchConstants.SET_CURRENT_HOTEL_PAGE,
                 payload: {
                     currentPage: page
                 }
