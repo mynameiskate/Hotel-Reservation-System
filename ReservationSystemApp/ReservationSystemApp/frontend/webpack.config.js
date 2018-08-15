@@ -21,6 +21,7 @@ module.exports = {
         publicPath: '/assets/',
         path: path.resolve(__dirname, bundleFolder)
     },
+    mode: 'development',
     module: {
         rules: [{
             test: /\.(js|jsx)$/,

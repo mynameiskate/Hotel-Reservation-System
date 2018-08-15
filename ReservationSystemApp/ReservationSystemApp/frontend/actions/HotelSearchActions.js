@@ -170,7 +170,7 @@ class HotelSearchActions {
         }
 
         if (selectedCity) {
-            params.city = selectedCity;
+            params.cityId = selectedCity;
         }
 
         if (hotelName) {
@@ -234,8 +234,8 @@ class HotelSearchActions {
                 dispatch(HotelSearchActions.setCurrentCountry(params.countryId));
             }
 
-            if (selectedCity !== params.city) {
-                dispatch(HotelSearchActions.setCurrentCity(params.city));
+            if (selectedCity !== params.cityId) {
+                dispatch(HotelSearchActions.setCurrentCity(params.cityId));
             }
 
             if (params.page && page !== params.page) {

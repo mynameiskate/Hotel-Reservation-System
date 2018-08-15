@@ -64,6 +64,10 @@ namespace ReservationSystemApp.Controllers
             try
             {
                 var location = await _locationService.GetLocation(hotelModel.Location);
+                if (location == null)
+                {
+                    await _locationService.AddLocation(hotelModel.Location);
+                }
                 
                 return Ok();
             }

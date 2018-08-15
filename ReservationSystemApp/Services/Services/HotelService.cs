@@ -140,7 +140,7 @@ namespace Services.Services
             }
         }
 
-        public async Task UpdateHotelInfo(int id, HotelModel hotelInfo, Location hotelLocation)
+        public async Task UpdateHotelInfo(int id, HotelModel hotelInfo)
         {
             var hotel = await _dataContext.Hotels.FindAsync(id);
             if (hotel == null || string.IsNullOrEmpty(hotelInfo.Name))
@@ -148,12 +148,8 @@ namespace Services.Services
                 throw new ArgumentException();
             }
 
-            var locationEntity = 
-
-
             hotel.Name = hotelInfo.Name;
-            hotel.Stars = hotelInfo.Stars;
-            
+            hotel.Stars = hotelInfo.Stars;       
         }
 
         public void Delete(int id)

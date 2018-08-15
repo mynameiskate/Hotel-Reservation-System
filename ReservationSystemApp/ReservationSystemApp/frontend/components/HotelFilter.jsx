@@ -15,9 +15,9 @@ const HotelFilter = (props) => {
             adultsAmount, onAdultsChange } = props;
 
     const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
-    const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'city');
+    const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId');
     const personOptions = SelectService.getNumericOptions(10);
-
+    const city = cityOptions.find(c => c.value == selectedCity);
     return (
         <div>
             <Field name='name' label='Name' onChange={e => onNameChange(e.target.value)}

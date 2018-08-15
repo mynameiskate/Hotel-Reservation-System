@@ -26,9 +26,8 @@ namespace Services.Extensions
                 return hotels.FilterById(filters.HotelId);
             }
 
-            var filteredList = hotels
-                    .FilterByName(filters.Name)
-                    .FilterByLocation(filters.CountryId, filters.City);
+            var filteredList = hotels.FilterByName(filters.Name)
+                                     .FilterByLocation(filters.CountryId, filters.CityId);
 
             var roomList = dataContext.HotelRooms;
 
@@ -38,10 +37,10 @@ namespace Services.Extensions
 
            filteredList = from hr in filteredRoomList
                           join h in filteredList on hr.HotelId equals h.HotelId into result
-                          from h in result.DefaultIfEmpty()
+                          from h in result
                           select h;
 
-            return filteredList;
+            return filteredList.Distinct();
         }
 
         static IQueryable<Hotel> FilterById(this IQueryable<Hotel> list, int? hotelId)
@@ -56,15 +55,15 @@ namespace Services.Extensions
                     : list.Where(h => h.Name == hotelName);
         }
 
-        static IQueryable<Hotel> FilterByLocation(this IQueryable<Hotel> list, string countryId, string city)
+        static IQueryable<Hotel> FilterByLocation(this IQueryable<Hotel> list, string countryId, int? cityId)
         {
             if (string.IsNullOrEmpty(countryId)) return list;
 
             var filteredList = list.Where(h => h.Location.City.CountryId == countryId);
 
-            if (string.IsNullOrEmpty(city)) return list;
+            if (cityId == 0) return filteredList;
 
-            return filteredList.Where(h => h.Location.City.Name == city);
+            return filteredList.Where(h => h.Location.CityId == cityId);
         }
     }
 }

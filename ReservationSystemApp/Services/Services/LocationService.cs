@@ -44,23 +44,31 @@ namespace Services.Services
 
         public async Task<Location> GetLocation(LocationModel locationModel)
         {
-            var cityEntity = await FindCity(locationModel.City, locationModel.CountryId);
-
-            if (cityEntity == null)
+            if (!CityExists(locationModel.CountryId, locationModel.CityId))
             {
                 throw new LocationNotFoundException();
             }
 
             return await _dataContext.Locations
-                          .FirstOrDefaultAsync(l => l.City.Name == locationModel.City
+                          .FirstOrDefaultAsync(l => l.City.CityId == locationModel.CityId
                             && l.Address == locationModel.Address);
         }
 
-        private async Task<City> FindCity(string countryId, string cityName)
+        public async Task AddLocation(LocationModel locationModel)
         {
-            return await _dataContext.Cities
-                          .FirstOrDefaultAsync(c => c.Name == cityName
-                             && c.CountryId == countryId);
+            var locationEntity = new Location
+            {
+                Address = locationModel.Address,
+                CityId = locationModel.CityId,
+            };
+
+            await _dataContext.Locations.AddAsync(locationEntity);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        private bool CityExists(string countryId, int cityId)
+        {
+            return  _dataContext.Cities.Any(c => c.CityId == cityId && c.CountryId == countryId);
         }
     }
 }
