@@ -5,10 +5,11 @@ import { bindActionCreators } from 'redux';
 
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions';
+import HistoryActions from '../actions/HistoryActions';
 import  HotelSearchActions from '../actions/HotelSearchActions';
 import  HotelFilter  from '../components/HotelFilter';
 import  PageBar  from '../components/PageBar';
-import SearchDisplay from './SearchDisplay';
+import HotelList from '../components/HotelList';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {
@@ -17,8 +18,8 @@ class HotelSearchPage extends React.Component {
 
     componentDidMount() {
         this.props.getLocations();
-        this.props.addRequiredParams(this.props.search);
-        this.props.getHotelPage(this.props.search);
+        this.props.addRequiredParams(this.props.location.search);
+        this.props.getHotelPage(this.props.location.search);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -75,10 +76,15 @@ class HotelSearchPage extends React.Component {
         return moment(date);
     }
 
+    getDetailsLink = (id) => {
+        const { moveInDate, moveOutDate, adults } = this.props;
+        return this.props.getDetailsLink(id, moveInDate, moveOutDate, adults);
+    }
+
     render() {
         const { selectedCountry, selectedCity, locations, dateError,
                 page, pageCount, nextPage, moveInDate, moveOutDate,
-                isLoading, adults } = this.props;
+                isLoading, adults, resultCount, error, info } = this.props;
         return(
             <div>
                 <HotelFilter  onCancel = {this.resetFilters}
@@ -96,7 +102,19 @@ class HotelSearchPage extends React.Component {
                               setMoveOutDate={this.setMoveOutDate}
                               dateError={dateError}
                 />
-                <SearchDisplay/>
+               { isLoading ?
+                        <h2>Loading hotels...</h2>
+                  : ( resultCount ?
+                    <div>
+                        <h3> Search results: {resultCount} destination(s)</h3>
+                        <HotelList  info={info}
+                                    getDetailsLink={this.getDetailsLink}
+                        />
+                    </div>
+                      : error ? <h3>Loading error</h3>
+                        : <h3>No results, try again?</h3>
+                    )
+                }
                { (pageCount > 0 && !isLoading) &&
                     <PageBar  currentPage={page}
                               nextPage={nextPage}
@@ -111,7 +129,6 @@ const mapStateToProps = (state) => {
     return {
         adults: state.rooms.adults,
         hotelName: state.search.hotelName,
-        search: state.router.location.search,
         info: state.search.info,
         error: state.search.error,
         dateError: state.search.dateError,
@@ -125,12 +142,13 @@ const mapStateToProps = (state) => {
         pageCount: state.search.pageCount,
         page: state.search.page,
         moveInDate: state.search.moveInDate,
-        moveOutDate: state.search.moveOutDate
+        moveOutDate: state.search.moveOutDate,
+        search: state.router.location.search
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
+    const bindedCreators = bindActionCreators({
         syncParamsWithQuery: (query) => HotelSearchActions.syncParamsWithQuery(query),
 
         getLocations: () => HotelActions.getLocations(),
@@ -147,14 +165,20 @@ const mapDispatchToProps = (dispatch) => {
                 page
             )
         ),
-
         getHotelPage: (search) => HotelSearchActions.loadFromQuery(search),
 
         addRequiredParams: (search) => (
             HotelSearchActions.addRequiredParamsToQuery(links.HOTEL_SEARCH_PAGE, search)
-        ),
+        )
     }, dispatch);
-}
 
+    return {
+        ...bindedCreators,
+        getDetailsLink: (id, moveInDate, moveOutDate, adults) => {
+            const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults);
+            return ({pathname: links.HOTEL_ID_PAGE(id), search: query});
+        }
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(HotelSearchPage);
