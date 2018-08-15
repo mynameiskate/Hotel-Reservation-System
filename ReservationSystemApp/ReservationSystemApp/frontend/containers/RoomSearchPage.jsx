@@ -77,7 +77,6 @@ class RoomSearchPage extends React.Component {
             moveInTime, isRoomLoading, isHotelLoading } = this.props;
 
         const isBookingEnabled = loggedIn && moveInDate && moveOutDate;
-        const hotelId = this.getHotelId();
 
         return (
             <div>

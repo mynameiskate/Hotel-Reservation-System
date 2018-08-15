@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import ProtectedRoute from '../components/ProtectedRoute';
-import HotelInfoPage from './HotelInfoPage';
 import SignUpPage from './SignUpPage';
 import MainPage from './MainPage';
 import LoginPage from './LoginPage';

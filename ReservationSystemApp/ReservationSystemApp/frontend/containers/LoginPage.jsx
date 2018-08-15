@@ -7,7 +7,6 @@ import LoginField from '../components/LoginField';
 import  UserActions  from '../actions/UserActions';
 
 class LoginPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.sendSignInRequest = this.sendSignInRequest.bind(this);

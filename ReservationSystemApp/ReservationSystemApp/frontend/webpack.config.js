@@ -2,11 +2,16 @@
 
 const webpack = require('webpack');
 const path = require('path');
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const bundleFolder = '../wwwroot/assets/';
 const srcFolder = './';
 
 module.exports = {
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'main.css'
+        })
+    ],
     entry: [
         srcFolder + 'index.jsx'
     ],
@@ -26,7 +31,14 @@ module.exports = {
             },
         }, {
             test: /\.css$/,
-            use: ['style-loader', 'css-loader']
+            use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '../'
+                    }
+                },
+                "css-loader"
+            ]
         }, {
             test: /\.(js|jsx)$/,
             enforce: 'pre',
@@ -34,13 +46,13 @@ module.exports = {
         }, {
             test: /\.less$/,
             use: [{
-                loader: "style-loader"
+                loader: MiniCssExtractPlugin.loader,
             }, {
                 loader: "css-loader",
                 options: {
                     sourceMap: true,
                     modules: true,
-                    localIdentName: "[local]___[hash:base64:5]"
+                    localIdentName: "[local]"
                 }
             }, {
                 loader: "less-loader"
@@ -48,11 +60,9 @@ module.exports = {
         }]
     },
     resolve: {
-        extensions: [".js", ".jsx", ".less", ".css"]
+        extensions: ['.js', '.jsx', '.less', '.css']
     },
     devServer: {
         historyApiFallback: true
-    },
-
-    plugins: []
+    }
 };
