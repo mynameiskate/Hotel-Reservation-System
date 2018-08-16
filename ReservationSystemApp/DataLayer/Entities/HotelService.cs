@@ -12,5 +12,6 @@ namespace DataLayer.Entities
         public int ServiceId { get; set; }
         public Hotel Hotel { get; set; }
         public Service Service { get; set; }
+        public bool IsRemoved { get; set; }
     }
 }

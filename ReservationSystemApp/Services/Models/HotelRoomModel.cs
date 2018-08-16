@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Services.Models
@@ -7,11 +8,12 @@ namespace Services.Models
     public class HotelRoomModel
     {
         public int Id { get; set; }
+        [Required]
         public int Number { get; set; }
         public bool Available { get; set; }
         public double Size { get; set; }
         public double Cost { get; set; }
-        public int CanPlace { get; set; }
+        public int Adults { get; set; }
         public string RoomType { get; set; }
         public List<string> Images { get; set; }
 
@@ -24,7 +26,7 @@ namespace Services.Models
                 Available = room.IsAvailable;
                 Size = room.Size;
                 Cost = room.Cost;
-                CanPlace = room.Adults;
+                Adults = room.Adults;
                 RoomType = room.RoomType?.RoomTypeName;
 
                 Images = room.Images?

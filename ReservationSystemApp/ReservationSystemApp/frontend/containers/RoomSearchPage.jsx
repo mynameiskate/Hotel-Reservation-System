@@ -35,7 +35,7 @@ class RoomSearchPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const query = nextProps.search;
+        const query = nextProps.location.search;
         this.props.syncParamsWithQuery(query);
     }
 
@@ -87,10 +87,10 @@ class RoomSearchPage extends React.Component {
                         {hotelError && <h3>{hotelError}</h3>}
                     </div>
                 }
-                { isRoomLoading ?
-                        <h3>Loading rooms...</h3>
-                  : ( pageCount ?
-                        <div>
+                { isRoomLoading
+                    ? <h3>Loading rooms...</h3>
+                    : ( pageCount
+                        ? <div>
                             <h3> Available rooms </h3>
                             {!loggedIn && <h4>In order to book you should log in!</h4>}
                             {!moveInDate || !moveOutDate
@@ -108,8 +108,7 @@ class RoomSearchPage extends React.Component {
                                     goToPage={(num) => this.setPage(num)}/>
                             }
                         </div>
-                      :
-                        <div>
+                        : <div>
                             <h3>No available rooms with given parameters found.</h3>
                             <button onClick={this.props.resetFilters}>Back</button>
                         </div>

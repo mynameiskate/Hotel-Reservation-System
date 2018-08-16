@@ -1,14 +1,18 @@
 ﻿using DataLayer.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Services.Models
 {
-    public class HotelModel
+    public class HotelModel 
     {
         public int HotelId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Range(0, 5)]
         public byte Stars { get; set; }
+        [Required]
         public LocationModel Location { get; set; }
         public List<ServiceModel> Services { get; set; }
         public List<ContactModel> Contacts { get; set; }

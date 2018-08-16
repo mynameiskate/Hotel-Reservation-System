@@ -3,6 +3,7 @@ export const links = {
     MAIN_PAGE_PATH: '/',
     HOTEL_PAGE_PATH: '/hotels/:id/rooms',
     HOTEL_SEARCH_PAGE: '/hotels',
+    ADMIN_PAGE: 'admin/hotels',
     HOTEL_ID_SEARCH_PAGE: (page) => `/hotels?page=${page}`,
     HOTEL_ID_PAGE: (id) => `/hotels/${id}/rooms`,
     SIGN_UP_PAGE: '/account/signup',
@@ -15,5 +16,5 @@ export const links = {
     ROOM_ID_PAGE: (hotelId) => `/hotels/${hotelId}/rooms`,
     ROOM_PAGE: '/hotels/:id/rooms',
     BOOKING_PAGE: '/booking/:id',
-    BOOKING_ID_PAGE: (roomId = 1) => `/booking/${roomId}`
+    BOOKING_ID_PAGE: (roomId = 1) => `/booking/${roomId}`,
 }

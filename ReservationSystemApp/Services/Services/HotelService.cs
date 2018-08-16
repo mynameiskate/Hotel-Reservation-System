@@ -32,14 +32,17 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
+        private IQueryable<DataLayer.Entities.HotelService> GetServiceQuery(int hotelId)
+        {
+            var entityList = _dataContext.HotelServices as IQueryable<DataLayer.Entities.HotelService>;
+            return entityList.Where(s => s.HotelId == hotelId && !s.IsRemoved);
+        }
+
         public async Task<List<ServiceModel>> GetAvailableServices(int hotelId)
         {
             try
             {
-                var entityList = _dataContext.HotelServices as IQueryable<DataLayer.Entities.HotelService>;
-
-                var resultQuery = entityList
-                    .Where(s => s.HotelId == hotelId)
+                var resultQuery = GetServiceQuery(hotelId)
                     .Join(_dataContext.Services,
                      hs => hs.ServiceId,
                      s => s.ServiceId,
@@ -140,47 +143,46 @@ namespace Services.Services
             }
         }
 
-        public async Task UpdateHotelInfo(HotelModel hotelInfo, Location location = null) //TODO: do something with contacts
+        public async Task UpdateHotelInfo(HotelModel hotelInfo) //TODO: do something with contacts
         {
             var hotel = await _dataContext.Hotels.FindAsync(hotelInfo.HotelId);
-            if (hotel == null || string.IsNullOrEmpty(hotelInfo.Name))
+            if (hotel == null)
             {
                 throw new ArgumentException();
             }
 
-            if (location != null)
+            hotel.Location = new Location
             {
-                hotel.Location = location;
-            }
+                Address = hotelInfo.Location.Address,
+                CityId = hotelInfo.Location.CityId,
+                LocationId = hotelInfo.Location.LocationId
+            };
 
             hotel.Name = hotelInfo.Name;
             hotel.Stars = hotelInfo.Stars;
-            await AddOrUpdateServices(hotelInfo.Services, hotel.HotelId);
+            hotel.Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services);
             _dataContext.Update(hotel);
             await _dataContext.SaveChangesAsync();
         }
 
-        private async Task AddOrUpdateServices(List<ServiceModel> serviceModels, int hotelId) 
+        private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)
         {
-            foreach (var serviceModel in serviceModels)
-            {
-                var serviceId = await GetServiceId(serviceModel.Name);
-                var service = new DataLayer.Entities.HotelService
-                {
-                    HotelId = hotelId,
-                    HotelServiceId = serviceModel.HotelServiceId,
-                    Cost = serviceModel.Cost,
-                    ServiceId = (int)serviceId
-                };
-                bool isServiceNew = (service.HotelServiceId == 0);
-                service.AddOrUpdate(isServiceNew, _dataContext);
-            }          
-        }
+            var existingServices = GetServiceQuery(hotelId);
 
-        private async Task<int?> GetServiceId(string name)
-        {
-            var service = await _dataContext.Services.FirstOrDefaultAsync(s => s.Name == name);
-            return service?.ServiceId;
+            foreach (var service in existingServices)
+            {
+                var serviceModel = serviceModels.FirstOrDefault(sm => sm.HotelServiceId == service.HotelServiceId);
+                if (serviceModel == null)
+                {
+                    service.IsRemoved = true;
+                }
+                else
+                {
+                    service.Cost = serviceModel.Cost;
+                }
+            }
+
+            return await existingServices.ToListAsync();         
         }
 
         public void Delete(int id)

@@ -63,27 +63,12 @@ namespace ReservationSystemApp.Controllers
         {
             try
             {
-                var location = await _locationService.GetLocation(hotelModel.Location);
-                if (location == null)
-                {
-                    location = await _locationService.AddLocation(hotelModel.Location);
-     
-                }
-
-                await _hotelService.UpdateHotelInfo(hotelModel, location);          
+                await _hotelService.UpdateHotelInfo(hotelModel);          
                 return Ok();
             }
             catch (LocationNotFoundException)
             {
-                return NotFound();
-            }
-            catch (BookingException)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
-            }
-            catch (UserNotFoundException)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
+                return BadRequest();
             }
             catch (ArgumentException)
             {

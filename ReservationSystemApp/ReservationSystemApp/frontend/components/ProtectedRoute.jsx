@@ -4,7 +4,7 @@ import { links } from '../config/links';
 import { connect } from 'react-redux';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => (
-    (rest.loggedIn) ?
+    (rest.isPermitted) ?
         (<Route {...rest} component={Component} />)
         : (<Redirect
             to={{

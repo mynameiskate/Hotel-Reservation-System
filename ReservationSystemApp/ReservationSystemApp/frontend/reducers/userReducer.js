@@ -9,7 +9,8 @@ const initialState = {
     userInfo: {},
     loggedIn: false,
     isLoading: true,
-    redirect: false
+    redirect: false,
+    isAdmin: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -70,7 +71,8 @@ export function userReducer(state = initialState, action) {
             return {
                 ...state,
                 loggedIn: state.loggedIn,
-                userInfo: state.userInfo
+                userInfo: state.userInfo,
+                isAdmin: state.isAdmin
             }
         case userConstants.GET_PROFILE_REQUEST:
             return {
