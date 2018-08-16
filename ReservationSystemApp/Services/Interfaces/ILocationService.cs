@@ -9,6 +9,6 @@ namespace Services.Interfaces
     {
         Task<IEnumerable<LocationModel>> GetLocationList();
         Task<Location> GetLocation(LocationModel locationModel);
-        Task AddLocation(LocationModel locationModel);
+        Task<Location> AddLocation(LocationModel locationModel);
     }
 }

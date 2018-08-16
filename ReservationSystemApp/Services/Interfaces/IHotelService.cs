@@ -1,4 +1,5 @@
-﻿using Services.Models;
+﻿using DataLayer.Entities;
+using Services.Models;
 using Services.Models.PageModels;
 using Services.Models.RequestModels;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Services.Interfaces
         Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);
         Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request);
+        Task UpdateHotelInfo(HotelModel hotelInfo, Location location);
     }
 }

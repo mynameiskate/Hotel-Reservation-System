@@ -140,16 +140,47 @@ namespace Services.Services
             }
         }
 
-        public async Task UpdateHotelInfo(int id, HotelModel hotelInfo)
+        public async Task UpdateHotelInfo(HotelModel hotelInfo, Location location = null) //TODO: do something with contacts
         {
-            var hotel = await _dataContext.Hotels.FindAsync(id);
+            var hotel = await _dataContext.Hotels.FindAsync(hotelInfo.HotelId);
             if (hotel == null || string.IsNullOrEmpty(hotelInfo.Name))
             {
                 throw new ArgumentException();
             }
 
+            if (location != null)
+            {
+                hotel.Location = location;
+            }
+
             hotel.Name = hotelInfo.Name;
-            hotel.Stars = hotelInfo.Stars;       
+            hotel.Stars = hotelInfo.Stars;
+            await AddOrUpdateServices(hotelInfo.Services, hotel.HotelId);
+            _dataContext.Update(hotel);
+            await _dataContext.SaveChangesAsync();
+        }
+
+        private async Task AddOrUpdateServices(List<ServiceModel> serviceModels, int hotelId) 
+        {
+            foreach (var serviceModel in serviceModels)
+            {
+                var serviceId = await GetServiceId(serviceModel.Name);
+                var service = new DataLayer.Entities.HotelService
+                {
+                    HotelId = hotelId,
+                    HotelServiceId = serviceModel.HotelServiceId,
+                    Cost = serviceModel.Cost,
+                    ServiceId = (int)serviceId
+                };
+                bool isServiceNew = (service.HotelServiceId == 0);
+                service.AddOrUpdate(isServiceNew, _dataContext);
+            }          
+        }
+
+        private async Task<int?> GetServiceId(string name)
+        {
+            var service = await _dataContext.Services.FirstOrDefaultAsync(s => s.Name == name);
+            return service?.ServiceId;
         }
 
         public void Delete(int id)

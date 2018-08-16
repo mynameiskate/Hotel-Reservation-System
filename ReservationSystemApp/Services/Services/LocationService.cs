@@ -54,7 +54,7 @@ namespace Services.Services
                             && l.Address == locationModel.Address);
         }
 
-        public async Task AddLocation(LocationModel locationModel)
+        public async Task<Location> AddLocation(LocationModel locationModel)
         {
             var locationEntity = new Location
             {
@@ -64,6 +64,7 @@ namespace Services.Services
 
             await _dataContext.Locations.AddAsync(locationEntity);
             await _dataContext.SaveChangesAsync();
+            return locationEntity;
         }
 
         private bool CityExists(string countryId, int cityId)

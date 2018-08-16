@@ -40,8 +40,8 @@ class RoomSearchPage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.search !== prevProps.location.search) {
-            this.props.getRoomPage(this.props.location.search);
+        if (this.props.search !== prevProps.search) {
+            this.props.getRoomPage(this.props.search);
         }
     }
 
@@ -52,7 +52,7 @@ class RoomSearchPage extends React.Component {
 
     openModal = (room) => {
         this.props.createReservation(room);
-        this.props.getServices(this.state.hotelId);
+        this.props.getServices(this.getHotelId());
         this.setState({
             isBookingModalOpen: true
         });
@@ -157,7 +157,8 @@ const mapStateToProps = (state) => {
         isRoomLoading: state.rooms.isLoading,
         page: state.rooms.page,
         nextPage: state.rooms.nextPage,
-        pageCount: state.rooms.pageCount
+        pageCount: state.rooms.pageCount,
+        search: state.router.location.search
     }
 }
 
@@ -173,7 +174,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         buildQuery: (moveInDate, moveOutDate, adults, page) => (
             RoomActions.buildQuery(
-                links.ROOM_ID_PAGE(ownProps.hotelId),
+                links.ROOM_ID_PAGE(ownProps.match.params.id),
                 moveInDate, moveOutDate, adults, page)
         ),
 
