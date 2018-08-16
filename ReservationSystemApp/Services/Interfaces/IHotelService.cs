@@ -14,6 +14,6 @@ namespace Services.Interfaces
         Task<HotelModel> GetHotelInfo(int id);
         void Delete(int id);
         Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request);
-        Task UpdateHotelInfo(HotelModel hotelInfo, Location location);
+        Task UpdateHotelInfo(HotelModel hotelInfo);
     }
 }

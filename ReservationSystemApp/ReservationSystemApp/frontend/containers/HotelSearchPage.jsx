@@ -10,6 +10,7 @@ import  HotelSearchActions from '../actions/HotelSearchActions';
 import  HotelFilter  from '../components/HotelFilter';
 import  PageBar  from '../components/PageBar';
 import HotelList from '../components/HotelList';
+import RoomFilter from '../components/RoomFilter';
 
 class HotelSearchPage extends React.Component {
     constructor(props) {
@@ -87,28 +88,30 @@ class HotelSearchPage extends React.Component {
                 isLoading, adults, resultCount, error, info } = this.props;
         return(
             <div>
-                <HotelFilter  onCancel = {this.resetFilters}
-                              locations={locations}
+                <HotelFilter  locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
                               onCountrySelect={this.setCountry}
                               onCitySelect={this.setCity}
                               onNameChange={this.setHotelName}
-                              moveInDate={moveInDate}
-                              moveOutDate={moveOutDate}
-                              adultsAmount={adults}
-                              onAdultsChange={this.setAdults}
-                              setMoveInDate={this.setMoveInDate}
-                              setMoveOutDate={this.setMoveOutDate}
-                              dateError={dateError}
                 />
+                <RoomFilter
+                    moveInDate={moveInDate}
+                    moveOutDate={moveOutDate}
+                    adultsAmount={adults}
+                    onAdultsChange={this.setAdults}
+                    setMoveInDate={this.setMoveInDate}
+                    setMoveOutDate={this.setMoveOutDate}
+                    dateError={dateError}
+                />
+                <button type='button' onClick={this.resetFilters}>Reset filter</button>
                { isLoading ?
                         <h2>Loading hotels...</h2>
                   : ( resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>
                         <HotelList  info={info}
-                                    getDetailsLink={this.getDetailsLink}
+                                    getDetailsLink={(id) => this.getDetailsLink(id)}
                         />
                     </div>
                       : error ? <h3>Loading error</h3>

@@ -10,6 +10,12 @@ class HistoryActions {
         }
     }
 
+    static getPageQuery(page = 1) {
+        return queryString.stringify({
+            page
+        });
+    }
+
     static getQuery(moveInDate, moveOutDate, adults, page = 1) {
         const params = {
             page

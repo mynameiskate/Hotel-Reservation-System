@@ -11,6 +11,7 @@ import UserPage from './UserPage';
 import { links } from '../config/links';
 import UserActions from '../actions/UserActions';
 import RoomSearchPage from './RoomSearchPage';
+import AdminPage from './admin/AdminPage';
 import HotelEditPage from './admin/HotelEditPage';
 
 class Main extends React.Component {
@@ -36,13 +37,18 @@ class Main extends React.Component {
                         <Route exact path={ links.SIGN_UP_PAGE } component={ SignUpPage }/>
                         <Route exact path={ links.HOTEL_PAGE_PATH } component={ RoomSearchPage }/>
                         <Route exact path={ links.HOTEL_SEARCH_PAGE } component={ HotelSearchPage }/>
-                        <ProtectedRoute 
-                            exact path={ links.PROFILE_PAGE }  
+                        <ProtectedRoute
+                            exact path={ links.PROFILE_PAGE }
                             component={ UserPage }
-                            isPermitted={ loggedIn}
+                            isPermitted={ loggedIn }
                         />
-                        <ProtectedRoute 
-                            exact path={ links.ADMIN_PAGE }  
+                        <ProtectedRoute
+                            exact path={ links.ADMIN_PAGE }
+                            component={ AdminPage }
+                            isPermitted={ isAdmin }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.HOTEL_EDIT_PAGE }
                             component={ HotelEditPage }
                             isPermitted={ isAdmin }
                         />

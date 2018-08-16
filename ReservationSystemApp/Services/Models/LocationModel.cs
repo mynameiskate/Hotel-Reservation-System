@@ -13,16 +13,16 @@ namespace Services.Models
 
         public LocationModel(Location location)
         {
-            var city = location.City;
+            var city = location?.City;
             if (city != null)
             {
                 City = city.Name;
                 CityId = city.CityId;
                 Country = city.Country?.Name;
                 CountryId = city.Country?.CountryId;
+                LocationId = location.LocationId;
             }
-            Address = location.Address;
-            LocationId = location.LocationId;
+            Address = location?.Address;
         }
 
         public LocationModel() {}

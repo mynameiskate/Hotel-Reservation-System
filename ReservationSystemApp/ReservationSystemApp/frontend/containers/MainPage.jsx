@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import UserActions from '../actions/UserActions';
 import { links } from '../config/links';
 
 class Main extends React.Component {
@@ -9,8 +10,12 @@ class Main extends React.Component {
         super(props);
     }
 
+    componentWillMount() {
+        this.props.dispatch(UserActions.getProfile());
+    }
+
     render() {
-        const { error } = this.props;
+        const { error, isAdmin } = this.props;
         return (
             <div className={'header'}>
                  <h1>Welcome to hotel reservation system</h1>
@@ -26,6 +31,11 @@ class Main extends React.Component {
                  <Link to={ links.HOTEL_ID_SEARCH_PAGE(1) } >
                         Hotels
                  </Link>
+                 { isAdmin &&
+                    <Link to={ links.ADMIN_PAGE } >
+                            Admin page
+                    </Link>
+                 }
                  { error  && <h3>Loading error</h3>}
             </div>
         );
@@ -34,6 +44,7 @@ class Main extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        isAdmin: state.users.isAdmin,
         info: state.hotels.info,
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,

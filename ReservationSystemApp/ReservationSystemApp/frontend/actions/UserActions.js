@@ -109,9 +109,7 @@ class UserActions {
         const getCurrentInfo = () => {
             return {
                 type: userConstants.GET_CURRENT_PROFILE,
-                payload: {
-                    info
-                }
+                payload: {}
             }
         };
         const getRequest = (info) => {

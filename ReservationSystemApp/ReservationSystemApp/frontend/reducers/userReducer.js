@@ -40,7 +40,8 @@ export function userReducer(state = initialState, action) {
                 error: data.error,
                 isValid: false,
                 loggedIn: false,
-                redirect: false
+                redirect: false,
+                isAdmin: false
             }
         case userConstants.SIGN_UP_REQUEST:
             return {
@@ -56,7 +57,7 @@ export function userReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 userInfo: state.userInfo,
-                isLoading: false,
+                isLoading: false
             }
         case userConstants.SIGN_UP_FAILURE:
             return {
@@ -65,14 +66,14 @@ export function userReducer(state = initialState, action) {
                 isValid: false,
                 isLoading: false,
                 loggedIn: false,
-                redirect: false
+                redirect: false,
+                isAdmin: false
             }
         case userConstants.GET_INFO:
             return {
                 ...state,
                 loggedIn: state.loggedIn,
                 userInfo: state.userInfo,
-                isAdmin: state.isAdmin
             }
         case userConstants.GET_PROFILE_REQUEST:
             return {
@@ -90,7 +91,8 @@ export function userReducer(state = initialState, action) {
                 userInfo: data.info,
                 isLoading: false,
                 loggedIn: true,
-                isLoading: false
+                isLoading: false,
+                isAdmin: data.info.isAdmin
             }
         case userConstants.GET_PROFILE_FAILURE:
             return {
@@ -100,14 +102,15 @@ export function userReducer(state = initialState, action) {
                 isLoading: false,
                 loggedIn: false,
                 isLoading: false,
-                redirect: false
+                redirect: false,
+                isAdmin: false
             }
         case userConstants.GET_CURRENT_PROFILE:
             return {
                 ...state,
                 error: null,
                 loggedIn: true,
-                userInfo: state.userInfo
+                userInfo: state.userInfo,
             }
         case userConstants.RESET:
             return {
