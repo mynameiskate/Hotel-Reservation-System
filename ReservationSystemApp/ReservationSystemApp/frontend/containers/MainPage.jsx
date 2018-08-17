@@ -10,8 +10,8 @@ class Main extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
-        this.props.dispatch(UserActions.getProfile());
+    componentDidMount() {
+       // this.props.dispatch(UserActions.getProfile());
     }
 
     render() {
