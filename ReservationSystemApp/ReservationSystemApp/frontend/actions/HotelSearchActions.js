@@ -113,6 +113,21 @@ class HotelSearchActions {
         }
     }
 
+    static setStars(stars) {
+        const setRequest = (stars) => {
+            return {
+                type: searchConstants.SET_CURRENT_HOTEL_STARS,
+                payload: {
+                    stars
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(stars));
+        }
+    }
+
     static setMoveInDate(date) {
         const setRequest = (date) => {
             return {
@@ -156,6 +171,21 @@ class HotelSearchActions {
 
         return (dispatch) => {
             dispatch(setRequest(date));
+        }
+    }
+
+    static setAddress(address) {
+        const setRequest = (address) => {
+            return {
+                type: searchConstants.SET_CURRENT_ADDRESS,
+                payload: {
+                    address
+                }
+            }
+        }
+
+        return (dispatch) => {
+            dispatch(setRequest(address));
         }
     }
 
@@ -209,6 +239,33 @@ class HotelSearchActions {
         }
         return dispatch => {
             dispatch(HistoryActions.pushUrl(link, queryString.stringify(params)));
+        }
+    }
+
+    static syncParamsWithInfo(hotel) {
+        console.log(hotel);
+        const {
+            countryId,
+            cityId,
+            address
+        } = hotel.location;
+
+        const {
+            stars,
+            name
+        } = hotel;
+        return (dispatch) => {
+            dispatch(HotelSearchActions.setCurrentCountry(countryId));
+
+            dispatch(HotelSearchActions.setCurrentCity(cityId));
+
+            dispatch(HotelSearchActions.setCurrentHotelName(name));
+            dispatch(change('hotelEditForm', 'name', name || ''));
+
+            dispatch(HotelSearchActions.setAddress(address));
+            dispatch(change('hotelEditForm', 'address', address || ''));
+
+            dispatch(HotelSearchActions.setStars(stars))
         }
     }
 

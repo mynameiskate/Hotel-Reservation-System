@@ -86,7 +86,7 @@ namespace Services.Services
             if (!string.IsNullOrEmpty(email))
             {
                 var userEntity = await _dataContext.Users
-                                       .FirstAsync(u => u.Email == email);
+                                       .FirstOrDefaultAsync(u => u.Email == email);
                 if (userEntity != null)
                 {
                     return new UserModel(userEntity);

@@ -2,16 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import UserActions from '../actions/UserActions';
 import { links } from '../config/links';
 
-class Main extends React.Component {
+class MainPage extends React.Component {
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-       // this.props.dispatch(UserActions.getProfile());
     }
 
     render() {
@@ -53,4 +48,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(MainPage);

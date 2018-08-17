@@ -2,6 +2,7 @@
     hotelConstants
 } from '../constants/hotelConstants';
 import HotelService from '../services/HotelService';
+import HotelSearchActions from './HotelSearchActions';
 
 class HotelActions {
     static resetFilter() {
@@ -136,6 +137,9 @@ class HotelActions {
                     .then(result => result.json())
                     .then(info => {
                         dispatch(showSuccess(info));
+                        if (info.entities) {
+                            dispatch(HotelSearchActions.syncParamsWithInfo(info.entities[0]));
+                        }
                         return info;
                     })
                     .catch(error => dispatch(showFailure(error)));

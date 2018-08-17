@@ -3,32 +3,40 @@ import { reduxForm, Field } from 'redux-form';
 import Select from 'react-select';
 
 import InputField from './InputField';
-import { isRequired, maxLength, isNumber, maxValue } from '../constants/validationRules';
+import { isRequired, maxLength } from '../constants/validationRules';
 import SelectService from '../services/SelectService';
 
-const HotelEditField = (props) => {
-    const { hotel, handleSubmit, sendRequest, onCancelClick, locations,
-        onCitySelect, onCountrySelect, invalid, pristine, submitting,
-        selectedCity, selectedCountry, onNameChange } = props;
+const HotelEditForm = (props) => {
+    const { handleSubmit, sendRequest, onCancelClick, locations, hotelName,
+        onCitySelect, onCountrySelect, invalid, pristine, submitting, stars,
+        selectedCity, selectedCountry, onNameChange, address,
+        onAddressChange, onStarsChange } = props;
 
-        const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');
+        const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');  ///!!
         const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId');
+        const starOptions = SelectService.getNumericOptions(5);
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
             <Field name='name' label='Name' component={InputField}
-                validate={[isRequired, maxLength(20)]} defaultValue={hotel.name}
+                validate={[isRequired, maxLength(20)]}
+                onChange={e => onNameChange(e.target.value)}
+                value={hotelName}
             />
-            <Field name='stars' label='Stars' component={InputField}
-                validate={[isNumber, maxValue(5)]} defaultValue={hotel.stars}
-            />
-            <h3>Destination country</h3>
+            <label>Stars</label>
             <Select
+                value = {starOptions.find(o => o.value == stars) || {}}
+                options={starOptions}
+                onChange={stars => onStarsChange(stars.value)}
+            />
+            <label>Destination country</label>
+            <Select
+                label="Country"
                 value = {countryOptions.find(c => c.value == selectedCountry) || {}}
                 options={countryOptions}
                 isSearchable={true}
                 onChange={country => onCountrySelect(country)}
             />
-            <h3>Destination city</h3>
+            <label>Destination city</label>
             <Select
                 value = {cityOptions.find(c => c.value == selectedCity) || {}}
                 options={cityOptions}
@@ -36,8 +44,8 @@ const HotelEditField = (props) => {
                 isSearchable={true}
             />
             <Field name='address' label='Address' component={InputField}
-                   defaultValue={hotel.location ? hotel.location.address : ''}
-                   validate={isRequired}
+                   value={hotelName}
+                   onChange={e => onAddressChange(e.target.value)}
             />
             <button type='submit'
                     disabled={invalid || pristine || submitting}>
@@ -50,5 +58,5 @@ const HotelEditField = (props) => {
 
 export default reduxForm({
     form: 'hotelEditForm'
-})(HotelEditField)
+})(HotelEditForm)
 

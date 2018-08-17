@@ -15,25 +15,25 @@ const RoomFilter = (props) => {
 
     return (
         <div>
-            <h3>Move in date</h3>
+            <label>Move in date</label>
             <DatePicker
                 dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveInDate}
                 onChange={date => setMoveInDate(date)}
             />
-            <h3>Move in date</h3>
+            <label>Move in date</label>
             <DatePicker
                 dateFormat =  {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveOutDate}
                 onChange={date => setMoveOutDate(date)}
             />
-            <h3>Adults</h3>
+            <label>Adults</label>
             <Select
                 value = {personOptions.find(o => o.value == adultsAmount) || {}}
                 options={personOptions}
                 onChange={adults => onAdultsChange(adults.value)}
             />
-            {dateError && <h3>{dateError}</h3>}
+            {dateError && <label>{dateError}</label>}
         </div>
     );
 }

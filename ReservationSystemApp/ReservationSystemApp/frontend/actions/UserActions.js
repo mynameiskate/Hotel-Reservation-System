@@ -35,7 +35,8 @@ class UserActions {
                 .then(result => result.json())
                 .then(response => localStorage.setItem('token', response.token))
                 .then(dispatch(logInSuccess()))
-                .catch(error => dispatch(logInFailure(error)));
+                .catch(error => dispatch(logInFailure(error)))
+                .then(dispatch(this.getProfile()));
         }
     }
 
@@ -76,6 +77,7 @@ class UserActions {
                         dispatch(signUpFailure(error));
                     }
                 })
+                .then(dispatch(this.getProfile()));
         }
     }
 

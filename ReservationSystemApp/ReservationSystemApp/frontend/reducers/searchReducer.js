@@ -17,7 +17,9 @@ const initialState = {
     hotelName: null,
     moveInDate: null,
     moveOutDate: null,
-    dateError: null
+    dateError: null,
+    stars: null,
+    address: null
 }
 
 export function searchReducer(state = initialState, action) {
@@ -92,6 +94,16 @@ export function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 dateError: data.dateError
+            }
+        case searchConstants.SET_CURRENT_HOTEL_STARS:
+            return {
+                ...state,
+                stars: data.stars
+            }
+        case searchConstants.SET_CURRENT_ADDRESS:
+            return {
+                ...state,
+                address: data.address
             }
         default:
             return state;

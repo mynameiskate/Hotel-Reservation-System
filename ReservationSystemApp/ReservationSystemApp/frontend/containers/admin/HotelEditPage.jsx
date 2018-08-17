@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { change } from 'redux-form';
 
 import HotelSearchActions from '../../actions/HotelSearchActions';
 import HotelActions from '../../actions/HotelActions';
-import HotelEditField from '../../components/HotelEditField';
+import HotelEditForm from '../../components/HotelEditForm';
 
 class HotelEditPage extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class HotelEditPage extends React.Component {
 
     componentDidMount() {
         this.props.init(this.getHotelId());
-        this.props.getLocations();
+        this.props.getLocations(this.props);
     }
 
     getHotelId() {
@@ -21,24 +22,28 @@ class HotelEditPage extends React.Component {
     }
 
     render() {
-        const { loaded, error, isLoading, locations, selectedCity,
-            selectedCountry } = this.props;
+        const { hotelInfo, error, isLoading, locations, selectedCity,
+            selectedCountry, stars, hotelName, address} = this.props;
 
         return (
             <div>
                 { isLoading && <h2>Loading..</h2>}
-                {loaded &&
+                {hotelInfo &&
                     <div>
-                        <HotelEditField
-                            hotel={loaded}
+                        <HotelEditForm
+                            stars={stars}
+                            hotelName={hotelName}
+                            address={address}
                             locations={locations}
                             selectedCity={selectedCity}
                             selectedCountry={selectedCountry}
                             onCitySelect={(city) => this.props.setCurrentCity(city.value)}
                             onCountrySelect={(country) => this.props.setCurrentCountry(country.value)}
-                            onNameChange={this.props.onNameChange}
+                            onNameChange={this.props.setHotelName}
+                            onAddressChange={this.props.setCurrentAddress}
+                            onStarsChange={this.props.setStars}
                             sendRequest={(values) =>
-                                this.props.sendEditRequest(loaded.hotelId, values)
+                                this.props.sendEditRequest(hotelInfo.hotelId, values)
                             }
                         />
                         {error && <h3>{error}</h3>}
@@ -51,20 +56,23 @@ class HotelEditPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        hotelName: state.search.hotelName,
         userInfo: state.users.info,
         info: state.hotels.info,
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,
         editing: state.hotels.editing,
-        loaded: state.hotels.loaded,
+        hotelInfo: state.hotels.loaded,
         isLoading: state.hotels.isLoading,
         locations: state.hotels.locations,
         selectedCountry: state.search.selectedCountry,
         selectedCity: state.search.selectedCity,
+        stars: state.search.stars,
+        address: state.search.address
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         init: (id) => HotelActions.showHotel(id),
 
@@ -76,12 +84,20 @@ const mapDispatchToProps = dispatch => {
 
         setCurrentCity: (city) => HotelSearchActions.setCurrentCity(city),
 
+        setStars: (stars) => HotelSearchActions.setStars(stars),
+
         getLocations: () => HotelActions.getLocations(),
 
-        onNameChange: (name) => {
+        setHotelName: (name) => {
             return (dispatch) => {
-                dispatch(HotelSearchActions.setCurrentHotelName(params.name));
-                dispatch(change('searchFilterForm', 'name', params.name || ''));
+                dispatch(HotelSearchActions.setCurrentHotelName(name));
+                dispatch(change('hotelEditForm', 'name', name || ''));
+            }
+        },
+        setCurrentAddress: (address) => {
+            return (dispatch) => {
+                dispatch(HotelSearchActions.setAddress(address));
+                dispatch(change('hotelEditForm', 'address', address || ''));
             }
         }
     }, dispatch);
