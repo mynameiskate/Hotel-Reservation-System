@@ -191,7 +191,7 @@ class HotelActions {
         }
     }
 
-    static editHotel(hotelId, hotelInfo) {
+    static editHotel(hotelId) {
         const editFailure = (id, error) => {
             return {
                 type: hotelConstants.EDIT_HOTEL_FAILURE,
@@ -219,9 +219,27 @@ class HotelActions {
             };
         };
 
-        return dispatch => {
-            dispatch(editRequest(hotelId, hotelInfo));
-            HotelService.update(hotelId, hotelInfo)
+        return (dispatch, stateAccessor) => {
+            const {
+                hotelName,
+                stars,
+                selectedCity,
+                selectedCountry,
+                address
+            } = stateAccessor().search;
+            const hotelModel = {
+                hotelId,
+                name: hotelName,
+                stars,
+                location: {
+                    cityId: selectedCity,
+                    countryId: selectedCountry,
+                    address
+                }
+            }
+
+            dispatch(editRequest(hotelId, hotelModel));
+            HotelService.update(hotelId, hotelModel)
                 .then(handleError)
                 .then(dispatch(editSuccess(hotelId)))
                 .catch(error => dispatch(editFailure(hotelId, error)));

@@ -72,13 +72,14 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const hotelId = ownProps.match.params.id;
     return bindActionCreators({
         init: (id) => HotelActions.showHotel(id),
 
         getLocations: () => HotelActions.getLocations(),
 
-        sendEditRequest: (id, info) => HotelActions.editHotel(id, info),
+        sendEditRequest: () => HotelActions.editHotel(hotelId),
 
         setCurrentCountry: (country) => HotelSearchActions.setCurrentCountry(country),
 

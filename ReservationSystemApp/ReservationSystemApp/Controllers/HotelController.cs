@@ -57,7 +57,7 @@ namespace ReservationSystemApp.Controllers
             return hotel;
         }
 
-        [HttpPut("{hotelId}")]
+        [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Put([FromBody]HotelModel hotelModel)
         {

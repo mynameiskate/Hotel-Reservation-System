@@ -31,6 +31,8 @@ namespace Services.Services
                 var modelList = await _dataContext.Locations
                                 .Include(l => l.City)
                                 .ThenInclude(c => c.Country)
+                                .GroupBy(l => l.CityId)
+                                .Select(group => group.First())
                                 .Select(location => new LocationModel(location))
                                 .ToListAsync();
                 return modelList;

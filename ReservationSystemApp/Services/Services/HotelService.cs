@@ -145,18 +145,16 @@ namespace Services.Services
 
         public async Task UpdateHotelInfo(HotelModel hotelInfo) //TODO: do something with contacts
         {
-            var hotel = await _dataContext.Hotels.FindAsync(hotelInfo.HotelId);
+            var hotel = await _dataContext.Hotels.FirstOrDefaultAsync(h => h.HotelId == hotelInfo.HotelId);
             if (hotel == null)
             {
                 throw new ArgumentException();
             }
 
-            hotel.Location = new Location
-            {
-                Address = hotelInfo.Location.Address,
-                CityId = hotelInfo.Location.CityId,
-                LocationId = hotelInfo.Location.LocationId
-            };
+            var currentLocation = await _dataContext.Locations.FirstOrDefaultAsync(l => l.LocationId == hotel.LocationId);
+            currentLocation.Address = hotelInfo.Location?.Address;
+            currentLocation.CityId = (int)hotelInfo.Location?.CityId;
+            _dataContext.Update(currentLocation);
 
             hotel.Name = hotelInfo.Name;
             hotel.Stars = hotelInfo.Stars;
@@ -167,6 +165,8 @@ namespace Services.Services
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)
         {
+            if (serviceModels == null) return null; 
+
             var existingServices = GetServiceQuery(hotelId);
 
             foreach (var service in existingServices)
