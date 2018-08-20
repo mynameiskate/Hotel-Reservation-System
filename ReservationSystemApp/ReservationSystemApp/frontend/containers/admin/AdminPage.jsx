@@ -56,6 +56,11 @@ class AdminPage extends React.Component {
         this.props.buildQuery(selectedCountry, selectedCity, hotelName);
     }
 
+    removeHotel = (hotelId) => {
+        this.props.removeHotel(hotelId);
+        this.setPage()
+    };
+
     parseDate = (date) => {
         return moment(date);
     }
@@ -81,6 +86,7 @@ class AdminPage extends React.Component {
                         <HotelEditList  info={info}
                                         getDetailsLink={this.props.getDetailsLink}
                                         getEditLink={this.props.getEditLink}
+                                        onDeleteClick={this.removeHotel}
                         />
                     </div>
                       : error ? <h3>Loading error</h3>
@@ -133,6 +139,9 @@ const mapDispatchToProps = (dispatch) => {
                 page
             )
         ),
+
+        removeHotel: (hotelId) => HotelActions.removeHotel(hotelId),
+
         getHotelPage: (search) => HotelSearchActions.loadFromQuery(search)
     }, dispatch);
 

@@ -17,7 +17,8 @@ namespace Services.Extensions
         }
 
         public static IQueryable<Hotel> FilterHotels(this IQueryable<Hotel> hotels,
-            FilteredHotelsRequestModel filters, int maxElapsedMinutes, HotelDbContext dataContext)
+            FilteredHotelsRequestModel filters, int maxElapsedMinutes, HotelDbContext dataContext, 
+            bool availableOnly = true)
         {
             if (filters == null) return hotels;
 
@@ -26,7 +27,8 @@ namespace Services.Extensions
                 return hotels.FilterById(filters.HotelId);
             }
 
-            var filteredList = hotels.FilterByName(filters.Name)
+            var filteredList = hotels.FilterByAvailability(availableOnly)
+                                     .FilterByName(filters.Name)
                                      .FilterByLocation(filters.CountryId, filters.CityId);
 
             var roomList = dataContext.HotelRooms;
@@ -53,6 +55,13 @@ namespace Services.Extensions
             return (string.IsNullOrEmpty(hotelName))
                     ? list
                     : list.Where(h => h.Name == hotelName);
+        }
+
+        static IQueryable<Hotel> FilterByAvailability(this IQueryable<Hotel> list, bool availableOnly)
+        {
+            return (availableOnly)
+                    ? list.Where(h => !h.IsRemoved)
+                    : list;
         }
 
         static IQueryable<Hotel> FilterByLocation(this IQueryable<Hotel> list, string countryId, int? cityId)

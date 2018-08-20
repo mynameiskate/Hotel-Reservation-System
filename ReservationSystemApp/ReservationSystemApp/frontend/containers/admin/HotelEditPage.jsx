@@ -52,7 +52,7 @@ class HotelEditPage extends React.Component {
     }
 
     render() {
-        const { hotelInfo, error, isLoading, locations, selectedCity,
+        const { hotelInfo, error, isLoading, selectedCity,
             selectedCountry, stars, hotelName, address, services, newService,
             newServiceCost } = this.props;
 

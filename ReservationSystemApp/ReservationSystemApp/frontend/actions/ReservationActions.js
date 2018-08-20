@@ -176,7 +176,8 @@ class ReservationActions {
                     dispatch(createSuccess(jsonInfo));
                     return jsonInfo;
                 })
-                .catch(error => dispatch(createFailure(error)));
+                .catch(error => dispatch(createFailure(error)))
+                .then(dispatch(ReservationActions.getServices(hotelId)));
         }
     }
 

@@ -40,8 +40,9 @@ class HotelService {
     }
 
     static remove(id) {
-        const path = links.HOTEL_ID_PAGE(id);
-        const options = RequestOptions.createDeleteOptions();
+        const path = links.HOTEL_API_PAGE(id);
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createDeleteOptions(token);
         return fetch(settings.baseUrl + path, options);
     }
 }

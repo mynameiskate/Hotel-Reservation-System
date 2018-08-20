@@ -72,8 +72,11 @@ class RequestOptions {
                 this.addBody(body, options)));
     }
 
-    static createDeleteOptions() {
+    static createDeleteOptions(token = null) {
         let options = {};
+        if (token) {
+            options = this.addToken(token, options);
+        }
         return this.addMethod('DELETE', options);
     }
 

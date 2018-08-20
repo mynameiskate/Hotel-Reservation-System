@@ -18,6 +18,7 @@ namespace Services.Models
         public List<ContactModel> Contacts { get; set; }
         public List<string> Images { get; set; }
         public List<HotelRoomModel> Rooms { get; set; }
+        public bool IsRemoved { get; set; }
 
         public HotelModel(Hotel hotel)
         {
@@ -26,6 +27,7 @@ namespace Services.Models
                 HotelId = hotel.HotelId;
                 Name = hotel.Name;
                 Stars = hotel.Stars;
+                IsRemoved = hotel.IsRemoved;
                 Location = new LocationModel(hotel.Location);
 
                 IEnumerable<ServiceModel> services = hotel.Services?.Select(s => new ServiceModel(s));

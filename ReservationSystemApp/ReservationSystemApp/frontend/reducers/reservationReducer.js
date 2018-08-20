@@ -154,20 +154,31 @@ export function reservationReducer(state = initialState, action) {
                 }
             }
         case reservationConstants.GET_SERVICES_SUCCESS:
-            return {
-                ...state,
-                services: data.services
+            {
+                const currentServices = data.services;
+                const allServices = state.possibleServices;
+                const possibleServices = allServices && currentServices ?
+                    allServices.filter(as =>
+                        !(currentServices).find(cs => cs.serviceId == as.serviceId)
+                    ) : [];
+                return {
+                    ...state,
+                    services: data.services,
+                    possibleServices
+                }
             }
         case reservationConstants.GET_POSSIBLE_SERVICES_SUCCESS:
-            const allServices = data.services;
-            const currentServices = state.services;
-            const possibleServices = allServices && currentServices ?
-                allServices.filter(as =>
-                    !(currentServices).find(cs => cs.serviceId == as.serviceId)
-                ) : [];
-            return {
-                ...state,
-                possibleServices
+            {
+                const allServices = data.services;
+                const currentServices = state.services;
+                const possibleServices = allServices && currentServices ?
+                    allServices.filter(as =>
+                        !(currentServices).find(cs => cs.serviceId == as.serviceId)
+                    ) : [];
+                return {
+                    ...state,
+                    possibleServices
+                }
             }
         case reservationConstants.UPDATE_REQUEST:
             return {
@@ -218,6 +229,11 @@ export function reservationReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error,
+                isLoading: false
+            }
+        case reservationConstants.CREATE_NEW_SERVICE_SUCCESS:
+            return {
+                ...state,
                 isLoading: false
             }
         default:

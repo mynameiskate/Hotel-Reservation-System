@@ -23,7 +23,7 @@ const ServiceCreationForm = (props) => {
                 onChange={(e) => addCost(e.target.value)}
                 value={newServiceCost}
                 name= {'cost'}
-                label='Cost:'
+                label='New service cost:'
                 component={InputField}
                 validate={[
                     isRequired,
@@ -31,7 +31,7 @@ const ServiceCreationForm = (props) => {
                 ]}
             />
             <button type='submit'
-                    disabled={invalid || pristine || submitting}>
+                    disabled={invalid || pristine || submitting || !newService }>
                 Create service
             </button>
         </form>
