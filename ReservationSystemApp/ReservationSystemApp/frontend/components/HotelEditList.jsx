@@ -12,7 +12,7 @@ const HotelEditList = ( {info, removing, onDeleteClick, getDetailsLink, getEditL
                     <HotelInfo hotel={hotel}/>
                     {removing && <h3>Removing...</h3>}
                     <button onClick={() =>  onDeleteClick(hotel.hotelId)}>Delete</button>
-                    <Link to={getDetailsLink(hotel.hotelId)}>View details</Link>
+                    <Link to={getDetailsLink(hotel.hotelId)}>View rooms</Link>
                     <Link to={getEditLink(hotel.hotelId)}>Edit</Link>
                 </div>
         )}

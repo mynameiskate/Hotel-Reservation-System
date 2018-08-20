@@ -17,7 +17,7 @@ class Checkbox extends React.Component {
   render() {
     const { label, addItem, removeItem } = this.props;
     const { isChecked } = this.state;
-    const callback = isChecked  ? removeItem : addItem;
+    const callback = (isChecked && removeItem) ? removeItem : addItem;
 
     return (
       <div className='checkbox'>

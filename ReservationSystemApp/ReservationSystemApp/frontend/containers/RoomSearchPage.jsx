@@ -35,7 +35,7 @@ class RoomSearchPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const query = nextProps.location.search;
+        const query = nextProps.search;
         this.props.syncParamsWithQuery(query);
     }
 
@@ -137,7 +137,6 @@ class RoomSearchPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        hotelInfo: state.hotels.info,
         hotelError: state.hotels.error,
         isHotelLoading: state.hotels.isLoading,
         loaded: state.hotels.loaded,
