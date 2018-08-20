@@ -23,9 +23,16 @@ namespace ReservationSystemApp.Controllers
 
         // GET: api/hotels/locations
         [HttpGet]
-        public async Task<IEnumerable<LocationModel>> GetLocationList()
+        public async Task<IEnumerable<LocationModel>> GetHotelLocations()
         {
-            return await _locationService.GetLocationList();
+            return await _locationService.GetHotelLocations();
+        }
+
+        // GET: api/hotels/locations/all
+        [HttpGet("all")]
+        public async Task<IEnumerable<LocationModel>> GetAllLocations()
+        {
+            return await _locationService.GetAllLocations();
         }
     }
 }

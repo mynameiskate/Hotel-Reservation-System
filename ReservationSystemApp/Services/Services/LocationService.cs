@@ -24,18 +24,33 @@ namespace Services.Services
             _logger = AppLogging.LoggerFactory.CreateLogger<LocationService>();
         }
 
-        public async Task<IEnumerable<LocationModel>> GetLocationList()
+        public async Task<IEnumerable<LocationModel>> GetAllLocations()
         {
             try
             {
-                var modelList = await _dataContext.Locations
-                                .Include(l => l.City)
-                                .ThenInclude(c => c.Country)
-                                .GroupBy(l => l.CityId)
-                                .Select(group => group.First())
-                                .Select(location => new LocationModel(location))
-                                .ToListAsync();
-                return modelList;
+                return await _dataContext.Cities
+                              .Include(c => c.Country)
+                              .Select(c => new LocationModel(c))
+                              .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<LocationModel>> GetHotelLocations()
+        {
+            try
+            {
+                return await _dataContext.Locations
+                               .Include(l => l.City)
+                               .ThenInclude(c => c.Country)
+                               .GroupBy(l => l.CityId)
+                               .Select(group => group.First())
+                               .Select(location => new LocationModel(location))
+                               .ToListAsync();
             }
             catch (Exception e)
             {

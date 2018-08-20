@@ -154,7 +154,7 @@ const mapDispatchToProps = (dispatch) => {
     const bindedCreators = bindActionCreators({
         syncParamsWithQuery: (query) => HotelSearchActions.syncParamsWithQuery(query),
 
-        getLocations: () => HotelActions.getLocations(),
+        getLocations: () => HotelActions.getHotelLocations(),
 
         buildQuery: (selectedCountry, selectedCity, hotelName, moveInDate, moveOutDate, adults, page = 1) => (
             HotelSearchActions.buildQuery(

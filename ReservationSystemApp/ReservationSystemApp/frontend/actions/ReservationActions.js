@@ -4,6 +4,7 @@ import {
     reservationConstants
 } from '../constants/reservationConstants';
 import RoomService from '../services/RoomService';
+import HotelService from '../services/HotelService';
 import {
     dateFormats
 } from '../constants/dateFormats';
@@ -140,6 +141,45 @@ class ReservationActions {
         }
     }
 
+    static createNewService(hotelId, service) {
+        const createFailure = (error) => {
+            return {
+                type: reservationConstants.CREATE_NEW_SERVICE_FAILURE,
+                payload: {
+                    error
+                }
+            };
+        };
+        const createSuccess = (service) => {
+            return {
+                type: reservationConstants.ADD_SERVICE,
+                payload: {
+                    service
+                }
+            };
+        };
+        const createRequest = (service) => {
+            return {
+                type: reservationConstants.CREATE_NEW_SERVICE_REQUEST,
+                payload: {
+                    service
+                }
+            };
+        };
+
+        return (dispatch) => {
+            dispatch(createRequest(service));
+            HotelService.createNewService(hotelId, service)
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(createSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(createFailure(error)));
+        }
+    }
+
     static addService(service) {
         const addRequest = (service) => {
             return {
@@ -167,6 +207,82 @@ class ReservationActions {
 
         return dispatch => {
             dispatch(addRequest(service));
+        }
+    }
+
+    static addHotelService(service) {
+        const addRequest = (service) => {
+            return {
+                type: reservationConstants.ADD_HOTEL_SERVICE,
+                payload: {
+                    service
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(addRequest(service));
+        }
+    }
+
+    static removeHotelService(id) {
+        const removeRequest = (id) => {
+            return {
+                type: reservationConstants.REMOVE_HOTEL_SERVICE,
+                payload: {
+                    id
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(removeRequest(id));
+        }
+    }
+
+    static chooseNewService(service) {
+        const chooseRequest = (service) => {
+            return {
+                type: reservationConstants.CHOOSE_NEW_SERVICE,
+                payload: {
+                    service
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(chooseRequest(service));
+        }
+    }
+
+    static addNewServiceCost(cost) {
+        const addRequest = (cost) => {
+            return {
+                type: reservationConstants.ADD_NEW_SERVICE_COST,
+                payload: {
+                    cost
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(addRequest(cost));
+        }
+    }
+
+    static updateHotelServiceCost(id, cost) {
+        const updateRequest = (id, cost) => {
+            return {
+                type: reservationConstants.UPDATE_HOTEL_SERVICE_COST,
+                payload: {
+                    id,
+                    cost
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(updateRequest(id, cost));
         }
     }
 
@@ -227,6 +343,43 @@ class ReservationActions {
         return dispatch => {
             dispatch(getRequest());
             RoomService.getServices(id)
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
+    static getPossibleServices() {
+        const getFailure = (error) => {
+            return {
+                type: reservationConstants.GET_POSSIBLE_SERVICES_FAILURE,
+                payload: {
+                    error
+                }
+            };
+        };
+        const getSuccess = (services) => {
+            return {
+                type: reservationConstants.GET_POSSIBLE_SERVICES_SUCCESS,
+                payload: {
+                    services
+                }
+            };
+        };
+        const getRequest = () => {
+            return {
+                type: reservationConstants.GET_POSSIBLE_SERVICES_SUCCESS,
+                payload: {}
+            };
+        };
+
+        return dispatch => {
+            dispatch(getRequest());
+            RoomService.getPossibleServices()
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {

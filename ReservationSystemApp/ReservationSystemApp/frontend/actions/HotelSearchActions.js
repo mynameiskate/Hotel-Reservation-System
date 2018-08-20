@@ -243,7 +243,6 @@ class HotelSearchActions {
     }
 
     static syncParamsWithInfo(hotel) {
-        console.log(hotel);
         const {
             countryId,
             cityId,
@@ -252,7 +251,8 @@ class HotelSearchActions {
 
         const {
             stars,
-            name
+            name,
+            services
         } = hotel;
         return (dispatch) => {
             dispatch(HotelSearchActions.setCurrentCountry(countryId));
@@ -265,6 +265,9 @@ class HotelSearchActions {
             dispatch(HotelSearchActions.setAddress(address));
             dispatch(change('hotelEditForm', 'address', address || ''));
 
+            services.forEach(service =>
+                dispatch(change('hotelEditForm', `cost${service.hotelServiceId}`, service.cost || ''))
+            );
             dispatch(HotelSearchActions.setStars(stars))
         }
     }

@@ -25,6 +25,14 @@ namespace Services.Models
             Address = location?.Address;
         }
 
+        public LocationModel(City city)
+        {
+            City = city.Name;
+            Country = city.Country?.Name;
+            CountryId = city.CountryId;
+            CityId = city.CityId;
+        }
+
         public LocationModel() {}
     }
 }

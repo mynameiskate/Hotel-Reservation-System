@@ -43,10 +43,18 @@ namespace ReservationSystemApp.Controllers
             return await _hotelService.GetHotelRooms(id, requestModel);
         }
 
+        //Get existing services in current hotel
         [HttpGet("{id}/services")]
         public async Task<List<ServiceModel>> GetServiceList(int id)
         {
             return await _hotelService.GetAvailableServices(id);
+        }
+
+        //Get all possible services that can be created for any hotel
+        [HttpGet("services")]
+        public async Task<List<ServiceModel>> GetServiceList()
+        {
+            return await _hotelService.GetPossibleServices();
         }
 
         // GET: api/hotels/details/5
@@ -55,6 +63,29 @@ namespace ReservationSystemApp.Controllers
         {
             var hotel = await _hotelService.GetHotelInfo(id);
             return hotel;
+        }
+
+        [HttpPost("{id}/services")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> CreateHotelService(int id, [FromBody]ServiceModel serviceModel)
+        {
+            try
+            {
+                await _hotelService.CreateHotelService(id, serviceModel);
+                return Ok();
+            }
+            catch (LocationNotFoundException)
+            {
+                return BadRequest();
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPut("{id}")]
@@ -80,7 +111,6 @@ namespace ReservationSystemApp.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminOnly")]
         public IActionResult Delete(int id)

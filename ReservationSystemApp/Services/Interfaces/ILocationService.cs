@@ -7,7 +7,8 @@ namespace Services.Interfaces
 {
     public interface ILocationService
     {
-        Task<IEnumerable<LocationModel>> GetLocationList();
+        Task<IEnumerable<LocationModel>> GetAllLocations();
+        Task<IEnumerable<LocationModel>> GetHotelLocations();
         Task<Location> GetLocation(LocationModel locationModel);
         Task<Location> AddLocation(LocationModel locationModel);
     }

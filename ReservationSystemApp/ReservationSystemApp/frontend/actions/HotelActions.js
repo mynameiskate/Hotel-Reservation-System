@@ -18,7 +18,7 @@ class HotelActions {
         }
     }
 
-    static getLocations() {
+    static getHotelLocations(all=false) {
         const getFailure = (error) => {
             return {
                 type: hotelConstants.GET_LOCATIONS_FAILURE,
@@ -44,7 +44,7 @@ class HotelActions {
 
         return dispatch => {
             dispatch(getRequest());
-            HotelService.getLocations()
+            HotelService.getHotelLocations(all)
                 .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {

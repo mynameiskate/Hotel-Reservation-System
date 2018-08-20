@@ -73,7 +73,7 @@ export function hotelReducer(state = initialState, action) {
         case hotelConstants.EDIT_HOTEL_FAILURE:
             return {
                 ...state,
-                error: data.error,
+                error: `Error occured: ${data.error}`,
                 isLoading: false
             }
         case hotelConstants.SHOW_HOTEL_REQUEST:

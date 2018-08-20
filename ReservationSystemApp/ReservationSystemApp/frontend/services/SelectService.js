@@ -25,12 +25,18 @@ class SelectService {
         }
 
         let selectEntries = this.getEmptyOption();
-
+        const valueMap = [];
         if (options) {
-            options.forEach(obj => selectEntries.push({
-                value: obj[valueProperty],
-                label: obj[labelProperty]
-            }));
+            options.forEach(obj => {
+                const value = obj[valueProperty];
+                if (!valueMap[value]) {
+                    valueMap[value] = true;
+                    selectEntries.push({
+                        value,
+                        label: obj[labelProperty]
+                    })
+                }
+            });
         }
 
         return selectEntries;

@@ -10,8 +10,11 @@ const initialState = {
     reservation: null,
     totalCost: null,
     services: [],
+    possibleServices: [],
     currentRoom: {},
-    moveInTime: '10:00'
+    moveInTime: '10:00',
+    newService: null,
+    newServiceCost: null
 }
 
 export function reservationReducer(state = initialState, action) {
@@ -41,8 +44,7 @@ export function reservationReducer(state = initialState, action) {
                 error: data.error,
                 isLoading: false
             }
-        case reservationConstants.ADD_SERVICE:
-            {
+        case reservationConstants.ADD_SERVICE: {
                 const services = state.reservation.services || [];
                 const {
                     service
@@ -81,10 +83,84 @@ export function reservationReducer(state = initialState, action) {
                     }
                 }
             }
+        case reservationConstants.ADD_HOTEL_SERVICE: {
+                const services = state.services || [];
+                const {
+                    service
+                } = data;
+                const targetIndex = services.findIndex(s => s.hotelServiceId == service.hotelServiceId);
+                const updatedServices = (targetIndex >= 0)
+                                        ? [...services.slice(0, targetIndex),
+                                            {
+                                                ...service,
+                                                isRemoved: false
+                                            },
+                                            ...services.slice(targetIndex + 1)
+                                          ]
+                                        : [...services, {...service, isRemoved: false}];
+                return {
+                    ...state,
+                    services: updatedServices
+                }
+            }
+        case reservationConstants.REMOVE_HOTEL_SERVICE: {
+            const services = state.services || [];
+            const id = data.id;
+            const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+
+            if (targetIndex < 0) {
+                return state;
+            } else {
+                const targetService = services[targetIndex];
+
+                const updatedServices = [
+                    ...services.slice(0, targetIndex),
+                    {
+                        ...targetService,
+                        isRemoved: true
+                    },
+                    ...services.slice(targetIndex + 1)
+                ];
+                return {
+                    ...state,
+                    services: updatedServices
+                }
+            }
+        }
+        case reservationConstants.UPDATE_HOTEL_SERVICE_COST: {
+            const services = state.services || [];
+            const id = data.id;
+            const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+
+            if (targetIndex < 0) {
+                return state;
+            } else {
+                const targetService = services[targetIndex];
+
+                const updatedServices = [
+                    ...services.slice(0, targetIndex),
+                    {
+                        ...targetService,
+                        cost: data.cost
+                    },
+                    ...services.slice(targetIndex + 1)
+                ];
+
+                return {
+                    ...state,
+                    services: updatedServices
+                }
+            }
+        }
         case reservationConstants.GET_SERVICES_SUCCESS:
             return {
                 ...state,
                 services: data.services
+            }
+        case reservationConstants.GET_POSSIBLE_SERVICES_SUCCESS:
+            return {
+                ...state,
+                possibleServices: data.services
             }
         case reservationConstants.UPDATE_REQUEST:
             return {
@@ -104,6 +180,16 @@ export function reservationReducer(state = initialState, action) {
                 ...state,
                 isLoading: false
             }
+        case reservationConstants.CHOOSE_NEW_SERVICE:
+            return {
+                ...state,
+                newService: data.service
+            }
+        case reservationConstants.ADD_NEW_SERVICE_COST:
+            return {
+                ...state,
+                newServiceCost: data.cost
+            }
         case reservationConstants.SET_CURRENT_ROOM:
             return {
                 ...state,
@@ -113,6 +199,19 @@ export function reservationReducer(state = initialState, action) {
             return {
                 ...state,
                 moveInTime: data.moveInTime
+            }
+        case reservationConstants.CREATE_NEW_SERVICE_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                service: data.service
+            }
+        case reservationConstants.CREATE_NEW_SERVICE_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                isLoading: false
             }
         default:
             return state;

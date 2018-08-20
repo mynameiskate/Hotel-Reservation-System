@@ -13,8 +13,15 @@ class HotelService {
         return fetch(settings.baseUrl + path, options);
     }
 
-    static getLocations() {
-        const path = links.LOCATION_LIST;
+    static createNewService(hotelId, service) {
+        const path = links.SERVICE_LIST(hotelId);
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createPostOptions(service, token);
+        return fetch(settings.baseUrl + path, options);
+    }
+
+    static getHotelLocations(all) {
+        const path = all ? links.ALL_LOCATIONS_LIST : links.HOTEL_LOCATIONS_LIST;
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }

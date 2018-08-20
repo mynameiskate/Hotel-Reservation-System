@@ -32,6 +32,12 @@ class RoomService {
         const options = RequestOptions.createGetOptions();
         return fetch(settings.baseUrl + path, options);
     }
+
+    static getPossibleServices() {
+        const path = links.SERVICE_CREATION_LIST;
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
 }
 
 export default RoomService;

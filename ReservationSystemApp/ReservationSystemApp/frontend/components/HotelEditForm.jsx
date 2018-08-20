@@ -3,18 +3,18 @@ import { reduxForm, Field } from 'redux-form';
 import Select from 'react-select';
 
 import InputField from './InputField';
+import ServiceEditor from './ServiceEditor';
 import { isRequired, maxLength } from '../constants/validationRules';
 import SelectService from '../services/SelectService';
 
 const HotelEditForm = (props) => {
     const { handleSubmit, sendRequest, onCancelClick, locations, hotelName,
-        onCitySelect, onCountrySelect, invalid, pristine, submitting, stars,
-        selectedCity, selectedCountry, onNameChange, address,
-        onAddressChange, onStarsChange } = props;
+        onCitySelect, onCountrySelect, stars, selectedCity, selectedCountry,
+        onNameChange, address, onAddressChange, onStarsChange, services,
+        addService, removeService, onCancel, isServiceEditorShown, changeVisibility,
+        updateCost, invalid, pristine, submitting, possibleServices,
+        starOptions, cityOptions, countryOptions } = props;
 
-        const countryOptions = SelectService.getOptions(locations, 'country', 'countryId');  ///!!
-        const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId');
-        const starOptions = SelectService.getNumericOptions(5);
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
             <Field name='name' label='Name' component={InputField}
@@ -46,6 +46,14 @@ const HotelEditForm = (props) => {
             <Field name='address' label='Address' component={InputField}
                    value={hotelName}
                    onChange={e => onAddressChange(e.target.value)}
+            />
+            <ServiceEditor
+                isHideEnabled={(invalid || pristine || submitting) && isServiceEditorShown}
+                isShown={isServiceEditorShown}
+                services={services}
+                changeVisibility={changeVisibility}
+                addService={addService}
+                removeService={removeService}
             />
             <button type='submit'
                     disabled={invalid || pristine || submitting}>

@@ -38,6 +38,27 @@ namespace Services.Services
             return entityList.Where(s => s.HotelId == hotelId && !s.IsRemoved);
         }
 
+        public async Task<List<ServiceModel>> GetPossibleServices()
+        {
+            return await _dataContext.Services
+                    .Select(s => new ServiceModel(s))
+                    .ToListAsync();
+        }
+
+        public async Task<ServiceModel> CreateHotelService(int hotelId, ServiceModel service)
+        {
+            var hotelService = new DataLayer.Entities.HotelService
+            {
+                ServiceId = service.ServiceId,
+                Cost = service.Cost,
+                HotelId = hotelId
+            };
+
+            await _dataContext.HotelServices.AddAsync(hotelService);
+            await _dataContext.SaveChangesAsync();
+            return new ServiceModel(hotelService);
+        }
+
         public async Task<List<ServiceModel>> GetAvailableServices(int hotelId)
         {
             try
@@ -151,16 +172,22 @@ namespace Services.Services
                 throw new ArgumentException();
             }
 
-            var currentLocation = await _dataContext.Locations.FirstOrDefaultAsync(l => l.LocationId == hotel.LocationId);
-            currentLocation.Address = hotelInfo.Location?.Address;
-            currentLocation.CityId = (int)hotelInfo.Location?.CityId;
-            _dataContext.Update(currentLocation);
+            await UpdateLocation(hotel.LocationId, hotelInfo.Location);
 
             hotel.Name = hotelInfo.Name;
             hotel.Stars = hotelInfo.Stars;
             hotel.Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services);
             _dataContext.Update(hotel);
             await _dataContext.SaveChangesAsync();
+        }
+
+        private async Task UpdateLocation(int locationId, LocationModel locationModel)
+        {
+            if (locationModel == null) return;
+            var currentLocation = await _dataContext.Locations.FirstOrDefaultAsync(l => l.LocationId == locationId);
+            currentLocation.Address = locationModel.Address;
+            currentLocation.CityId = (int)locationModel.CityId;
+            _dataContext.Update(currentLocation);
         }
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)

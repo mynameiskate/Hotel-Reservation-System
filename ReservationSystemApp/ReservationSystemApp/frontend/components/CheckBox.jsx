@@ -2,7 +2,7 @@ import React from 'react';
 
 class Checkbox extends React.Component {
   state = {
-    isChecked: false,
+    isChecked: this.props.defaultState
   }
 
   onChange = (callback) => {
@@ -20,7 +20,7 @@ class Checkbox extends React.Component {
     const callback = isChecked  ? removeItem : addItem;
 
     return (
-      <div id={label} className='checkbox'>
+      <div className='checkbox'>
         <label>
           <input
             type='checkbox'
