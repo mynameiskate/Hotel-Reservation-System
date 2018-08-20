@@ -44,7 +44,8 @@ export function reservationReducer(state = initialState, action) {
                 error: data.error,
                 isLoading: false
             }
-        case reservationConstants.ADD_SERVICE: {
+        case reservationConstants.ADD_SERVICE:
+            {
                 const services = state.reservation.services || [];
                 const {
                     service
@@ -83,84 +84,90 @@ export function reservationReducer(state = initialState, action) {
                     }
                 }
             }
-        case reservationConstants.ADD_HOTEL_SERVICE: {
+        case reservationConstants.ADD_HOTEL_SERVICE:
+            {
                 const services = state.services || [];
                 const {
                     service
                 } = data;
                 const targetIndex = services.findIndex(s => s.hotelServiceId == service.hotelServiceId);
-                const updatedServices = (targetIndex >= 0)
-                                        ? [...services.slice(0, targetIndex),
-                                            {
-                                                ...service,
-                                                isRemoved: false
-                                            },
-                                            ...services.slice(targetIndex + 1)
-                                          ]
-                                        : [...services, {...service, isRemoved: false}];
-                return {
-                    ...state,
-                    services: updatedServices
-                }
-            }
-        case reservationConstants.REMOVE_HOTEL_SERVICE: {
-            const services = state.services || [];
-            const id = data.id;
-            const targetIndex = services.findIndex(service => service.hotelServiceId == id);
-
-            if (targetIndex < 0) {
-                return state;
-            } else {
-                const targetService = services[targetIndex];
-
-                const updatedServices = [
-                    ...services.slice(0, targetIndex),
-                    {
-                        ...targetService,
-                        isRemoved: true
+                const updatedServices = (targetIndex >= 0) ? [...services.slice(0, targetIndex), {
+                        ...service,
+                        isRemoved: false
                     },
                     ...services.slice(targetIndex + 1)
-                ];
+                ] : [...services, {...service,
+                    isRemoved: false
+                }];
                 return {
                     ...state,
                     services: updatedServices
                 }
             }
-        }
-        case reservationConstants.UPDATE_HOTEL_SERVICE_COST: {
-            const services = state.services || [];
-            const id = data.id;
-            const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+        case reservationConstants.REMOVE_HOTEL_SERVICE:
+            {
+                const services = state.services || [];
+                const id = data.id;
+                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
 
-            if (targetIndex < 0) {
-                return state;
-            } else {
-                const targetService = services[targetIndex];
+                if (targetIndex < 0) {
+                    return state;
+                } else {
+                    const targetService = services[targetIndex];
 
-                const updatedServices = [
-                    ...services.slice(0, targetIndex),
-                    {
-                        ...targetService,
-                        cost: data.cost
-                    },
-                    ...services.slice(targetIndex + 1)
-                ];
-
-                return {
-                    ...state,
-                    services: updatedServices
+                    const updatedServices = [
+                        ...services.slice(0, targetIndex), {
+                            ...targetService,
+                            isRemoved: true
+                        },
+                        ...services.slice(targetIndex + 1)
+                    ];
+                    return {
+                        ...state,
+                        services: updatedServices
+                    }
                 }
             }
-        }
+        case reservationConstants.UPDATE_HOTEL_SERVICE_COST:
+            {
+                const services = state.services || [];
+                const id = data.id;
+                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+
+                if (targetIndex < 0) {
+                    return state;
+                } else {
+                    const targetService = services[targetIndex];
+
+                    const updatedServices = [
+                        ...services.slice(0, targetIndex), {
+                            ...targetService,
+                            cost: data.cost
+                        },
+                        ...services.slice(targetIndex + 1)
+                    ];
+
+                    return {
+                        ...state,
+                        services: updatedServices
+                    }
+                }
+            }
         case reservationConstants.GET_SERVICES_SUCCESS:
             return {
                 ...state,
                 services: data.services
             }
         case reservationConstants.GET_POSSIBLE_SERVICES_SUCCESS:
+            const allServices = data.services;
+            const currentServices = state.services;
+            const possibleServices = allServices && currentServices ?
+                allServices.filter(as =>
+                    !(currentServices).find(cs => cs.serviceId == as.serviceId)
+                ) : [];
             return {
                 ...state,
-                possibleServices: data.services
+                possibleServices
             }
         case reservationConstants.UPDATE_REQUEST:
             return {

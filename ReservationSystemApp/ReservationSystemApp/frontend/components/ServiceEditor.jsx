@@ -1,18 +1,17 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import Select from 'react-select';
 
 import CheckBox from './CheckBox';
 import InputField from './InputField';
 import { isRequired, isNumber} from '../constants/validationRules';
 
-const ServiceEditor = ( { services, addService, removeService, newService,
-                          isShown, changeVisibility, updateCost, serviceOptions,
-                          isHideEnabled, addNewService } ) => (
+const ServiceEditor = ( { services, addService, removeService, isShown,
+                          changeVisibility, updateCost, isHideEnabled } ) => (
     services
         ? <div>
             <label>Services</label>
             <button
+                type='button'
                 onClick={changeVisibility}
                 disabled={isHideEnabled}
             >

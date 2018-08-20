@@ -5,15 +5,13 @@ import Select from 'react-select';
 import InputField from './InputField';
 import ServiceEditor from './ServiceEditor';
 import { isRequired, maxLength } from '../constants/validationRules';
-import SelectService from '../services/SelectService';
 
 const HotelEditForm = (props) => {
-    const { handleSubmit, sendRequest, onCancelClick, locations, hotelName,
+    const { handleSubmit, sendRequest, onCancelClick, hotelName,
         onCitySelect, onCountrySelect, stars, selectedCity, selectedCountry,
-        onNameChange, address, onAddressChange, onStarsChange, services,
-        addService, removeService, onCancel, isServiceEditorShown, changeVisibility,
-        updateCost, invalid, pristine, submitting, possibleServices,
-        starOptions, cityOptions, countryOptions } = props;
+        onNameChange, onAddressChange, onStarsChange, services, addService,
+        removeService, isServiceEditorShown, changeVisibility, updateCost,
+        invalid, pristine, submitting, starOptions, cityOptions, countryOptions } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -54,6 +52,7 @@ const HotelEditForm = (props) => {
                 changeVisibility={changeVisibility}
                 addService={addService}
                 removeService={removeService}
+                updateCost={updateCost}
             />
             <button type='submit'
                     disabled={invalid || pristine || submitting}>

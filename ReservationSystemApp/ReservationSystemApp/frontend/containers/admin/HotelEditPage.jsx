@@ -63,14 +63,16 @@ class HotelEditPage extends React.Component {
                     <div>
                         <HotelEditForm
                             stars={stars}
-                            starOptions={this.props.getStarOptions()}
                             hotelName={hotelName}
                             address={address}
-                            locations={locations}
-                            selectedCity={selectedCity}
+
+                            starOptions={this.props.getStarOptions()}
                             cityOptions={this.getCityOptions()}
-                            selectedCountry={selectedCountry}
                             countryOptions={this.getCountryOptions()}
+
+                            selectedCity={selectedCity}
+                            selectedCountry={selectedCountry}
+
                             onCitySelect={(city) => this.props.setCurrentCity(city.value)}
                             onCountrySelect={(country) => this.props.setCurrentCountry(country.value)}
                             onNameChange={this.props.setHotelName}
@@ -82,7 +84,6 @@ class HotelEditPage extends React.Component {
 
                             isServiceEditorShown={this.state.isServiceEditorShown}
                             services={services}
-                            possibleServices={this.props.possibleServices}
                             changeVisibility={this.changeServicesVisibility}
                             addService={this.props.addService}
                             removeService={this.props.removeService}

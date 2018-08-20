@@ -18,7 +18,7 @@ class HotelActions {
         }
     }
 
-    static getHotelLocations(all=false) {
+    static getHotelLocations(all = false) {
         const getFailure = (error) => {
             return {
                 type: hotelConstants.GET_LOCATIONS_FAILURE,
@@ -227,6 +227,9 @@ class HotelActions {
                 selectedCountry,
                 address
             } = stateAccessor().search;
+            const {
+                services
+            } = stateAccessor().reservations;
             const hotelModel = {
                 hotelId,
                 name: hotelName,
@@ -235,7 +238,8 @@ class HotelActions {
                     cityId: selectedCity,
                     countryId: selectedCountry,
                     address
-                }
+                },
+                services
             }
 
             dispatch(editRequest(hotelId, hotelModel));

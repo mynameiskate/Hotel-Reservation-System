@@ -199,7 +199,8 @@ namespace Services.Services
             foreach (var service in existingServices)
             {
                 var serviceModel = serviceModels.FirstOrDefault(sm => sm.HotelServiceId == service.HotelServiceId);
-                if (serviceModel == null)
+                service.IsRemoved = (serviceModel == null) || service.IsRemoved;
+                if (serviceModel == null || serviceModel.IsRemoved)
                 {
                     service.IsRemoved = true;
                 }

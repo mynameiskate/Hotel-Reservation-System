@@ -3,14 +3,12 @@ import { reduxForm, Field } from 'redux-form';
 import Select from 'react-select';
 
 import InputField from './InputField';
-import ServiceEditor from './ServiceEditor';
 import { isRequired, isNumber } from '../constants/validationRules';
-import SelectService from '../services/SelectService';
 
 const ServiceCreationForm = (props) => {
-    const { invalid, pristine, submitting, possibleServices, newService,
-            createNewService, newServiceCost, addCost, chooseService,
-            serviceOptions, handleSubmit } = props;
+    const { invalid, pristine, submitting, newService, createNewService,
+            newServiceCost, addCost, chooseService, serviceOptions,
+            handleSubmit } = props;
 
     return (
         <form onSubmit={handleSubmit(() => createNewService(newService, newServiceCost))}>
