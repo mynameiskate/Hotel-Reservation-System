@@ -2,7 +2,7 @@ export const isRequired = value => value ? null : 'Field is required.';
 
 export const isNumber = value => isNaN(value) ? 'A number is required.' : null;
 
-export const maxValue = function(max) {
+export const maxValue = (max) => {
     return value => value && value > max ?
         `Maximum value is ${max}.` :
         null;
@@ -28,5 +28,5 @@ export const minLength = min => {
 
 export const isFullName = () => {
     const regexp = new RegExp('^[a-z]([-\']?[a-z]+)*( [a-z]([-\']?[a-z]+)*)+$');
-    return name => regexp.test(name)?  null : 'Are you sure this is your name?';
+    return name => regexp.test(name) ? null : 'Are you sure this is your name?';
 }

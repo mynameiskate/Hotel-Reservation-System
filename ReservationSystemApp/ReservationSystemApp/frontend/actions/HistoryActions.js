@@ -2,7 +2,9 @@ import {
     push
 } from 'connected-react-router';
 import queryString from 'query-string';
-import { dateFormats } from '../constants/dateFormats';
+import {
+    dateFormats
+} from '../constants/dateFormats';
 
 class HistoryActions {
     static pushUrl(link, query) {
@@ -15,6 +17,10 @@ class HistoryActions {
         return queryString.stringify({
             page
         });
+    }
+
+    static getQueryFromParams(params) {
+        return queryString.stringify(params);
     }
 
     static getQuery(moveInDate, moveOutDate, adults, page = 1) {
@@ -34,8 +40,7 @@ class HistoryActions {
             params.adults = adults;
         }
 
-        const query = queryString.stringify(params);
-        return query;
+        return this.getQueryFromParams(params);
     }
 }
 

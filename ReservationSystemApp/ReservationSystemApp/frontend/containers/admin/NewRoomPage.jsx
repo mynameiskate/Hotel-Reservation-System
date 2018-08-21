@@ -8,7 +8,7 @@ import HotelActions from '../../actions/HotelActions';
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
 
-class RoomEditPage extends React.Component {
+class NewRoomPage extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -28,28 +28,24 @@ class RoomEditPage extends React.Component {
     }
 
     render() {
-        const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error } = this.props;
+        const { cost, adults, isRoomAvailable, roomNumber, isNumberValid } = this.props;
 
         return (
             <div>
-            {
-                currentRoom &&
-                    <RoomEditForm
-                        roomNumber={currentRoom.number}
-                        roomId={currentRoom.id}
-                        cost={cost}
-                        adultsAmount={adults}
-                        isRoomAvailable={isRoomAvailable}
-                        changeAvailability={this.props.changeAvailability}
-                        updateAdultsAmount={this.props.setAdultsAmount}
-                        updateNumber={this.props.setRoomNumber}
-                        updateCost={this.props.setCost}
-                        changeAvailability={this.props.setRoomAvailability}
-                        adultOptions={this.props.getAdultOptions()}
-                        sendRequest={this.props.editRoom}
-                        isNumberValid={isNumberValid}
-                    />
-            }
+                <RoomEditForm
+                    roomNumber={roomNumber}
+                    cost={cost}
+                    adultsAmount={adults}
+                    isRoomAvailable={isRoomAvailable}
+                    changeAvailability={this.props.changeAvailability}
+                    updateAdultsAmount={this.props.setAdultsAmount}
+                    updateNumber={this.props.setRoomNumber}
+                    updateCost={this.props.setCost}
+                    changeAvailability={this.props.setRoomAvailability}
+                    adultOptions={this.props.getAdultOptions()}
+                    sendRequest={this.props.createRoom}
+                    isNumberValid={isNumberValid}
+                />
             </div>
         );
     }
@@ -58,7 +54,6 @@ class RoomEditPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         hotelInfo: state.hotels.loaded,
-        currentRoom: state.rooms.currentRoom,
         cost: state.rooms.cost,
         adults: state.rooms.adults,
         error: state.rooms.error,
@@ -72,13 +67,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     const hotelId = ownProps.match.params.hotelId;
-    const roomId = ownProps.match.params.roomId;
 
     const bindedCreators = bindActionCreators({
         init: () => {
             return dispatch => {
                 dispatch(HotelActions.showHotel(hotelId));
-                dispatch(RoomActions.getHotelRoom(hotelId, roomId));
             }
         },
 
@@ -98,7 +91,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         setRoomAvailability: () => RoomActions.setRoomAvailability(),
 
-        editRoom: () => RoomActions.editRoom(hotelId, roomId),
+        createRoom: () => RoomActions.createRoom(hotelId),
 
         setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number)
     }, dispatch);
@@ -110,4 +103,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoomEditPage);
+export default connect(mapStateToProps, mapDispatchToProps)(NewRoomPage);

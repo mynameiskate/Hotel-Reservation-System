@@ -90,11 +90,11 @@ namespace ReservationSystemApp.Controllers
 
         [HttpPost("{id}/rooms")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> AddHotelRoom(int hotelId, [FromBody]HotelRoomModel roomModel)
+        public async Task<IActionResult> AddHotelRoom(int id, [FromBody]HotelRoomModel roomModel)
         {
             try
             {
-                HotelRoomModel hotelRoom = await _hotelService.AddHotelRoom(hotelId, roomModel);
+                HotelRoomModel hotelRoom = await _hotelService.AddHotelRoom(id, roomModel);
                 return Ok(hotelRoom);
             }
             catch (ArgumentException)

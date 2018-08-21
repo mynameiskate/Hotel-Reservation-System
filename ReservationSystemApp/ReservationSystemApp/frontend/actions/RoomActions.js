@@ -58,13 +58,16 @@ class RoomActions {
     static syncParamsWithInfo(room) {
         const {
             cost,
-            adults
+            adults,
+            roomNumber
         } = room;
         return (dispatch) => {
             dispatch(RoomActions.setAdults(adults));
 
             dispatch(RoomActions.setCost(cost));
             dispatch(change('roomEditForm', 'cost', cost || ''));
+
+            dispatch(change('roomEditForm', 'roomNumber', roomNumber || ''));
         }
     }
 
@@ -164,6 +167,65 @@ class RoomActions {
         }
     }
 
+    static setRoomNumber(hotelId, number) {
+        const setRequest = (number) => {
+            return {
+                type: roomConstants.SET_ROOM_NUMBER_REQUEST,
+                payload: {
+                    number
+                }
+            }
+        }
+
+        const setSuccess = (number) => {
+            return {
+                type: roomConstants.SET_ROOM_NUMBER_SUCCESS,
+                payload: {
+                    number
+                }
+            }
+        }
+
+        const setFailure = () => {
+            return {
+                type: roomConstants.SET_ROOM_NUMBER_FAILURE,
+                payload: {
+                    error: 'Such number already exists!'
+                }
+            }
+        }
+
+        return (dispatch, stateAccessor) => {
+            const {
+                currentRoom
+            } = stateAccessor().rooms;
+
+            if (currentRoom && currentRoom.number == number || !number) {
+                dispatch(setSuccess(number))
+                dispatch(change('roomEditForm', 'roomNumber', number || ''));
+            } else {
+
+                dispatch(setRequest);
+                const query = `?${HistoryActions.getQueryFromParams({
+                    number
+                })}`;
+                RoomService.getRoomPageWithQuery(hotelId, query)
+                    .then(handleError)
+                    .then(result => result.json())
+                    .then(info => {
+                        const room = info.entities[0];
+
+                        if (room) {
+                            dispatch(setFailure())
+                        } else {
+                            dispatch(setSuccess(number))
+                            dispatch(change('roomEditForm', 'roomNumber', number || ''));
+                        }
+                    })
+            }
+        }
+    }
+
     static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
         const paramMoveInDate = MomentExtensions.stringToMoment(params.moveInDate);
@@ -235,14 +297,16 @@ class RoomActions {
             const {
                 cost,
                 adults,
-                isRoomAvailable
+                isRoomAvailable,
+                roomNumber
             } = stateAccessor().rooms;
 
             const roomModel = {
                 id: roomId,
                 cost,
                 adults,
-                isAvailable: isRoomAvailable
+                isAvailable: isRoomAvailable,
+                number: roomNumber
             }
 
             dispatch(editRequest(roomId, roomModel));
@@ -250,6 +314,61 @@ class RoomActions {
                 .then(handleError)
                 .then(dispatch(editSuccess(roomModel)))
                 .catch(error => dispatch(editFailure(roomId, error)));
+        }
+    }
+
+    static createRoom(hotelId) {
+        const createFailure = (error) => {
+            return {
+                type: roomConstants.CREATE_ROOM_FAILURE,
+                payload: {
+                    error
+                }
+            };
+        };
+        const createSuccess = (room) => {
+            return {
+                type: roomConstants.CREATE_ROOM_SUCCESS,
+                payload: {
+                    room
+                }
+            };
+        };
+        const createRequest = (id, roomInfo) => {
+            return {
+                type: roomConstants.CREATE_ROOM_REQUEST,
+                payload: {
+                    id,
+                    roomInfo
+                }
+            };
+        };
+
+        return (dispatch, stateAccessor) => {
+            const {
+                cost,
+                adults,
+                isRoomAvailable,
+                roomNumber
+            } = stateAccessor().rooms;
+
+            const roomModel = {
+                cost,
+                adults,
+                isAvailable: isRoomAvailable,
+                number: roomNumber
+            }
+
+            dispatch(createRequest(roomModel));
+            RoomService.createHotelRoom(hotelId, roomModel)
+                .then(handleError)
+                .then(result => result.json())
+                .then(info => {
+                    dispatch(createSuccess(info));
+                    return info;
+                })
+                .then(dispatch(createSuccess(roomModel)))
+                .catch(error => dispatch(createFailure(error)));
         }
     }
 }

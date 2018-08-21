@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 
 import { links } from '../../config/links';
 import  PageBar from '../../components/PageBar';
@@ -37,6 +38,7 @@ class RoomListPage extends React.Component {
 
         return (
             <div>
+                <Link to={this.props.getCreationLink()}>Add new room</Link>
                 { isLoading
                     ? <h3>Loading rooms...</h3>
                     : ( pageCount
@@ -104,6 +106,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         getEditLink: (roomId) => (
             links.ROOM_ID_EDIT_PAGE(ownProps.match.params.id, roomId)
+        ),
+
+        getCreationLink: () => (
+            links.ROOM_ID_CREATION_PAGE(ownProps.match.params.id)
         )
     }
 }

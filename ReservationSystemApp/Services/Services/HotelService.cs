@@ -230,7 +230,8 @@ namespace Services.Services
                 Adults = roomInfo.Adults,
                 Cost = roomInfo.Cost,
                 Number = roomInfo.Number,
-                IsAvailable = roomInfo.IsAvailable
+                IsAvailable = roomInfo.IsAvailable,
+                RoomTypeId = 1
             };
 
             await _dataContext.HotelRooms.AddAsync(hotelRoom);

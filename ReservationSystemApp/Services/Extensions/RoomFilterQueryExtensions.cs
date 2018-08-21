@@ -27,6 +27,11 @@ namespace Services.Extensions
                 return rooms.FilterById(filters.RoomId);
             }
 
+            if (filters.Number != null)
+            {
+                return rooms.FilterByNumber(filters.Number);
+            }
+
             var filteredList = rooms
                     .FilterByAdultAmount(filters.Adults)
                     .FilterByCost(filters.MinCost, filters.MaxCost)
@@ -41,6 +46,11 @@ namespace Services.Extensions
         static IQueryable<HotelRoom> FilterById(this IQueryable<HotelRoom> list, int? roomId)
         {
             return list.Where(r => r.HotelRoomId == roomId);
+        }
+
+        static IQueryable<HotelRoom> FilterByNumber(this IQueryable<HotelRoom> list, int? number)
+        {
+            return list.Where(r => r.Number == number);
         }
 
         public static IQueryable<HotelRoom> FilterByAdultAmount(this IQueryable<HotelRoom> list, int amount)

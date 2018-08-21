@@ -14,6 +14,13 @@ class RoomService {
         return fetch(settings.baseUrl + path, options);
     }
 
+    static createHotelRoom(hotelId, roomInfo) {
+        let path = links.HOTEL_ID_PAGE(hotelId);
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createPostOptions(roomInfo, token);
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static getHotelRoom(hotelId, roomId) {
         let path = links.ROOM_REQUEST_PATH(hotelId, roomId);
         const options = RequestOptions.createGetOptions();

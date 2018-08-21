@@ -10,7 +10,7 @@ const RoomEditForm = (props) => {
     const { roomNumber, roomId, cost, isRoomAvailable, adultsAmount,
             changeAvailability, updateCost, updateAdultsAmount,
             adultOptions, handleSubmit, sendRequest, invalid, pristine,
-            submitting } = props;
+            submitting, updateNumber, isNumberValid } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -21,6 +21,17 @@ const RoomEditForm = (props) => {
                     label='Is currently available'
                     id={roomId}
                     addItem={() => changeAvailability()}
+                />
+                <Field
+                    onChange={(e) => updateNumber(e.target.value)}
+                    value={roomNumber}
+                    name= 'roomNumber'
+                    label='Room number:'
+                    component={InputField}
+                    validate={[
+                        isRequired,
+                        isNumber
+                    ]}
                 />
                 <Field
                     onChange={(e) => updateCost(e.target.value)}
@@ -40,8 +51,9 @@ const RoomEditForm = (props) => {
                     onChange={adults => updateAdultsAmount(adults)}
                 />
             </div>
+            {!isNumberValid && <h3>Room with given number already exists!</h3>}
             <button type='submit'
-                    disabled={invalid || pristine || submitting}>
+                    disabled={invalid || pristine || submitting || !isNumberValid}>
                 Submit
             </button>
         </form>

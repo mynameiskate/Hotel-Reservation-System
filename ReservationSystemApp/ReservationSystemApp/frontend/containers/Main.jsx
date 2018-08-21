@@ -17,6 +17,7 @@ import HotelEditPage from './admin/HotelEditPage';
 import RoomListPage from './admin/RoomListPage';
 import RoomEditPage from './admin/RoomEditPage';
 import NewHotelPage from './admin/NewHotelPage';
+import NewRoomPage from './admin/NewRoomPage';
 
 class Main extends React.Component {
     constructor(props) {
@@ -69,6 +70,11 @@ class Main extends React.Component {
                         <ProtectedRoute
                             exact path={ links.ROOM_EDIT_PAGE }
                             component={ RoomEditPage }
+                            isPermitted={ isAdmin }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.ROOM_CREATION_PAGE }
+                            component={ NewRoomPage }
                             isPermitted={ isAdmin }
                         />
                     </Switch>

@@ -16,7 +16,9 @@ const initialState = {
     cost: null,
     adults: null,
     currentRoom: null,
-    isRoomAvailable: false
+    isRoomAvailable: false,
+    roomNumber: null,
+    isNumberValid: true
 }
 
 export function roomReducer(state = initialState, action) {
@@ -59,6 +61,20 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 adults: data.adults
             }
+        case roomConstants.SET_ROOM_NUMBER_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                roomNumber: state.roomNumber,
+                isNumberValid: false
+            }
+        case roomConstants.SET_ROOM_NUMBER_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                roomNumber: data.number,
+                isNumberValid: true
+            }
         case roomConstants.SET_AVAILABILITY:
             return {
                 ...state,
@@ -94,7 +110,9 @@ export function roomReducer(state = initialState, action) {
                 cost: room.cost,
                 currentRoom: room,
                 adults: room.adults,
-                isRoomAvailable: room.isAvailable
+                isRoomAvailable: room.isAvailable,
+                roomNumber: room.number,
+                isNumberValid: true
             }
         case roomConstants.GET_ROOM_FAILURE:
             return {
@@ -120,6 +138,25 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 error: `Error occured: ${data.error}`,
                 isLoading: false
+            }
+        case roomConstants.CREATE_ROOM_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true
+            }
+        case roomConstants.CREATE_ROOM_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                isLoading: false,
+                currentRoom: data.room
+            }
+        case roomConstants.CREATE_ROOM_FAILURE:
+            return {
+                ...state,
+                error: `Error occured: ${data.error}`,
+                isLoading: false,
             }
         default:
             return state;

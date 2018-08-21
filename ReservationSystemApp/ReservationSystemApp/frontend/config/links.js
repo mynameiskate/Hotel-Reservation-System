@@ -5,6 +5,8 @@ export const links = {
     HOTEL_PAGE_PATH: '/hotels/:id/rooms',
     HOTEL_SEARCH_PAGE: '/hotels',
     ADMIN_PAGE: '/admin/hotels',
+    ROOM_ID_CREATION_PAGE: (hotelId) => `/admin/new/hotels/${hotelId}/rooms`,
+    ROOM_CREATION_PAGE: '/admin/new/hotels/:hotelId/rooms',
     HOTEL_CREATION_PAGE: '/admin/new/hotels',
     HOTEL_EDIT_ID_PAGE: (id) => `/admin/hotels/${id}`,
     HOTEL_EDIT_PAGE: '/admin/hotels/:id',
