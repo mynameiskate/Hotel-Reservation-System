@@ -204,62 +204,52 @@ class RoomActions {
         }
     }
 
-    static editRoom(roomId) {
-        const editFailure = (id, error) => {
+    static editRoom(hotelId, roomId) {
+        const editFailure = (error) => {
             return {
                 type: roomConstants.EDIT_ROOM_FAILURE,
                 payload: {
-                    id,
                     error
                 }
             };
         };
-        const editSuccess = (id) => {
+        const editSuccess = (room) => {
             return {
                 type: roomConstants.EDIT_ROOM_SUCCESS,
                 payload: {
-                    id
+                    room
                 }
             };
         };
-        const editRequest = (id, hotelInfo) => {
+        const editRequest = (id, roomInfo) => {
             return {
                 type: roomConstants.EDIT_ROOM_REQUEST,
                 payload: {
                     id,
-                    hotelInfo
+                    roomInfo
                 }
             };
         };
 
         return (dispatch, stateAccessor) => {
             const {
-                hotelName,
-                stars,
-                selectedCity,
-                selectedCountry,
-                address
-            } = stateAccessor().search;
-            const {
-                services
-            } = stateAccessor().reservations;
-            const hotelModel = {
-                hotelId,
-                name: hotelName,
-                stars,
-                location: {
-                    cityId: selectedCity,
-                    countryId: selectedCountry,
-                    address
-                },
-                services
+                cost,
+                adults,
+                isRoomAvailable
+            } = stateAccessor().rooms;
+
+            const roomModel = {
+                id: roomId,
+                cost,
+                adults,
+                isAvailable: isRoomAvailable
             }
 
-            dispatch(editRequest(hotelId, hotelModel));
-            HotelService.update(hotelId, hotelModel)
+            dispatch(editRequest(roomId, roomModel));
+            RoomService.updateHotelRoom(hotelId, roomId, roomModel)
                 .then(handleError)
-                .then(dispatch(editSuccess(hotelId)))
-                .catch(error => dispatch(editFailure(hotelId, error)));
+                .then(dispatch(editSuccess(roomModel)))
+                .catch(error => dispatch(editFailure(roomId, error)));
         }
     }
 }

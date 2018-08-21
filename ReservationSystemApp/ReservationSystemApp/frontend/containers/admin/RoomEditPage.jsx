@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { change } from 'redux-form';
 
 import { links } from '../../config/links';
-import  PageBar from '../../components/PageBar';
-import RoomEditList from '../../components/RoomEditList';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
-import HistoryActions from '../../actions/HistoryActions';
-import ReservationActions from '../../actions/ReservationActions';;
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
 
@@ -32,9 +29,7 @@ class RoomEditPage extends React.Component {
     }
 
     render() {
-        const { error, pageCount, cost, adults, nextPage, page,
-            currentRoom, isLoading, isAvailable, hotelInfo } = this.props;
-        const hotelName = hotelInfo ? hotelInfo.name : null;
+        const { error, cost, adults, currentRoom, isRoomAvailable, hotelInfo } = this.props;
 
         return (
             <div>
@@ -45,6 +40,7 @@ class RoomEditPage extends React.Component {
                         roomId={currentRoom.id}
                         cost={cost}
                         adultsAmount={adults}
+                        isRoomAvailable={isRoomAvailable}
                         changeAvailability={this.props.changeAvailability}
                         updateAdultsAmount={this.props.setAdultsAmount}
                         updateCost={this.props.setCost}
@@ -67,15 +63,16 @@ const mapStateToProps = (state) => {
         error: state.rooms.error,
         isLoading: state.rooms.isLoading,
         search: state.router.location.search,
-        isAvailable: state.rooms.isRoomAvailable
+        isRoomAvailable: state.rooms.isRoomAvailable
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+    const hotelId = ownProps.match.params.hotelId;
+    const roomId = ownProps.match.params.roomId;
+
     const bindedCreators = bindActionCreators({
         init: () => {
-            const hotelId = ownProps.match.params.hotelId;
-            const roomId = ownProps.match.params.roomId;
             return dispatch => {
                 dispatch(HotelActions.showHotel(hotelId));
                 dispatch(RoomActions.getHotelRoom(hotelId, roomId));
@@ -98,7 +95,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         setRoomAvailability: () => RoomActions.setRoomAvailability(),
 
-        editRoom: () => {}
+        editRoom: () => RoomActions.editRoom(hotelId, roomId)
     }, dispatch);
 
     return {

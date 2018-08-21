@@ -82,13 +82,17 @@ export function roomReducer(state = initialState, action) {
                 nextPage: null
             }
         case roomConstants.GET_ROOM_SUCCESS:
-            const room = data.roomInfo;
+            const roomInfo = data.roomInfo;
+
+            if (!roomInfo) return state;
+
+            const room = roomInfo.entities[0];
             return {
                 ...state,
                 error: null,
                 isLoading: false,
                 cost: room.cost,
-                currentRoom: room ? room.entities[0] : null,
+                currentRoom: room,
                 adults: room.adults,
                 isRoomAvailable: room.isAvailable
             }
@@ -96,6 +100,25 @@ export function roomReducer(state = initialState, action) {
             return {
                 ...state,
                 error: data.error,
+                isLoading: false
+            }
+        case roomConstants.EDIT_ROOM_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true
+            }
+        case roomConstants.EDIT_ROOM_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                isLoading: false,
+                currentRoom: data.room
+            }
+        case roomConstants.EDIT_ROOM_FAILURE:
+            return {
+                ...state,
+                error: `Error occured: ${data.error}`,
                 isLoading: false
             }
         default:

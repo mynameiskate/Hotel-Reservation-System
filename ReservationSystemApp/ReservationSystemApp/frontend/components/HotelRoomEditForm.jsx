@@ -7,7 +7,7 @@ import InputField from './InputField';
 import { isRequired, isNumber } from '../constants/validationRules';
 
 const RoomEditForm = (props) => {
-    const { roomNumber, roomId, cost, isAvailable, adultsAmount,
+    const { roomNumber, roomId, cost, isRoomAvailable, adultsAmount,
             changeAvailability, updateCost, updateAdultsAmount,
             adultOptions, handleSubmit, sendRequest, invalid, pristine,
             submitting } = props;
@@ -17,7 +17,7 @@ const RoomEditForm = (props) => {
             <div key={roomId}>
                 <h3>Room no. {roomNumber}</h3>
                 <CheckBox
-                    defaultState={!isAvailable}
+                    defaultState={isRoomAvailable}
                     label='Is currently available'
                     id={roomId}
                     addItem={() => changeAvailability()}

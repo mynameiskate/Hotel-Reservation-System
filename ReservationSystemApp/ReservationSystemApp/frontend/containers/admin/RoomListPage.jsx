@@ -31,8 +31,8 @@ class RoomListPage extends React.Component {
     }
 
     render() {
-        const { error, roomInfo, pageCount, cost, adults, nextPage, page,
-            currentRoom, isLoading, isAvailable, hotelInfo } = this.props;
+        const { error, roomInfo, pageCount, nextPage, page,
+               isLoading, hotelInfo } = this.props;
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (

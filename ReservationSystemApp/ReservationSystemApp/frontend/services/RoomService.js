@@ -7,6 +7,13 @@ import {
 import RequestOptions from '../constants/RequestOptions';
 
 class RoomService {
+    static updateHotelRoom(hotelId, roomId, roomInfo) {
+        let path = links.ROOM_ID_PAGE_PATH(hotelId, roomId);
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createPutOptions(roomInfo, token);
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static getHotelRoom(hotelId, roomId) {
         let path = links.ROOM_REQUEST_PATH(hotelId, roomId);
         const options = RequestOptions.createGetOptions();
