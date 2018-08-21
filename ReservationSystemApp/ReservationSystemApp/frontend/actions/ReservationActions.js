@@ -211,6 +211,22 @@ class ReservationActions {
         }
     }
 
+    static updatePossibleServices(serviceId) {
+        const updateRequest = (serviceId) => {
+            return {
+                type: reservationConstants.UPDATE_POSSIBLE_SERVICES,
+                payload: {
+                    serviceId
+                }
+            };
+        }
+
+        return dispatch => {
+            dispatch(updateRequest(serviceId));
+        }
+
+    }
+
     static addHotelService(service) {
         const addRequest = (service) => {
             return {

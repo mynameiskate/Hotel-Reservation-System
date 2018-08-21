@@ -266,7 +266,7 @@ class HotelSearchActions {
             dispatch(change('hotelEditForm', 'address', address || ''));
 
             services.forEach(service =>
-                dispatch(change('hotelEditForm', `cost${service.hotelServiceId}`, service.cost || ''))
+                dispatch(change('hotelEditForm', `cost${service.serviceId}`, service.cost || ''))
             );
             dispatch(HotelSearchActions.setStars(stars))
         }

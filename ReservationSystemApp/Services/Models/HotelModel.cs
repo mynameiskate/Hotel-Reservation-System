@@ -16,7 +16,6 @@ namespace Services.Models
         public LocationModel Location { get; set; }
         public List<ServiceModel> Services { get; set; }
         public List<ContactModel> Contacts { get; set; }
-        public List<string> Images { get; set; }
         public List<HotelRoomModel> Rooms { get; set; }
         public bool IsRemoved { get; set; }
 

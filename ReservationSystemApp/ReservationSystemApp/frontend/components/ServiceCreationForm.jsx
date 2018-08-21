@@ -8,10 +8,10 @@ import { isRequired, isNumber } from '../constants/validationRules';
 const ServiceCreationForm = (props) => {
     const { invalid, pristine, submitting, newService, createNewService,
             newServiceCost, addCost, chooseService, serviceOptions,
-            handleSubmit } = props;
+            handleSubmit, newServiceName } = props;
 
     return (
-        <form onSubmit={handleSubmit(() => createNewService(newService, newServiceCost))}>
+        <form onSubmit={handleSubmit(() => createNewService(newService, newServiceName, newServiceCost))}>
             <label>Add new service</label>
             <Select
                 value = {serviceOptions.find(s => s.value == newService) || {}}

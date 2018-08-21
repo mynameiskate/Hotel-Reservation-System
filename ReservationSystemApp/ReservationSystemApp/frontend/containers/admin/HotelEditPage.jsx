@@ -51,10 +51,15 @@ class HotelEditPage extends React.Component {
         return this.props.getCountryOptions(this.props.locations);
     }
 
+    createNewService = (serviceId, name, cost) => {
+        this.props.addService({ serviceId, name, cost });
+        this.props.updatePossibleServices(serviceId);
+    }
+
     render() {
         const { hotelInfo, error, isLoading, selectedCity,
             selectedCountry, stars, hotelName, address, services, newService,
-            newServiceCost } = this.props;
+            newServiceCost, newServiceName } = this.props;
 
         return (
             <div>
@@ -92,10 +97,11 @@ class HotelEditPage extends React.Component {
                         <ServiceCreationForm
                             newService={newService}
                             newServiceCost={newServiceCost}
+                            newServiceName={newServiceName}
                             addCost={this.props.addNewServiceCost}
                             chooseService={this.props.chooseNewService}
                             serviceOptions={this.getServiceOptions() || []}
-                            createNewService={this.props.createNewService}
+                            createNewService={this.createNewService}
                         />
                         {error && <h3>{error}</h3>}
                     </div>
@@ -123,7 +129,8 @@ const mapStateToProps = (state) => {
         services: state.reservations.services,
         possibleServices: state.reservations.possibleServices,
         newService: state.reservations.newService,
-        newServiceCost: state.reservations.newServiceCost
+        newServiceCost: state.reservations.newServiceCost,
+        newServiceName: state.reservations.newServiceName
     }
 }
 
@@ -182,9 +189,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         getPossibleServices: () => ReservationActions.getPossibleServices(),
 
-        createNewService: (serviceId, cost) => (
-            ReservationActions.createNewService(hotelId, { serviceId, cost })
-        )
+        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId)
     }, dispatch);
 
     return {

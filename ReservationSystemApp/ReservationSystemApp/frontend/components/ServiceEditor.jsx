@@ -21,18 +21,18 @@ const ServiceEditor = ( { services, addService, removeService, isShown,
                 isShown &&
                     <div>
                         {services.map(service =>
-                            <div key={service.hotelServiceId}>
+                            <div key={service.serviceId}>
                                 <CheckBox
                                     defaultState={!service.isRemoved}
                                     label={service.name}
-                                    id={service.hotelServiceId}
+                                    id={service.serviceId}
                                     addItem={() => addService(service)}
-                                    removeItem={() => removeService(service.hotelServiceId)}
+                                    removeItem={() => removeService(service.serviceId)}
                                 />
                                 <Field
-                                    onChange={(e) => updateCost(service.hotelServiceId, e.target.value)}
+                                    onChange={(e) => updateCost(service.serviceId, e.target.value)}
                                     value={service.cost}
-                                    name= {`cost${service.hotelServiceId}`}
+                                    name= {`cost${service.serviceId}`}
                                     label='Cost:'
                                     component={InputField}
                                     validate={[

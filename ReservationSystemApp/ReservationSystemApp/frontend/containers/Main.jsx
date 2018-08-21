@@ -11,10 +11,12 @@ import UserPage from './UserPage';
 import { links } from '../config/links';
 import UserActions from '../actions/UserActions';
 import RoomSearchPage from './RoomSearchPage';
+
 import AdminPage from './admin/AdminPage';
 import HotelEditPage from './admin/HotelEditPage';
 import RoomListPage from './admin/RoomListPage';
 import RoomEditPage from './admin/RoomEditPage';
+import NewHotelPage from './admin/NewHotelPage';
 
 class Main extends React.Component {
     constructor(props) {
@@ -52,6 +54,11 @@ class Main extends React.Component {
                         <ProtectedRoute
                             exact path={ links.HOTEL_EDIT_PAGE }
                             component={ HotelEditPage }
+                            isPermitted={ isAdmin }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.HOTEL_CREATION_PAGE }
+                            component={ NewHotelPage }
                             isPermitted={ isAdmin }
                         />
                         <ProtectedRoute

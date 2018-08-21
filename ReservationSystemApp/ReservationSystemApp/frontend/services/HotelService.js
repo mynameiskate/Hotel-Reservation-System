@@ -13,6 +13,13 @@ class HotelService {
         return fetch(settings.baseUrl + path, options);
     }
 
+    static createHotel(hotelInfo) {
+        const path = links.HOTEL_SEARCH_PAGE;
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createPostOptions(hotelInfo, token);
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static createNewService(hotelId, service) {
         const path = links.SERVICE_LIST(hotelId);
         const token = localStorage.getItem('token');

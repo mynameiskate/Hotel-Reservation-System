@@ -191,6 +191,63 @@ class HotelActions {
         }
     }
 
+    static createHotel() {
+        const createFailure = (error) => {
+            return {
+                type: hotelConstants.CREATE_HOTEL_FAILURE,
+                payload: {
+                    error
+                }
+            };
+        };
+        const createSuccess = (hotel) => {
+            return {
+                type: hotelConstants.CREATE_HOTEL_SUCCESS,
+                payload: {
+                    hotel
+                }
+            };
+        };
+        const createRequest = (hotel) => {
+            return {
+                type: hotelConstants.CREATE_HOTEL_REQUEST,
+                payload: {
+                    hotel
+                }
+            };
+        };
+
+        return (dispatch, stateAccessor) => {
+            const {
+                hotelName,
+                stars,
+                selectedCity,
+                selectedCountry,
+                address
+            } = stateAccessor().search;
+
+            const hotelModel = {
+                name: hotelName,
+                stars,
+                location: {
+                    cityId: selectedCity,
+                    countryId: selectedCountry,
+                    address
+                }
+            }
+
+            dispatch(createRequest(hotelModel));
+            HotelService.createHotel(hotelModel)
+                .then(handleError)
+                .then(result => result.json())
+                .then(info => {
+                    dispatch(createSuccess(info));
+                    return info;
+                })
+                .catch(error => dispatch(createFailure(error)));
+        }
+    }
+
     static editHotel(hotelId) {
         const editFailure = (id, error) => {
             return {

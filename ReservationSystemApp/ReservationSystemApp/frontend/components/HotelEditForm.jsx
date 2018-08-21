@@ -45,15 +45,18 @@ const HotelEditForm = (props) => {
                    value={hotelName}
                    onChange={e => onAddressChange(e.target.value)}
             />
-            <ServiceEditor
-                isHideEnabled={(invalid || pristine || submitting) && isServiceEditorShown}
-                isShown={isServiceEditorShown}
-                services={services}
-                changeVisibility={changeVisibility}
-                addService={addService}
-                removeService={removeService}
-                updateCost={updateCost}
-            />
+
+            { services &&
+                <ServiceEditor
+                    isHideEnabled={(invalid || pristine || submitting) && isServiceEditorShown}
+                    isShown={isServiceEditorShown}
+                    services={services}
+                    changeVisibility={changeVisibility}
+                    addService={addService}
+                    removeService={removeService}
+                    updateCost={updateCost}
+                />
+            }
             <button type='submit'
                     disabled={invalid || pristine || submitting}>
                 Submit

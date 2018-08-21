@@ -14,7 +14,8 @@ const initialState = {
     currentRoom: {},
     moveInTime: '10:00',
     newService: null,
-    newServiceCost: null
+    newServiceCost: null,
+    newServiceName: null
 }
 
 export function reservationReducer(state = initialState, action) {
@@ -63,8 +64,8 @@ export function reservationReducer(state = initialState, action) {
         case reservationConstants.REMOVE_SERVICE:
             {
                 const services = state.reservation.services || [];
-                const id = data.service.hotelServiceId;
-                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+                const id = data.service.serviceId;
+                const targetIndex = services.findIndex(service => service.serviceId == id);
 
                 if (targetIndex < 0) {
                     return state;
@@ -90,7 +91,8 @@ export function reservationReducer(state = initialState, action) {
                 const {
                     service
                 } = data;
-                const targetIndex = services.findIndex(s => s.hotelServiceId == service.hotelServiceId);
+                const targetIndex = services.findIndex(s => s.serviceId == service.serviceId);
+
                 const updatedServices = (targetIndex >= 0) ? [...services.slice(0, targetIndex), {
                         ...service,
                         isRemoved: false
@@ -108,7 +110,7 @@ export function reservationReducer(state = initialState, action) {
             {
                 const services = state.services || [];
                 const id = data.id;
-                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+                const targetIndex = services.findIndex(service => service.serviceId == id);
 
                 if (targetIndex < 0) {
                     return state;
@@ -132,7 +134,7 @@ export function reservationReducer(state = initialState, action) {
             {
                 const services = state.services || [];
                 const id = data.id;
-                const targetIndex = services.findIndex(service => service.hotelServiceId == id);
+                const targetIndex = services.findIndex(service => service.serviceId == id);
 
                 if (targetIndex < 0) {
                     return state;
@@ -199,9 +201,30 @@ export function reservationReducer(state = initialState, action) {
                 isLoading: false
             }
         case reservationConstants.CHOOSE_NEW_SERVICE:
-            return {
-                ...state,
-                newService: data.service
+            {
+                const possibleServices = state.possibleServices;
+                const targetIndex = possibleServices.findIndex(s => s.serviceId == data.service);
+
+                if (targetIndex < 0) {
+                    return state;
+                } else {
+                    const newService = possibleServices[targetIndex];
+
+                    return {
+                        ...state,
+                        newService: data.service,
+                        newServiceName: newService.name
+                    }
+                }
+            }
+        case reservationConstants.UPDATE_POSSIBLE_SERVICES:
+            {
+                const updatedServices = state.possibleServices.filter(s => s.serviceId != data.serviceId)
+                return {
+                    ...state,
+                    possibleServices: updatedServices,
+                    newServiceCost: null
+                }
             }
         case reservationConstants.ADD_NEW_SERVICE_COST:
             return {
@@ -219,11 +242,16 @@ export function reservationReducer(state = initialState, action) {
                 moveInTime: data.moveInTime
             }
         case reservationConstants.CREATE_NEW_SERVICE_REQUEST:
-            return {
-                ...state,
-                error: null,
-                isLoading: true,
-                service: data.service
+            {
+                const {
+                    service
+                } = data;
+                return {
+                    ...state,
+                    error: null,
+                    isLoading: true,
+                    service: service
+                }
             }
         case reservationConstants.CREATE_NEW_SERVICE_FAILURE:
             return {

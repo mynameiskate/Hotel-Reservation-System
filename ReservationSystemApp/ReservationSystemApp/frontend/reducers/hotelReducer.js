@@ -134,6 +134,27 @@ export function hotelReducer(state = initialState, action) {
                 },
                 filters: {}
             }
+        case hotelConstants.CREATE_HOTEL_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                loaded: data.hotel
+            }
+        case hotelConstants.CREATE_HOTEL_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                isLoading: false,
+                loaded: data.hotel
+            }
+        case hotelConstants.CREATE_HOTEL_FAILURE:
+            return {
+                ...state,
+                error: `Error occured: ${data.error}`,
+                isLoading: false,
+                loaded: null
+            }
         default:
             return state;
     }

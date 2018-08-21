@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 
@@ -71,6 +72,7 @@ class AdminPage extends React.Component {
                 error, info } = this.props;
         return(
             <div>
+                <Link to={links.HOTEL_CREATION_PAGE}>Add new hotel</Link>
                 <HotelFilter  locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
