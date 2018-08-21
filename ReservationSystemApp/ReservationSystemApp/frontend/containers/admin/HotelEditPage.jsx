@@ -54,6 +54,7 @@ class HotelEditPage extends React.Component {
     createNewService = (serviceId, name, cost) => {
         this.props.addService({ serviceId, name, cost });
         this.props.updatePossibleServices(serviceId);
+        this.props.addNewServiceCost();
     }
 
     render() {
@@ -167,7 +168,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             }
         },
 
-        addService: (service) => ReservationActions.addHotelService(service),
+        addService: (service) => {
+            return dispatch => {
+                dispatch(ReservationActions.addHotelService(service));
+                dispatch(change('hotelEditForm', `cost${service.serviceId}`, service.cost || ''));
+            }
+        },
 
         removeService: (id) => ReservationActions.removeHotelService(id),
 
@@ -178,7 +184,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             }
         },
 
-        addNewServiceCost: (cost) => {
+        addNewServiceCost: (cost = null) => {
             return dispatch => {
                 dispatch(ReservationActions.addNewServiceCost(cost));
                 dispatch(change('serviceCreationForm', 'cost', cost || ''));

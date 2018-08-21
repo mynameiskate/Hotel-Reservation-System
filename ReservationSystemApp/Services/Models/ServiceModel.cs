@@ -17,7 +17,7 @@ namespace Services.Models
             if (service != null)
             {
                 ServiceId = service.ServiceId;
-                //HotelServiceId = service.HotelServiceId;
+                HotelServiceId = service.HotelServiceId;
                 Name = serviceName;
                 Cost = service.Cost;
                 IsRemoved = service.IsRemoved;

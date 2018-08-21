@@ -226,6 +226,10 @@ class HotelActions {
                 address
             } = stateAccessor().search;
 
+            const {
+                services
+            } = stateAccessor().reservations;
+
             const hotelModel = {
                 name: hotelName,
                 stars,
@@ -233,7 +237,8 @@ class HotelActions {
                     cityId: selectedCity,
                     countryId: selectedCountry,
                     address
-                }
+                },
+                services
             }
 
             dispatch(createRequest(hotelModel));

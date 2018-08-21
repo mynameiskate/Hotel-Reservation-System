@@ -206,8 +206,9 @@ namespace Services.Services
                     Address = hotelInfo.Location.Address,
                     CityId = hotelInfo.Location.CityId,
                 },
-                Stars = hotelInfo.Stars
-            };
+                Stars = hotelInfo.Stars,
+                Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services)
+        };
 
             await _dataContext.Hotels.AddAsync(hotel);
             await _dataContext.SaveChangesAsync();
@@ -250,7 +251,8 @@ namespace Services.Services
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)
         {
-            if (serviceModels == null) return null; 
+
+            if (serviceModels == null) return null;
 
             var existingServices = GetServiceQuery(hotelId);
 
@@ -258,17 +260,27 @@ namespace Services.Services
             {
                 var serviceModel = serviceModels.FirstOrDefault(sm => sm.ServiceId == service.ServiceId);
                 service.IsRemoved = (serviceModel == null) || service.IsRemoved;
-                if (serviceModel == null || serviceModel.IsRemoved)
-                {
-                    service.IsRemoved = true;
-                }
-                else
-                {
-                    service.Cost = serviceModel.Cost;
-                }
+                service.Cost = serviceModel.Cost;
             }
 
-            return await existingServices.ToListAsync();         
+            var newServices = serviceModels.Where(model => 
+                !existingServices.Any(service => service.ServiceId == model.ServiceId)
+            );
+
+            var services = await existingServices.ToListAsync();
+
+            foreach (var serviceModel in newServices)
+            {
+                services.Add(new DataLayer.Entities.HotelService
+                {
+                    HotelId = hotelId,
+                    Cost = serviceModel.Cost,
+                    IsRemoved = serviceModel.IsRemoved,
+                    ServiceId = serviceModel.ServiceId,
+                });
+            }
+
+            return services;
         }
 
         public void Delete(int id)

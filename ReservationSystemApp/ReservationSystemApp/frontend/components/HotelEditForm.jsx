@@ -16,7 +16,7 @@ const HotelEditForm = (props) => {
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
             <Field name='name' label='Name' component={InputField}
-                validate={[isRequired, maxLength(20)]}
+                validate={[isRequired, maxLength(100)]}
                 onChange={e => onNameChange(e.target.value)}
                 value={hotelName}
             />

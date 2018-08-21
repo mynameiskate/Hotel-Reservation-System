@@ -5,7 +5,9 @@ import { change } from 'redux-form';
 
 import HotelSearchActions from '../../actions/HotelSearchActions';
 import HotelActions from '../../actions/HotelActions';
+import ReservationActions from '../../actions/ReservationActions';
 import HotelEditForm from '../../components/HotelEditForm';
+import ServiceCreationForm from '../../components/ServiceCreationForm';
 import SelectService from '../../services/SelectService';
 
 class NewHotelPage extends React.Component {
@@ -19,6 +21,7 @@ class NewHotelPage extends React.Component {
 
     componentDidMount() {
         this.props.getLocations();
+        this.props.getPossibleServices();
     }
 
     changeServicesVisibility = () => {
@@ -41,37 +44,56 @@ class NewHotelPage extends React.Component {
         return this.props.getCountryOptions(this.props.locations);
     }
 
+    createNewService = (serviceId, name, cost) => {
+        this.props.addService({ serviceId, name, cost });
+        this.props.updatePossibleServices(serviceId);
+        this.props.addNewServiceCost();
+    }
+
     render() {
-        const { error, isLoading, selectedCity, address,
-                selectedCountry, stars, hotelName } = this.props;
+        const { error, isLoading, selectedCity, selectedCountry,
+                stars, hotelName, address, services, newService,
+                newServiceCost, newServiceName } = this.props;
 
         return (
             <div>
                 { isLoading && <h2>Loading..</h2>}
-                <div>
-                    <HotelEditForm
-                        stars={stars}
-                        hotelName={hotelName}
-                        address={address}
+                <HotelEditForm
+                    stars={stars}
+                    hotelName={hotelName}
+                    address={address}
 
-                        starOptions={this.props.getStarOptions()}
-                        cityOptions={this.getCityOptions()}
-                        countryOptions={this.getCountryOptions()}
+                    starOptions={this.props.getStarOptions()}
+                    cityOptions={this.getCityOptions()}
+                    countryOptions={this.getCountryOptions()}
 
-                        selectedCity={selectedCity}
-                        selectedCountry={selectedCountry}
+                    selectedCity={selectedCity}
+                    selectedCountry={selectedCountry}
 
-                        onCitySelect={(city) => this.props.setCurrentCity(city.value)}
-                        onCountrySelect={(country) => this.props.setCurrentCountry(country.value)}
-                        onNameChange={this.props.setHotelName}
-                        onAddressChange={this.props.setCurrentAddress}
-                        onStarsChange={this.props.setStars}
-                        sendRequest={this.props.sendCreateRequest}
+                    onCitySelect={(city) => this.props.setCurrentCity(city.value)}
+                    onCountrySelect={(country) => this.props.setCurrentCountry(country.value)}
+                    onNameChange={this.props.setHotelName}
+                    onAddressChange={this.props.setCurrentAddress}
+                    onStarsChange={this.props.setStars}
+                    sendRequest={this.props.sendCreateRequest}
 
-                        isServiceEditorShown={false}
-                    />
-                    {error && <h3>{error}</h3>}
-                </div>
+                    isServiceEditorShown={this.state.isServiceEditorShown}
+                    services={services}
+                    changeVisibility={this.changeServicesVisibility}
+                    addService={this.props.addService}
+                    removeService={this.props.removeService}
+                    updateCost={this.props.updateServiceCost}
+                />
+                <ServiceCreationForm
+                    newService={newService}
+                    newServiceCost={newServiceCost}
+                    newServiceName={newServiceName}
+                    addCost={this.props.addNewServiceCost}
+                    chooseService={this.props.chooseNewService}
+                    serviceOptions={this.getServiceOptions() || []}
+                    createNewService={this.createNewService}
+                />
+                {error && <h3>{error}</h3>}
             </div>
         );
     }
@@ -79,7 +101,6 @@ class NewHotelPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        hotelId: state.hotels.hotelId,
         hotelName: state.search.hotelName,
         userInfo: state.users.info,
         info: state.hotels.info,
@@ -93,6 +114,11 @@ const mapStateToProps = (state) => {
         selectedCity: state.search.selectedCity,
         stars: state.search.stars,
         address: state.search.address,
+        services: state.reservations.services,
+        possibleServices: state.reservations.possibleServices,
+        newService: state.reservations.newService,
+        newServiceCost: state.reservations.newServiceCost,
+        newServiceName: state.reservations.newServiceName
     }
 }
 
@@ -122,11 +148,41 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(HotelSearchActions.setAddress(address));
                 dispatch(change('hotelEditForm', 'address', address || ''));
             }
-        }
+        },
+
+        addService: (service) => {
+            return dispatch => {
+                dispatch(ReservationActions.addHotelService(service));
+                dispatch(change('hotelEditForm', `cost${service.serviceId}`, service.cost || ''));
+            }
+        },
+
+        removeService: (id) => ReservationActions.removeHotelService(id),
+
+        updateServiceCost: (id, cost) => {
+            return (dispatch) => {
+                dispatch(ReservationActions.updateHotelServiceCost(id, cost));
+                dispatch(change('hotelEditForm', `cost${id}`, cost || ''));
+            }
+        },
+
+        addNewServiceCost: (cost = null) => {
+            return dispatch => {
+                dispatch(ReservationActions.addNewServiceCost(cost));
+                dispatch(change('serviceCreationForm', 'cost', cost || ''));
+            }
+        },
+
+        chooseNewService: (service) => ReservationActions.chooseNewService(service),
+
+        getPossibleServices: () => ReservationActions.getPossibleServices(),
+
+        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId)
     }, dispatch);
 
     return {
         ...bindedCreators,
+        getServiceOptions: (services) => SelectService.getOptions(services, 'name', 'serviceId'),
 
         getCountryOptions: (locations) =>  SelectService.getOptions(locations, 'country', 'countryId'),
 

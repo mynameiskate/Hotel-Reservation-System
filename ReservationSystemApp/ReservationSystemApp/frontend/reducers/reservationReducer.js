@@ -151,7 +151,8 @@ export function reservationReducer(state = initialState, action) {
 
                     return {
                         ...state,
-                        services: updatedServices
+                        services: updatedServices,
+                        newServiceCost: data.cost
                     }
                 }
             }
