@@ -181,10 +181,68 @@ namespace Services.Services
             await _dataContext.SaveChangesAsync();
         }
 
+        public async Task UpdateHotelRoomInfo(int hotelId, HotelRoomModel roomInfo) 
+        {
+            var hotelRoom = await _dataContext.HotelRooms.FindAsync(roomInfo.Id);
+            if (hotelRoom == null)
+            {
+                throw new ArgumentException();
+            }
+
+            hotelRoom.Cost = roomInfo.Cost;
+            hotelRoom.Adults = roomInfo.Adults;
+            hotelRoom.IsAvailable = roomInfo.IsAvailable;
+            
+            await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task<HotelModel> AddHotel(HotelModel hotelInfo)
+        {
+            var hotel = new Hotel
+            {
+                Name = hotelInfo.Name,
+                Location = new Location
+                {
+                    Address = hotelInfo.Location.Address,
+                    CityId = hotelInfo.Location.CityId,
+                },
+                Stars = hotelInfo.Stars
+            };
+
+            await _dataContext.Hotels.AddAsync(hotel);
+            await _dataContext.SaveChangesAsync();
+
+            return new HotelModel(hotel);
+        }
+
+        public async Task<HotelRoomModel> AddHotelRoom(int hotelId, HotelRoomModel roomInfo)
+        {
+            var hotel = await _dataContext.Hotels.FindAsync(hotelId);
+            if (hotel == null)
+            {
+                throw new ArgumentException();
+            }
+
+            var hotelRoom = new HotelRoom
+            {
+                HotelId = hotelId,
+                Adults = roomInfo.Adults,
+                Cost = roomInfo.Cost,
+                Number = roomInfo.Number,
+                IsAvailable = roomInfo.IsAvailable
+            };
+
+            await _dataContext.HotelRooms.AddAsync(hotelRoom);
+            await _dataContext.SaveChangesAsync();
+
+            return new HotelRoomModel(hotelRoom);
+        }
+
+
         private async Task UpdateLocation(int locationId, LocationModel locationModel)
         {
             if (locationModel == null) return;
-            var currentLocation = await _dataContext.Locations.FirstOrDefaultAsync(l => l.LocationId == locationId);
+            var currentLocation = await _dataContext.Locations.FirstAsync(l => l.LocationId == locationId);
             currentLocation.Address = locationModel.Address;
             currentLocation.CityId = (int)locationModel.CityId;
             _dataContext.Update(currentLocation);

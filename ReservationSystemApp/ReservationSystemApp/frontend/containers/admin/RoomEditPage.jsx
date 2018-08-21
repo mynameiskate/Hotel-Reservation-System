@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { links } from '../../config/links';
-import  PageBar  from '../../components/PageBar';
+import  PageBar from '../../components/PageBar';
+import RoomEditList from '../../components/RoomEditList';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import HistoryActions from '../../actions/HistoryActions';
 import ReservationActions from '../../actions/ReservationActions';;
+import RoomEditForm from '../../components/HotelRoomEditForm';
+import SelectService from '../../services/SelectService';
 
 class RoomEditPage extends React.Component {
     constructor(props) {
@@ -15,12 +18,11 @@ class RoomEditPage extends React.Component {
     }
 
     getHotelId() {
-        return this.props.match.params.id;
+        return this.props.match.params.hotelId;
     }
 
     componentDidMount() {
        this.props.init(this.getHotelId());
-       this.props.getRoomPage(this.props.location.search);
     }
 
     componentDidUpdate(prevProps) {
@@ -30,32 +32,27 @@ class RoomEditPage extends React.Component {
     }
 
     render() {
-        const { error, roomInfo, pageCount, cost, adults, nextPage, page,
+        const { error, pageCount, cost, adults, nextPage, page,
             currentRoom, isLoading, isAvailable, hotelInfo } = this.props;
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (
             <div>
-                { isLoading
-                    ? <h3>Loading rooms...</h3>
-                    : ( pageCount
-                        ? <div>
-                            { <h3>Rooms in {hotelName}</h3>}
-                            {   roomInfo &&
-                                <div>some room info with edit button (probably)</div>
-                            }
-                            {error && <h4>An error occured during load.</h4>}
-                            {!isLoading &&
-                                <PageBar currentPage={page}
-                                    nextPage={nextPage}
-                                    goToPage={(num) => this.props.buildQuery(num)}/>
-                            }
-                        </div>
-                        : <div>
-                            <h3>No rooms found.</h3>
-                        </div>
-                    )
-                }
+            {
+                currentRoom &&
+                    <RoomEditForm
+                        roomNumber={currentRoom.number}
+                        roomId={currentRoom.id}
+                        cost={cost}
+                        adultsAmount={adults}
+                        changeAvailability={this.props.changeAvailability}
+                        updateAdultsAmount={this.props.setAdultsAmount}
+                        updateCost={this.props.setCost}
+                        changeAvailability={this.props.setRoomAvailability}
+                        adultOptions={this.props.getAdultOptions()}
+                        sendRequest={this.props.editRoom}
+                    />
+            }
             </div>
         );
     }
@@ -67,12 +64,8 @@ const mapStateToProps = (state) => {
         currentRoom: state.rooms.currentRoom,
         cost: state.rooms.cost,
         adults: state.rooms.adults,
-        roomInfo: state.rooms.info,
         error: state.rooms.error,
         isLoading: state.rooms.isLoading,
-        page: state.rooms.page,
-        nextPage: state.rooms.nextPage,
-        pageCount: state.rooms.pageCount,
         search: state.router.location.search,
         isAvailable: state.rooms.isRoomAvailable
     }
@@ -80,24 +73,42 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     const bindedCreators = bindActionCreators({
-        init: (id) => HotelActions.showHotel(id),
+        init: () => {
+            const hotelId = ownProps.match.params.hotelId;
+            const roomId = ownProps.match.params.roomId;
+            return dispatch => {
+                dispatch(HotelActions.showHotel(hotelId));
+                dispatch(RoomActions.getHotelRoom(hotelId, roomId));
+            }
+        },
 
-        getRoomPage: (search) => RoomActions.loadFromQuery(ownProps.match.params.id, search),
+        setCost: (cost) => {
+            return dispatch => {
+                dispatch(RoomActions.setCost(cost));
+                dispatch(change('roomEditForm', 'cost', cost || ''));
+            }
+        },
 
-        pushUrl: (link, query) => HistoryActions.pushUrl(link, query),
+        setAdultsAmount: (adults) => {
+            const { value } = adults;
+            return dispatch => {
+                dispatch(RoomActions.setAdults(value));
+            }
+        },
 
-        buildQuery: (page = 1) => (
-            RoomActions.buildQuery(
-                links.ROOM_ID_PAGE(ownProps.match.params.id),
-                null, null, null, page)
-        ),
+        setRoomAvailability: () => RoomActions.setRoomAvailability(),
 
-        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room)
+        editRoom: () => {}
     }, dispatch);
 
     return {
         ...bindedCreators,
-        getHotelId: () => ownProps.hotelId
+
+        getEditLink: (roomId) => (
+            links.ROOM_ID_EDIT_PAGE(ownProps.match.params.hotelId, roomId)
+        ),
+
+        getAdultOptions: () => SelectService.getNumericOptions(10)
     }
 }
 

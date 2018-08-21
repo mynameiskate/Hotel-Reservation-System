@@ -7,6 +7,12 @@ import {
 import RequestOptions from '../constants/RequestOptions';
 
 class RoomService {
+    static getHotelRoom(hotelId, roomId) {
+        let path = links.ROOM_REQUEST_PATH(hotelId, roomId);
+        const options = RequestOptions.createGetOptions();
+        return fetch(settings.baseUrl + path, options);
+    }
+
     static getRoomPageWithQuery(id, query = '') {
         let path = `${links.ROOM_ID_PAGE(id)}${query}`;
         const options = RequestOptions.createGetOptions();

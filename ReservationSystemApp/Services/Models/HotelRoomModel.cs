@@ -10,7 +10,7 @@ namespace Services.Models
         public int Id { get; set; }
         [Required]
         public int Number { get; set; }
-        public bool Available { get; set; }
+        public bool IsAvailable { get; set; }
         public double Size { get; set; }
         public double Cost { get; set; }
         public int Adults { get; set; }
@@ -23,7 +23,7 @@ namespace Services.Models
             {
                 Id = room.HotelRoomId;
                 Number = room.Number;
-                Available = room.IsAvailable;
+                IsAvailable = room.IsAvailable;
                 Size = room.Size;
                 Cost = room.Cost;
                 Adults = room.Adults;

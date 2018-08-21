@@ -13,6 +13,7 @@ import UserActions from '../actions/UserActions';
 import RoomSearchPage from './RoomSearchPage';
 import AdminPage from './admin/AdminPage';
 import HotelEditPage from './admin/HotelEditPage';
+import RoomListPage from './admin/RoomListPage';
 import RoomEditPage from './admin/RoomEditPage';
 
 class Main extends React.Component {
@@ -55,6 +56,11 @@ class Main extends React.Component {
                         />
                         <ProtectedRoute
                             exact path={ links.ADMIN_ROOM_LIST_PAGE }
+                            component={ RoomListPage }
+                            isPermitted={ isAdmin }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.ROOM_EDIT_PAGE }
                             component={ RoomEditPage }
                             isPermitted={ isAdmin }
                         />

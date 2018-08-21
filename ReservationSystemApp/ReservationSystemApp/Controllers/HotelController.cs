@@ -59,7 +59,7 @@ namespace ReservationSystemApp.Controllers
 
         // GET: api/hotels/details/5
         [HttpGet("{id}/details")]
-        public async Task<HotelModel> Get(int id)
+        public async Task<HotelModel> GetHotelInfo(int id)
         {
             var hotel = await _hotelService.GetHotelInfo(id);
             return hotel;
@@ -88,9 +88,47 @@ namespace ReservationSystemApp.Controllers
             }
         }
 
+        [HttpPost("{id}/rooms")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> AddHotelRoom(int hotelId, [FromBody]HotelRoomModel roomModel)
+        {
+            try
+            {
+                HotelRoomModel hotelRoom = await _hotelService.AddHotelRoom(hotelId, roomModel);
+                return Ok(hotelRoom);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> AddHotel([FromBody]HotelModel hotelModel)
+        {
+            try
+            {
+                HotelModel hotel = await _hotelService.AddHotel(hotelModel);
+                return Ok(hotel);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> Put([FromBody]HotelModel hotelModel)
+        public async Task<IActionResult> UpdateHotelInfo([FromBody]HotelModel hotelModel)
         {
             try
             {
@@ -111,9 +149,28 @@ namespace ReservationSystemApp.Controllers
             }
         }
 
+        [HttpPut("{hotelId}/rooms/{roomId}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> UpdateHotelRoomInfo(int hotelId, [FromBody]HotelRoomModel roomModel)
+        {
+            try
+            {
+                await _hotelService.UpdateHotelRoomInfo(hotelId, roomModel);
+                return Ok();
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpDelete("{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteHotel(int id)
         {
             _hotelService.Delete(id);
             return Ok();

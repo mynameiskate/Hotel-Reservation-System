@@ -12,7 +12,11 @@ const initialState = {
     pageCount: 1,
     nextPage: null,
     adults: null,
-    currentRoomId: null
+    currentRoomId: null,
+    cost: null,
+    adults: null,
+    currentRoom: null,
+    isRoomAvailable: false
 }
 
 export function roomReducer(state = initialState, action) {
@@ -55,10 +59,44 @@ export function roomReducer(state = initialState, action) {
                 ...state,
                 adults: data.adults
             }
+        case roomConstants.SET_AVAILABILITY:
+            return {
+                ...state,
+                isRoomAvailable: !state.isRoomAvailable
+            }
+        case roomConstants.SET_ROOM_COST:
+            return {
+                ...state,
+                cost: data.cost
+            }
         case roomConstants.SET_CURRENT_ROOM_PAGE:
             return {
                 ...state,
                 page: data.currentPage
+            }
+        case roomConstants.GET_ROOM_REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                nextPage: null
+            }
+        case roomConstants.GET_ROOM_SUCCESS:
+            const room = data.roomInfo;
+            return {
+                ...state,
+                error: null,
+                isLoading: false,
+                cost: room.cost,
+                currentRoom: room ? room.entities[0] : null,
+                adults: room.adults,
+                isRoomAvailable: room.isAvailable
+            }
+        case roomConstants.GET_ROOM_FAILURE:
+            return {
+                ...state,
+                error: data.error,
+                isLoading: false
             }
         default:
             return state;

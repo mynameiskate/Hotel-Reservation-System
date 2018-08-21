@@ -9,7 +9,8 @@ import { isRequired, isNumber } from '../constants/validationRules';
 const RoomEditForm = (props) => {
     const { roomNumber, roomId, cost, isAvailable, adultsAmount,
             changeAvailability, updateCost, updateAdultsAmount,
-            adultOptions } = props;
+            adultOptions, handleSubmit, sendRequest, invalid, pristine,
+            submitting } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -19,12 +20,12 @@ const RoomEditForm = (props) => {
                     defaultState={!isAvailable}
                     label='Is currently available'
                     id={roomId}
-                    addItem={() => changeAvailability(roomId)}
+                    addItem={() => changeAvailability()}
                 />
                 <Field
-                    onChange={(e) => updateCost(roomId, e.target.value)}
+                    onChange={(e) => updateCost(e.target.value)}
                     value={cost}
-                    name= {`cost${roomId}`}
+                    name= 'cost'
                     label='Cost:'
                     component={InputField}
                     validate={[
@@ -32,6 +33,7 @@ const RoomEditForm = (props) => {
                         isNumber
                     ]}
                 />
+                <label>Adults amount</label>
                 <Select
                     value={adultOptions.find(o => o.value == adultsAmount) || {}}
                     options={adultOptions}
@@ -42,7 +44,6 @@ const RoomEditForm = (props) => {
                     disabled={invalid || pristine || submitting}>
                 Submit
             </button>
-            <button type='button' onClick={onCancelClick}>Cancel</button>
         </form>
     );
 }

@@ -1,5 +1,6 @@
 export const links = {
     HOTEL_REQUEST_PATH: (id) => `/hotels?hotelId=${id}`,
+    ROOM_REQUEST_PATH: (hotelId, roomId) => `/hotels/${hotelId}/rooms?roomId=${roomId}`,
     MAIN_PAGE_PATH: '/',
     HOTEL_PAGE_PATH: '/hotels/:id/rooms',
     HOTEL_SEARCH_PAGE: '/hotels',
@@ -7,6 +8,8 @@ export const links = {
     HOTEL_EDIT_ID_PAGE: (id) => `/admin/hotels/${id}`,
     HOTEL_EDIT_PAGE: '/admin/hotels/:id',
     ADMIN_ROOM_LIST_PAGE: '/admin/hotels/:id/rooms',
+    ROOM_EDIT_PAGE:  '/admin/hotels/:hotelId/rooms/:roomId',
+    ROOM_ID_EDIT_PAGE: (hotelId, roomId) => `/admin/hotels/${hotelId}/rooms/${roomId}`,
     ADMIN_HOTEL_ID_PAGE: (id) => `/admin/hotels/${id}/rooms`,
     HOTEL_ID_SEARCH_PAGE: (page) => `/hotels?page=${page}`,
     HOTEL_ID_PAGE: (id) => `/hotels/${id}/rooms`,

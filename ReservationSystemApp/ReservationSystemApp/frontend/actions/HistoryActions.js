@@ -2,6 +2,7 @@ import {
     push
 } from 'connected-react-router';
 import queryString from 'query-string';
+import { dateFormats } from '../constants/dateFormats';
 
 class HistoryActions {
     static pushUrl(link, query) {
@@ -22,11 +23,11 @@ class HistoryActions {
         };
 
         if (moveInDate) {
-            params.moveInDate = moveInDate.format('YYYY/MM/DD');
+            params.moveInDate = moveInDate.format(dateFormats.REQUEST_DATE_FORMAT);
         }
 
         if (moveOutDate) {
-            params.moveOutDate = moveOutDate.format('YYYY/MM/DD');
+            params.moveOutDate = moveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
         }
 
         if (adults) {

@@ -1,4 +1,7 @@
 import queryString from 'query-string';
+import {
+    change
+} from 'redux-form';
 
 import {
     roomConstants
@@ -9,6 +12,62 @@ import RoomService from '../services/RoomService';
 import HistoryActions from './HistoryActions';
 
 class RoomActions {
+    static getHotelRoom(hotelId, roomId) {
+        const getRequest = () => {
+            return {
+                type: roomConstants.GET_ROOM_REQUEST,
+                payload: {
+                    hotelId,
+                    roomId
+                }
+            }
+        };
+        const getSuccess = (roomInfo) => {
+            return {
+                type: roomConstants.GET_ROOM_SUCCESS,
+                payload: {
+                    roomInfo
+                }
+            };
+        };
+        const getFailure = (error) => {
+            return {
+                type: roomConstants.GET_ROOM_FAILURE,
+                payload: {
+                    error: error || null
+                }
+            };
+        };
+
+        return (dispatch) => {
+            dispatch(getRequest());
+            RoomService.getHotelRoom(hotelId, roomId)
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    if (jsonInfo.entities) {
+                        dispatch(this.syncParamsWithInfo(jsonInfo.entities[0]))
+                    }
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
+        }
+    }
+
+    static syncParamsWithInfo(room) {
+        const {
+            cost,
+            adults
+        } = room;
+        return (dispatch) => {
+            dispatch(RoomActions.setAdults(adults));
+
+            dispatch(RoomActions.setCost(cost));
+            dispatch(change('roomEditForm', 'cost', cost || ''));
+        }
+    }
+
     static loadFromQuery(id, query) {
         const getRequest = () => {
             return {
@@ -76,6 +135,35 @@ class RoomActions {
         }
     }
 
+    static setCost(cost) {
+        const setRequest = (cost) => {
+            return {
+                type: roomConstants.SET_ROOM_COST,
+                payload: {
+                    cost
+                }
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest(cost));
+            dispatch(change('roomEditForm', 'cost', cost || ''));
+        }
+    }
+
+    static setRoomAvailability() {
+        const setRequest = () => {
+            return {
+                type: roomConstants.SET_AVAILABILITY,
+                payload: {}
+            }
+        };
+
+        return dispatch => {
+            dispatch(setRequest());
+        }
+    }
+
     static syncParamsWithQuery(query) {
         const params = queryString.parse(query);
         const paramMoveInDate = MomentExtensions.stringToMoment(params.moveInDate);
@@ -113,6 +201,65 @@ class RoomActions {
         const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults, page);
         return dispatch => {
             dispatch(HistoryActions.pushUrl(link, query));
+        }
+    }
+
+    static editRoom(roomId) {
+        const editFailure = (id, error) => {
+            return {
+                type: roomConstants.EDIT_ROOM_FAILURE,
+                payload: {
+                    id,
+                    error
+                }
+            };
+        };
+        const editSuccess = (id) => {
+            return {
+                type: roomConstants.EDIT_ROOM_SUCCESS,
+                payload: {
+                    id
+                }
+            };
+        };
+        const editRequest = (id, hotelInfo) => {
+            return {
+                type: roomConstants.EDIT_ROOM_REQUEST,
+                payload: {
+                    id,
+                    hotelInfo
+                }
+            };
+        };
+
+        return (dispatch, stateAccessor) => {
+            const {
+                hotelName,
+                stars,
+                selectedCity,
+                selectedCountry,
+                address
+            } = stateAccessor().search;
+            const {
+                services
+            } = stateAccessor().reservations;
+            const hotelModel = {
+                hotelId,
+                name: hotelName,
+                stars,
+                location: {
+                    cityId: selectedCity,
+                    countryId: selectedCountry,
+                    address
+                },
+                services
+            }
+
+            dispatch(editRequest(hotelId, hotelModel));
+            HotelService.update(hotelId, hotelModel)
+                .then(handleError)
+                .then(dispatch(editSuccess(hotelId)))
+                .catch(error => dispatch(editFailure(hotelId, error)));
         }
     }
 }

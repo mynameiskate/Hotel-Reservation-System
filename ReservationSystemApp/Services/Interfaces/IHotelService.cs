@@ -8,6 +8,8 @@ namespace Services.Interfaces
 {
     public interface IHotelService
     {
+        Task<HotelModel> AddHotel(HotelModel hotelModel);
+        Task<HotelRoomModel> AddHotelRoom(int hotelId, HotelRoomModel roomModel);
         Task<ServiceModel> CreateHotelService(int hotelId, ServiceModel service);
         Task<List<ServiceModel>> GetAvailableServices(int hotelId);
         Task<List<ServiceModel>> GetPossibleServices();
@@ -16,5 +18,6 @@ namespace Services.Interfaces
         void Delete(int id);
         Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request);
         Task UpdateHotelInfo(HotelModel hotelInfo);
+        Task UpdateHotelRoomInfo(int hotelId, HotelRoomModel roomInfo);
     }
 }
