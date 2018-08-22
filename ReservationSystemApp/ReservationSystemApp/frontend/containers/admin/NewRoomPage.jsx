@@ -21,12 +21,6 @@ class NewRoomPage extends React.Component {
        this.props.init(this.getHotelId());
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.search !== prevProps.search) {
-            this.props.getRoomPage(this.props.search);
-        }
-    }
-
     render() {
         const { cost, adults, isRoomAvailable, roomNumber, isNumberValid } = this.props;
 

@@ -88,6 +88,7 @@
     <Build Include="Tables\ReservationStatuses.sql" />
     <Build Include="Tables\Services.sql" />
     <Build Include="Tables\ReservationServices.sql" />
+    <Build Include="Tables\Images.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="HotelDatabase.refactorlog" />

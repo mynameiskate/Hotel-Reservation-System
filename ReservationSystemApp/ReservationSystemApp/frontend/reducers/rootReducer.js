@@ -19,6 +19,9 @@ import {
 import {
     reservationReducer
 } from '../reducers/reservationReducer';
+import {
+    fileReducer
+} from '../reducers/fileReducer';
 
 export const rootReducer = combineReducers({
     hotels: hotelReducer,
@@ -26,5 +29,6 @@ export const rootReducer = combineReducers({
     users: userReducer,
     search: searchReducer,
     rooms: roomReducer,
-    reservations: reservationReducer
+    reservations: reservationReducer,
+    files: fileReducer
 });

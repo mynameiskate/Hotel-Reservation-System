@@ -18,6 +18,7 @@ namespace Services.Services
         private readonly ILogger _logger;
         private HotelDbContext _dataContext;
 
+
         public LocationService(HotelDbContext dataContext)
         {
             _dataContext = dataContext;

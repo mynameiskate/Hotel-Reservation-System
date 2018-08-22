@@ -44,6 +44,11 @@ class RequestOptions {
             options);
     }
 
+    static createFileUploadOptions(body, token) {
+        let options = this.addToken(token, {});
+        return this.addMethod('POST', this.addBody(body, options));
+    }
+
     static createPostOptions(body, token = null) {
         let options = {};
         if (token) {

@@ -56,7 +56,10 @@ namespace ReservationSystemApp
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"]),
                                                  Convert.ToInt32(Configuration["reservationRules:maxElapsedMinutes"])));
-             
+            services.AddScoped<IImageService>
+              (provider => new ImageService(provider.GetRequiredService<HotelDbContext>(),
+                                            Configuration["filePath"]));
+
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);
             var validationParameters = new TokenValidationParameters
@@ -146,6 +149,7 @@ namespace ReservationSystemApp
             AppLogging.SetPath(Configuration["Logging:LogFile"]);
             AppLogging.ConfigureLogger(loggerFactory);
             AppLogging.LoggerFactory = loggerFactory;
+
 
             app.UseMvc(routes =>
             {

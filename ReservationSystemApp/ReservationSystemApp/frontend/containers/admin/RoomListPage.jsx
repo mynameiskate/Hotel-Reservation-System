@@ -9,31 +9,48 @@ import RoomEditList from '../../components/RoomEditList';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import HistoryActions from '../../actions/HistoryActions';
-import ReservationActions from '../../actions/ReservationActions';;
+import ReservationActions from '../../actions/ReservationActions';
+import ImageUploadModal from '../../components/ImageUploadModal';
+import FileActions from '../../actions/FileActions';
 
 class RoomListPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isImageModalOpen: false
+        };
+    }
+
+    componentDidMount() {
+        this.props.init(this.getHotelId());
+        this.props.getRoomPage(this.props.location.search);
+     }
+
+     componentDidUpdate(prevProps) {
+         if (this.props.search !== prevProps.search) {
+             this.props.getRoomPage(this.props.search);
+         }
     }
 
     getHotelId() {
         return this.props.match.params.id;
     }
 
-    componentDidMount() {
-       this.props.init(this.getHotelId());
-       this.props.getRoomPage(this.props.location.search);
+    openModal = (room) => {
+        this.setState({
+            isBookingModalOpen: true
+        });
+        this.props.setCurrentRoom(room);
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.search !== prevProps.search) {
-            this.props.getRoomPage(this.props.search);
-        }
+    closeModal = () => {
+        this.setState({isBookingModalOpen: false});
     }
 
     render() {
         const { error, roomInfo, pageCount, nextPage, page,
-               isLoading, hotelInfo } = this.props;
+               isLoading, hotelInfo, isFileTypeValid, currentRoom, files } = this.props;
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (
@@ -48,6 +65,7 @@ class RoomListPage extends React.Component {
                                 <RoomEditList
                                     info={roomInfo}
                                     getEditLink={this.props.getEditLink}
+                                    onOpenImageModal={this.openModal}
                                 />
                             }
                             {error && <h4>An error occured during load.</h4>}
@@ -62,6 +80,13 @@ class RoomListPage extends React.Component {
                         </div>
                     )
                 }
+                <ImageUploadModal
+                    isValid={isFileTypeValid}
+                    onInputChange={this.props.chooseImages}
+                    onUpload={(files) => this.props.uploadImages(currentRoom.id, files)}
+                    isOpen={this.state.isBookingModalOpen}
+                    onClose={this.closeModal}
+                />
             </div>
         );
     }
@@ -80,7 +105,10 @@ const mapStateToProps = (state) => {
         nextPage: state.rooms.nextPage,
         pageCount: state.rooms.pageCount,
         search: state.router.location.search,
-        isAvailable: state.rooms.isRoomAvailable
+        isAvailable: state.rooms.isRoomAvailable,
+        isFileTypeValid: state.files.isFileTypeValid,
+        files: state.files.files,
+        currentRoom: state.reservations.currentRoom
     }
 }
 
@@ -98,7 +126,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 null, null, null, page)
         ),
 
-        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room)
+        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
+
+        chooseImages: (images) => FileActions.chooseFiles(images),
+
+        uploadImages: (roomId, images) => FileActions.uploadImages(roomId, images)
     }, dispatch);
 
     return {
