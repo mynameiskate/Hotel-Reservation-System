@@ -29,7 +29,25 @@ export function fileReducer(state = initialState, action) {
                 isFileTypeValid: false,
                 files: []
             }
-
+        case fileConstants.UPLOAD_FILES_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                files: data.files
+            }
+        case fileConstants.UPLOAD_FILES_SUCCESS:
+            return {
+                ...state,
+                imageIds: data.info,
+                isLoading: false
+            }
+        case fileConstants.UPLOAD_FILES_FAILURE:
+            return {
+                ...state,
+                imageIds: null,
+                isLoading: false,
+                error: data.error
+            }
         default:
             return state;
     }

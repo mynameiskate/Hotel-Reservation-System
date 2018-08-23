@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,23 +24,47 @@ namespace ReservationSystemApp.Controllers
             _imageService = imageService;
         }
 
-        [HttpPost("rooms/{roomId}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> SaveRoomImages(int roomId, [FromForm] IFormFileCollection files)
+        public async Task<IActionResult> SaveImages([FromForm(Name = "images")]List<IFormFile> images)
         {
             try
             {
-                await _imageService.SaveRoomImages(roomId, Request.Form.Files);
-                return Ok();
+                var imageIds = await _imageService.SaveImages(images);
+                return Ok(imageIds);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 return BadRequest();
             }
             catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }         
         }
+
+        [HttpGet("rooms/{roomId}/{imageId}")]
+        public async Task<IActionResult> DownloadRoomImage(int roomId, int imageId)
+        {
+            try
+            {
+                return await _imageService.DownloadRoomImage(roomId, imageId, GetFileResult);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        private FileResult GetFileResult(MemoryStream memoryStream, string contentType)
+        {
+            return File(memoryStream, contentType);
+        }
+
     }
 }

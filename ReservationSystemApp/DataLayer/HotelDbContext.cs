@@ -6,6 +6,8 @@ namespace DataLayer
     public class HotelDbContext : DbContext
     {
         public DbSet<Image> Images { get; set; }
+        public DbSet<RoomImage> RoomImages { get; set; }
+        public DbSet<HotelImage> HotelImages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Location> Locations { get; set; }

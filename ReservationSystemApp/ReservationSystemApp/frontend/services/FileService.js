@@ -4,17 +4,21 @@ import {
 import {
     links
 } from '../config/links';
-import RequestOptions from '../constants/RequestOptions';
-import $ from 'jquery'
 
 class FileService {
-    static uploadRoomImages(roomId, files) {
-        const path = links.ROOM_IMAGE_UPLOAD_PATH(roomId);
+    static uploadImages(files) {
+        const path = links.IMAGE_UPLOAD_PATH;
         const formData = new FormData();
-        Array.from(files).forEach(file => formData.append(file.name, file));
+        Array.from(files).forEach(file => formData.append('images', file));
 
         const token = localStorage.getItem('token');
-        const options = RequestOptions.createFileUploadOptions(formData, token);
+        const options = {
+            body: formData,
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
 
         return fetch(settings.baseUrl + path, options);
     }

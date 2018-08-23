@@ -81,9 +81,10 @@ class RoomListPage extends React.Component {
                     )
                 }
                 <ImageUploadModal
+                    files={files}
                     isValid={isFileTypeValid}
                     onInputChange={this.props.chooseImages}
-                    onUpload={(files) => this.props.uploadImages(currentRoom.id, files)}
+                    onUpload={this.props.uploadImages}
                     isOpen={this.state.isBookingModalOpen}
                     onClose={this.closeModal}
                 />
@@ -130,7 +131,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         chooseImages: (images) => FileActions.chooseFiles(images),
 
-        uploadImages: (roomId, images) => FileActions.uploadImages(roomId, images)
+        uploadImages: (images) => FileActions.uploadImages(images)
     }, dispatch);
 
     return {

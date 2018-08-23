@@ -152,16 +152,9 @@ namespace Services.Services
                          .Include(h => h.Location)
                          .ThenInclude(l => l.City)
                          .ThenInclude(l => l.Country)
-                         .FirstAsync(h => h.HotelId == id);
+                         .FirstOrDefaultAsync(h => h.HotelId == id);
 
-            if (hotelEntity != null)
-            {
-                return new HotelModel(hotelEntity);
-            }
-            else
-            {
-                return null;
-            }
+            return new HotelModel(hotelEntity);
         }
 
         public async Task UpdateHotelInfo(HotelModel hotelInfo) //TODO: do something with contacts

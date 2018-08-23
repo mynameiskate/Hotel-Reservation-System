@@ -35,14 +35,14 @@ class FileActions {
         };
 
         return dispatch => {
-            dispatch(chooseRequest(files));
+            dispatch(chooseRequest(files))
             imagesOnly(files) ?
                 dispatch(chooseSuccess(files)) :
-                dispatch(chooseFailure())
+                dispatch(chooseFailure());
         }
     }
 
-    static uploadImages(roomId, images) {
+    static uploadImages(images) {
         const uploadRequest = (files) => {
             return {
                 type: fileConstants.UPLOAD_FILES_REQUEST,
@@ -72,14 +72,14 @@ class FileActions {
 
         return (dispatch) => {
             dispatch(uploadRequest(images));
-            FileService.uploadRoomImages(roomId, images);
-            /*    .then(handleError)
+            FileService.uploadImages(images)
+                .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {
                     dispatch(uploadSuccess(jsonInfo));
                     return jsonInfo;
                 })
-                .catch(error => dispatch(uploadFailure(error)));*/
+                .catch(error => dispatch(uploadFailure(error)));
         }
 
     }

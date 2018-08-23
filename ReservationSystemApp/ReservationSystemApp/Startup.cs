@@ -56,9 +56,16 @@ namespace ReservationSystemApp
                                                  Convert.ToInt32(Configuration["pages:size"]),
                                                  Convert.ToInt32(Configuration["pages:maxSize"]),
                                                  Convert.ToInt32(Configuration["reservationRules:maxElapsedMinutes"])));
+            string[] validExtensions = Configuration
+                                        .GetSection("files:validImageExtensions")
+                                        .GetChildren()
+                                        .Select(x => x.Value)
+                                        .ToArray();
+
             services.AddScoped<IImageService>
               (provider => new ImageService(provider.GetRequiredService<HotelDbContext>(),
-                                            Configuration["filePath"]));
+                                            Configuration["files:filePath"],
+                                            validExtensions));
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);

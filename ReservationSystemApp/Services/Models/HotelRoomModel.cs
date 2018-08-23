@@ -19,21 +19,17 @@ namespace Services.Models
 
         public HotelRoomModel(HotelRoom room)
         {
-            if (room != null)
-            {
-                Id = room.HotelRoomId;
-                Number = room.Number;
-                IsAvailable = room.IsAvailable;
-                Size = room.Size;
-                Cost = room.Cost;
-                Adults = room.Adults;
-                RoomType = room.RoomType?.RoomTypeName;
+            Id = room.HotelRoomId;
+            Number = room.Number;
+            IsAvailable = room.IsAvailable;
+            Size = room.Size;
+            Cost = room.Cost;
+            Adults = room.Adults;
+            RoomType = room.RoomType?.RoomTypeName;
 
-                Images = room.Images?
-                        .Select(img => img.Path)
-                        .ToList() ?? new List<string>();
-            }
-
+            Images = room.Images?
+                    .Select(img => img.Path)
+                    .ToList() ?? new List<string>();
         }
 
         public HotelRoomModel() {}

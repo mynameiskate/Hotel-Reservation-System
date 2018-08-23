@@ -9,7 +9,7 @@ const ImageUploadModal = ( {isOpen, onClose, onUpload, onInputChange, isValid, f
         ariaHideApp={false}
     >
         <form
-            encType='multipart/form-data'
+            //encType='multipart/form-data'
             onSubmit={(e) => {
                 e.preventDefault();
                 onUpload(e.target[0].files);  //TODO: change this
@@ -17,7 +17,7 @@ const ImageUploadModal = ( {isOpen, onClose, onUpload, onInputChange, isValid, f
         }>
             <label>Pick images
                 <input
-                    name='files'
+                    name='images'
                     onChange={(e) => onInputChange(e.target.files)}
                     type='file'
                     multiple
@@ -25,7 +25,7 @@ const ImageUploadModal = ( {isOpen, onClose, onUpload, onInputChange, isValid, f
                 />
             </label>
             {!isValid && <h3>Only image types are allowed!</h3>}
-            <button disabled={!isValid} type='submit'>Upload</button>
+            <button disabled={!(isValid && files && files.length)} type='submit'>Upload</button>
             <button onClick={onClose}>Cancel</button>
         </form>
     </Modal>
