@@ -14,7 +14,7 @@ namespace DataLayer.Entities
         public Location Location { get; set; }
         public List<HotelService> Services { get; set; }
         public List<Contact> Contacts { get; set; }
-        public List<FilePath> Images { get; set; }
+        public List<HotelImage> Images { get; set; }
         public List<HotelRoom> Rooms { get; set; }
         public bool IsRemoved { get; set; }
     }

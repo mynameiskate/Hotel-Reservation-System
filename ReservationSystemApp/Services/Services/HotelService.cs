@@ -97,6 +97,7 @@ namespace Services.Services
                     .Include(h => h.Location)
                     .ThenInclude(l => l.City)
                     .ThenInclude(c => c.Country)
+                    .Include(h => h.Images)
                     .Select(hotel => new HotelModel(hotel));
                
                 int resultCount = await resultQuery.CountAsync();
@@ -127,10 +128,11 @@ namespace Services.Services
 
                 var resultQuery = entityList
                     .Include(r => r.RoomType)
+                    .Include(r => r.Images.Select(img => img.ImageId))
                     .Where(r => r.HotelId == hotelId)
                     .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                     .Distinct()
-                    .Select(r => new HotelRoomModel(r));
+                    .Select((r) => new HotelRoomModel(r));
 
                 int resultCount = await resultQuery.CountAsync();
                 int currentPage = (request.Page > 0) ? request.Page : 1;
@@ -152,6 +154,7 @@ namespace Services.Services
                          .Include(h => h.Location)
                          .ThenInclude(l => l.City)
                          .ThenInclude(l => l.Country)
+                         .Include(h => h.Images)
                          .FirstOrDefaultAsync(h => h.HotelId == id);
 
             return new HotelModel(hotelEntity);

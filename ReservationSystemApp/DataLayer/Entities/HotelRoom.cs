@@ -18,6 +18,6 @@ namespace DataLayer.Entities
         public int RoomTypeId { get; set; }
         public int HotelId { get; set; }
         public Hotel Hotel { get; set; }
-        public List<FilePath> Images { get; set; }
+        public List<RoomImage> Images { get; set; }
     }
 }

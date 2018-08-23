@@ -15,7 +15,7 @@ namespace Services.Models
         public double Cost { get; set; }
         public int Adults { get; set; }
         public string RoomType { get; set; }
-        public List<string> Images { get; set; }
+        public List<int> ImageIds { get; set; }
 
         public HotelRoomModel(HotelRoom room)
         {
@@ -26,10 +26,7 @@ namespace Services.Models
             Cost = room.Cost;
             Adults = room.Adults;
             RoomType = room.RoomType?.RoomTypeName;
-
-            Images = room.Images?
-                    .Select(img => img.Path)
-                    .ToList() ?? new List<string>();
+            ImageIds = room?.Images?.Select(img => img.ImageId).ToList();
         }
 
         public HotelRoomModel() {}
