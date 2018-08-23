@@ -17,6 +17,7 @@ const ImageUploadModal = ( {isOpen, onClose, onUpload, onInputChange, isValid, f
         }>
             <label>Pick images
                 <input
+                    name='files'
                     onChange={(e) => onInputChange(e.target.files)}
                     type='file'
                     multiple

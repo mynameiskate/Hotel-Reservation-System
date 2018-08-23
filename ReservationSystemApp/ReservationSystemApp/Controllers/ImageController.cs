@@ -25,18 +25,18 @@ namespace ReservationSystemApp.Controllers
 
         [HttpPost("rooms/{roomId}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> SaveRoomImages(int roomId, [FromForm]List<IFormFile> images)
+        public async Task<IActionResult> SaveRoomImages(int roomId, [FromForm] IFormFileCollection files)
         {
             try
             {
-                await _imageService.SaveRoomImages(roomId, images);
+                await _imageService.SaveRoomImages(roomId, Request.Form.Files);
                 return Ok();
             }
             catch (ArgumentException)
             {
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }         

@@ -5,14 +5,16 @@ import {
     links
 } from '../config/links';
 import RequestOptions from '../constants/RequestOptions';
+import $ from 'jquery'
 
 class FileService {
     static uploadRoomImages(roomId, files) {
-        var fileData = new FormData();
-        Array.from(files).forEach(file => fileData.append('file', file, file.name));
-        const token = localStorage.getItem('token');
         const path = links.ROOM_IMAGE_UPLOAD_PATH(roomId);
-        const options = RequestOptions.createFileUploadOptions(fileData, token);
+        const formData = new FormData();
+        Array.from(files).forEach(file => formData.append(file.name, file));
+
+        const token = localStorage.getItem('token');
+        const options = RequestOptions.createFileUploadOptions(formData, token);
 
         return fetch(settings.baseUrl + path, options);
     }

@@ -20,7 +20,7 @@ namespace Services.Services
             _filePath = filePath;
         }
 
-        public async Task SaveRoomImages(int roomId, List<IFormFile> images)
+        public async Task SaveRoomImages(int roomId, IFormFileCollection images)
         {
             foreach (var image in images)
             {

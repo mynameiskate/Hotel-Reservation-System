@@ -6,6 +6,6 @@ namespace Services.Interfaces
 {
     public interface IImageService
     {
-        Task SaveRoomImages(int roomId, List<IFormFile> images);
+        Task SaveRoomImages(int roomId, IFormFileCollection images);
     }
 }

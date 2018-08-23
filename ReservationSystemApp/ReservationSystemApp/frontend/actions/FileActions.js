@@ -72,14 +72,14 @@ class FileActions {
 
         return (dispatch) => {
             dispatch(uploadRequest(images));
-            FileService.uploadRoomImages(roomId, images)
-                .then(handleError)
+            FileService.uploadRoomImages(roomId, images);
+            /*    .then(handleError)
                 .then(result => result.json())
                 .then(jsonInfo => {
                     dispatch(uploadSuccess(jsonInfo));
                     return jsonInfo;
                 })
-                .catch(error => dispatch(uploadFailure(error)));
+                .catch(error => dispatch(uploadFailure(error)));*/
         }
 
     }
