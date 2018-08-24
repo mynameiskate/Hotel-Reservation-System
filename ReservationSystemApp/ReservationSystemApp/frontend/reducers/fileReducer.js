@@ -6,7 +6,8 @@ const initialState = {
     isLoading: false,
     files: [],
     isFileTypeValid: true,
-    error: null
+    error: null,
+    imageIds: []
 }
 
 export function fileReducer(state = initialState, action) {

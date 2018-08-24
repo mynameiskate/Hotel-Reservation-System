@@ -3,18 +3,22 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
 
+import { links } from '../../config/links';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
+import ImageUploadModal from '../../components/ImageUploadModal';
+import FileActions from '../../actions/FileActions';
+import ReservationActions from '../../actions/ReservationActions';
 
 class RoomEditPage extends React.Component {
     constructor(props) {
         super(props);
-    }
 
-    getHotelId() {
-        return this.props.match.params.hotelId;
+        this.state = {
+            isImageModalOpen: false
+        };
     }
 
     componentDidMount() {
@@ -27,29 +31,56 @@ class RoomEditPage extends React.Component {
         }
     }
 
+    openModal = (room) => {
+        this.setState({
+            isBookingModalOpen: true
+        });
+        this.props.setCurrentRoom(room);
+    }
+
+    closeModal = () => {
+        this.setState({isBookingModalOpen: false});
+    }
+
+    getHotelId() {
+        return this.props.match.params.hotelId;
+    }
+
     render() {
-        const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error } = this.props;
+        const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error,
+                files, isFileTypeValid } = this.props;
 
         return (
             <div>
             {
                 currentRoom &&
-                    <RoomEditForm
-                        roomNumber={currentRoom.number}
-                        roomId={currentRoom.id}
-                        cost={cost}
-                        adultsAmount={adults}
-                        isRoomAvailable={isRoomAvailable}
-                        changeAvailability={this.props.changeAvailability}
-                        updateAdultsAmount={this.props.setAdultsAmount}
-                        updateNumber={this.props.setRoomNumber}
-                        updateCost={this.props.setCost}
-                        changeAvailability={this.props.setRoomAvailability}
-                        adultOptions={this.props.getAdultOptions()}
-                        sendRequest={this.props.editRoom}
-                        isNumberValid={isNumberValid}
-                    />
+                    <div>
+                        <RoomEditForm
+                            roomNumber={currentRoom.number}
+                            roomId={currentRoom.id}
+                            cost={cost}
+                            adultsAmount={adults}
+                            isRoomAvailable={isRoomAvailable}
+                            changeAvailability={this.props.changeAvailability}
+                            updateAdultsAmount={this.props.setAdultsAmount}
+                            updateNumber={this.props.setRoomNumber}
+                            updateCost={this.props.setCost}
+                            changeAvailability={this.props.setRoomAvailability}
+                            adultOptions={this.props.getAdultOptions()}
+                            sendRequest={this.props.editRoom}
+                            isNumberValid={isNumberValid}
+                        />
+                        <button onClick={() => this.openModal(currentRoom)}>Add photos</button>
+                    </div>
             }
+            <ImageUploadModal
+                files={files}
+                isValid={isFileTypeValid}
+                onInputChange={this.props.chooseImages}
+                onUpload={this.props.uploadImages}
+                isOpen={this.state.isBookingModalOpen}
+                onClose={this.closeModal}
+            />
             </div>
         );
     }
@@ -67,6 +98,8 @@ const mapStateToProps = (state) => {
         isRoomAvailable: state.rooms.isRoomAvailable,
         roomNumber: state.rooms.roomNumber,
         isNumberValid: state.rooms.isNumberValid,
+        isFileTypeValid: state.files.isFileTypeValid,
+        files: state.files.files,
     }
 }
 
@@ -100,7 +133,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         editRoom: () => RoomActions.editRoom(hotelId, roomId),
 
-        setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number)
+        setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number),
+
+        chooseImages: (images) => FileActions.chooseFiles(images),
+
+        uploadImages: (images) => FileActions.uploadImages(images),
+
+        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
     }, dispatch);
 
     return {

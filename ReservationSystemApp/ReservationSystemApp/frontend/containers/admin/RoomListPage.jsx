@@ -16,10 +16,6 @@ import FileActions from '../../actions/FileActions';
 class RoomListPage extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            isImageModalOpen: false
-        };
     }
 
     componentDidMount() {
@@ -27,30 +23,19 @@ class RoomListPage extends React.Component {
         this.props.getRoomPage(this.props.location.search);
      }
 
-     componentDidUpdate(prevProps) {
-         if (this.props.search !== prevProps.search) {
-             this.props.getRoomPage(this.props.search);
-         }
+    componentDidUpdate(prevProps) {
+        if (this.props.search !== prevProps.search) {
+            this.props.getRoomPage(this.props.search);
+        }
     }
 
     getHotelId() {
         return this.props.match.params.id;
     }
 
-    openModal = (room) => {
-        this.setState({
-            isBookingModalOpen: true
-        });
-        this.props.setCurrentRoom(room);
-    }
-
-    closeModal = () => {
-        this.setState({isBookingModalOpen: false});
-    }
-
     render() {
         const { error, roomInfo, pageCount, nextPage, page,
-               isLoading, hotelInfo, isFileTypeValid, currentRoom, files } = this.props;
+               isLoading, hotelInfo, currentRoom, } = this.props;
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (
@@ -65,7 +50,6 @@ class RoomListPage extends React.Component {
                                 <RoomEditList
                                     info={roomInfo}
                                     getEditLink={this.props.getEditLink}
-                                    onOpenImageModal={this.openModal}
                                 />
                             }
                             {error && <h4>An error occured during load.</h4>}
@@ -80,14 +64,6 @@ class RoomListPage extends React.Component {
                         </div>
                     )
                 }
-                <ImageUploadModal
-                    files={files}
-                    isValid={isFileTypeValid}
-                    onInputChange={this.props.chooseImages}
-                    onUpload={this.props.uploadImages}
-                    isOpen={this.state.isBookingModalOpen}
-                    onClose={this.closeModal}
-                />
             </div>
         );
     }
@@ -125,13 +101,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             RoomActions.buildQuery(
                 links.ROOM_ID_PAGE(ownProps.match.params.id),
                 null, null, null, page)
-        ),
-
-        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
-
-        chooseImages: (images) => FileActions.chooseFiles(images),
-
-        uploadImages: (images) => FileActions.uploadImages(images)
+        )
     }, dispatch);
 
     return {

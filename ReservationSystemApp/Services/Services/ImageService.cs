@@ -27,7 +27,7 @@ namespace Services.Services
 
         public async Task<List<int>> SaveImages(List<IFormFile> images)
         {
-            var imageIds = new List<int>();
+            var newImages = new List<Image>();
             foreach (var image in images)
             {
                 string extension = Path.GetExtension(image.FileName).ToLower();
@@ -50,11 +50,11 @@ namespace Services.Services
                 };
 
                 var entity = await _dataContext.Images.AddAsync(imageEntity);
-                imageIds.Add(entity.Entity.ImageId);
+                newImages.Add(imageEntity);
             }
             await _dataContext.SaveChangesAsync();
 
-            return imageIds;
+            return newImages.Select(img => img.ImageId).ToList();
         }
 
         public async Task<FileResult> DownloadRoomImage(int roomId, int imageId,

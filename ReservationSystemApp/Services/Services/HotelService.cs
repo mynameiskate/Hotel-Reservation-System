@@ -128,7 +128,7 @@ namespace Services.Services
 
                 var resultQuery = entityList
                     .Include(r => r.RoomType)
-                    .Include(r => r.Images.Select(img => img.ImageId))
+                    .Include(r => r.Images)
                     .Where(r => r.HotelId == hotelId)
                     .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                     .Distinct()

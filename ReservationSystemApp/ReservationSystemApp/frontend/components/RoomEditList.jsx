@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import RoomInfo from './RoomInfo';
 
-const RoomEditList = ( {info, getEditLink, onOpenImageModal} ) => (
+const RoomEditList = ( {info, getEditLink} ) => (
     <div>
         { Array.isArray(info) &&
             info.map((room) =>
@@ -12,7 +12,6 @@ const RoomEditList = ( {info, getEditLink, onOpenImageModal} ) => (
                 <Link to={getEditLink(room.id)}>
                     Edit
                 </Link>
-                <button onClick={() => onOpenImageModal(room)}>Add photos</button>
             </div>
         )}
     </div>
