@@ -61,21 +61,13 @@ namespace Services.Services
 
         public async Task<List<ServiceModel>> GetAvailableServices(int hotelId)
         {
-            try
-            {
-                var resultQuery = GetServiceQuery(hotelId)
+            var resultQuery = GetServiceQuery(hotelId)
                     .Join(_dataContext.Services,
                      hs => hs.ServiceId,
                      s => s.ServiceId,
                      (hs, s) => new ServiceModel(hs, s.Name));
 
-                return await resultQuery.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation(e.Message);
-                throw;
-            }
+            return await resultQuery.ToListAsync();
         }
 
         public async Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request)
@@ -86,32 +78,24 @@ namespace Services.Services
                 size = _pageSize;
             }
 
-            try
-            {
-                var entityList = _dataContext.Hotels as IQueryable<Hotel>;
+            var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
-                var resultQuery = entityList
-                    .FilterHotels(request, _maxElapsedMinutes, _dataContext)
-                    .Distinct()
-                    .Include(h => h.Services)
-                    .Include(h => h.Location)
-                    .ThenInclude(l => l.City)
-                    .ThenInclude(c => c.Country)
-                    .Include(h => h.Images)
-                    .Select(hotel => new HotelModel(hotel));
-               
-                int resultCount = await resultQuery.CountAsync();
-                int currentPage = (request.Page > 0) ? request.Page : 1;
+            var resultQuery = entityList
+                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
+                .Distinct()
+                .Include(h => h.Services)
+                .Include(h => h.Location)
+                .ThenInclude(l => l.City)
+                .ThenInclude(c => c.Country)
+                .Include(h => h.Images)
+                .Select(hotel => new HotelModel(hotel));
 
-                var listForPage = resultQuery.CutList(size, currentPage);
+            int resultCount = await resultQuery.CountAsync();
+            int currentPage = (request.Page > 0) ? request.Page : 1;
 
-                return new PageModel<HotelModel>(currentPage, size, resultCount, listForPage);
-            }
-            catch(Exception e)
-            {
-                _logger.LogInformation(e.Message);
-                throw;
-            }
+            var listForPage = resultQuery.CutList(size, currentPage);
+
+            return new PageModel<HotelModel>(currentPage, size, resultCount, listForPage);
         }
 
         public async Task<PageModel<HotelRoomModel>> GetHotelRooms(int hotelId, FilteredRoomsRequestModel request)
@@ -122,30 +106,22 @@ namespace Services.Services
                 size = _pageSize;
             }
 
-            try
-            {
-                var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
+            var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
 
-                var resultQuery = entityList
-                    .Include(r => r.RoomType)
-                    .Include(r => r.Images)
-                    .Where(r => r.HotelId == hotelId)
-                    .FilterRooms(request, _maxElapsedMinutes, _dataContext)
-                    .Distinct()
-                    .Select((r) => new HotelRoomModel(r));
+            var resultQuery = entityList
+                .Include(r => r.RoomType)
+                .Include(r => r.Images)
+                .Where(r => r.HotelId == hotelId)
+                .FilterRooms(request, _maxElapsedMinutes, _dataContext)
+                .Distinct()
+                .Select((r) => new HotelRoomModel(r));
 
-                int resultCount = await resultQuery.CountAsync();
-                int currentPage = (request.Page > 0) ? request.Page : 1;
+            int resultCount = await resultQuery.CountAsync();
+            int currentPage = (request.Page > 0) ? request.Page : 1;
 
-                var listForPage = resultQuery.CutList(size, currentPage);
+            var listForPage = resultQuery.CutList(size, currentPage);
 
-                return new PageModel<HotelRoomModel>(currentPage, size, resultCount, listForPage);
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation(e.Message);
-                throw;
-            }
+            return new PageModel<HotelRoomModel>(currentPage, size, resultCount, listForPage);
         }
 
         public async Task<HotelModel> GetHotelInfo(int id)
@@ -188,6 +164,7 @@ namespace Services.Services
             hotelRoom.Cost = roomInfo.Cost;
             hotelRoom.Adults = roomInfo.Adults;
             hotelRoom.IsAvailable = roomInfo.IsAvailable;
+            hotelRoom.Images = await GetUpdatedRoomImages(roomInfo.Id, roomInfo.ImageIds);
             
             await _dataContext.SaveChangesAsync();
         }
@@ -244,6 +221,29 @@ namespace Services.Services
             currentLocation.Address = locationModel.Address;
             currentLocation.CityId = (int)locationModel.CityId;
             _dataContext.Update(currentLocation);
+        }
+
+        private async Task<List<RoomImage>> GetUpdatedRoomImages(int roomId, List<int> imageIds)
+        {
+            if (imageIds == null) return null;
+
+            var existingImages = _dataContext.RoomImages.Where(img => img.HotelRoomId == roomId
+                                    && imageIds.Contains(img.ImageId));
+
+            var newImageIds = imageIds.Where(id => !existingImages.Any(img => img.ImageId == id));
+
+            var updatedImageList = await existingImages.ToListAsync(); 
+
+            foreach (int imageId in newImageIds)
+            {
+                updatedImageList.Add(new RoomImage
+                {
+                    ImageId = imageId,
+                    HotelRoomId = roomId
+                });
+            }
+
+            return updatedImageList;
         }
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)

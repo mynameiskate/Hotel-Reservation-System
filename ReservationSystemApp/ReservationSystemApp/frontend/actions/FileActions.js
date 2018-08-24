@@ -81,7 +81,21 @@ class FileActions {
                 })
                 .catch(error => dispatch(uploadFailure(error)));
         }
+    }
 
+
+    static deleteImage(imageId) {
+        const deleteRequest = (imageId) => {
+            return {
+                type: fileConstants.DELETE_IMAGE_REQUEST,
+                payload: {
+                    imageId
+                }
+            }
+        }
+        return dispatch => {
+            dispatch(deleteRequest(imageId));
+        }
     }
 }
 

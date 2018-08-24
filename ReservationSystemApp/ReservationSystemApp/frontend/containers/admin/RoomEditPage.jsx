@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
+import Gallery from 'react-photo-gallery';
 
 import { links } from '../../config/links';
+import GalleryImage from '../../components/GalleryImage';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
+import GalleryService from '../../services/GalleryService';
 import ImageUploadModal from '../../components/ImageUploadModal';
 import FileActions from '../../actions/FileActions';
 import ReservationActions from '../../actions/ReservationActions';
@@ -49,7 +52,7 @@ class RoomEditPage extends React.Component {
     render() {
         const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error,
                 files, isFileTypeValid } = this.props;
-
+        const imageIds = currentRoom ? currentRoom.imageIds : null;
         return (
             <div>
             {
@@ -73,14 +76,23 @@ class RoomEditPage extends React.Component {
                         <button onClick={() => this.openModal(currentRoom)}>Add photos</button>
                     </div>
             }
-            <ImageUploadModal
-                files={files}
-                isValid={isFileTypeValid}
-                onInputChange={this.props.chooseImages}
-                onUpload={this.props.uploadImages}
-                isOpen={this.state.isBookingModalOpen}
-                onClose={this.closeModal}
-            />
+            {
+                imageIds &&
+                    <Gallery
+                        photos={this.props.getImageSet(imageIds)}
+                        direction={'column'}
+                        ImageComponent={GalleryImage}
+                        onClick={this.props.removeImage}
+                    />
+            }
+                <ImageUploadModal
+                    files={files}
+                    isValid={isFileTypeValid}
+                    onInputChange={this.props.chooseImages}
+                    onUpload={this.props.uploadImages}
+                    isOpen={this.state.isBookingModalOpen}
+                    onClose={this.closeModal}
+                />
             </div>
         );
     }
@@ -100,6 +112,7 @@ const mapStateToProps = (state) => {
         isNumberValid: state.rooms.isNumberValid,
         isFileTypeValid: state.files.isFileTypeValid,
         files: state.files.files,
+        imageIds: state.files.imageIds
     }
 }
 
@@ -140,12 +153,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         uploadImages: (images) => FileActions.uploadImages(images),
 
         setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
+
+        removeImage: () => {}
     }, dispatch);
 
     return {
         ...bindedCreators,
 
-        getAdultOptions: () => SelectService.getNumericOptions(10)
+        getAdultOptions: () => SelectService.getNumericOptions(10),
+
+        getImageSet: (imageIds) => {
+            const imageLinkCreator = (imageId) => (
+                links.ROOM_IMAGE_DOWNLOAD_PATH(imageId, roomId)
+            );
+
+            const imageSet = GalleryService.getImageSet(imageLinkCreator, imageIds);
+            return imageSet;
+        }
     }
 }
 

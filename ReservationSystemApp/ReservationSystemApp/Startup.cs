@@ -147,12 +147,6 @@ namespace ReservationSystemApp
             app.UseStaticFiles();
             app.UseAuthentication();
 
-            var filterLoggerSettings = new FilterLoggerSettings
-            {
-                {"Microsoft", LogLevel.Error },
-                {"System", LogLevel.Error },
-            };
-
             AppLogging.SetPath(Configuration["Logging:LogFile"]);
             AppLogging.ConfigureLogger(loggerFactory);
             AppLogging.LoggerFactory = loggerFactory;

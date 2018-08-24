@@ -32,37 +32,81 @@ namespace ReservationSystemApp.Controllers
 
         // GET: api/hotels/?
         [HttpGet]
-        public async Task<PageModel<HotelModel>> GetHotelList([FromQuery]FilteredHotelsRequestModel requestModel)
+        public async Task<IActionResult> GetHotelList([FromQuery]FilteredHotelsRequestModel requestModel)
         {
-            return await _hotelService.GetHotelPage(requestModel);
+            try
+            {
+                var page = await _hotelService.GetHotelPage(requestModel);
+                return Ok(page);
+            }
+            catch(Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpGet("{id}/rooms")]
-        public async Task<PageModel<HotelRoomModel>> GetRoomList(int id, [FromQuery]FilteredRoomsRequestModel requestModel)
+        public async Task<IActionResult> GetRoomList(int id, [FromQuery]FilteredRoomsRequestModel requestModel)
         {
-            return await _hotelService.GetHotelRooms(id, requestModel);
+            try
+            {
+                var rooms = await _hotelService.GetHotelRooms(id, requestModel);
+                return Ok(rooms);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         //Get existing services in current hotel
         [HttpGet("{id}/services")]
-        public async Task<List<ServiceModel>> GetServiceList(int id)
+        public async Task<IActionResult> GetServiceList(int id)
         {
-            return await _hotelService.GetAvailableServices(id);
+            try
+            {
+                var services = await _hotelService.GetAvailableServices(id);
+                return Ok(services);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         //Get all possible services that can be created for any hotel
         [HttpGet("services")]
-        public async Task<List<ServiceModel>> GetServiceList()
+        public async Task<IActionResult> GetServiceList()
         {
-            return await _hotelService.GetPossibleServices();
+            try
+            {
+                var services = await _hotelService.GetPossibleServices();
+                return Ok(services);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/hotels/details/5
         [HttpGet("{id}/details")]
-        public async Task<HotelModel> GetHotelInfo(int id)
+        public async Task<IActionResult> GetHotelInfo(int id)
         {
-            var hotel = await _hotelService.GetHotelInfo(id);
-            return hotel;
+            try
+            {
+                var hotelInfo = await _hotelService.GetHotelInfo(id);
+                return Ok(hotelInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPost("{id}/services")]
@@ -74,16 +118,19 @@ namespace ReservationSystemApp.Controllers
                 await _hotelService.CreateHotelService(id, serviceModel);
                 return Ok();
             }
-            catch (LocationNotFoundException)
+            catch (LocationNotFoundException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -97,12 +144,14 @@ namespace ReservationSystemApp.Controllers
                 HotelRoomModel hotelRoom = await _hotelService.AddHotelRoom(id, roomModel);
                 return Ok(hotelRoom);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -116,12 +165,14 @@ namespace ReservationSystemApp.Controllers
                 HotelModel hotel = await _hotelService.AddHotel(hotelModel);
                 return Ok(hotel);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -135,16 +186,19 @@ namespace ReservationSystemApp.Controllers
                 await _hotelService.UpdateHotelInfo(hotelModel);          
                 return Ok();
             }
-            catch (LocationNotFoundException)
+            catch (LocationNotFoundException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -158,12 +212,14 @@ namespace ReservationSystemApp.Controllers
                 await _hotelService.UpdateHotelRoomInfo(hotelId, roomModel);
                 return Ok();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -172,8 +228,16 @@ namespace ReservationSystemApp.Controllers
         [Authorize(Policy = "AdminOnly")]
         public IActionResult DeleteHotel(int id)
         {
-            _hotelService.Delete(id);
-            return Ok();
+            try
+            {
+                _hotelService.Delete(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e.Message, e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

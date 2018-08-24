@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +33,7 @@ namespace ReservationSystemApp.Controllers
             }
             catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
             catch(Exception e)
@@ -44,14 +44,16 @@ namespace ReservationSystemApp.Controllers
         }
 
         [HttpGet("rooms/{roomId}/{imageId}")]
-        public async Task<IActionResult> DownloadRoomImage(int roomId, int imageId)
+        public async Task<IActionResult> GetRoomImage(int roomId, int imageId)
         {
             try
             {
-                return await _imageService.DownloadRoomImage(roomId, imageId, GetFileResult);
+                var fileModel = await _imageService.GetRoomImage(roomId, imageId);
+                return File(fileModel.MemoryStream, fileModel.ContentType);
             }
             catch (ArgumentException e)
             {
+                _logger.LogInformation(e.Message, e.StackTrace);
                 return BadRequest();
             }
             catch (Exception e)
@@ -60,11 +62,5 @@ namespace ReservationSystemApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
-        private FileResult GetFileResult(MemoryStream memoryStream, string contentType)
-        {
-            return File(memoryStream, contentType);
-        }
-
     }
 }

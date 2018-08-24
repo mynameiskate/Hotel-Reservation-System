@@ -19,10 +19,18 @@ export function fileReducer(state = initialState, action) {
                 files: []
             }
         case fileConstants.ADD_IMAGE_SUCCESS:
-            return {
-                ...state,
-                isFileTypeValid: true,
-                files: data.files
+            {
+                const imageId = data.info;
+                if (!imageId) return state;
+                return {
+                    ...state,
+                    isFileTypeValid: true,
+                    files: data.files,
+                    imageIds: [
+                        ...state.imageIds,
+                        imageId
+                    ]
+                }
             }
         case fileConstants.ADD_IMAGE_FAILURE:
             return {
@@ -37,10 +45,18 @@ export function fileReducer(state = initialState, action) {
                 files: data.files
             }
         case fileConstants.UPLOAD_FILES_SUCCESS:
-            return {
-                ...state,
-                imageIds: data.info,
-                isLoading: false
+            {
+                const imageId = data.info;
+
+                if (!imageId) return state;
+                return {
+                    ...state,
+                    imageIds: [
+                        ...state.imageIds,
+                        data.info
+                    ],
+                    isLoading: false
+                }
             }
         case fileConstants.UPLOAD_FILES_FAILURE:
             return {
@@ -48,6 +64,12 @@ export function fileReducer(state = initialState, action) {
                 imageIds: null,
                 isLoading: false,
                 error: data.error
+            }
+        case fileConstants.DELETE_IMAGE_REQUEST:
+            const imageIds = state.imageIds.filter(id => id !== data.imageId);
+            return {
+                ...state,
+                imageIds
             }
         default:
             return state;

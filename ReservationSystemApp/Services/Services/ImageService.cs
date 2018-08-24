@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
+using Services.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,8 +58,7 @@ namespace Services.Services
             return newImages.Select(img => img.ImageId).ToList();
         }
 
-        public async Task<FileResult> DownloadRoomImage(int roomId, int imageId,
-                    Func<MemoryStream, string, FileResult> resultCallback)
+        public async Task<FileModel> GetRoomImage(int roomId, int imageId)
         {
             var entityList = _dataContext.RoomImages as IQueryable<RoomImage>;
             var image = _dataContext.RoomImages
@@ -75,7 +75,7 @@ namespace Services.Services
 
             memoryStream.Seek(0, SeekOrigin.Begin);
             string mimeType = MimeMapping.MimeUtility.GetMimeMapping(fileName);
-            return resultCallback(memoryStream, mimeType);
+            return new FileModel(memoryStream, mimeType);
         }
     }
 }
