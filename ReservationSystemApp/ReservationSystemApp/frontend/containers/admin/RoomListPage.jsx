@@ -10,7 +10,6 @@ import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import HistoryActions from '../../actions/HistoryActions';
 import ReservationActions from '../../actions/ReservationActions';
-import ImageUploadModal from '../../components/ImageUploadModal';
 import FileActions from '../../actions/FileActions';
 
 class RoomListPage extends React.Component {
@@ -99,7 +98,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         buildQuery: (page = 1) => (
             RoomActions.buildQuery(
-                links.ROOM_ID_PAGE(ownProps.match.params.id),
+                links.ADMIN_HOTEL_ID_PAGE(ownProps.match.params.id),
                 null, null, null, page)
         )
     }, dispatch);

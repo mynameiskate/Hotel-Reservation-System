@@ -10,7 +10,8 @@ class GalleryService {
             imageIds.map(id => imageSet.push({
                 src: linkCreator(id),
                 width: size.width,
-                height: size.height
+                height: size.height,
+                id
             }))
         }
 

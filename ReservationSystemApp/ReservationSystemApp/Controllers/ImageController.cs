@@ -43,12 +43,12 @@ namespace ReservationSystemApp.Controllers
             }         
         }
 
-        [HttpGet("rooms/{roomId}/{imageId}")]
-        public async Task<IActionResult> GetRoomImage(int roomId, int imageId)
+        [HttpGet("{imageId}")]
+        public async Task<IActionResult> GetRoomImage(int imageId)
         {
             try
             {
-                var fileModel = await _imageService.GetRoomImage(roomId, imageId);
+                var fileModel = await _imageService.GetImage(imageId);
                 return File(fileModel.MemoryStream, fileModel.ContentType);
             }
             catch (ArgumentException e)

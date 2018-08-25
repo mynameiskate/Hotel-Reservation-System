@@ -58,15 +58,14 @@ namespace Services.Services
             return newImages.Select(img => img.ImageId).ToList();
         }
 
-        public async Task<FileModel> GetRoomImage(int roomId, int imageId)
+        public async Task<FileModel> GetImage(int imageId)
         {
-            var entityList = _dataContext.RoomImages as IQueryable<RoomImage>;
-            var image = _dataContext.RoomImages
-                            .Include(img => img.Image)
-                            .First(img => img.HotelRoomId == roomId && img.ImageId == imageId);
+            var entityList = _dataContext.Images as IQueryable<RoomImage>;
+            var image = _dataContext.Images
+                            .First(img => img.ImageId == imageId);
 
 
-            string fileName = image.Image.FileName;
+            string fileName = image.FileName;
             var memoryStream = new MemoryStream();
             using (var fileStream = new FileStream(Path.Combine(_filePath, fileName), FileMode.Open))
             {

@@ -12,11 +12,12 @@ const GalleryImage = ({ index, onClick, photo, margin, direction, top, left }) =
       <div
         style={{ margin, height: photo.height, width: photo.width, ...cont }}
       >
-        <CrossMark/>
+        <CrossMark
+          onClick={(e) => onClick(e, {index, ...photo })}
+        />
         <img
           style={imgStyle}
           {...photo}
-          onClick={e => onClick(e, { index, photo })}
         />
         <style>{'.not-selected:hover{outline:2px solid #06befa}'}</style>
       </div>

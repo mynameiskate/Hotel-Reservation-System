@@ -2,11 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
+import Gallery from 'react-photo-gallery';
 
+import { links } from '../../config/links';
 import RoomActions from '../../actions/RoomActions';
 import HotelActions from '../../actions/HotelActions';
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
+import GalleryService from '../../services/GalleryService';
+import GalleryImage from '../../components/GalleryImage';
+import ImageUploadForm from '../../components/ImageUploadForm';
+import FileActions from '../../actions/FileActions';
 
 class NewRoomPage extends React.Component {
     constructor(props) {
@@ -22,7 +28,8 @@ class NewRoomPage extends React.Component {
     }
 
     render() {
-        const { cost, adults, isRoomAvailable, roomNumber, isNumberValid } = this.props;
+        const { cost, adults, isRoomAvailable, roomNumber, isNumberValid,
+                filesSelected, isFileTypeValid, imageIds } = this.props;
 
         return (
             <div>
@@ -40,6 +47,22 @@ class NewRoomPage extends React.Component {
                     sendRequest={this.props.createRoom}
                     isNumberValid={isNumberValid}
                 />
+                <ImageUploadForm
+                    filesSelected={filesSelected}
+                    isValid={isFileTypeValid}
+                    onInputChange={this.props.chooseImages}
+                    onUpload={this.props.uploadImages}
+                />
+                {
+                    (imageIds && imageIds.length)
+                    ? <Gallery
+                        photos={this.props.getImageSet(imageIds)}
+                        direction={'column'}
+                        ImageComponent={GalleryImage}
+                        onClick={this.props.removeImage}
+                    />
+                    : null
+                }
             </div>
         );
     }
@@ -56,6 +79,9 @@ const mapStateToProps = (state) => {
         isRoomAvailable: state.rooms.isRoomAvailable,
         roomNumber: state.rooms.roomNumber,
         isNumberValid: state.rooms.isNumberValid,
+        isFileTypeValid: state.files.isFileTypeValid,
+        filesSelected: state.files.filesSelected,
+        imageIds: state.files.imageIds
     }
 }
 
@@ -87,13 +113,29 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         createRoom: () => RoomActions.createRoom(hotelId),
 
-        setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number)
+        setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number),
+
+        chooseImages: (images) => FileActions.chooseFiles(images),
+
+        uploadImages: (images) => FileActions.uploadImages(images),
+
+        removeImage: (e, info) => FileActions.deleteImage(info.photo.id),
+
+        removeAllImages: () => FileActions.removeAllImages()
     }, dispatch);
 
     return {
         ...bindedCreators,
 
-        getAdultOptions: () => SelectService.getNumericOptions(10)
+        getAdultOptions: () => SelectService.getNumericOptions(10),
+
+        getImageSet: (imageIds) => {
+            const imageLinkCreator = (imageId) => (
+                links.IMAGE_DOWNLOAD_PATH(imageId)
+            );
+
+            return GalleryService.getImageSet(imageLinkCreator, imageIds);
+        }
     }
 }
 

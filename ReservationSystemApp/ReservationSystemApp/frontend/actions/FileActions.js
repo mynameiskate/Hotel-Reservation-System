@@ -8,36 +8,56 @@ import {
 import FileService from '../services/FileService';
 
 class FileActions {
-    static chooseFiles(files) {
-        const chooseRequest = (files) => {
+    static setImages(imageIds) {
+        const setRequest = (imageIds) => {
             return {
-                type: fileConstants.ADD_IMAGE_REQUEST,
+                type: fileConstants.SET_IMAGES,
                 payload: {
-                    files
+                    imageIds
                 }
+            }
+        }
+
+        return dispatch => {
+            dispatch(setRequest(imageIds));
+        }
+    }
+
+    static removeAllImages() {
+        const resetRequest = () => {
+            return {
+                type: fileConstants.RESET_IMAGES
+            }
+        }
+
+        return dispatch => {
+            dispatch(resetRequest());
+        }
+    }
+
+    static chooseFiles(files) {
+        const chooseRequest = () => {
+            return {
+                type: fileConstants.ADD_IMAGE_REQUEST
             }
         };
 
-        const chooseSuccess = (files) => {
+        const chooseSuccess = () => {
             return {
-                type: fileConstants.ADD_IMAGE_SUCCESS,
-                payload: {
-                    files
-                }
+                type: fileConstants.ADD_IMAGE_SUCCESS
             }
         };
 
         const chooseFailure = () => {
             return {
                 type: fileConstants.ADD_IMAGE_FAILURE,
-                payload: {}
             }
         };
 
         return dispatch => {
-            dispatch(chooseRequest(files))
+            dispatch(chooseRequest())
             imagesOnly(files) ?
-                dispatch(chooseSuccess(files)) :
+                dispatch(chooseSuccess()) :
                 dispatch(chooseFailure());
         }
     }

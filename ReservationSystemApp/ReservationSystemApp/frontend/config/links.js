@@ -32,5 +32,5 @@ export const links = {
     BOOKING_ID_PAGE: (roomId = 1) => `/booking/${roomId}`,
     HOTEL_API_PAGE: (hotelId) => `/hotels/${hotelId}`,
     IMAGE_UPLOAD_PATH: '/images',
-    ROOM_IMAGE_DOWNLOAD_PATH: (roomId, imageId) => `/api/images/rooms/${roomId}/${imageId}`
+    IMAGE_DOWNLOAD_PATH: (imageId) => `/api/images/${imageId}`
 }

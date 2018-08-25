@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Crossmark = () => (          //TODO: move styles
+const Crossmark = ( { onClick }) => (          //TODO: move styles
     <div
-      style={ {right:'22px', top: '2px', position: 'absolute', zIndex: '1'} }
+      style={ {right:'22px', top: '2px', position: 'absolute'/*, zIndex: '1'*/} }
+      onClick={onClick}
     >
         <svg
             style={{ fill: 'white', position: 'absolute' }}

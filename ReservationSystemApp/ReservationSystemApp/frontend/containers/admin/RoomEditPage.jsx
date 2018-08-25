@@ -11,48 +11,28 @@ import HotelActions from '../../actions/HotelActions';
 import RoomEditForm from '../../components/HotelRoomEditForm';
 import SelectService from '../../services/SelectService';
 import GalleryService from '../../services/GalleryService';
-import ImageUploadModal from '../../components/ImageUploadModal';
+import ImageUploadForm from '../../components/ImageUploadForm';
 import FileActions from '../../actions/FileActions';
 import ReservationActions from '../../actions/ReservationActions';
 
 class RoomEditPage extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            isImageModalOpen: false
-        };
     }
 
     componentDidMount() {
-       this.props.init(this.getHotelId());
+       this.props.init();
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
-            this.props.getRoomPage(this.props.search);
+            this.props.init();
         }
-    }
-
-    openModal = (room) => {
-        this.setState({
-            isBookingModalOpen: true
-        });
-        this.props.setCurrentRoom(room);
-    }
-
-    closeModal = () => {
-        this.setState({isBookingModalOpen: false});
-    }
-
-    getHotelId() {
-        return this.props.match.params.hotelId;
     }
 
     render() {
         const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error,
-                files, isFileTypeValid } = this.props;
-        const imageIds = currentRoom ? currentRoom.imageIds : null;
+                filesSelected, isFileTypeValid, imageIds } = this.props;
         return (
             <div>
             {
@@ -73,26 +53,25 @@ class RoomEditPage extends React.Component {
                             sendRequest={this.props.editRoom}
                             isNumberValid={isNumberValid}
                         />
-                        <button onClick={() => this.openModal(currentRoom)}>Add photos</button>
+                        <button onClick={this.props.removeAllImages}>Remove all images</button>
                     </div>
             }
+            <ImageUploadForm
+                filesSelected={filesSelected}
+                isValid={isFileTypeValid}
+                onInputChange={this.props.chooseImages}
+                onUpload={this.props.uploadImages}
+            />
             {
-                imageIds &&
-                    <Gallery
-                        photos={this.props.getImageSet(imageIds)}
-                        direction={'column'}
-                        ImageComponent={GalleryImage}
-                        onClick={this.props.removeImage}
-                    />
+                (imageIds && imageIds.length)
+                ? <Gallery
+                    photos={this.props.getImageSet(imageIds)}
+                    direction={'column'}
+                    ImageComponent={GalleryImage}
+                    onClick={this.props.removeImage}
+                  />
+                : null
             }
-                <ImageUploadModal
-                    files={files}
-                    isValid={isFileTypeValid}
-                    onInputChange={this.props.chooseImages}
-                    onUpload={this.props.uploadImages}
-                    isOpen={this.state.isBookingModalOpen}
-                    onClose={this.closeModal}
-                />
             </div>
         );
     }
@@ -111,7 +90,7 @@ const mapStateToProps = (state) => {
         roomNumber: state.rooms.roomNumber,
         isNumberValid: state.rooms.isNumberValid,
         isFileTypeValid: state.files.isFileTypeValid,
-        files: state.files.files,
+        filesSelected: state.files.filesSelected,
         imageIds: state.files.imageIds
     }
 }
@@ -154,7 +133,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
 
-        removeImage: () => {}
+        removeImage: (e, info) => FileActions.deleteImage(info.photo.id),
+
+        removeAllImages: () => FileActions.removeAllImages()
     }, dispatch);
 
     return {
@@ -164,11 +145,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         getImageSet: (imageIds) => {
             const imageLinkCreator = (imageId) => (
-                links.ROOM_IMAGE_DOWNLOAD_PATH(imageId, roomId)
+                links.IMAGE_DOWNLOAD_PATH(imageId)
             );
 
-            const imageSet = GalleryService.getImageSet(imageLinkCreator, imageIds);
-            return imageSet;
+            return GalleryService.getImageSet(imageLinkCreator, imageIds);
         }
     }
 }

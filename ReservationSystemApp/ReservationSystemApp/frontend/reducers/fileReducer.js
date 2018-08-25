@@ -7,53 +7,59 @@ const initialState = {
     files: [],
     isFileTypeValid: true,
     error: null,
-    imageIds: []
+    imageIds: [],
+    filesSelected: false
 }
 
 export function fileReducer(state = initialState, action) {
     let data = action.payload;
     switch (action.type) {
+        case fileConstants.SET_IMAGES:
+            return {
+                ...state,
+                imageIds: data.imageIds
+            }
         case fileConstants.ADD_IMAGE_REQUEST:
             return {
                 ...state,
-                files: []
+                filesSelected: false
             }
         case fileConstants.ADD_IMAGE_SUCCESS:
-            {
-                const imageId = data.info;
-                if (!imageId) return state;
-                return {
-                    ...state,
-                    isFileTypeValid: true,
-                    files: data.files,
-                    imageIds: [
-                        ...state.imageIds,
-                        imageId
-                    ]
-                }
+            return {
+                ...state,
+                isFileTypeValid: true,
+                filesSelected: true
             }
         case fileConstants.ADD_IMAGE_FAILURE:
             return {
                 ...state,
                 isFileTypeValid: false,
-                files: []
+                filesSelected: false
             }
         case fileConstants.UPLOAD_FILES_REQUEST:
             return {
                 ...state,
                 isLoading: true,
-                files: data.files
+                filesSelected: false
+            }
+        case fileConstants.RESET_IMAGES:
+            return {
+                ...state,
+                imageIds: []
             }
         case fileConstants.UPLOAD_FILES_SUCCESS:
             {
                 const imageId = data.info;
+                const currentImageIds = state.imageIds;
+
+                const imageIds = [ ...imageId, ...currentImageIds];
 
                 if (!imageId) return state;
                 return {
                     ...state,
                     imageIds: [
-                        ...state.imageIds,
-                        data.info
+                        ...currentImageIds,
+                        ...imageId
                     ],
                     isLoading: false
                 }

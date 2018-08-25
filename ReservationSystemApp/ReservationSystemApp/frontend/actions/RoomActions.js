@@ -10,6 +10,7 @@ import MomentExtensions from '../extensions/MomentExtensions';
 import HotelSearchActions from './HotelSearchActions';
 import RoomService from '../services/RoomService';
 import HistoryActions from './HistoryActions';
+import FileActions from './FileActions';
 
 class RoomActions {
     static getHotelRoom(hotelId, roomId) {
@@ -47,7 +48,8 @@ class RoomActions {
                 .then(jsonInfo => {
                     dispatch(getSuccess(jsonInfo));
                     if (jsonInfo.entities) {
-                        dispatch(this.syncParamsWithInfo(jsonInfo.entities[0]))
+                        dispatch(this.syncParamsWithInfo(jsonInfo.entities[0]));
+                        dispatch(FileActions.setImages(jsonInfo.entities[0].imageIds));
                     }
                     return jsonInfo;
                 })
@@ -301,12 +303,14 @@ class RoomActions {
                 roomNumber
             } = stateAccessor().rooms;
 
+            const { imageIds } = stateAccessor().files;
             const roomModel = {
                 id: roomId,
                 cost,
                 adults,
                 isAvailable: isRoomAvailable,
-                number: roomNumber
+                number: roomNumber,
+                imageIds
             }
 
             dispatch(editRequest(roomId, roomModel));
@@ -352,11 +356,14 @@ class RoomActions {
                 roomNumber
             } = stateAccessor().rooms;
 
+            const { imageIds } = stateAccessor().files;
+
             const roomModel = {
                 cost,
                 adults,
                 isAvailable: isRoomAvailable,
-                number: roomNumber
+                number: roomNumber,
+                imageIds
             }
 
             dispatch(createRequest(roomModel));

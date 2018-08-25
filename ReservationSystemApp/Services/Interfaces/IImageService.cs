@@ -7,7 +7,7 @@ namespace Services.Interfaces
 {
     public interface IImageService
     {
-        Task<FileModel> GetRoomImage(int roomId, int imageId);
+        Task<FileModel> GetImage(int imageId);
         Task<List<int>> SaveImages(List<IFormFile> images);
     }
 }
