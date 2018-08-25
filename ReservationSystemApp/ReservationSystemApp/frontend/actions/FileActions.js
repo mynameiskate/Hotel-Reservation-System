@@ -42,12 +42,6 @@ class FileActions {
             }
         };
 
-        const chooseSuccess = () => {
-            return {
-                type: fileConstants.ADD_IMAGE_SUCCESS
-            }
-        };
-
         const chooseFailure = () => {
             return {
                 type: fileConstants.ADD_IMAGE_FAILURE,
@@ -57,7 +51,7 @@ class FileActions {
         return dispatch => {
             dispatch(chooseRequest())
             imagesOnly(files) ?
-                dispatch(chooseSuccess()) :
+                dispatch(this.uploadImages(files)) :
                 dispatch(chooseFailure());
         }
     }

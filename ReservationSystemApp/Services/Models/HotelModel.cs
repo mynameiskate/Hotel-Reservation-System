@@ -23,23 +23,19 @@ namespace Services.Models
 
         public HotelModel(Hotel hotel)
         {
-            if (hotel != null)
-            {
-                HotelId = hotel.HotelId;
-                Name = hotel.Name;
-                Stars = hotel.Stars;
-                IsRemoved = hotel.IsRemoved;
-                Location = new LocationModel(hotel.Location);
+            HotelId = hotel.HotelId;
+            Name = hotel.Name;
+            Stars = hotel.Stars;
+            IsRemoved = hotel.IsRemoved;
+            Location = new LocationModel(hotel.Location);
 
-                IEnumerable<ServiceModel> services = hotel.Services?.Select(s => new ServiceModel(s));
-                Services = services?.ToList() ?? new List<ServiceModel>();
+            IEnumerable<ServiceModel> services = hotel.Services?.Select(s => new ServiceModel(s));
+            Services = services?.ToList() ?? new List<ServiceModel>();
 
-                IEnumerable<ContactModel> contacts = hotel.Contacts?.Select(c => new ContactModel(c));
-                Contacts = contacts?.ToList() ?? new List<ContactModel>();
+            IEnumerable<ContactModel> contacts = hotel.Contacts?.Select(c => new ContactModel(c));
+            Contacts = contacts?.ToList() ?? new List<ContactModel>();
 
-                IEnumerable<int> images = hotel.Images?.Select(img => img.ImageId);
-                ImageIds = images?.ToList();
-            }
+            ImageIds = hotel?.Images?.Select(img => img.ImageId).ToList();
         }
 
         public HotelModel() {}

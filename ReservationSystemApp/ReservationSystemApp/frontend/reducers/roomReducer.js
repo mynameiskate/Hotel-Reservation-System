@@ -97,6 +97,16 @@ export function roomReducer(state = initialState, action) {
                 isLoading: true,
                 nextPage: null
             }
+        case roomConstants.RESET_ROOM_INFO:
+            return {
+                ...state,
+                cost: null,
+                currentRoom: null,
+                adults: null,
+                isRoomAvailable: true,
+                roomNumber: null,
+                isNumberValid: false
+            }
         case roomConstants.GET_ROOM_SUCCESS:
             const roomInfo = data.roomInfo;
 

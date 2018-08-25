@@ -32,7 +32,7 @@ class RoomEditPage extends React.Component {
 
     render() {
         const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error,
-                filesSelected, isFileTypeValid, imageIds } = this.props;
+                isFileTypeValid, imageIds } = this.props;
         return (
             <div>
             {
@@ -57,10 +57,8 @@ class RoomEditPage extends React.Component {
                     </div>
             }
             <ImageUploadForm
-                filesSelected={filesSelected}
                 isValid={isFileTypeValid}
                 onInputChange={this.props.chooseImages}
-                onUpload={this.props.uploadImages}
             />
             {
                 (imageIds && imageIds.length)
@@ -90,7 +88,6 @@ const mapStateToProps = (state) => {
         roomNumber: state.rooms.roomNumber,
         isNumberValid: state.rooms.isNumberValid,
         isFileTypeValid: state.files.isFileTypeValid,
-        filesSelected: state.files.filesSelected,
         imageIds: state.files.imageIds
     }
 }
@@ -128,8 +125,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number),
 
         chooseImages: (images) => FileActions.chooseFiles(images),
-
-        uploadImages: (images) => FileActions.uploadImages(images),
 
         setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
 

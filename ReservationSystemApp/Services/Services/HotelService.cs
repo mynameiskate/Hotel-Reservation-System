@@ -149,6 +149,7 @@ namespace Services.Services
             hotel.Name = hotelInfo.Name;
             hotel.Stars = hotelInfo.Stars;
             hotel.Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services);
+            hotel.Images = await GetUpdatedHotelImages(hotelInfo.HotelId, hotelInfo.ImageIds);
             _dataContext.Update(hotel);
             await _dataContext.SaveChangesAsync();
         }
@@ -180,8 +181,9 @@ namespace Services.Services
                     CityId = hotelInfo.Location.CityId,
                 },
                 Stars = hotelInfo.Stars,
-                Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services)
-        };
+                Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services),
+                Images = UpdateHotelImages(hotelInfo.HotelId, new List<HotelImage>(), hotelInfo.ImageIds)
+            };
 
             await _dataContext.Hotels.AddAsync(hotel);
             await _dataContext.SaveChangesAsync();
@@ -204,7 +206,8 @@ namespace Services.Services
                 Cost = roomInfo.Cost,
                 Number = roomInfo.Number,
                 IsAvailable = roomInfo.IsAvailable,
-                RoomTypeId = 1
+                RoomTypeId = 1,
+                Images = UpdateRoomImages(roomInfo.Id, new List<RoomImage>(), roomInfo.ImageIds)
             };
 
             await _dataContext.HotelRooms.AddAsync(hotelRoom);
@@ -223,6 +226,48 @@ namespace Services.Services
             _dataContext.Update(currentLocation);
         }
 
+        private List<HotelImage> UpdateHotelImages(int hotelId, List<HotelImage> hotelImages, IEnumerable<int> imageIds)
+        {
+            foreach (int imageId in imageIds)
+            {
+                hotelImages.Add(new HotelImage
+                {
+                    ImageId = imageId,
+                    HotelId = hotelId
+                });
+            }
+
+            return hotelImages;
+        }
+
+        private List<RoomImage> UpdateRoomImages(int roomId, List<RoomImage> roomImages, IEnumerable<int> imageIds)
+        {
+            foreach (int imageId in imageIds)
+            {
+                roomImages.Add(new RoomImage
+                {
+                    ImageId = imageId,
+                    HotelRoomId = roomId
+                });
+            }
+
+            return roomImages;
+        }
+
+        private async Task<List<HotelImage>> GetUpdatedHotelImages(int hotelId, List<int> imageIds)
+        {
+            if (imageIds == null) return null;
+
+            var existingImages = _dataContext.HotelImages.Where(img => img.HotelId == hotelId
+                                    && imageIds.Contains(img.ImageId));
+
+            var newImageIds = imageIds.Where(id => !existingImages.Any(img => img.ImageId == id));
+
+            var updatedImageList = await existingImages.ToListAsync();
+
+            return UpdateHotelImages(hotelId, updatedImageList, imageIds);
+        }
+
         private async Task<List<RoomImage>> GetUpdatedRoomImages(int roomId, List<int> imageIds)
         {
             if (imageIds == null) return null;
@@ -232,18 +277,9 @@ namespace Services.Services
 
             var newImageIds = imageIds.Where(id => !existingImages.Any(img => img.ImageId == id));
 
-            var updatedImageList = await existingImages.ToListAsync(); 
+            var updatedImageList = await existingImages.ToListAsync();
 
-            foreach (int imageId in newImageIds)
-            {
-                updatedImageList.Add(new RoomImage
-                {
-                    ImageId = imageId,
-                    HotelRoomId = roomId
-                });
-            }
-
-            return updatedImageList;
+            return UpdateRoomImages(roomId, updatedImageList, newImageIds);
         }
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)

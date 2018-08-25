@@ -29,7 +29,7 @@ class NewRoomPage extends React.Component {
 
     render() {
         const { cost, adults, isRoomAvailable, roomNumber, isNumberValid,
-                filesSelected, isFileTypeValid, imageIds } = this.props;
+                isFileTypeValid, imageIds } = this.props;
 
         return (
             <div>
@@ -48,10 +48,8 @@ class NewRoomPage extends React.Component {
                     isNumberValid={isNumberValid}
                 />
                 <ImageUploadForm
-                    filesSelected={filesSelected}
                     isValid={isFileTypeValid}
                     onInputChange={this.props.chooseImages}
-                    onUpload={this.props.uploadImages}
                 />
                 {
                     (imageIds && imageIds.length)
@@ -80,7 +78,6 @@ const mapStateToProps = (state) => {
         roomNumber: state.rooms.roomNumber,
         isNumberValid: state.rooms.isNumberValid,
         isFileTypeValid: state.files.isFileTypeValid,
-        filesSelected: state.files.filesSelected,
         imageIds: state.files.imageIds
     }
 }
@@ -92,6 +89,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         init: () => {
             return dispatch => {
                 dispatch(HotelActions.showHotel(hotelId));
+                dispatch(RoomActions.resetRoomInfo());
+                dispatch(FileActions.removeAllImages());
             }
         },
 
@@ -116,8 +115,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setRoomNumber: (number) => RoomActions.setRoomNumber(hotelId, number),
 
         chooseImages: (images) => FileActions.chooseFiles(images),
-
-        uploadImages: (images) => FileActions.uploadImages(images),
 
         removeImage: (e, info) => FileActions.deleteImage(info.photo.id),
 

@@ -378,6 +378,18 @@ class RoomActions {
                 .catch(error => dispatch(createFailure(error)));
         }
     }
+
+    static resetRoomInfo() {
+        const resetRequest = () => {
+            return {
+                type: roomConstants.RESET_ROOM_INFO
+            }
+        }
+
+        return dispatch => {
+            dispatch(resetRequest());
+        }
+    }
 }
 
 let handleError = function(response) {
