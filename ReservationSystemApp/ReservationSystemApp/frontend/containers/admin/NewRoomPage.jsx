@@ -19,12 +19,8 @@ class NewRoomPage extends React.Component {
         super(props);
     }
 
-    getHotelId() {
-        return this.props.match.params.hotelId;
-    }
-
     componentDidMount() {
-       this.props.init(this.getHotelId());
+       this.props.init();
     }
 
     render() {

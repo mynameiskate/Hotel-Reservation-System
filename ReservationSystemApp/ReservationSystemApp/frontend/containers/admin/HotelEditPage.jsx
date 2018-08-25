@@ -2,6 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
+import Gallery from 'react-photo-gallery';
+
+import { links } from '../../config/links';
+import GalleryImage from '../../components/GalleryImage';
+import GalleryService from '../../services/GalleryService';
+import ImageUploadForm from '../../components/ImageUploadForm';
+import FileActions from '../../actions/FileActions';
 
 import HotelSearchActions from '../../actions/HotelSearchActions';
 import HotelActions from '../../actions/HotelActions';
@@ -20,15 +27,7 @@ class HotelEditPage extends React.Component {
     }
 
     componentDidMount() {
-        const hotelId = this.getHotelId();
-        this.props.init(hotelId);
-        this.props.getLocations();
-        this.props.getServices(hotelId);
-        this.props.getPossibleServices();
-    }
-
-    getHotelId() {
-        return this.props.match.params.id;
+        this.props.init();
     }
 
     changeServicesVisibility = () => {
@@ -58,9 +57,9 @@ class HotelEditPage extends React.Component {
     }
 
     render() {
-        const { hotelInfo, error, isLoading, selectedCity,
-            selectedCountry, stars, hotelName, address, services, newService,
-            newServiceCost, newServiceName } = this.props;
+        const { hotelInfo, error, isLoading, selectedCity, selectedCountry,
+                stars, hotelName, address, services, newService, newServiceCost,
+                newServiceName, isFileTypeValid, imageIds } = this.props;
 
         return (
             <div>
@@ -95,6 +94,20 @@ class HotelEditPage extends React.Component {
                             removeService={this.props.removeService}
                             updateCost={this.props.updateServiceCost}
                         />
+                        <ImageUploadForm
+                            isValid={isFileTypeValid}
+                            onInputChange={this.props.chooseImages}
+                        />
+                        {
+                            (imageIds && imageIds.length)
+                            ? <Gallery
+                                photos={this.props.getImageSet(imageIds)}
+                                direction={'column'}
+                                ImageComponent={GalleryImage}
+                                onClick={this.props.removeImage}
+                            />
+                            : null
+                        }
                         <ServiceCreationForm
                             newService={newService}
                             newServiceCost={newServiceCost}
@@ -131,14 +144,25 @@ const mapStateToProps = (state) => {
         possibleServices: state.reservations.possibleServices,
         newService: state.reservations.newService,
         newServiceCost: state.reservations.newServiceCost,
-        newServiceName: state.reservations.newServiceName
+        newServiceName: state.reservations.newServiceName,
+        isNumberValid: state.rooms.isNumberValid,
+        isFileTypeValid: state.files.isFileTypeValid,
+        imageIds: state.files.imageIds
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     const hotelId = ownProps.match.params.id;
     const bindedCreators = bindActionCreators({
-        init: (id) => HotelActions.showHotel(id),
+
+        init: () => {
+            return dispatch => {
+                dispatch(HotelActions.showHotel(hotelId));
+                dispatch(HotelActions.getHotelLocations(true));
+                dispatch(ReservationActions.getServices(hotelId));
+                dispatch(ReservationActions.getPossibleServices());
+            }
+        },
 
         getServices: (id) => ReservationActions.getServices(id),
 
@@ -195,7 +219,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         getPossibleServices: () => ReservationActions.getPossibleServices(),
 
-        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId)
+        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId),
+
+        chooseImages: (images) => FileActions.chooseFiles(images),
+
+        setCurrentRoom: (room) => ReservationActions.setCurrentRoom(room),
+
+        removeImage: (e, info) => FileActions.deleteImage(info.photo.id),
+
+        removeAllImages: () => FileActions.removeAllImages()
     }, dispatch);
 
     return {
@@ -208,7 +240,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId')
         ),
 
-        getStarOptions: () => SelectService.getNumericOptions(5)
+        getStarOptions: () => SelectService.getNumericOptions(5),
+
+        getImageSet: (imageIds) => {
+            const imageLinkCreator = (imageId) => (
+                links.IMAGE_DOWNLOAD_PATH(imageId)
+            );
+
+            return GalleryService.getImageSet(imageLinkCreator, imageIds);
+        }
     }
 }
 

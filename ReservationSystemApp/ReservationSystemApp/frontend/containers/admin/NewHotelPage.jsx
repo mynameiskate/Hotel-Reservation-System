@@ -2,6 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
+import Gallery from 'react-photo-gallery';
+
+import { links } from '../../config/links';
+import GalleryImage from '../../components/GalleryImage';
+import GalleryService from '../../services/GalleryService';
+import ImageUploadForm from '../../components/ImageUploadForm';
+import FileActions from '../../actions/FileActions';
 
 import HotelSearchActions from '../../actions/HotelSearchActions';
 import HotelActions from '../../actions/HotelActions';
@@ -20,8 +27,7 @@ class NewHotelPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getLocations();
-        this.props.getPossibleServices();
+        this.props.init();
     }
 
     changeServicesVisibility = () => {
@@ -53,7 +59,8 @@ class NewHotelPage extends React.Component {
     render() {
         const { error, isLoading, selectedCity, selectedCountry,
                 stars, hotelName, address, services, newService,
-                newServiceCost, newServiceName } = this.props;
+                newServiceCost, newServiceName, isFileTypeValid,
+                imageIds } = this.props;
 
         return (
             <div>
@@ -84,6 +91,20 @@ class NewHotelPage extends React.Component {
                     removeService={this.props.removeService}
                     updateCost={this.props.updateServiceCost}
                 />
+                <ImageUploadForm
+                    isValid={isFileTypeValid}
+                    onInputChange={this.props.chooseImages}
+                />
+                {
+                    (imageIds && imageIds.length)
+                    ? <Gallery
+                        photos={this.props.getImageSet(imageIds)}
+                        direction={'column'}
+                        ImageComponent={GalleryImage}
+                        onClick={this.props.removeImage}
+                     />
+                    : null
+                }
                 <ServiceCreationForm
                     newService={newService}
                     newServiceCost={newServiceCost}
@@ -118,12 +139,23 @@ const mapStateToProps = (state) => {
         possibleServices: state.reservations.possibleServices,
         newService: state.reservations.newService,
         newServiceCost: state.reservations.newServiceCost,
-        newServiceName: state.reservations.newServiceName
+        newServiceName: state.reservations.newServiceName,
+        isFileTypeValid: state.files.isFileTypeValid,
+        imageIds: state.files.imageIds
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     const bindedCreators = bindActionCreators({
+        init: () => {
+            return dispatch => {
+                dispatch(HotelActions.resetHotelInfo());
+                dispatch(FileActions.removeAllImages());
+                dispatch(HotelActions.getHotelLocations(true));
+                dispatch(ReservationActions.getPossibleServices());
+            }
+        },
+
         getLocations: () => HotelActions.getLocations(),
 
         sendCreateRequest: () => HotelActions.createHotel(),
@@ -177,7 +209,13 @@ const mapDispatchToProps = (dispatch) => {
 
         getPossibleServices: () => ReservationActions.getPossibleServices(),
 
-        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId)
+        updatePossibleServices: (serviceId) => ReservationActions.updatePossibleServices(serviceId),
+
+        chooseImages: (images) => FileActions.chooseFiles(images),
+
+        removeImage: (e, info) => FileActions.deleteImage(info.photo.id),
+
+        removeAllImages: () => FileActions.removeAllImages()
     }, dispatch);
 
     return {
@@ -190,7 +228,15 @@ const mapDispatchToProps = (dispatch) => {
             SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId')
         ),
 
-        getStarOptions: () => SelectService.getNumericOptions(5)
+        getStarOptions: () => SelectService.getNumericOptions(5),
+
+        getImageSet: (imageIds) => {
+            const imageLinkCreator = (imageId) => (
+                links.IMAGE_DOWNLOAD_PATH(imageId)
+            );
+
+            return GalleryService.getImageSet(imageLinkCreator, imageIds);
+        }
     }
 }
 

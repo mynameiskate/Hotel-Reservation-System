@@ -1,7 +1,8 @@
 import React from 'react';
 
-const HotelInfo = ( {hotel} ) => (
+const HotelInfo = ( { hotel, imageLink } ) => (
     <div>
+        { imageLink && <img src={imageLink}/>}
         {hotel.name && <h2>{hotel.name}</h2>}
         {hotel.stars && <li>Stars: {hotel.stars}</li>}
         {hotel.location && <li>City: {hotel.location.city}</li>}
@@ -10,4 +11,4 @@ const HotelInfo = ( {hotel} ) => (
     </div>
 )
 
-export default HotelInfo
+export default HotelInfo;

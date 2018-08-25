@@ -83,7 +83,10 @@ class RoomSearchPage extends React.Component {
                 { isHotelLoading && <h3>Loading..</h3>}
                 {loaded &&
                     <div>
-                        <HotelInfo hotel={loaded}/>
+                        <HotelInfo
+                            hotel={loaded}
+                            imageLink={this.props.imageLinkCreator(loaded.hotelId)}
+                        />
                         {hotelError && <h3>{hotelError}</h3>}
                     </div>
                 }
@@ -96,16 +99,19 @@ class RoomSearchPage extends React.Component {
                             {!moveInDate || !moveOutDate
                                 && <h4>Choose move in and move out date</h4>}
                             {   roomInfo &&
-                                <RoomList info={roomInfo}
-                                          isBookingEnabled={isBookingEnabled}
-                                          showBookModal={this.openModal}
+                                <RoomList
+                                    info={roomInfo}
+                                    isBookingEnabled={isBookingEnabled}
+                                    showBookModal={this.openModal}
+                                    imageLinkCreator={this.props.imageLinkCreator}
                                 />
                             }
                             {roomError && <h4>Rooms could not be loaded.</h4>}
                             {!isRoomLoading &&
                                 <PageBar currentPage={page}
                                     nextPage={nextPage}
-                                    goToPage={(num) => this.setPage(num)}/>
+                                    goToPage={(num) => this.setPage(num)}
+                                />
                             }
                         </div>
                         : <div>
@@ -115,20 +121,21 @@ class RoomSearchPage extends React.Component {
                     )
                 }
 
-                <BookingModal moveInDate={this.props.moveInDate}
-                              moveOutDate={this.props.moveOutDate}
-                              isOpen={this.state.isBookingModalOpen}
-                              onClose={this.closeModal}
-                              onCancel={this.onCancel}
-                              onBook={this.props.confirmReservation}
-                              room={currentRoom}
-                              time={moveInTime}
-                              onTimeChange={this.props.setMoveInTime}
-                              services={services}
-                              totalCost={totalCost}
-                              addService={this.props.addService}
-                              removeService={this.props.removeService}
-                              secondsLimit={settings.confirmationLimit}
+                <BookingModal
+                    moveInDate={this.props.moveInDate}
+                    moveOutDate={this.props.moveOutDate}
+                    isOpen={this.state.isBookingModalOpen}
+                    onClose={this.closeModal}
+                    onCancel={this.onCancel}
+                    onBook={this.props.confirmReservation}
+                    room={currentRoom}
+                    time={moveInTime}
+                    onTimeChange={this.props.setMoveInTime}
+                    services={services}
+                    totalCost={totalCost}
+                    addService={this.props.addService}
+                    removeService={this.props.removeService}
+                    secondsLimit={settings.confirmationLimit}
                 />
             </div>
         );
@@ -197,7 +204,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         ...bindedCreators,
-        getHotelId: () => ownProps.hotelId
+        getHotelId: () => ownProps.hotelId,
+
+        imageLinkCreator: (imageId) => (
+            links.IMAGE_DOWNLOAD_PATH(imageId)
+        )
+
     }
 }
 

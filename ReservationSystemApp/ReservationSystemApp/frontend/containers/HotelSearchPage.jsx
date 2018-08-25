@@ -110,8 +110,10 @@ class HotelSearchPage extends React.Component {
                   : ( resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>
-                        <HotelList  info={info}
-                                    getDetailsLink={(id) => this.getDetailsLink(id)}
+                        <HotelList
+                            info={info}
+                            getDetailsLink={(id) => this.getDetailsLink(id)}
+                            imageLinkCreator={this.props.imageLinkCreator}
                         />
                     </div>
                       : error ? <h3>Loading error</h3>
@@ -119,9 +121,11 @@ class HotelSearchPage extends React.Component {
                     )
                 }
                { (pageCount > 0 && !isLoading) &&
-                    <PageBar  currentPage={page}
-                              nextPage={nextPage}
-                              goToPage={this.setPage}/>
+                    <PageBar
+                        currentPage={page}
+                        nextPage={nextPage}
+                        goToPage={this.setPage}
+                    />
                 }
             </div>
         );
@@ -180,7 +184,11 @@ const mapDispatchToProps = (dispatch) => {
         getDetailsLink: (id, moveInDate, moveOutDate, adults) => {
             const query = HistoryActions.getQuery(moveInDate, moveOutDate, adults);
             return ({pathname: links.HOTEL_ID_PAGE(id), search: query});
-        }
+        },
+
+        imageLinkCreator: (imageId) => (
+            links.IMAGE_DOWNLOAD_PATH(imageId)
+        )
     }
 }
 

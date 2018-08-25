@@ -83,6 +83,11 @@ export function hotelReducer(state = initialState, action) {
                 isLoading: true,
                 loaded: data.loaded,
             }
+        case hotelConstants.RESET_HOTEL_INFO:
+            return {
+                ...state,
+                loaded: null
+            }
         case hotelConstants.SHOW_HOTEL_SUCCESS:
             return {
                 ...state,

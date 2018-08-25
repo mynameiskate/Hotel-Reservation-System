@@ -49,13 +49,16 @@ class RoomListPage extends React.Component {
                                 <RoomEditList
                                     info={roomInfo}
                                     getEditLink={this.props.getEditLink}
+                                    imageLinkCreator={this.props.imageLinkCreator}
                                 />
                             }
                             {error && <h4>An error occured during load.</h4>}
                             {!isLoading &&
-                                <PageBar currentPage={page}
+                                <PageBar
+                                    currentPage={page}
                                     nextPage={nextPage}
-                                    goToPage={(num) => this.props.buildQuery(num)}/>
+                                    goToPage={(num) => this.props.buildQuery(num)}
+                                />
                             }
                         </div>
                         : <div>
@@ -105,6 +108,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     return {
         ...bindedCreators,
+
+        imageLinkCreator: (imageId) => (
+            links.IMAGE_DOWNLOAD_PATH(imageId)
+        ),
 
         getEditLink: (roomId) => (
             links.ROOM_ID_EDIT_PAGE(ownProps.match.params.id, roomId)

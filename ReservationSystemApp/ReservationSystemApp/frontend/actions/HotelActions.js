@@ -3,8 +3,21 @@
 } from '../constants/hotelConstants';
 import HotelService from '../services/HotelService';
 import HotelSearchActions from './HotelSearchActions';
+import FileActions from './FileActions';
 
 class HotelActions {
+    static resetHotelInfo() {
+        const resetRequest = () => {
+            return {
+                type: hotelConstants.RESET_HOTEL_INFO
+            }
+        }
+
+        return dispatch => {
+            dispatch(resetRequest());
+        }
+    }
+
     static resetFilter() {
         const resetRequest = () => {
             return {
@@ -139,6 +152,7 @@ class HotelActions {
                         dispatch(showSuccess(info));
                         if (info.entities) {
                             dispatch(HotelSearchActions.syncParamsWithInfo(info.entities[0]));
+                            dispatch(FileActions.setImages(info.entities[0].imageIds));
                         }
                         return info;
                     })
@@ -230,6 +244,8 @@ class HotelActions {
                 services
             } = stateAccessor().reservations;
 
+            const { imageIds } = stateAccessor().files;
+
             const hotelModel = {
                 name: hotelName,
                 stars,
@@ -238,7 +254,8 @@ class HotelActions {
                     countryId: selectedCountry,
                     address
                 },
-                services
+                services,
+                imageIds
             }
 
             dispatch(createRequest(hotelModel));
@@ -289,9 +306,13 @@ class HotelActions {
                 selectedCountry,
                 address
             } = stateAccessor().search;
+
             const {
                 services
             } = stateAccessor().reservations;
+
+            const { imageIds } = stateAccessor().files;
+
             const hotelModel = {
                 hotelId,
                 name: hotelName,
@@ -301,7 +322,8 @@ class HotelActions {
                     countryId: selectedCountry,
                     address
                 },
-                services
+                services,
+                imageIds
             }
 
             dispatch(editRequest(hotelId, hotelModel));

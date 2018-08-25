@@ -81,13 +81,13 @@ namespace Services.Services
             var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
             var resultQuery = entityList
-                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
-                .Distinct()
                 .Include(h => h.Services)
                 .Include(h => h.Location)
                 .ThenInclude(l => l.City)
                 .ThenInclude(c => c.Country)
                 .Include(h => h.Images)
+                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
+                .Distinct()
                 .Select(hotel => new HotelModel(hotel));
 
             int resultCount = await resultQuery.CountAsync();
@@ -261,7 +261,9 @@ namespace Services.Services
             var existingImages = _dataContext.HotelImages.Where(img => img.HotelId == hotelId
                                     && imageIds.Contains(img.ImageId));
 
-            var newImageIds = imageIds.Where(id => !existingImages.Any(img => img.ImageId == id));
+            var newImageIds = imageIds
+                               .Where(id => !existingImages.Any(img => img.ImageId == id))
+                               .Distinct();
 
             var updatedImageList = await existingImages.ToListAsync();
 
@@ -275,7 +277,9 @@ namespace Services.Services
             var existingImages = _dataContext.RoomImages.Where(img => img.HotelRoomId == roomId
                                     && imageIds.Contains(img.ImageId));
 
-            var newImageIds = imageIds.Where(id => !existingImages.Any(img => img.ImageId == id));
+            var newImageIds = imageIds
+                               .Where(id => !existingImages.Any(img => img.ImageId == id))
+                               .Distinct();
 
             var updatedImageList = await existingImages.ToListAsync();
 
