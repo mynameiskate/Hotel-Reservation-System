@@ -73,22 +73,25 @@ class AdminPage extends React.Component {
         return(
             <div>
                 <Link to={links.HOTEL_CREATION_PAGE}>Add new hotel</Link>
-                <HotelFilter  locations={locations}
-                              selectedCountry={selectedCountry}
-                              selectedCity={selectedCity}
-                              onCountrySelect={this.setCountry}
-                              onCitySelect={this.setCity}
-                              onNameChange={this.setHotelName}
+                <HotelFilter
+                    locations={locations}
+                    selectedCountry={selectedCountry}
+                    selectedCity={selectedCity}
+                    onCountrySelect={this.setCountry}
+                    onCitySelect={this.setCity}
+                    onNameChange={this.setHotelName}
                 />
                { isLoading ?
                         <h2>Loading hotels...</h2>
                   : ( resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>
-                        <HotelEditList  info={info}
-                                        getDetailsLink={this.props.getDetailsLink}
-                                        getEditLink={this.props.getEditLink}
-                                        onDeleteClick={this.removeHotel}
+                        <HotelEditList
+                            info={info}
+                            getDetailsLink={this.props.getDetailsLink}
+                            getEditLink={this.props.getEditLink}
+                            onDeleteClick={this.removeHotel}
+                            imageLinkCreator={this.props.imageLinkCreator}
                         />
                     </div>
                       : error ? <h3>Loading error</h3>
@@ -153,7 +156,11 @@ const mapDispatchToProps = (dispatch) => {
             const query = HistoryActions.getQuery();
             return ({pathname: links.ADMIN_HOTEL_ID_PAGE(id), search: query});
         },
-        getEditLink: (id) => links.HOTEL_EDIT_ID_PAGE(id)
+        getEditLink: (id) => links.HOTEL_EDIT_ID_PAGE(id),
+
+        imageLinkCreator: (imageId) => (
+            links.IMAGE_DOWNLOAD_PATH(imageId)
+        )
     }
 }
 

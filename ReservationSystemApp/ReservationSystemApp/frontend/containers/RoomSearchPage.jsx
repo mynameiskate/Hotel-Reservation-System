@@ -34,11 +34,6 @@ class RoomSearchPage extends React.Component {
        this.props.getRoomPage(this.props.location.search);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const query = nextProps.search;
-        this.props.syncParamsWithQuery(query);
-    }
-
     componentDidUpdate(prevProps) {
         if (this.props.search !== prevProps.search) {
             this.props.getRoomPage(this.props.search);

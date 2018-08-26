@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import HotelInfo from './HotelInfo';
 
 const HotelEditList = ( { info, removing, onDeleteClick, getDetailsLink,
-                          getEditLink, imageLink } ) => (
+                          getEditLink, imageLinkCreator } ) => (
     <div>
         { Array.isArray(info) &&
             info.map((hotel) =>

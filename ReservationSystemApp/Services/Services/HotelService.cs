@@ -109,10 +109,10 @@ namespace Services.Services
             var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
 
             var resultQuery = entityList
-                .Include(r => r.RoomType)
-                .Include(r => r.Images)
                 .Where(r => r.HotelId == hotelId)
                 .FilterRooms(request, _maxElapsedMinutes, _dataContext)
+                .Include(r => r.RoomType)
+                .Include(r => r.Images)
                 .Distinct()
                 .Select((r) => new HotelRoomModel(r));
 
