@@ -14,25 +14,34 @@ const RoomFilter = (props) => {
     const personOptions = SelectService.getNumericOptions(10);
 
     return (
-        <div className='roomFilter'>
-            <label>Move in date</label>
-            <DatePicker
-                dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
-                selected = {moveInDate}
-                onChange={date => setMoveInDate(date)}
-            />
-            <label>Move in date</label>
-            <DatePicker
-                dateFormat =  {dateFormats.CALENDAR_DISPLAY_FORMAT}
-                selected = {moveOutDate}
-                onChange={date => setMoveOutDate(date)}
-            />
-            <label>Adults</label>
-            <Select
-                value = {personOptions.find(o => o.value == adultsAmount) || {}}
-                options={personOptions}
-                onChange={adults => onAdultsChange(adults.value)}
-            />
+        <div className="roomFilter">
+            <div className="datePickerBlock">
+                        <label className="filterLabel">Move in date</label>
+                        <DatePicker
+                            className="datePicker"
+                            dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
+                            selected = {moveInDate}
+                            onChange={date => setMoveInDate(date)}
+                        />
+            </div>
+            <div className="datePickerBlock">
+                <label>Move in date</label>
+                <DatePicker
+                    className="datePicker"
+                    dateFormat =  {dateFormats.CALENDAR_DISPLAY_FORMAT}
+                    selected = {moveOutDate}
+                    onChange={date => setMoveOutDate(date)}
+                />
+            </div>
+            <div className="selectBlock">
+                <label>Adults</label>
+                <Select
+                    classNamePrefix="custom-select"
+                    value = {personOptions.find(o => o.value == adultsAmount) || {}}
+                    options={personOptions}
+                    onChange={adults => onAdultsChange(adults.value)}
+                />
+            </div>
             {dateError && <label>{dateError}</label>}
         </div>
     );

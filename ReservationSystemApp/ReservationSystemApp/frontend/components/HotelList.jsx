@@ -16,7 +16,7 @@ const HotelList = ( { info, getDetailsLink, imageLinkCreator } ) => (
                             : null
                         }
                     />
-                    <Link to={getDetailsLink(hotel.hotelId)}>View details</Link>
+                    <Link className="detailsBtn" to={getDetailsLink(hotel.hotelId)}>View details</Link>
                 </div>
         )}
     </div>

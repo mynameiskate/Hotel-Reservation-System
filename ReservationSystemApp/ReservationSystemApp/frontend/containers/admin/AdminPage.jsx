@@ -73,36 +73,38 @@ class AdminPage extends React.Component {
         return(
             <div>
                 <Link to={links.HOTEL_CREATION_PAGE}>Add new hotel</Link>
-                <HotelFilter
-                    locations={locations}
-                    selectedCountry={selectedCountry}
-                    selectedCity={selectedCity}
-                    onCountrySelect={this.setCountry}
-                    onCitySelect={this.setCity}
-                    onNameChange={this.setHotelName}
-                />
-               { isLoading ?
-                        <h2>Loading hotels...</h2>
-                  : ( resultCount ?
-                    <div>
-                        <h3> Search results: {resultCount} destination(s)</h3>
-                        <HotelEditList
-                            info={info}
-                            getDetailsLink={this.props.getDetailsLink}
-                            getEditLink={this.props.getEditLink}
-                            onDeleteClick={this.removeHotel}
-                            imageLinkCreator={this.props.imageLinkCreator}
-                        />
-                    </div>
-                      : error ? <h3>Loading error</h3>
-                        : <h3>No results, try again?</h3>
-                    )
-                }
-               { (pageCount > 0 && !isLoading) &&
-                    <PageBar  currentPage={page}
-                              nextPage={nextPage}
-                              goToPage={this.setPage}/>
-                }
+                <div className="hotelSearch">
+                    <HotelFilter
+                        locations={locations}
+                        selectedCountry={selectedCountry}
+                        selectedCity={selectedCity}
+                        onCountrySelect={this.setCountry}
+                        onCitySelect={this.setCity}
+                        onNameChange={this.setHotelName}
+                    />
+                    { isLoading ?
+                                <h2>Loading hotels...</h2>
+                        : ( resultCount ?
+                            <div>
+                                <h3> Search results: {resultCount} destination(s)</h3>
+                                <HotelEditList
+                                    info={info}
+                                    getDetailsLink={this.props.getDetailsLink}
+                                    getEditLink={this.props.getEditLink}
+                                    onDeleteClick={this.removeHotel}
+                                    imageLinkCreator={this.props.imageLinkCreator}
+                                />
+                            </div>
+                            : error ? <h3>Loading error</h3>
+                                : <h3>No results, try again?</h3>
+                            )
+                        }
+                        { (pageCount > 0 && !isLoading) &&
+                            <PageBar  currentPage={page}
+                                    nextPage={nextPage}
+                                    goToPage={this.setPage}/>
+                        }
+                </div>
             </div>
         );
     }

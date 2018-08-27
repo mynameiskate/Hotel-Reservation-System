@@ -130,7 +130,7 @@ namespace Services.Services
                          .Include(h => h.Location)
                          .ThenInclude(l => l.City)
                          .ThenInclude(l => l.Country)
-                         .Include(h => h.Images)
+                         .Include(h => h.Images.Distinct())
                          .FirstOrDefaultAsync(h => h.HotelId == id);
 
             return new HotelModel(hotelEntity);

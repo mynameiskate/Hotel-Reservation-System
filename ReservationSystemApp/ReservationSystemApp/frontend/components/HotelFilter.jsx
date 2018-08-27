@@ -13,23 +13,33 @@ const HotelFilter = (props) => {
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId');
 
     return (
-        <div className='formFields'>
-            <Field name='name' label='Name' onChange={e => onNameChange(e.target.value)}
-                component={InputField} />
-            <h3>Destination country</h3>
-            <Select
-                value = {countryOptions.find(c => c.value == selectedCountry) || {}}
-                options={countryOptions}
-                isSearchable={true}
-                onChange={country => onCountrySelect(country)}
+        <div className="formFields">
+            <Field
+                name='name'
+                label='Name'
+                onChange={e => onNameChange(e.target.value)}
+                component={InputField}
             />
-            <h3>Destination city</h3>
-            <Select
-                value = {cityOptions.find(c => c.value == selectedCity) || {}}
-                options={cityOptions}
-                onChange={city => onCitySelect(city)}
-                isSearchable={true}
-            />
+            <div className="selectField">
+                <h3>Destination country</h3>
+                <Select
+                    classNamePrefix="custom-select"
+                    value = {countryOptions.find(c => c.value == selectedCountry) || {}}
+                    options={countryOptions}
+                    isSearchable={true}
+                    onChange={country => onCountrySelect(country)}
+                />
+            </div>
+            <div className="selectField">
+                <h3>Destination city</h3>
+                <Select
+                    classNamePrefix="custom-select"
+                    value = {cityOptions.find(c => c.value == selectedCity) || {}}
+                    options={cityOptions}
+                    onChange={city => onCitySelect(city)}
+                    isSearchable={true}
+                />
+            </div>
         </div>
     );
 }
