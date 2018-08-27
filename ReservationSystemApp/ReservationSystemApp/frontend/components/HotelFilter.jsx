@@ -13,7 +13,7 @@ const HotelFilter = (props) => {
     const cityOptions = SelectService.getFilteredOptions(locations, 'countryId', selectedCountry, 'city', 'cityId');
 
     return (
-        <div>
+        <div className='formFields'>
             <Field name='name' label='Name' onChange={e => onNameChange(e.target.value)}
                 component={InputField} />
             <h3>Destination country</h3>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { links } from '../config/links';
+import Header from '../components/Header';
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -10,28 +11,43 @@ class MainPage extends React.Component {
     }
 
     render() {
-        const { error, isAdmin } = this.props;
+        const { error, isAdmin, loggedIn } = this.props;
         return (
-            <div className={'header'}>
-                 <h1>Welcome to hotel reservation system</h1>
-                 <Link to={ links.SIGN_IN_PAGE } >
-                        Log in
-                 </Link>
-                 <Link to={ links.SIGN_UP_PAGE } >
-                        Sign up
-                 </Link>
-                 <Link to={ links.PROFILE_PAGE } >
-                        My profile
-                 </Link>
-                 <Link to={ links.HOTEL_ID_SEARCH_PAGE(1) } >
-                        Hotels
-                 </Link>
-                 { isAdmin &&
-                    <Link to={ links.ADMIN_PAGE } >
-                            Admin page
-                    </Link>
-                 }
-                 { error  && <h3>Loading error</h3>}
+            <div>
+                <Header
+                    isAdmin={isAdmin}
+                    loggedIn={loggedIn}
+                />
+                <div className='topHotels'>
+                    <p className='topHotelsTitle'>Top Hotels</p>
+                    <div className='topHotelsRow'>
+                        <div className='hotelCard'>
+                            <div className='topHotelImg'>
+                                <img  src='./assets/hotel1.jpg'/>
+                            </div>
+                                <p className='topHotelTitle'>Hotel Name</p>
+                                <button className='hotelViewBtn'>View</button>
+                        </div>
+                        <div className='hotelCard'>
+                            <div className='topHotelImg'>
+                                <img  src='./assets/hotel2.jpg'/>
+                            </div>
+                            <p className='topHotelTitle'>Hotel Name</p>
+                            <button className='hotelViewBtn'>View</button>
+                        </div>
+                        <div className='hotelCard'>
+                            <div className='topHotelImg'>
+                                <img  src='./assets/hotel3.jpg'/>
+                            </div>
+                            <p className='topHotelTitle'>Hotel Name</p>
+                            <button className='hotelViewBtn'>View</button>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <p className='copyright'>©2018 NEON CINEMA GROUP, ALL RIGHTS RESERVED</p>
+                </footer>
+                { error  && <h3>Loading error</h3> }
             </div>
         );
     }
@@ -44,7 +60,8 @@ const mapStateToProps = (state) => {
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,
         removing: state.hotels.removing,
-        selected: state.hotels.selected
+        selected: state.hotels.selected,
+        loggedIn: state.users.loggedIn
     }
 }
 

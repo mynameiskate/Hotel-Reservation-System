@@ -1,0 +1,63 @@
+.topHotels{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-bottom: 50px;
+}
+
+.topHotelsTitle{
+    color: @title-color;
+    font-size: 26px;
+    margin: 50px;
+    text-transform: uppercase;
+}
+
+.topHotelsRow{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.hotelCard{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    align-items: flex-start;
+    border: 1px solid @card-color;
+    box-sizing: border-box;
+}
+
+.topHotelImg{
+    width: 100%;
+    overflow: hidden;
+}
+
+.topHotelImg img{
+    height: 300px;
+    color: @img-color;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.hotelViewBtn{
+    color: @menu-color;
+    background: @background-color;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 0 20px 20px;
+}
+
+.hotelViewBtn:hover{
+    background-color: @accent-color;  
+    transition: background-color 700ms ease;
+    cursor: pointer;
+}
+
+.topHotelTitle{
+    font-weight: bold;
+    margin: 20px 0 20px 20px;
+}

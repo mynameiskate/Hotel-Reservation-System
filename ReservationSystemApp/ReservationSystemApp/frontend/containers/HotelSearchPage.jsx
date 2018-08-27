@@ -87,7 +87,7 @@ class HotelSearchPage extends React.Component {
                 page, pageCount, nextPage, moveInDate, moveOutDate,
                 isLoading, adults, resultCount, error, info } = this.props;
         return(
-            <div>
+            <div className='hotelSearch'>
                 <HotelFilter  locations={locations}
                               selectedCountry={selectedCountry}
                               selectedCity={selectedCity}
@@ -104,7 +104,7 @@ class HotelSearchPage extends React.Component {
                     setMoveOutDate={this.setMoveOutDate}
                     dateError={dateError}
                 />
-                <button type='button' onClick={this.resetFilters}>Reset filter</button>
+                <button type='button' onClick={this.resetFilters} className='resetBtn'>Reset filter</button>
                { isLoading ?
                         <h2>Loading hotels...</h2>
                   : ( resultCount ?

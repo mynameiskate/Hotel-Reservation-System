@@ -1,7 +1,7 @@
 import React from 'react';
 
 const InputField = ({ input, label, defaultValue, type, meta: { touched, error, warning } }) => (
-    <div>
+    <div className='inputBlock'>
         <h3>{label}</h3>
         <div>
             <input {...input}

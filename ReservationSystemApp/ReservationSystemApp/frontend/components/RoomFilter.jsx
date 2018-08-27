@@ -14,7 +14,7 @@ const RoomFilter = (props) => {
     const personOptions = SelectService.getNumericOptions(10);
 
     return (
-        <div>
+        <div className='roomFilter'>
             <label>Move in date</label>
             <DatePicker
                 dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
