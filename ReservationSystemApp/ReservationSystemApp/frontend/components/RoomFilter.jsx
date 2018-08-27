@@ -14,8 +14,8 @@ const RoomFilter = (props) => {
     const personOptions = SelectService.getNumericOptions(10);
 
     return (
-        <div>
-            <label>Move in date</label>
+        <div className='roomFilter'>
+            <label className='filterLabel'>Move in date</label>
             <DatePicker
                 dateFormat = {dateFormats.CALENDAR_DISPLAY_FORMAT}
                 selected = {moveInDate}
@@ -29,6 +29,7 @@ const RoomFilter = (props) => {
             />
             <label>Adults</label>
             <Select
+                classNamePrefix="custom-select"
                 value = {personOptions.find(o => o.value == adultsAmount) || {}}
                 options={personOptions}
                 onChange={adults => onAdultsChange(adults.value)}

@@ -26,13 +26,13 @@ class LoginPage extends React.Component {
         return(
             <div>
                 {
-                    !redirect?
+                   // !redirect?
                         <div>
                             <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
                                 onCancelClick={this.hideLoginField} />
                             { error && <h2> Wrong username or password! </h2>}
                         </div>
-                    : <Redirect to={links.PROFILE_PAGE}/>
+                   // : <Redirect to={links.PROFILE_PAGE}/>
                }
             </div>
         );

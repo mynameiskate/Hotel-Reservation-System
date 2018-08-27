@@ -72,11 +72,7 @@ class UserActions {
                 .then(handleError)
                 .then(result => result.json())
                 .then(dispatch(signUpSuccess(userInfo)))
-                .catch(error => {
-                    if (error) {
-                        dispatch(signUpFailure(error));
-                    }
-                })
+                .catch(error => dispatch(signUpFailure(error)))
                 .then(dispatch(this.getProfile()));
         }
     }

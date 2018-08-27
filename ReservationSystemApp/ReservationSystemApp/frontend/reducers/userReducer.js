@@ -10,7 +10,8 @@ const initialState = {
     loggedIn: false,
     isLoading: true,
     redirect: false,
-    isAdmin: false
+    isAdmin: false,
+    signedUp: false
 }
 
 export function userReducer(state = initialState, action) {
@@ -50,14 +51,16 @@ export function userReducer(state = initialState, action) {
                 userInfo: data.info,
                 error: null,
                 loggedIn: false,
-                redirect: false
+                redirect: false,
+                signedUp: false
             }
         case userConstants.SIGN_UP_SUCCESS:
             return {
                 ...state,
                 error: null,
                 userInfo: state.userInfo,
-                isLoading: false
+                isLoading: false,
+                signedUp: true
             }
         case userConstants.SIGN_UP_FAILURE:
             return {
@@ -120,6 +123,12 @@ export function userReducer(state = initialState, action) {
                 error: null,
                 isLoading: false,
                 redirect: false
+            }
+        case userConstants.SIGN_OUT_REQUEST:
+            return {
+                ...state,
+                loggedIn: false,
+                signedUp: false
             }
         default:
             return state;
