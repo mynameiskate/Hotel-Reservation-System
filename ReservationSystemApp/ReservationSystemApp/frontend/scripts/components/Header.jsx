@@ -33,7 +33,11 @@ const Header = ( { isAdmin, loggedIn } ) => (
         <div className="bannerText">
             <p className="bannerTextTitle">Welcome to Book It!</p>
             <p>hundreds of hotels are waiting just for you.</p>
-            <button className="findBtn">Find hotel</button>
+            <button className="findBtn">
+                <Link to={ links.HOTEL_ID_SEARCH_PAGE(1) } >
+                        Find hotel
+                </Link>
+            </button>
         </div>
     </div>
 )

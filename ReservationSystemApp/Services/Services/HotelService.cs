@@ -82,19 +82,18 @@ namespace Services.Services
             var entityList = _dataContext.Hotels as IQueryable<Hotel>;
 
             var resultQuery = entityList
+                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
                 .Include(h => h.Services)
                 .Include(h => h.Location)
                 .ThenInclude(l => l.City)
                 .ThenInclude(c => c.Country)
                 .Include(h => h.Images)
-                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
-                .Distinct()
-                .Select(hotel => new HotelModel(hotel));
+                ;
 
             int resultCount = await resultQuery.CountAsync();
             int currentPage = (request.Page > 0) ? request.Page : 1;
 
-            var listForPage = resultQuery.CutList(size, currentPage);
+            var listForPage = resultQuery.CutList(size, currentPage).Select(hotel => new HotelModel(hotel));
 
             return new PageModel<HotelModel>(currentPage, size, resultCount, listForPage);
         }
@@ -110,10 +109,10 @@ namespace Services.Services
             var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
 
             var resultQuery = entityList
-                .Where(r => r.HotelId == hotelId)
-                .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                 .Include(r => r.RoomType)
                 .Include(r => r.Images)
+                .Where(r => r.HotelId == hotelId)
+                .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                 .Distinct()
                 .Select((r) => new HotelRoomModel(r));
 

@@ -51,21 +51,5 @@ namespace Services.JwtProvider
 
             return tokenHandler.WriteToken(token);
         }
-
-
-        private static IEnumerable<Claim> GetDefaultClaims(string username, 
-            IEnumerable<Claim> userClaims)
-        {
-            var claims = new List<Claim>(userClaims)
-                {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(JwtRegisteredClaimNames.Sub, username),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.TimeOfDay.Ticks.ToString(),
-                        ClaimValueTypes.Integer64)
-                };
-
-            return claims;
-        }
     }
 }

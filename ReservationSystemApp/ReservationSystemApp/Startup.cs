@@ -126,7 +126,6 @@ namespace ReservationSystemApp
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();

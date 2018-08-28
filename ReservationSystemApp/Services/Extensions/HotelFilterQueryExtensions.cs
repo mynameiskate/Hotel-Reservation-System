@@ -30,10 +30,10 @@ namespace Services.Extensions
                 .FilterByAdultAmount(filters.Adults)
                 .FilterByDateAvailability(filters.MoveInDate, filters.MoveOutDate, maxElapsedMinutes, dataContext);
 
-           filteredList = from hr in filteredRoomList
-                          join h in filteredList on hr.HotelId equals h.HotelId into result
-                          from h in result
-                          select h;
+            filteredList = from hr in filteredRoomList
+                           join h in filteredList on hr.HotelId equals h.HotelId into result
+                           from h in result
+                           select h;
 
             return filteredList.Distinct();
         }
@@ -45,8 +45,8 @@ namespace Services.Extensions
 
         static IQueryable<Hotel> FilterByName(this IQueryable<Hotel> list, string hotelName)
         {
-            return (string.IsNullOrEmpty(hotelName))
-                    ? list
+            return (string.IsNullOrEmpty(hotelName)) 
+                    ? list 
                     : list.Where(h => h.Name == hotelName);
         }
 

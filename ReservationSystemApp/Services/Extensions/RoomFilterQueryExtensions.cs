@@ -1,22 +1,13 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
-using Services.Models;
 using Services.Models.RequestModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Services.Extensions
 {
     public static class RoomFilterQueryExtensions 
     {
-        public static IEnumerable<HotelRoomModel> CutList(this IQueryable<HotelRoomModel> rooms,
-                                                int pageSize, int pageNumber = 1)
-        {
-            int startAfter = (pageNumber - 1) * pageSize;
-            return rooms.Skip(startAfter).Take(pageSize);
-        }
-
         public static IQueryable<HotelRoom> FilterRooms(this IQueryable<HotelRoom> rooms, 
             FilteredRoomsRequestModel filters, int maxElapsedMinutes, HotelDbContext dataContext = null)
         {
@@ -94,14 +85,10 @@ namespace Services.Extensions
                                         || (status.ReservationStatusId == null)
                                         || (status.ReservationStatusId == (int)ReservationStatusEnum.Cancelled)
                                         || ((status.ReservationStatusId == (int)ReservationStatusEnum.Pending)
-                                              && HasExpired(r.Created, maxElapsedMinutes))
+                                              && r.Created.AddSeconds(maxElapsedMinutes) > DateTimeOffset.UtcNow
+                                              )
                                select hr;
             return filteredList;
-        }
-
-        private static bool HasExpired(DateTimeOffset startingTime, int secondsLimit)
-        {
-            return startingTime.AddSeconds(secondsLimit) > DateTimeOffset.UtcNow;
         }
     }
 }
