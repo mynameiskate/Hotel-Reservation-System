@@ -1,8 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-
-import { links } from '../config/links';
 import Header from '../components/Header';
 
 class MainPage extends React.Component {
@@ -30,7 +27,7 @@ class MainPage extends React.Component {
                         </div>
                         <div className='hotelCard'>
                             <div className='topHotelImg'>
-                                <img  src='./assets/hotel2.jpg'/>
+                                <img  src='./assets/hotel2.jpeg'/>
                             </div>
                             <p className='topHotelTitle'>Hotel Name</p>
                             <button className='hotelViewBtn'>View</button>

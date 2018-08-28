@@ -9,13 +9,6 @@ namespace Services.Extensions
 {
     public static class HotelFilterQueryExtensions
     {
-        public static IEnumerable<HotelModel> CutList(this IQueryable<HotelModel> hotels,
-                                                int pageSize, int pageNumber = 1)
-        {
-            int startAfter = (pageNumber - 1) * pageSize;
-            return hotels.Skip(startAfter).Take(pageSize);
-        }
-
         public static IQueryable<Hotel> FilterHotels(this IQueryable<Hotel> hotels,
             FilteredHotelsRequestModel filters, int maxElapsedMinutes, HotelDbContext dataContext, 
             bool availableOnly = true)

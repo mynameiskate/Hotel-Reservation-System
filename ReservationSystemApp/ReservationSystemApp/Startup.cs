@@ -36,36 +36,20 @@ namespace ReservationSystemApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddReact();
+            services.AddSingleton(Configuration);
 
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<HotelDbContext>
                 (options => options.UseSqlServer(connection));
-            services.AddScoped<IAccountService>
-                (provider => new AccountService(provider.GetRequiredService<HotelDbContext>()));
-            services.AddScoped<IHotelService>
-               (provider => new HotelService(provider.GetRequiredService<HotelDbContext>(),
-                                                 Convert.ToInt32(Configuration["pages:size"]),
-                                                 Convert.ToInt32(Configuration["pages:maxSize"]),
-                                                 Convert.ToInt32(Configuration["reservationRules:maxElapsedMinutes"])));
-            services.AddScoped<ILocationService>
-                (provider => new LocationService(provider.GetRequiredService<HotelDbContext>()));
-            services.AddScoped<IReservationService>
-                (provider => new ReservationService(provider.GetRequiredService<HotelDbContext>(),
-                                                 Convert.ToInt32(Configuration["pages:size"]),
-                                                 Convert.ToInt32(Configuration["pages:maxSize"]),
-                                                 Convert.ToInt32(Configuration["reservationRules:maxElapsedMinutes"])));
-            string[] validExtensions = Configuration
-                                        .GetSection("files:validImageExtensions")
-                                        .GetChildren()
-                                        .Select(x => x.Value)
-                                        .ToArray();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<ILocationService, LocationService>();
 
-            services.AddScoped<IImageService>
-              (provider => new ImageService(provider.GetRequiredService<HotelDbContext>(),
-                                            Configuration["files:filePath"],
-                                            validExtensions));
+            services.AddScoped<IReservationService, ReservationService>();
+
+
+            services.AddScoped<IImageService, ImageService>();
 
             //Jwt authentication configuration
             var key = Encoding.ASCII.GetBytes(Configuration["secretKey"]);

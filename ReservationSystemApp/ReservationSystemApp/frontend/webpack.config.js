@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const bundleFolder = '../wwwroot/assets/';
-const srcFolder = './';
+const srcFolder = './scripts/';
 
 module.exports = {
     plugins: [
@@ -24,49 +24,50 @@ module.exports = {
     mode: 'development',
     module: {
         rules: [{
-            test: /\.(js|jsx)$/,
-            exclude: /(node_modules)/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['react', 'env', 'stage-0']
-            },
-        }, {
-            test: /\.css$/,
-            use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: '../'
-                    }
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'env', 'stage-0']
                 },
-                "css-loader"
-            ]
-        }, {
-            test: /\.(png|jpg|jpeg|gif)$/,
-            use: [{
-                loader: 'file-loader',
-                options: {}
-            }]
-        }, {
-            test: /\.(js|jsx)$/,
-            enforce: 'pre',
-            loader: 'eslint-loader'
-        }, 
+            }, {
+                test: /\.css$/,
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '../'
+                        }
+                    },
+                    "css-loader"
+                ]
+            }, {
+                test: /\.(png|jpg|jpeg|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {}
+                }]
+            }, {
+                test: /\.(js|jsx)$/,
+                enforce: 'pre',
+                loader: 'eslint-loader'
+            },
 
-        {
-            test: /\.less$/,
-            use: [{
-                loader: MiniCssExtractPlugin.loader,
-            }, {
-                loader: "css-loader",
-                options: {
-                    sourceMap: true,
-                    modules: true,
-                    localIdentName: "[local]"
-                }
-            }, {
-                loader: "less-loader"
-            }]
-        }]
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                }, {
+                    loader: "css-loader",
+                    options: {
+                        sourceMap: true,
+                        modules: true,
+                        localIdentName: "[local]"
+                    }
+                }, {
+                    loader: "less-loader"
+                }]
+            }
+        ]
     },
     resolve: {
         extensions: ['.js', '.jsx', '.less', '.css']

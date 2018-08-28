@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ReservationSystemApp.Services;
 using Services.Exceptions;
@@ -19,12 +20,12 @@ namespace Services.Services
         private int _maxPageSize;
         private int _maxElapsedMinutes;
 
-        public ReservationService(HotelDbContext dataContext, int pageSize, int maxPageSize, int maxElapsedMinutes)
+        public ReservationService(HotelDbContext dataContext, IConfiguration configuration)
         {
             _dataContext = dataContext;
-            _pageSize = pageSize;
-            _maxPageSize = maxPageSize;
-            _maxElapsedMinutes = maxElapsedMinutes;
+            _pageSize = Convert.ToInt32(configuration["pages:size"]);
+            _maxPageSize = Convert.ToInt32(configuration["pages:maxSize"]);
+            _maxElapsedMinutes = Convert.ToInt32(configuration["reservationRules:maxElapsedMinutes"]);
             _logger = AppLogging.LoggerFactory.CreateLogger<ReservationService>();
         }
 

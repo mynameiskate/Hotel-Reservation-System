@@ -1,0 +1,218 @@
+.hotelSearch{
+    width: 40%;
+    margin: 85px auto;
+    background-color: #98878f;
+    padding: 20px 105px;
+    border-radius: 10px;
+
+    h3{
+        color: white;
+    }
+}
+
+.formFields{
+    display: flex;
+    flex-wrap: wrap;
+
+    .inputBlock{
+        width: 100%;
+        input{
+            height: 30px;
+            width: 89%;
+            border-radius: 5px;
+            border: 1px solid @border-color;
+            padding: 5px 8px;
+        }
+    }
+
+    .selectField{
+        width: 42%;
+        margin-right: 45px;
+    }
+}
+
+input{
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid @border-color;
+}
+
+.roomFilter {
+    margin-top: 30px;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+
+    label{
+        font-size: 18px;
+        margin: 20px 0;
+        color: white;
+        font-weight: bold;
+    }
+
+    .datePicker{
+        margin: 20px 0;
+    }
+
+    input{
+        padding: 5px 8px;
+    }
+    .custom-select__control{
+        margin-top: 20px;
+    }
+
+    .datePickerBlock{
+        width: 42%;
+        margin-right: 45px;
+
+        .react-datepicker-wrapper {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .react-datepicker__input-container {
+            position: relative;
+            display: inline-block;
+            width: 93%;
+        }
+
+        .datePicker {
+            margin: 20px 0;
+            width: 100%;
+        }
+    }
+
+    .selectBlock{
+        width: 100%;
+        .css-10nd86i{
+            width: 42%;
+        }
+    }
+}
+
+.resetBtn{
+    color: #634d4d;
+    background: #ffffff;
+    transition: background-color 700ms ease;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 30px;
+}
+
+.resetBtn:hover{
+    background-color: @accent-color;  
+    color: white;
+    transition: background-color 700ms ease;
+    cursor: pointer;
+}
+
+.custom-select__value-container{
+    background-color: white;
+}
+
+.custom-select__indicators{
+    background-color: white;
+}
+
+.searchResult{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+
+    .hotelImg{
+        width: 50%;
+    }
+
+    .hotelInfo{
+        width:45%;
+
+        h2{
+            color: white;
+        }
+
+        li{
+            color: #fdf4f4;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            &:before{
+                content: '';
+                background-image: url('../images/arrow2.png');
+                width: 20px;
+                height: 16px;
+                display: block;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+}
+
+.detailsBtn{
+    background-color: #442f55;
+    text-decoration: none;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 17px;
+    font-size: 13px;
+    color: #cabcbc;
+    transition:  700ms ease;
+    margin-right: 10px;
+
+   &:hover{
+        background-color: white;
+        color: #442f55;
+        transition:  700ms ease;
+   }
+}
+
+.pageBar{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: space-between;
+
+    .pageBarBtn{
+        border: none;
+        background-color: white;
+        color: #45435b;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 3px 5px;
+    }
+
+    .nextBtn{
+        background-color: @accent-color;
+        padding: 10px;
+        border-radius: 50%;
+        &:before{
+            content: '';
+            background-image: url('../images/next.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 15px;
+            height: 15px;
+            display:block;
+        }
+    }
+
+    .prevBtn{
+        background-color: @accent-color;
+        padding: 10px;
+        border-radius: 50%;
+
+        &:before{
+            content: '';
+            background-image: url('../images/prev.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 15px;
+            height: 15px;
+            display:block;
+        }
+    }
+}

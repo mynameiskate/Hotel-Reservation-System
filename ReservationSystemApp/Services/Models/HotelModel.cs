@@ -35,7 +35,7 @@ namespace Services.Models
             IEnumerable<ContactModel> contacts = hotel.Contacts?.Select(c => new ContactModel(c));
             Contacts = contacts?.ToList() ?? new List<ContactModel>();
 
-            ImageIds = hotel?.Images?.Select(img => img.ImageId).ToList();
+            ImageIds = hotel.Images?.Select(img => img.ImageId).ToList();
         }
 
         public HotelModel() {}

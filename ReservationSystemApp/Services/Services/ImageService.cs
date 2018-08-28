@@ -1,8 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Services.Interfaces;
 using Services.Models;
 using System;
@@ -19,11 +18,15 @@ namespace Services.Services
         private readonly string _filePath;
         private readonly string[] _validExtensions;
 
-        public ImageService(HotelDbContext dataContext, string filePath, string[] validExtensions)
+        public ImageService(HotelDbContext dataContext, IConfiguration configuration)
         {
             _dataContext = dataContext;
-            _filePath = filePath;
-            _validExtensions = validExtensions;
+            _filePath = configuration["files:filePath"];
+            _validExtensions = configuration
+                                  .GetSection("files:validImageExtensions")
+                                  .GetChildren()
+                                  .Select(x => x.Value)
+                                  .ToArray();
         }
 
         public async Task<List<int>> SaveImages(List<IFormFile> images)
