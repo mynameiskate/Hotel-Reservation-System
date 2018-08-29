@@ -2,28 +2,28 @@
 
 ASP.NET Core & React App
 
-##Set up
+## Set up
 
-###Client-side:
+### Client-side:
 
 Clone this repo. 
-Open client-side location: *ReservationSystemApp/ReservationSystemApp/frontend*.
-In order to install dependencies run 
+Open client-side location: *ReservationSystemApp/ReservationSystemApp/frontend*.\
+In order to install dependencies run\
 ```npm install```
-In order to build the project run
+In order to build the project run\
 ```npm run build```
 
-###Database:
+### Database:
 
-Find and edit DefaultConnection in *ReservationSystemApp/ReservationSystemApp/appsettings.json*.
-Publish *ReservationSystemApp/Database* to your SQL server.
+Find and edit DefaultConnection in *ReservationSystemApp/ReservationSystemApp/appsettings.json*.\
+Publish *ReservationSystemApp/Database* to your SQL server.\
 
-###Usage
+### Usage
 
-Example administrator credentials: 
-email: "admin"
-password: "admin"
+Example administrator credentials:\
+email: "admin"\
+password: "admin"\
 
-Example user credentials: 
-email: "guest"
-password: "guest"
+Example user credentials:\ 
+email: "guest"\
+password: "guest"\
