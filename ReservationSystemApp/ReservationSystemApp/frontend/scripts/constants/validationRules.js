@@ -8,6 +8,12 @@ export const maxValue = (max) => {
         null;
 }
 
+export const isEmail = (email) => {
+    return (/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(email) ?
+        null :
+        'Email is not valid!';
+}
+
 export const minValue = (min) => {
     return value => value && value < min ?
         `Minimum value is ${min}.` :

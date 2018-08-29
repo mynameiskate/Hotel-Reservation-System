@@ -5,5 +5,5 @@
 	INDEX idx_HotelName ([Name]),
 	Stars tinyint NULL,
 	IsRemoved bit DEFAULT 0 NOT NULL,
-	LocationId int FOREIGN KEY REFERENCES Locations(LocationId) NULL
+	LocationId int CONSTRAINT FK_Location_Id FOREIGN KEY REFERENCES Locations(LocationId) NULL
 )

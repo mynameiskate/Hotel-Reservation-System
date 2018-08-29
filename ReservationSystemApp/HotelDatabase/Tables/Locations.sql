@@ -2,5 +2,5 @@
 (
 	LocationId INT NOT NULL IDENTITY PRIMARY KEY,
 	[Address] nvarchar(MAX) not null,
-	CityId int FOREIGN KEY REFERENCES Cities(CityId)
+	CityId int CONSTRAINT FK_City_Location_Id FOREIGN KEY REFERENCES Cities(CityId)
 )

@@ -21,9 +21,9 @@ Publish *ReservationSystemApp/Database* to your SQL server.
 ### Usage
 
 Example administrator credentials:  
-email: "admin"  
+email: "admin@admin.com"  
 password: "admin"  
 
 Example user credentials:  
-email: "guest"  
+email: "guest@guest.com"  
 password: "guest"  

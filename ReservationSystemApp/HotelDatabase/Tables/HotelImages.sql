@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HotelImages]
 (
 	[HotelImageId] INT NOT NULL IDENTITY PRIMARY KEY,
-	[HotelId] int FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
-	[ImageId] int FOREIGN KEY REFERENCES Images(ImageId) NOT NULL
+	[HotelId] int CONSTRAINT FK_Image_Hotel_Id FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
+	[ImageId] int CONSTRAINT FK_Image_Id  FOREIGN KEY REFERENCES Images(ImageId) NOT NULL
 )

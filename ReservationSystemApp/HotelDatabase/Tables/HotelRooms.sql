@@ -6,6 +6,6 @@
 	Cost FLOAT NULL,
 	Size FLOAT NULL,
 	Adults int,
-	HotelId int FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
-	RoomTypeId int FOREIGN KEY REFERENCES RoomTypes(RoomTypeId)
+	HotelId int CONSTRAINT FK_Hotel_Id FOREIGN KEY REFERENCES Hotels(HotelId) NOT NULL,
+	RoomTypeId int CONSTRAINT FK_Room_Type_Id FOREIGN KEY REFERENCES RoomTypes(RoomTypeId)
 )

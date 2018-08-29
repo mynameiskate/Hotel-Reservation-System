@@ -22,11 +22,11 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { error, redirect } = this.props;
+        const { error } = this.props;
         return(
             <div>
                 {
-                    <div>
+                    <div className="formFields">
                         <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
                             onCancelClick={this.hideLoginField} />
                         { error && <h2> Wrong username or password! </h2>}

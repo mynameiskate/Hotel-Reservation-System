@@ -73,7 +73,6 @@
     <Build Include="Tables\ContactTypes.sql" />
     <Build Include="Tables\HotelRooms.sql" />
     <Build Include="Tables\RoomTypes.sql" />
-    <Build Include="Tables\FilePaths.sql" />
     <Build Include="Tables\HotelServices.sql" />
     <Build Include="Views\HotelView.sql" />
     <Build Include="Procedures\GetHotelByCountry.sql" />
