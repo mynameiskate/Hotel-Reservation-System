@@ -27,9 +27,9 @@ namespace Services.Services
         public HotelService(HotelDbContext dataContext, IConfiguration configuration)
         {
             _dataContext = dataContext;
-            _pageSize = Convert.ToInt32(configuration["pages:size"]);
-            _maxPageSize = Convert.ToInt32(configuration["pages:maxSize"]);
-            _maxElapsedMinutes = Convert.ToInt32(configuration["reservationRules:maxElapsedMinutes"]);
+            _pageSize = Convert.ToInt32(configuration["pages:size"] ?? "1");
+            _maxPageSize = Convert.ToInt32(configuration["pages:maxSize"] ?? "50");
+            _maxElapsedMinutes = Convert.ToInt32(configuration["reservationRules:maxElapsedMinutes"] ?? "30");
             _logger = AppLogging.LoggerFactory.CreateLogger<AccountService>();
         }
 
@@ -87,8 +87,7 @@ namespace Services.Services
                 .Include(h => h.Location)
                 .ThenInclude(l => l.City)
                 .ThenInclude(c => c.Country)
-                .Include(h => h.Images)
-                ;
+                .Include(h => h.Images);
 
             int resultCount = await resultQuery.CountAsync();
             int currentPage = (request.Page > 0) ? request.Page : 1;
@@ -109,17 +108,16 @@ namespace Services.Services
             var entityList = _dataContext.HotelRooms as IQueryable<HotelRoom>;
 
             var resultQuery = entityList
-                .Include(r => r.RoomType)
-                .Include(r => r.Images)
                 .Where(r => r.HotelId == hotelId)
                 .FilterRooms(request, _maxElapsedMinutes, _dataContext)
                 .Distinct()
-                .Select((r) => new HotelRoomModel(r));
+                .Include(r => r.RoomType)
+                .Include(r => r.Images);
 
             int resultCount = await resultQuery.CountAsync();
             int currentPage = (request.Page > 0) ? request.Page : 1;
 
-            var listForPage = resultQuery.CutList(size, currentPage);
+            var listForPage = resultQuery.CutList(size, currentPage).Select((r) => new HotelRoomModel(r)); ;
 
             return new PageModel<HotelRoomModel>(currentPage, size, resultCount, listForPage);
         }
@@ -149,7 +147,7 @@ namespace Services.Services
             hotel.Name = hotelInfo.Name;
             hotel.Stars = hotelInfo.Stars;
             hotel.Services = await GetUpdatedServices(hotelInfo.HotelId, hotelInfo.Services);
-            hotel.Images = await GetUpdatedHotelImages(hotelInfo.HotelId, hotelInfo.ImageIds);
+            hotel.Images = GetUpdatedHotelImages(hotelInfo.HotelId, hotelInfo.ImageIds);
             _dataContext.Update(hotel);
             await _dataContext.SaveChangesAsync();
         }
@@ -165,7 +163,7 @@ namespace Services.Services
             hotelRoom.Cost = roomInfo.Cost;
             hotelRoom.Adults = roomInfo.Adults;
             hotelRoom.IsAvailable = roomInfo.IsAvailable;
-            hotelRoom.Images = await GetUpdatedRoomImages(roomInfo.Id, roomInfo.ImageIds);
+            hotelRoom.Images = GetUpdatedRoomImages(roomInfo.Id, roomInfo.ImageIds);
             
             await _dataContext.SaveChangesAsync();
         }
@@ -254,36 +252,58 @@ namespace Services.Services
             return roomImages;
         }
 
-        private async Task<List<HotelImage>> GetUpdatedHotelImages(int hotelId, List<int> imageIds)
+        private List<HotelImage> GetUpdatedHotelImages(int hotelId, List<int> imageIds)
         {
             if (imageIds == null) return null;
+           
+            var existingImages = _dataContext.HotelImages.Where(img => img.HotelId == hotelId);
 
-            var existingImages = _dataContext.HotelImages.Where(img => img.HotelId == hotelId
-                                    && imageIds.Contains(img.ImageId));
+            var newImages = new List<HotelImage>();
+
+            foreach (var image in existingImages)
+            {
+                if (!imageIds.Contains(image.ImageId))
+                {
+                    _dataContext.HotelImages.Remove(image);
+                }
+                else
+                {
+                    newImages.Add(image);
+                }
+            }
 
             var newImageIds = imageIds
-                               .Where(id => !existingImages.Any(img => img.ImageId == id))
-                               .Distinct();
+                                .Where(id => !newImages.Any(img => img.ImageId == id))
+                                .Distinct();
 
-            var updatedImageList = await existingImages.ToListAsync();
-
-            return UpdateHotelImages(hotelId, updatedImageList, newImageIds);
+            return UpdateHotelImages(hotelId, newImages, newImageIds); 
         }
 
-        private async Task<List<RoomImage>> GetUpdatedRoomImages(int roomId, List<int> imageIds)
+        private List<RoomImage> GetUpdatedRoomImages(int roomId, List<int> imageIds)
         {
             if (imageIds == null) return null;
 
-            var existingImages = _dataContext.RoomImages.Where(img => img.HotelRoomId == roomId
-                                    && imageIds.Contains(img.ImageId));
+            var existingImages = _dataContext.RoomImages.Where(img => img.HotelRoomId == roomId);
+
+            var newImages = new List<RoomImage>();
+
+            foreach (var image in existingImages)
+            {
+                if (!imageIds.Contains(image.ImageId))
+                {
+                    _dataContext.RoomImages.Remove(image);
+                }
+                else
+                {
+                    newImages.Add(image);
+                }
+            }
 
             var newImageIds = imageIds
-                               .Where(id => !existingImages.Any(img => img.ImageId == id))
-                               .Distinct();
+                                .Where(id => !newImages.Any(img => img.ImageId == id))
+                                .Distinct();
 
-            var updatedImageList = await existingImages.ToListAsync();
-
-            return UpdateRoomImages(roomId, updatedImageList, newImageIds);
+            return UpdateRoomImages(roomId, newImages, newImageIds);
         }
 
         private async Task<List<DataLayer.Entities.HotelService>> GetUpdatedServices(int hotelId, List<ServiceModel> serviceModels)

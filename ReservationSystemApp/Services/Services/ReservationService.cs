@@ -23,13 +23,13 @@ namespace Services.Services
         public ReservationService(HotelDbContext dataContext, IConfiguration configuration)
         {
             _dataContext = dataContext;
-            _pageSize = Convert.ToInt32(configuration["pages:size"]);
-            _maxPageSize = Convert.ToInt32(configuration["pages:maxSize"]);
-            _maxElapsedMinutes = Convert.ToInt32(configuration["reservationRules:maxElapsedMinutes"]);
+            _pageSize = Convert.ToInt32(configuration["pages:size"] ?? "1");
+            _maxPageSize = Convert.ToInt32(configuration["pages:maxSize"] ?? "10");
+            _maxElapsedMinutes = Convert.ToInt32(configuration["reservationRules:maxElapsedMinutes"] ?? "30");
             _logger = AppLogging.LoggerFactory.CreateLogger<ReservationService>();
         }
 
-        public async Task UpdateReservation(ReservationModel reservationModel) //DIVIDE 
+        public async Task UpdateReservation(ReservationModel reservationModel)
         {
             var reservationEntity = await _dataContext.RoomReservations
                          .FirstOrDefaultAsync(r =>

@@ -18,6 +18,7 @@ const LoginField = (props) => {
                 label="Password"
                 component={InputField}
                 validate={[isRequired, maxLength(20)]}
+                type="password"
             />
             <button type="submit"
                     disabled={invalid || pristine || submitting}>

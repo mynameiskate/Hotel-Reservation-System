@@ -29,7 +29,7 @@ class Main extends React.Component {
     }
 
     render() {
-        const { isLoading, loggedIn, isAdmin } = this.props;
+        const { isLoading, loggedIn, isAdmin, signedUp } = this.props;
         return (
             <div>
                 {isLoading ?
@@ -38,44 +38,67 @@ class Main extends React.Component {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={ links.MAIN_PAGE_PATH } component={ MainPage }/>
-                        <Route exact path={ links.SIGN_IN_PAGE } component={ LoginPage }/>
-                        <Route exact path={ links.SIGN_UP_PAGE } component={ SignUpPage }/>
                         <Route exact path={ links.HOTEL_PAGE_PATH } component={ RoomSearchPage }/>
                         <Route exact path={ links.HOTEL_SEARCH_PAGE } component={ HotelSearchPage }/>
+                        <ProtectedRoute
+                            exact path={ links.SIGN_IN_PAGE }
+                            component={ LoginPage }
+                            isPermitted={ !loggedIn }
+                            redirectTo={ links.HOTEL_SEARCH_PAGE }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.SIGN_UP_PAGE }
+                            component={ SignUpPage }
+                            isPermitted={ !signedUp }
+                            redirectTo={ links.HOTEL_SEARCH_PAGE }
+                        />
                         <ProtectedRoute
                             exact path={ links.PROFILE_PAGE }
                             component={ UserPage }
                             isPermitted={ loggedIn }
+                            redirectTo={ links.SIGN_IN_PAGE }
+                        />
+                        <ProtectedRoute
+                            exact path={ links.PROFILE_PAGE }
+                            component={ UserPage }
+                            isPermitted={ loggedIn }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.ADMIN_PAGE }
                             component={ AdminPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.HOTEL_EDIT_PAGE }
                             component={ HotelEditPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.HOTEL_CREATION_PAGE }
                             component={ NewHotelPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.ADMIN_ROOM_LIST_PAGE }
                             component={ RoomListPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.ROOM_EDIT_PAGE }
                             component={ RoomEditPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                         <ProtectedRoute
                             exact path={ links.ROOM_CREATION_PAGE }
                             component={ NewRoomPage }
                             isPermitted={ isAdmin }
+                            redirectTo={ links.SIGN_IN_PAGE }
                         />
                     </Switch>
                 </BrowserRouter>
@@ -94,7 +117,8 @@ const mapStateToProps = (state) => {
         error: state.users.error,
         isSent: state.users.isSent,
         isValid: state.users.isValid,
-        isLoading: state.users.isLoading
+        isLoading: state.users.isLoading,
+        signedUp: state.users.signedUp
     }
 }
 

@@ -22,6 +22,8 @@ namespace Services.Services
         {
             _dataContext = dataContext;
             _filePath = configuration["files:filePath"];
+
+             Directory.CreateDirectory(Path.GetDirectoryName(_filePath));
             _validExtensions = configuration
                                   .GetSection("files:validImageExtensions")
                                   .GetChildren()

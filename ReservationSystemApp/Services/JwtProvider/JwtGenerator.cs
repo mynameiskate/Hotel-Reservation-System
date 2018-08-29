@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services.Interfaces;
 using System;

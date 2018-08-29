@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using React.AspNet;
 using Microsoft.EntityFrameworkCore;
 using DataLayer;
 using Services.Services;

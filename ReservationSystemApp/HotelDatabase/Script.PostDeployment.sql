@@ -65,6 +65,12 @@ BEGIN
 	DBCC CHECKIDENT ('[dbo].[Countries]', RESEED, 0);
 END
 
+IF (EXISTS(SELECT * FROM [dbo].[Users]))
+BEGIN
+    DELETE FROM [dbo].[Users];
+	DBCC CHECKIDENT ('[dbo].[Users]', RESEED, 0);
+END
+
 INSERT INTO [dbo].[Countries] ([Name], CountryId)
 VALUES ('Argentina', 'AR'), ('Armenia', 'AM'), ('Austria', 'AT'), ('Australia', 'AU'), ('Azerbaijan', 'AZ'), ('Belarus', 'BY'), ('Belgium', 'BE'),
 		('Brazil', 'BR'), ('Bulgaria', 'BG'), ('Canada', 'CA'), ('China', 'CN'), ('Czech Republic', 'CZ'), ('Denmark', 'DK'), ('Ecuador', 'EC'), ('Egypt', 'EG'), 
@@ -95,3 +101,9 @@ INSERT INTO [dbo].[Hotels] ([Name], Stars, LocationId) VALUES
 ('The plaza', 5, (SELECT LocationId from [dbo].[Locations] WHERE Address='768 5th Ave, New York, NY 10019, USA')),
 ('Icelandair Hotel Reykjavik Natura', 4, (SELECT LocationId from [dbo].[Locations] WHERE Address='Nautholsvegur 52, Midborg, Reykjavík, Iceland')),
 ('The Park Lane Hotel', 5, (SELECT LocationId from [dbo].[Locations] WHERE Address='Piccadilly, Westminster, London, W1J 7BX United Kingdom'));
+
+INSERT [dbo].[Users] ([Email], [PasswordHash], [PasswordSalt], [IsAdmin], [ShortName], [FullName]) 
+VALUES (1, N'admin', 0x0C0045EFF446019FC69DEE87317A73E6EC6FA71DEB0573BDD0DF0D9F0A14D4BF, 0xBFBCE3B550313F874CF56FC5BB373251A3C286EBA061C2E607DC4DE3BB02742F, 1, N'admin', N'admin');
+
+INSERT [dbo].[Users] ([Email], [PasswordHash], [PasswordSalt], [IsAdmin], [ShortName], [FullName])
+VALUES (2, N'guest', 0xE5B917B4911BCDBC0C426E3450AE8227A64D3D60E67D095B7A3E31FB33D66497, 0x93BB45DE7FA54F7DD0DB42FD1FAB41CFD003F69729F029B4F9B28024B97DFF51, 0, N'guest', N'guest')

@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
         (<Route {...rest} component={Component} />)
         : (<Redirect
             to={{
-                pathname:  links.SIGN_IN_PAGE,
+                pathname: rest.redirectTo,
                 state: { from: rest.location }
             }}
         />)

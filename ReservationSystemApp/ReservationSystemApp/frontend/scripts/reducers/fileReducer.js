@@ -16,7 +16,7 @@ export function fileReducer(state = initialState, action) {
         case fileConstants.SET_IMAGES:
             return {
                 ...state,
-                imageIds: data.imageIds
+                imageIds: [...new Set(data.imageIds)]
             }
         case fileConstants.ADD_IMAGE_FAILURE:
             return {
@@ -43,10 +43,7 @@ export function fileReducer(state = initialState, action) {
                 if (!imageId) return state;
                 return {
                     ...state,
-                    imageIds: [
-                        ...currentImageIds,
-                        ...imageId
-                    ],
+                    imageIds: [...new Set(imageIds)],
                     isLoading: false
                 }
             }

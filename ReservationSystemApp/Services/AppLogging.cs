@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ReservationSystemApp.Services
 {
@@ -10,6 +11,7 @@ namespace ReservationSystemApp.Services
         public static void SetPath(string path)
         {
             _filePath = path;
+            Directory.CreateDirectory(Path.GetDirectoryName(_filePath));
         }
 
         public static void ConfigureLogger(ILoggerFactory loggerFactory)
