@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
 import Gallery from 'react-photo-gallery';
 import Spinner from 'react-spinkit';
+import { history } from '../../store/store';
 
 import { links } from '../../config/links';
 import GalleryImage from '../../components/images/GalleryImage';
@@ -80,6 +81,7 @@ class HotelEditPage extends React.Component {
                             selectedCountry={selectedCountry}
 
                             onCitySelect={(city) => this.props.setCurrentCity(city.value)}
+                            onCancelClick={history.goBack}
                             onCountrySelect={(country) => this.props.setCurrentCountry(country.value)}
                             onNameChange={this.props.setHotelName}
                             onAddressChange={this.props.setCurrentAddress}

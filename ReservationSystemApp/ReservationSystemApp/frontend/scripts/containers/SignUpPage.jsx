@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { history } from '../store/store';
 
 import SignUpField from '../components/users/SignUpField';
 import { links } from '../config/links';
@@ -34,8 +35,10 @@ class SignUpPage extends React.Component {
                 {
                     !(redirect)?
                     <div>
-                        <SignUpField sendRequest={(data) => this.sendSignUpRequest(data)}
-                                    onCancelClick={this.hideSignUpField}/>
+                        <SignUpField
+                            sendRequest={(data) => this.sendSignUpRequest(data)}
+                            onCancelClick={history.goBack}
+                        />
                         { error && <h2>Failed to sign up, try again?</h2>}
                     </div>
                     : <Redirect to={links.PROFILE_PAGE}/>

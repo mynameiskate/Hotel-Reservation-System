@@ -1,6 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { links } from '../config/links';
+import { history } from '../store/store';
 import { connect } from 'react-redux';
 
 import LoginField from '../components/users/LoginField';
@@ -27,8 +26,10 @@ class LoginPage extends React.Component {
             <div>
                 {
                     <div className="formFields">
-                        <LoginField sendRequest={(data) => this.sendSignInRequest(data)}
-                            onCancelClick={this.hideLoginField} />
+                        <LoginField
+                            sendRequest={(data) => this.sendSignInRequest(data)}
+                            onCancelClick={history.goBack}
+                        />
                         { error && <h2> Wrong username or password! </h2>}
                     </div>
                }
