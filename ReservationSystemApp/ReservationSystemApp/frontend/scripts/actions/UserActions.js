@@ -1,7 +1,13 @@
 import {
     userConstants
 } from '../constants/userConstants';
+import {
+    links
+} from '../config/links';
 import UserService from '../services/UserService';
+import {
+    history
+} from '../store/store';
 
 class UserActions {
     static logIn(userInfo) {
@@ -32,11 +38,19 @@ class UserActions {
             dispatch(logInRequest(userInfo));
             UserService.logIn(userInfo)
                 .then(handleError)
-                .then(result => result.json())
-                .then(response => localStorage.setItem('token', response.token))
-                .then(dispatch(logInSuccess()))
-                .catch(error => dispatch(logInFailure(error)))
-                .then(dispatch(this.getProfile()));
+                .then(result =>
+                    result.json()
+                )
+                .then(response => {
+                    localStorage.setItem('token', response.token);
+                    return response;
+                })
+                .then(response => {
+                    dispatch(logInSuccess(response));
+                    return response;
+                })
+                .then(() => history.push(links.HOTEL_ID_SEARCH_PAGE()))
+                .catch(error => dispatch(logInFailure(error)));
         }
     }
 
@@ -70,10 +84,14 @@ class UserActions {
             dispatch(signUpRequest(userInfo));
             UserService.signUp(userInfo)
                 .then(handleError)
-                .then(result => result.json())
-                .then(dispatch(signUpSuccess(userInfo)))
-                .catch(error => dispatch(signUpFailure(error)))
-                .then(dispatch(this.getProfile()));
+                .then(() => {
+                    dispatch(signUpSuccess(userInfo));
+                    dispatch(this.logIn({
+                        email: userInfo.email,
+                        password: userInfo.password
+                    }));
+                })
+                .catch(error => dispatch(signUpFailure(error)));
         }
     }
 
@@ -150,7 +168,6 @@ class UserActions {
             } else {
                 dispatch(getCurrentInfo());
             }
-
         }
     }
 }

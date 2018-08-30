@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import InputField from '../InputField';
-import { isRequired, maxLength, minLength } from '../../constants/validationRules';
+import { isRequired, maxLength, minLength, isEmail } from '../../constants/validationRules';
 
 const SignUpField = (props) => {
     const { sendRequest, handleSubmit, onCancelClick, invalid, pristine, submitting } = props;
@@ -11,7 +11,7 @@ const SignUpField = (props) => {
                 name="email"
                 label="Email"
                 component={InputField}
-                validate={[isRequired, maxLength(20)]}
+                validate={[isRequired, maxLength(320), isEmail]}
             />
             <Field
                 name="shortName"
@@ -36,7 +36,7 @@ const SignUpField = (props) => {
                 name="confirmPassword"
                 label="Confirm password"
                 component={InputField}
-                type="password" validate={[maxLength(20), minLength(4)]}
+                type="password" validate={[isRequired, maxLength(20), minLength(4)]}
             />
             <button type="submit"
                     disabled={invalid || pristine || submitting}>

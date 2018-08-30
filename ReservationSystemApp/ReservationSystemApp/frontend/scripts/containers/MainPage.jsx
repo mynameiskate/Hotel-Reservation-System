@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 class MainPage extends React.Component {
@@ -9,12 +10,13 @@ class MainPage extends React.Component {
     }
 
     render() {
-        const { error, isAdmin, loggedIn } = this.props;
+        const { error, isAdmin, loggedIn, signedUp } = this.props;
         return (
             <div>
                 <Header
                     isAdmin={isAdmin}
                     loggedIn={loggedIn}
+                    signedUp={signedUp}
                 />
                 <div className="topHotels">
                     <p className="topHotelsTitle">Top Hotels</p>
@@ -42,9 +44,7 @@ class MainPage extends React.Component {
                         </div>
                     </div>
                 </div>
-                <footer>
-                    <p className="copyright">©2018 NEON CINEMA GROUP, ALL RIGHTS RESERVED</p>
-                </footer>
+                <Footer/>
                 { error  && <h3>Loading error</h3> }
             </div>
         );
@@ -59,7 +59,8 @@ const mapStateToProps = (state) => {
         isLoading: state.hotels.isLoading,
         removing: state.hotels.removing,
         selected: state.hotels.selected,
-        loggedIn: state.users.loggedIn
+        loggedIn: state.users.loggedIn,
+        signedUp: state.users.signedUp
     }
 }
 

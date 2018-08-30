@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataLayer.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Services.Models
 {

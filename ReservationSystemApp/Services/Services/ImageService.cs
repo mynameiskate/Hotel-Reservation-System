@@ -2,6 +2,7 @@
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Services.Exceptions;
 using Services.Interfaces;
 using Services.Models;
 using System;
@@ -65,10 +66,15 @@ namespace Services.Services
 
         public async Task<FileModel> GetImage(int imageId)
         {
+            if (imageId == 0) return null;
             var entityList = _dataContext.Images as IQueryable<RoomImage>;
             var image = _dataContext.Images
-                            .First(img => img.ImageId == imageId);
+                            .FirstOrDefault(img => img.ImageId == imageId);
 
+            if (image == null)
+            {
+                throw new ImageNotFoundException();
+            }
 
             string fileName = image.FileName;
             var memoryStream = new MemoryStream();

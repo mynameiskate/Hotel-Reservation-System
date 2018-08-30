@@ -15,7 +15,7 @@ export const links = {
     ROOM_ID_PAGE_PATH: (hotelId, roomId) => `/hotels/${hotelId}/rooms/${roomId}`,
     ROOM_ID_EDIT_PAGE: (hotelId, roomId) => `/admin/hotels/${hotelId}/rooms/${roomId}`,
     ADMIN_HOTEL_ID_PAGE: (id) => `/admin/hotels/${id}/rooms`,
-    HOTEL_ID_SEARCH_PAGE: (page) => `/hotels?page=${page}`,
+    HOTEL_ID_SEARCH_PAGE: (page = 1) => `/hotels?page=${page}`,
     HOTEL_ID_PAGE: (id) => `/hotels/${id}/rooms`,
     SIGN_UP_PAGE: '/account/signup',
     SIGN_OUT_PAGE: '/account/signout',

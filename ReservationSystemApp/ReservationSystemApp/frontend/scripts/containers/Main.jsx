@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
+
+import {
+    history
+} from '../store/store';
 
 import ProtectedRoute from '../components/ProtectedRoute';
 import SignUpPage from './SignUpPage';
@@ -29,29 +33,19 @@ class Main extends React.Component {
     }
 
     render() {
-        const { isLoading, loggedIn, isAdmin, signedUp } = this.props;
+        const { isLoading, loggedIn, isAdmin } = this.props;
         return (
             <div>
                 {isLoading ?
                 <h2>Loading..</h2>
                 :
-                <BrowserRouter>
+                <Router history={history}>
                     <Switch>
                         <Route exact path={ links.MAIN_PAGE_PATH } component={ MainPage }/>
                         <Route exact path={ links.HOTEL_PAGE_PATH } component={ RoomSearchPage }/>
                         <Route exact path={ links.HOTEL_SEARCH_PAGE } component={ HotelSearchPage }/>
-                        <ProtectedRoute
-                            exact path={ links.SIGN_IN_PAGE }
-                            component={ LoginPage }
-                            isPermitted={ !loggedIn }
-                            redirectTo={ links.HOTEL_SEARCH_PAGE }
-                        />
-                        <ProtectedRoute
-                            exact path={ links.SIGN_UP_PAGE }
-                            component={ SignUpPage }
-                            isPermitted={ !signedUp }
-                            redirectTo={ links.HOTEL_SEARCH_PAGE }
-                        />
+                        <Route exact path={ links.SIGN_IN_PAGE  } component={ LoginPage }/>
+                        <Route exact path={ links.SIGN_UP_PAGE } component={ SignUpPage }/>
                         <ProtectedRoute
                             exact path={ links.PROFILE_PAGE }
                             component={ UserPage }
@@ -101,7 +95,7 @@ class Main extends React.Component {
                             redirectTo={ links.SIGN_IN_PAGE }
                         />
                     </Switch>
-                </BrowserRouter>
+                </Router>
                 }
             </div>
         );

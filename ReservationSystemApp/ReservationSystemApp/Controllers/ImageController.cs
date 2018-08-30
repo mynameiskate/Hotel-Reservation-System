@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Exceptions;
 using Services.Interfaces;
 
 namespace ReservationSystemApp.Controllers
@@ -49,7 +50,11 @@ namespace ReservationSystemApp.Controllers
             try
             {
                 var fileModel = await _imageService.GetImage(imageId);
-                return File(fileModel.MemoryStream, fileModel.ContentType);
+                return File(fileModel?.MemoryStream, fileModel?.ContentType);
+            }
+            catch (ImageNotFoundException)
+            {
+                return NotFound();
             }
             catch (ArgumentException e)
             {
