@@ -5,6 +5,9 @@ import {
 } from 'redux-form';
 
 import {
+    history
+} from '../store/store';
+import {
     dateFormats
 } from '../constants/dateFormats';
 import MomentExtensions from '../extensions/MomentExtensions';
@@ -237,9 +240,7 @@ class HotelSearchActions {
             params.moveInDate = moveInDate.format(dateFormats.REQUEST_DATE_FORMAT);
             params.moveOutDate = moveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
         }
-        return dispatch => {
-            dispatch(HistoryActions.pushUrl(link, queryString.stringify(params)));
-        }
+        history.replace(`${link}?${queryString.stringify(params)}`);
     }
 
     static syncParamsWithInfo(hotel) {

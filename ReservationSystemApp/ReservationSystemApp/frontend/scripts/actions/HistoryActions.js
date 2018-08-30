@@ -13,6 +13,12 @@ class HistoryActions {
         }
     }
 
+    static replaceUrl(link, query) {
+        return dispatch => {
+            dispatch(replace(`${link}?${query}`));
+        }
+    }
+
     static getPageQuery(page = 1) {
         return queryString.stringify({
             page
