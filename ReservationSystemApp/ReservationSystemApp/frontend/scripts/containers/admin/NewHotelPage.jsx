@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
 import Gallery from 'react-photo-gallery';
+import Spinner from 'react-spinkit';
 
 import { links } from '../../config/links';
 import GalleryService from '../../services/GalleryService';
@@ -63,7 +64,7 @@ class NewHotelPage extends React.Component {
 
         return (
             <div>
-                { isLoading && <h2>Loading..</h2>}
+                { isLoading && <Spinner name="ball-scale-multiple" className="loader"/>}
                 <HotelEditForm
                     stars={stars}
                     hotelName={hotelName}

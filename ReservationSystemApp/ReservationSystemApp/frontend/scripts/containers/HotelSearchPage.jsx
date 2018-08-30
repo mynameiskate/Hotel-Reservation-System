@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
+import Spinner from 'react-spinkit';
 
 import { links } from '../config/links';
 import  HotelActions from '../actions/HotelActions';
@@ -109,8 +110,8 @@ class HotelSearchPage extends React.Component {
                     dateError={dateError}
                 />
                 <button type="button" onClick={this.resetFilters} className="resetBtn">Reset filter</button>
-               { isLoading ?
-                        <h2>Loading hotels...</h2>
+                { isLoading ?
+                    <Spinner name="ball-scale-multiple" className="loader"/>
                   : ( resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>

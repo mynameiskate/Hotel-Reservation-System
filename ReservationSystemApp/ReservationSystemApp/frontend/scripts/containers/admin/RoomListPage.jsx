@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 import { links } from '../../config/links';
 import  PageBar from '../../components/PageBar';
@@ -32,14 +33,14 @@ class RoomListPage extends React.Component {
 
     render() {
         const { error, roomInfo, pageCount, nextPage, page,
-               isLoading, hotelInfo, currentRoom, } = this.props;
+               isLoading, hotelInfo } = this.props;
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (
             <div>
                 <Link to={this.props.getCreationLink()}>Add new room</Link>
                 { isLoading
-                    ? <h3>Loading rooms...</h3>
+                    ? <Spinner name="ball-scale-multiple" className="loader"/>
                     : ( pageCount
                         ? <div>
                             { <h3>Rooms in {hotelName || 'hotel'}</h3>}

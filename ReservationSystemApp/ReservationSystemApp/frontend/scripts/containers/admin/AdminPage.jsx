@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
+import Spinner from 'react-spinkit';
 
 import { links } from '../../config/links';
 import  HotelActions from '../../actions/HotelActions';
@@ -83,7 +84,7 @@ class AdminPage extends React.Component {
                         onNameChange={this.setHotelName}
                     />
                     { isLoading ?
-                                <h2>Loading hotels...</h2>
+                                <Spinner name="ball-scale-multiple" className="loader"/>
                         : ( resultCount ?
                             <div>
                                 <h3> Search results: {resultCount} destination(s)</h3>

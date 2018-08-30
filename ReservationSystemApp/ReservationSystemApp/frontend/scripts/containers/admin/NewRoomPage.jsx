@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
 import Gallery from 'react-photo-gallery';
+import Spinner from 'react-spinkit';
 
 import { links } from '../../config/links';
 import RoomActions from '../../actions/RoomActions';

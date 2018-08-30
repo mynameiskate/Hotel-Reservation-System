@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Router } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 import {
     history
@@ -37,7 +38,7 @@ class Main extends React.Component {
         return (
             <div>
                 {isLoading ?
-                <h2>Loading..</h2>
+                <Spinner name="ball-scale-multiple" className="loader"/>
                 :
                 <Router history={history}>
                     <Switch>

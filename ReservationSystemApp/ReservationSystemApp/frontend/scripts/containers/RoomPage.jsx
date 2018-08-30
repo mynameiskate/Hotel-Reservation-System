@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from 'react-spinkit';
 
 import BookingModal from '../components/users/BookingModal';
 import { links } from '../config/links';
@@ -36,7 +37,7 @@ class RoomPage extends React.Component {
         }
     }
 
-    setPage = (page) => {
+    setPage = (page = 1) => {
         const { adults, moveInDate, moveOutDate } = this.props;
         this.props.buildQuery(moveInDate, moveOutDate, adults, page);
     }
@@ -57,7 +58,7 @@ class RoomPage extends React.Component {
 
     closeModal = () => {
         this.setState({isBookingModalOpen: false, currentRoom: {}});
-        this.setPage(1);
+        this.setPage();
     }
 
     render() {
@@ -68,7 +69,7 @@ class RoomPage extends React.Component {
         return (
             <div>
                 { isLoading ?
-                        <h2>Loading rooms...</h2>
+                        <Spinner name="ball-scale-multiple" className="loader"/>
                   : ( pageCount ?
                         <div>
                             <h3> Available rooms </h3>

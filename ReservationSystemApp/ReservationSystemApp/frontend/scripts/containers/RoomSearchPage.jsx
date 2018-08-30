@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from 'react-spinkit';
 
 import HotelActions from '../actions/HotelActions';
 import HotelInfo from '../components/hotels/HotelInfo';
@@ -86,7 +87,7 @@ class RoomSearchPage extends React.Component {
                     </div>
                 }
                 { isRoomLoading
-                    ? <h3>Loading rooms...</h3>
+                    ? <Spinner name="ball-scale-multiple" className="loader"/>
                     : ( pageCount
                         ? <div>
                             <h3> Available rooms </h3>
