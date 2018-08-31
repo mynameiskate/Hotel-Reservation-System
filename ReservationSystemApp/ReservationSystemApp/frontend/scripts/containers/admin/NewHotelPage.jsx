@@ -65,7 +65,10 @@ class NewHotelPage extends React.Component {
 
         return (
             <div>
-                { isLoading && <Spinner name="ball-scale-multiple" className="loader"/>}
+                { isLoading
+                  && <div className="loadingBlock">
+                        <Spinner name="ball-scale-multiple" className="loader"/>
+                    </div>}
                 <HotelEditForm
                     stars={stars}
                     hotelName={hotelName}

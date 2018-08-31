@@ -109,9 +109,14 @@ class HotelSearchPage extends React.Component {
                     setMoveOutDate={this.setMoveOutDate}
                     dateError={dateError}
                 />
+                <div className="loadingBlock">
+                    <Spinner name="ball-scale-multiple" className="spinner"/>
+                </div>
                 <button type="button" onClick={this.resetFilters} className="resetBtn">Reset filter</button>
                 { isLoading ?
-                    <Spinner name="ball-scale-multiple" className="loader"/>
+                    <div className="loadingBlock">
+                        <Spinner name="ball-scale-multiple" className="spinner"/>
+                    </div>
                   : ( resultCount ?
                     <div>
                         <h3> Search results: {resultCount} destination(s)</h3>

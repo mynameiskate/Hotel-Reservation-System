@@ -69,7 +69,9 @@ class RoomPage extends React.Component {
         return (
             <div>
                 { isLoading ?
-                        <Spinner name="ball-scale-multiple" className="loader"/>
+                        <div className="loadingBlock">
+                            <Spinner name="ball-scale-multiple" className="loader"/>
+                        </div>
                   : ( pageCount ?
                         <div>
                             <h3> Available rooms </h3>

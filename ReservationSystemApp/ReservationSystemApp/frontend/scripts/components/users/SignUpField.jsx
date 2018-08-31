@@ -6,7 +6,7 @@ import { isRequired, maxLength, minLength, isEmail } from '../../constants/valid
 const SignUpField = (props) => {
     const { sendRequest, handleSubmit, onCancelClick, invalid, pristine, submitting } = props;
     return (
-        <form onSubmit={handleSubmit(sendRequest)}>
+        <form onSubmit={handleSubmit(sendRequest)} className="signUpForm">
             <Field
                 name="email"
                 label="Email"
@@ -38,11 +38,13 @@ const SignUpField = (props) => {
                 component={InputField}
                 type="password" validate={[isRequired, maxLength(20), minLength(4)]}
             />
+            <div className="btnBlock">
             <button type="submit"
-                    disabled={invalid || pristine || submitting}>
+                    disabled={invalid || pristine || submitting} className="detailsBtn notActive">
                 Submit
             </button>
-            <button type="button" onClick={onCancelClick}>Cancel</button>
+            <button type="button" onClick={onCancelClick} className="detailsBtn detailsBtnNotActive">Cancel</button>
+            </div>
         </form>
     );
 }

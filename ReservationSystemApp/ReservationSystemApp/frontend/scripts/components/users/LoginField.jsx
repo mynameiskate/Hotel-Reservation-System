@@ -20,6 +20,7 @@ const LoginField = (props) => {
                 validate={[isRequired, maxLength(20)]}
                 type="password"
             />
+            <div className="btnBlock">
             <button
                 className="detailsBtn"
                 type="submit"
@@ -33,6 +34,7 @@ const LoginField = (props) => {
             >
                 Cancel
             </button>
+            </div>
         </form>
     );
 }

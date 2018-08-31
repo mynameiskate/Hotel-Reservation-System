@@ -40,7 +40,9 @@ class RoomListPage extends React.Component {
             <div>
                 <Link to={this.props.getCreationLink()}>Add new room</Link>
                 { isLoading
-                    ? <Spinner name="ball-scale-multiple" className="loader"/>
+                    ? <div className="loadingBlock">
+                        <Spinner name="ball-scale-multiple" className="loader"/>
+                      </div>
                     : ( pageCount
                         ? <div>
                             { <h3>Rooms in {hotelName || 'hotel'}</h3>}

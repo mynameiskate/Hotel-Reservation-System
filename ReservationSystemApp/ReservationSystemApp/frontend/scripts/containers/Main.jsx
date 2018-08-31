@@ -38,7 +38,9 @@ class Main extends React.Component {
         return (
             <div>
                 {isLoading ?
-                <Spinner name="ball-scale-multiple" className="loader"/>
+                <div className="loadingBlock">
+                    <Spinner name="ball-scale-multiple" className="loader"/>
+                </div>
                 :
                 <Router history={history}>
                     <Switch>

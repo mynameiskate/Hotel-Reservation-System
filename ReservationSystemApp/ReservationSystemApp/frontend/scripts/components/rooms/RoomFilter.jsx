@@ -15,6 +15,7 @@ const RoomFilter = (props) => {
 
     return (
         <div className="roomFilter">
+        <div className="selectFieldBlock">
             <div className="datePickerBlock">
                         <label className="filterLabel">Move in date</label>
                         <DatePicker
@@ -32,6 +33,7 @@ const RoomFilter = (props) => {
                     selected = {moveOutDate}
                     onChange={date => setMoveOutDate(date)}
                 />
+            </div>
             </div>
             <div className="selectBlock">
                 <label>Adults</label>

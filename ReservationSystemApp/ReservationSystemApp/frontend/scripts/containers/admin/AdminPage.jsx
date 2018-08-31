@@ -83,8 +83,10 @@ class AdminPage extends React.Component {
                         onCitySelect={this.setCity}
                         onNameChange={this.setHotelName}
                     />
-                    { isLoading ?
+                    { isLoading
+                            ? <div className="loadingBlock">
                                 <Spinner name="ball-scale-multiple" className="loader"/>
+                              </div>
                         : ( resultCount ?
                             <div>
                                 <h3> Search results: {resultCount} destination(s)</h3>
