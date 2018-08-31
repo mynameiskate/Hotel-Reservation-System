@@ -103,11 +103,11 @@ VALUES (N'admin@admin.com', 0x0C0045EFF446019FC69DEE87317A73E6EC6FA71DEB0573BDD0
 INSERT [dbo].[Users] ([Email], [PasswordHash], [PasswordSalt], [IsAdmin], [ShortName], [FullName])
 VALUES (N'guest@guest.com', 0xE5B917B4911BCDBC0C426E3450AE8227A64D3D60E67D095B7A3E31FB33D66497, 0x93BB45DE7FA54F7DD0DB42FD1FAB41CFD003F69729F029B4F9B28024B97DFF51, 0, N'guest', N'guest')
 
-INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 30, 40, 2, 1, NULL)
-INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (2, 1, 15, 50, 2, 1, NULL)
-INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 10, 30, 1, 2, NULL)
-INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (10, 1, 40, 40, 1, 3, NULL)
-INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 20, 20, 2, 2, NULL)
+INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 30, 40, 2, 1, 1)
+INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (2, 1, 15, 50, 2, 1, 2)
+INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 10, 30, 1, 2, 2)
+INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (10, 1, 40, 40, 1, 3, 3)
+INSERT [dbo].[HotelRooms] ([Number], [IsAvailable], [Cost], [Size], [Adults], [HotelId], [RoomTypeId]) VALUES (1, 1, 20, 20, 2, 2, 4)
 
 SET IDENTITY_INSERT [dbo].[Services] ON
 	INSERT [dbo].[Services] ([ServiceId], [Name]) VALUES (1, N'Breakfasts included')

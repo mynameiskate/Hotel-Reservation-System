@@ -109,9 +109,6 @@ class HotelSearchPage extends React.Component {
                     setMoveOutDate={this.setMoveOutDate}
                     dateError={dateError}
                 />
-                <div className="loadingBlock">
-                    <Spinner name="ball-scale-multiple" className="spinner"/>
-                </div>
                 <button type="button" onClick={this.resetFilters} className="resetBtn">Reset filter</button>
                 { isLoading ?
                     <div className="loadingBlock">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import RoomInfo from './RoomInfo';
 
-const RoomEditList = ( {info, getEditLink, imageLinkCreator } ) => (
+const RoomEditList = ( { info, getEditLink, imageLinkCreator } ) => (
     <div>
         { Array.isArray(info) &&
             info.map((room) =>

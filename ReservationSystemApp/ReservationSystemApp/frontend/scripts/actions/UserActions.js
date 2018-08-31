@@ -95,6 +95,41 @@ class UserActions {
         }
     }
 
+    static signOut() {
+        const signOutRequest = () => {
+            return {
+                type: userConstants.SIGN_OUT_REQUEST
+            }
+        };
+
+        const signOutFailure = (error) => {
+            return {
+                type: userConstants.SIGN_OUT_FAILURE,
+                payload: {
+                    error
+                }
+            }
+        };
+
+        const signOutSuccess = () => {
+            return {
+                type: userConstants.SIGN_OUT_SUCCESS
+            }
+        };
+
+        return (dispatch) => {
+            dispatch(signOutRequest());
+            try {
+                localStorage.removeItem('token');
+                dispatch(signOutSuccess());
+            } catch (err) {
+                dispatch(signOutFailure(err));
+            }
+            history.push(links.SIGN_IN_PAGE);
+        }
+
+    }
+
     static getInfo() {
         const getInfoRequest = () => {
             return {

@@ -136,16 +136,15 @@ input{
     .hotelInfo{
         width:50%;
         h2{
-            color: white;
             margin-top: 0;
         }
 
         li{
-            color: #fdf4f4;
             list-style: none;
             display: flex;
             align-items: center;
             margin: 15px 0;
+
             &:before{
                 content: '';
                 background-image: url('../images/arrow2.png');
@@ -232,9 +231,12 @@ input{
     flex-direction: column;
     align-items: center;
 }
-input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
-    background-color: #e7d1db  !important;
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill{
+    background-color: #e7d1db; // !important;
 }
+
 .selectFieldBlock{
     display: flex;
     flex-wrap: wrap;
@@ -270,5 +272,9 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
         .notActive{
             background-color: #806c90;
         }
+    }
+
+    h3{
+        color: white;
     }
 }

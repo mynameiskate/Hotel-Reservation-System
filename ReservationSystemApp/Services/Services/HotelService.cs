@@ -73,6 +73,7 @@ namespace Services.Services
 
         public async Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request)
         {
+            var reservationList = _dataContext.RoomReservations as IQueryable<RoomReservation>;
             int size = request.PageSize ?? _pageSize; 
             if (size > _maxPageSize)
             {
@@ -80,9 +81,11 @@ namespace Services.Services
             }
 
             var entityList = _dataContext.Hotels as IQueryable<Hotel>;
+            var reservations = _dataContext.RoomReservations;
 
             var resultQuery = entityList
                 .FilterHotels(request, _maxElapsedMinutes, _dataContext)
+                .OrderByDescending(h => reservations.Where(r => r.HotelRoom.HotelId == h.HotelId).Count())
                 .Include(h => h.Services)
                 .Include(h => h.Location)
                 .ThenInclude(l => l.City)
@@ -92,7 +95,9 @@ namespace Services.Services
             int resultCount = await resultQuery.CountAsync();
             int currentPage = (request.Page > 0) ? request.Page : 1;
 
-            var listForPage = resultQuery.CutList(size, currentPage).Select(hotel => new HotelModel(hotel));
+            var listForPage = resultQuery
+                                .CutList(size, currentPage)
+                                .Select(hotel => new HotelModel(hotel));
 
             return new PageModel<HotelModel>(currentPage, size, resultCount, listForPage);
         }
@@ -117,8 +122,9 @@ namespace Services.Services
             int resultCount = await resultQuery.CountAsync();
             int currentPage = (request.Page > 0) ? request.Page : 1;
 
-            var listForPage = resultQuery.CutList(size, currentPage).Select((r) => new HotelRoomModel(r)); ;
-
+            var listForPage = resultQuery
+                                .CutList(size, currentPage)
+                                .Select((r) => new HotelRoomModel(r));
             return new PageModel<HotelRoomModel>(currentPage, size, resultCount, listForPage);
         }
 
@@ -134,7 +140,7 @@ namespace Services.Services
             return new HotelModel(hotelEntity);
         }
 
-        public async Task UpdateHotelInfo(HotelModel hotelInfo) //TODO: do something with contacts
+        public async Task UpdateHotelInfo(HotelModel hotelInfo)
         {
             var hotel = await _dataContext.Hotels.FirstOrDefaultAsync(h => h.HotelId == hotelInfo.HotelId);
             if (hotel == null)

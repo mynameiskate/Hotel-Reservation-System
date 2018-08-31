@@ -125,6 +125,21 @@ export function userReducer(state = initialState, action) {
                 isLoading: false,
                 redirect: false
             }
+        case userConstants.SIGN_OUT_REQUEST:
+            return {
+                isLoading: true
+            }
+        case userConstants.SIGN_OUT_FAILURE:
+            return {
+                isLoading: false,
+                error: data.error
+            }
+        case userConstants.SIGN_OUT_SUCCESS:
+            return {
+                isLoading: false,
+                userInfo: {},
+                loggedIn: false
+            }
         default:
             return state;
     }

@@ -98,21 +98,22 @@ class RoomPage extends React.Component {
                         </div>
                     )
                 }
-                <BookingModal moveInDate={this.props.moveInDate}
-                              moveOutDate={this.props.moveOutDate}
-                              isOpen={this.state.isBookingModalOpen}
-                              onClose={this.closeModal}
-                              onCancel={this.onCancel}
-                              onBook={this.props.confirmReservation}
-                              room={currentRoom}
-                              time={moveInTime}
-                              onTimeChange={this.props.setMoveInTime}
-                              services={services}
-                              totalCost={totalCost}
-                              addService={this.props.addService}
-                              removeService={this.props.removeService}
-                              secondsLimit={settings.confirmationLimit}
-                 />
+                <BookingModal
+                    moveInDate={this.props.moveInDate}
+                    moveOutDate={this.props.moveOutDate}
+                    isOpen={this.state.isBookingModalOpen}
+                    onClose={this.closeModal}
+                    onCancel={this.onCancel}
+                    onBook={this.props.confirmReservation}
+                    room={currentRoom}
+                    time={moveInTime}
+                    onTimeChange={this.props.setMoveInTime}
+                    services={services}
+                    totalCost={totalCost}
+                    addService={this.props.addService}
+                    removeService={this.props.removeService}
+                    secondsLimit={settings.confirmationLimit}
+                />
             </div>
         );
     }

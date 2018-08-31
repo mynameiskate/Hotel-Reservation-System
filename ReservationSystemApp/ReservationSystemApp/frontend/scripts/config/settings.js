@@ -4,5 +4,6 @@ export const settings = {
     defaultImageSize: {
         width: 20,
         height: 20
-    }
+    },
+    defaultTopHotelSize: 3
 }

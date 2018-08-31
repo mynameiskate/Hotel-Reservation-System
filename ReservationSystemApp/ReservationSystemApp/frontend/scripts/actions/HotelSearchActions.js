@@ -10,6 +10,9 @@ import {
 import {
     dateFormats
 } from '../constants/dateFormats';
+import {
+    settings
+} from '../config/settings';
 import MomentExtensions from '../extensions/MomentExtensions';
 import {
     searchConstants
@@ -222,13 +225,22 @@ class HotelSearchActions {
 
         const query = queryString.stringify(params);
         return dispatch => {
-
             if (!paramMoveOutDate.isBefore(paramMoveInDate)) {
                 params.moveOutDate = paramMoveOutDate.format(dateFormats.REQUEST_DATE_FORMAT);
                 dispatch(HistoryActions.pushUrl(link, query));
             } else {
                 dispatch(HotelSearchActions.setDateFailure(moveOutDate));
             }
+        }
+    }
+
+    static getTopHotels() {
+        const params = {
+            pageSize: settings.defaultTopHotelSize
+        }
+
+        return (dispatch) => {
+            dispatch(this.loadFromQuery(`?${queryString.stringify(params)}`));
         }
     }
 

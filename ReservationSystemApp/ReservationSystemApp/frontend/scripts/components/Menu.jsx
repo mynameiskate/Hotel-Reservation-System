@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { links } from '../config/links';
 
-const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
-    <div className="headerContainer">
-        <div className="header">
+const Header = ({ isAdmin, loggedIn, onSignOut }) => {
+    <div className="header">
             <div className="logo"/>
             <div className="nav">
                     <div>
@@ -14,10 +13,7 @@ const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
                                 <Link to={ links.PROFILE_PAGE }>
                                     My profile
                                 </Link>
-                                <Link
-                                    to={""}
-                                    onClick={onSignOut}
-                                >
+                                <Link to={""}>
                                     Sign out
                                 </Link>
                             </div>
@@ -41,15 +37,7 @@ const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
                 }
                 <Link to="">About us</Link>
             </div>
-        </div>
-        <div className="bannerText">
-            <p className="bannerTextTitle">Welcome to Book It!</p>
-            <p>hundreds of hotels are waiting just for you.</p>
-                <Link className="findBtn" to={ links.HOTEL_ID_SEARCH_PAGE() } >
-                        Find hotel
-                </Link>
-        </div>
     </div>
-)
+}
 
 export default Header;

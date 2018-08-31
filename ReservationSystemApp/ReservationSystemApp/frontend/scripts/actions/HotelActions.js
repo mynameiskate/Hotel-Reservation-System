@@ -161,50 +161,6 @@ class HotelActions {
         }
     }
 
-    static hideHotel(hotelId) {
-        const hideRequest = (id) => {
-            return {
-                type: hotelConstants.HIDE_HOTEL,
-                payload: {
-                    id
-                }
-            };
-        };
-
-        return dispatch => {
-            dispatch(hideRequest(hotelId));
-        }
-    }
-
-    static startEditing(hotelId, hotelInfo) {
-        const showEditor = (id, selected) => {
-            return {
-                type: hotelConstants.START_EDITING,
-                payload: {
-                    id,
-                    selected
-                }
-            };
-        }
-
-        return dispatch => {
-            dispatch(showEditor(hotelId, hotelInfo));
-        }
-    }
-
-    static stopEditing() {
-        const hideEditor = () => {
-            return {
-                type: hotelConstants.STOP_EDITING,
-                payload: {}
-            };
-        }
-
-        return dispatch => {
-            dispatch(hideEditor());
-        }
-    }
-
     static createHotel() {
         const createFailure = (error) => {
             return {
@@ -244,7 +200,9 @@ class HotelActions {
                 services
             } = stateAccessor().reservations;
 
-            const { imageIds } = stateAccessor().files;
+            const {
+                imageIds
+            } = stateAccessor().files;
 
             const hotelModel = {
                 name: hotelName,
@@ -311,7 +269,9 @@ class HotelActions {
                 services
             } = stateAccessor().reservations;
 
-            const { imageIds } = stateAccessor().files;
+            const {
+                imageIds
+            } = stateAccessor().files;
 
             const hotelModel = {
                 hotelId,
