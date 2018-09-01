@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Router } from 'react-router-dom';
 import Spinner from 'react-spinkit';
+import { bindActionCreators } from 'redux';
 
 import {
     history
@@ -17,6 +18,7 @@ import { links } from '../config/links';
 import UserActions from '../actions/UserActions';
 import RoomSearchPage from './RoomSearchPage';
 
+import Layout from '../components/Layout';
 import AdminPage from './admin/AdminPage';
 import HotelEditPage from './admin/HotelEditPage';
 import RoomListPage from './admin/RoomListPage';
@@ -29,14 +31,18 @@ class Main extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
-        this.props.dispatch(UserActions.getProfile());
+    componentDidMount() {
+        this.props.getProfile();
     }
 
     render() {
         const { isLoading, loggedIn, isAdmin } = this.props;
         return (
-            <div>
+            <Layout
+                loggedIn={loggedIn}
+                isAdmin={isAdmin}
+                onSignOut={this.props.signOut}
+            >
                 {isLoading ?
                 <div className="loadingBlock">
                     <Spinner name="ball-scale-multiple" className="loader"/>
@@ -100,7 +106,7 @@ class Main extends React.Component {
                     </Switch>
                 </Router>
                 }
-            </div>
+            </Layout>
         );
     }
 }
@@ -119,4 +125,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        signOut: () => UserActions.signOut(),
+        getProfile: () => UserActions.getProfile()
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

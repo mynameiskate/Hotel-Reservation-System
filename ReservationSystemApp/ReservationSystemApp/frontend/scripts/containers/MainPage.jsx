@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { links } from '../config/links';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Banner from '../components/Banner';
 import UserActions from '../actions/UserActions';
 import  HotelSearchActions from '../actions/HotelSearchActions';
 import TopHotelsList from '../components/hotels/TopHotelsList';
@@ -19,42 +18,30 @@ class MainPage extends React.Component {
     }
 
     render() {
-        const { error, isAdmin, loggedIn, signedUp, signOut, info } = this.props;
+        const { error, info } = this.props;
         return (
-            <div>
-                <Header
-                    isAdmin={isAdmin}
-                    loggedIn={loggedIn}
-                    signedUp={signedUp}
-                    onSignOut={signOut}
-                />
+            <React.Fragment>
+                <Banner/>
                 <TopHotelsList
                     imageLinkCreator={this.props.imageLinkCreator}
                     info={info}
                 />
-                <Footer/>
                 { error  && <h3>Loading error</h3> }
-            </div>
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        isAdmin: state.users.isAdmin,
         info: state.search.info,
         error: state.hotels.error,
         isLoading: state.hotels.isLoading,
-        removing: state.hotels.removing,
-        selected: state.hotels.selected,
-        loggedIn: state.users.loggedIn,
-        signedUp: state.users.signedUp
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     const bindedCreators = bindActionCreators({
-        signOut: () => UserActions.signOut(),
         getTopHotels: () => HotelSearchActions.getTopHotels()
     }, dispatch);
 

@@ -43,7 +43,8 @@ export function userReducer(state = initialState, action) {
                 isValid: false,
                 loggedIn: false,
                 redirect: false,
-                isAdmin: false
+                isAdmin: false,
+                isLoading: false
             }
         case userConstants.SIGN_UP_REQUEST:
             return {

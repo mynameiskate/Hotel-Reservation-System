@@ -127,7 +127,7 @@ class HotelSearchPage extends React.Component {
                         : <h3>No results, try again?</h3>
                     )
                 }
-               { (pageCount > 0 && !isLoading) &&
+               { (page && !isLoading) &&
                     <PageBar
                         currentPage={page}
                         nextPage={nextPage}

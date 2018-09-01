@@ -49,8 +49,12 @@ class UserActions {
                     dispatch(logInSuccess(response));
                     return response;
                 })
+                .then(() => dispatch(this.getProfile()))
                 .then(() => history.push(links.HOTEL_ID_SEARCH_PAGE()))
-                .catch(error => dispatch(logInFailure(error)));
+                .catch(error => {
+                    dispatch(logInFailure(error));
+                    history.push(links.SIGN_IN_PAGE)
+                });
         }
     }
 
@@ -189,20 +193,15 @@ class UserActions {
         };
 
         return (dispatch, stateAccessor) => {
-            const isLoggedIn = stateAccessor().users.loggedIn;
-            if (!isLoggedIn) {
-                dispatch(getRequest());
-                UserService.getProfile()
-                    .then(handleError)
-                    .then(result => result.json())
-                    .then(jsonInfo => {
-                        dispatch(getSuccess(jsonInfo));
-                        return jsonInfo;
-                    })
-                    .catch(error => dispatch(getFailure(error)));
-            } else {
-                dispatch(getCurrentInfo());
-            }
+            dispatch(getRequest());
+            UserService.getProfile()
+                .then(handleError)
+                .then(result => result.json())
+                .then(jsonInfo => {
+                    dispatch(getSuccess(jsonInfo));
+                    return jsonInfo;
+                })
+                .catch(error => dispatch(getFailure(error)));
         }
     }
 }

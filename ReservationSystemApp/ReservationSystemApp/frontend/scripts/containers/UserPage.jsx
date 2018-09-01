@@ -7,6 +7,10 @@ class UserPage extends React.Component {
         super(props);
     }
 
+    componentWillMount(){
+        this.props.getProfile();
+    }
+
     componentDidMount() {
         this.props.reset();
     }
@@ -40,7 +44,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        reset: () => dispatch(UserActions.reset())
+        reset: () => dispatch(UserActions.reset()),
+        getProfile: () => dispatch(UserActions.getProfile())
     }
 }
 

@@ -79,13 +79,16 @@ class RoomPage extends React.Component {
                             {!moveInDate || !moveOutDate
                                 && <h4>Choose move in and move out date</h4>}
                             {
-                                <RoomList info={info}
-                                          isBookingEnabled={isBookingEnabled}
-                                          showBookModal={this.openModal}
-                                />
+                                (info && info.count)
+                                ?   <RoomList
+                                        info={info}
+                                        isBookingEnabled={isBookingEnabled}
+                                        showBookModal={this.openModal}
+                                    />
+                                : <h4>There are no rooms available right now :(</h4>
                             }
                             {error && <p>error</p>}
-                            {!isLoading &&
+                            {!isLoading && info && info.count && 
                                 <PageBar currentPage={page}
                                     nextPage={nextPage}
                                     goToPage={(num) => this.setPage(num)}/>

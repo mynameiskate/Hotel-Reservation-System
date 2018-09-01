@@ -32,16 +32,19 @@ export function roomReducer(state = initialState, action) {
                 nextPage: null
             }
         case roomConstants.GET_ROOMS_SUCCESS:
+            const results = data.info.entities;
             const resultCount = data.info.totalAmount;
             const pageSize = data.info.pageSize;
             const requestPage = data.info.pageNumber;
-            const pageCount = (pageSize > 0) ? Math.ceil(resultCount / pageSize) : 0;
+            const pageCount = (pageSize && results && results.length)
+                                ? Math.ceil(resultCount / pageSize)
+                                : 0;
             const page = (requestPage > pageCount) ? 1 : requestPage;
             const nextPage = (page < pageCount) ? (page + 1) : null;
 
             return {
                 ...state,
-                info: data.info.entities,
+                info: results,
                 isLoading: false,
                 selectedStars: data.selectedStars,
                 page,

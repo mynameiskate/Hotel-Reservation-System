@@ -5,15 +5,31 @@
 @import './ColorScheme';
 @import './loader';
 
-html, body, {
+html, body{
     top:0;
     bottom:0;
     left:0;
     right:0;
+    height: 100%
 }
 
-body {
+body{
     font-family: Arial, sans-serif;
     margin: 0;
     color: @main-color;
+}
+
+.root{
+    //height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: url('../images/headerBG.jpg');
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.content{
+    flex: 1 0 auto;
 }

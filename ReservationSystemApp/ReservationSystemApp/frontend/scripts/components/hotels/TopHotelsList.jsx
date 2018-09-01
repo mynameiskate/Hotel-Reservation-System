@@ -7,7 +7,7 @@ const TopHotelList = ( { info, getDetailsLink, imageLinkCreator } ) => (
         <div className="topHotelsRow">
         { Array.isArray(info) &&
             info.map((hotel) =>
-                !hotel.isRemoved &&  
+                !hotel.isRemoved &&
                     <div className="hotelCard">
                         <div className="topHotelImg">
                             {

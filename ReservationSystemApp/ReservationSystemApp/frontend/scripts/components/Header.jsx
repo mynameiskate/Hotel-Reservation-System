@@ -4,50 +4,39 @@ import { Link } from 'react-router-dom';
 import { links } from '../config/links';
 
 const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
-    <div className="headerContainer">
-        <div className="header">
-            <div className="logo"/>
-            <div className="nav">
-                    <div>
-                        { loggedIn
-                          ? <div>
-                                <Link to={ links.PROFILE_PAGE }>
-                                    My profile
-                                </Link>
-                                <Link
-                                    to={""}
-                                    onClick={onSignOut}
-                                >
-                                    Sign out
-                                </Link>
-                            </div>
-                          : <div>
-                                <Link to={ links.SIGN_IN_PAGE } >
-                                    Log in
-                                </Link>
-                                <Link to={ links.SIGN_UP_PAGE } >
-                                    Sign up
-                                </Link>
-                            </div>
-                        }
-                    </div>
-                <Link to={ links.HOTEL_ID_SEARCH_PAGE() } >
-                    Hotels
+    <div className="header">
+        <Link to='/' className="logo"/>
+        <div className="nav">
+            { loggedIn
+             ?  <Link to={ links.PROFILE_PAGE }>
+                    My profile
                 </Link>
-                { isAdmin &&
-                    <Link to={ links.ADMIN_PAGE } >
-                        For administrator
+             :  <div>
+                    <Link to={ links.SIGN_IN_PAGE } >
+                        Log in
                     </Link>
-                }
-                <Link to="">About us</Link>
-            </div>
-        </div>
-        <div className="bannerText">
-            <p className="bannerTextTitle">Welcome to Book It!</p>
-            <p>hundreds of hotels are waiting just for you.</p>
-                <Link className="findBtn" to={ links.HOTEL_ID_SEARCH_PAGE() } >
-                        Find hotel
+                    <Link to={ links.SIGN_UP_PAGE } >
+                        Sign up
+                    </Link>
+                </div>
+            }
+            <Link to={ links.HOTEL_ID_SEARCH_PAGE() } >
+                Hotels
+            </Link>
+            { isAdmin &&
+                <Link to={ links.ADMIN_PAGE } >
+                    For administrator
                 </Link>
+            }
+            <Link to="">About us</Link>
+            { loggedIn &&
+                <Link
+                    to={""}
+                    onClick={onSignOut}
+                >
+                    Sign out
+                </Link>
+            }
         </div>
     </div>
 )

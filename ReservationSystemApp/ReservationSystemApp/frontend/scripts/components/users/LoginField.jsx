@@ -6,7 +6,7 @@ import { isRequired, maxLength, isEmail } from '../../constants/validationRules'
 const LoginField = (props) => {
     const { sendRequest, handleSubmit, onCancelClick, invalid, pristine, submitting } = props;
     return (
-        <form className="userForm" onSubmit={handleSubmit(sendRequest)}>
+        <form className="signUpForm" onSubmit={handleSubmit(sendRequest)}>
             <Field
                 name="email"
                 label="Email"

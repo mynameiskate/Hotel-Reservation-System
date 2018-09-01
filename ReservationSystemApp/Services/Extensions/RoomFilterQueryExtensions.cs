@@ -23,15 +23,10 @@ namespace Services.Extensions
                 return rooms.FilterByNumber(filters.Number);
             }
 
-            var filteredList = rooms
+            return rooms
                     .FilterByAdultAmount(filters.Adults)
-                    .FilterByCost(filters.MinCost, filters.MaxCost)
+                    //.FilterByCost(filters.MinCost, filters.MaxCost)
                     .FilterByDateAvailability(filters.MoveInDate, filters.MoveOutDate, maxElapsedMinutes, dataContext);
-
-            if (!string.IsNullOrEmpty(filters.RoomType)) //TODO: add some checks for room types
-            { }
-
-            return filteredList;
         }
 
         static IQueryable<HotelRoom> FilterById(this IQueryable<HotelRoom> list, int? roomId)
