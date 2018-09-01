@@ -76,7 +76,10 @@ class RoomSearchPage extends React.Component {
 
         return (
             <div>
-                { isHotelLoading && <h3>Loading..</h3>}
+                { isHotelLoading &&
+                    <div className="loadingBlock">
+                        <Spinner name="ball-scale-multiple" className="spinner"/>
+                    </div>}
                 {loaded &&
                     <div>
                         <HotelInfo
@@ -87,7 +90,9 @@ class RoomSearchPage extends React.Component {
                     </div>
                 }
                 { isRoomLoading
-                    ? <Spinner name="ball-scale-multiple" className="loader"/>
+                    ? <div className="loadingBlock">
+                        <Spinner name="ball-scale-multiple" className="spinner"/>
+                      </div>
                     : ( pageCount
                         ? <div>
                             <h3> Available rooms </h3>
