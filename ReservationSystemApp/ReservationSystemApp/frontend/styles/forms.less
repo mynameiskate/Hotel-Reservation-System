@@ -180,6 +180,11 @@ input{
     }
 }
 
+.editBox{
+    border-top: 2px solid white;
+    margin: 10px 0;
+}
+
 .detailsBtn{
     align-self: center;
     background-color: #442f55;
@@ -203,7 +208,7 @@ input{
         color: gray;
 
         &:hover{
-            background-color: white;
+            background-color: #442f55;
         }
         
     }
@@ -338,6 +343,8 @@ select:-webkit-autofill{
     }
 
     h3, label{
+        font-size: 18px;
+        margin: 20px 0;
         color: white;
         font-weight: bold;
     }
@@ -366,4 +373,5 @@ select:-webkit-autofill{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
 }

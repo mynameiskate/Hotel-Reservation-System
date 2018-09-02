@@ -11,8 +11,8 @@ const ServiceCreationForm = (props) => {
             handleSubmit, newServiceName } = props;
 
     return (
-        <form onSubmit={handleSubmit(() => createNewService(newService, newServiceName, newServiceCost))}>
-            <label>Add new service</label>
+        <form className="editBox" onSubmit={handleSubmit(() => createNewService(newService, newServiceName, newServiceCost))}>
+            <h3>Add new service</h3>
             <Select
                 value = {serviceOptions.find(s => s.value == newService) || {}}
                 options={serviceOptions}
@@ -30,8 +30,11 @@ const ServiceCreationForm = (props) => {
                     isNumber
                 ]}
             />
-            <button type="submit"
-                    disabled={invalid || pristine || submitting || !newService }>
+            <button
+                type="submit"
+                disabled={invalid || pristine || submitting || !newService }
+                className="detailsBtn"
+            >
                 Create service
             </button>
         </form>

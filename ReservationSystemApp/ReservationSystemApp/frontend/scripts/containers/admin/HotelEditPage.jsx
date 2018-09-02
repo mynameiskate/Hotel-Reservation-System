@@ -61,14 +61,14 @@ class HotelEditPage extends React.Component {
                 newServiceName, isFileTypeValid, imageIds } = this.props;
 
         return (
-            <div>
+            <div className="editForm">
                 { isLoading
                   && <div className="loadingBlock">
                         <Spinner name="ball-scale-multiple" className="loader"/>
                     </div>
                 }
                 {hotelInfo &&
-                    <div>
+                    <React.Fragment>
                         <HotelEditForm
                             stars={stars}
                             hotelName={hotelName}
@@ -97,13 +97,10 @@ class HotelEditPage extends React.Component {
                             addService={this.props.addService}
                             removeService={this.props.removeService}
                             updateCost={this.props.updateServiceCost}
+
                             photos={this.props.getImageSet(imageIds)}
                             removeImage={this.props.removeImage}
                             imageIds={imageIds}
-                        />
-                        <ImageUploadForm
-                            isValid={isFileTypeValid}
-                            onInputChange={this.props.chooseImages}
                         />
                         <ServiceCreationForm
                             newService={newService}
@@ -115,7 +112,7 @@ class HotelEditPage extends React.Component {
                             createNewService={this.createNewService}
                         />
                         {error && <h3>{error}</h3>}
-                    </div>
+                    </React.Fragment>
                 }
             </div>
         );

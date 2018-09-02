@@ -17,7 +17,7 @@ const HotelEditForm = (props) => {
         imageIds, removeImage, photos } = props;
 
     return (
-        <form onSubmit={handleSubmit(sendRequest)}>
+        <form className="formFields" onSubmit={handleSubmit(sendRequest)}>
             <Field
                 name="name"
                 label="Name"
@@ -26,13 +26,13 @@ const HotelEditForm = (props) => {
                 onChange={e => onNameChange(e.target.value)}
                 value={hotelName}
             />
-            <label>Stars</label>
+            <h3>Stars</h3>
             <Select
                 value = {starOptions.find(o => o.value == stars) || {}}
                 options={starOptions}
                 onChange={stars => onStarsChange(stars.value)}
             />
-            <label>Destination country</label>
+            <h3>Destination country</h3>
             <Select
                 label="Country"
                 value = {countryOptions.find(c => c.value == selectedCountry) || {}}
@@ -40,7 +40,7 @@ const HotelEditForm = (props) => {
                 isSearchable={true}
                 onChange={country => onCountrySelect(country)}
             />
-            <label>Destination city</label>
+            <h3>Destination city</h3>
             <Select
                 value = {cityOptions.find(c => c.value == selectedCity) || {}}
                 options={cityOptions}
@@ -54,17 +54,19 @@ const HotelEditForm = (props) => {
                 value={hotelName}
                 onChange={e => onAddressChange(e.target.value)}
             />
+            <h3>Images</h3>
             {
                 (imageIds && imageIds.length)
-                ? <Gallery
-                    photos={photos}
-                    direction={'column'}
-                    ImageComponent={GalleryImage}
-                    onClick={removeImage}
-                    />
-                : null
+                ? <div className="galleryBox">
+                    <Gallery
+                        photos={photos}
+                        direction={'column'}
+                        ImageComponent={GalleryImage}
+                        onClick={removeImage}
+                        />
+                   </div>
+                : <p className="warning">{"none uploaded"}</p>
             }
-
             { services &&
                 <ServiceEditor
                     isHideEnabled={(invalid || pristine || submitting) && isServiceEditorShown}
@@ -76,11 +78,21 @@ const HotelEditForm = (props) => {
                     updateCost={updateCost}
                 />
             }
-            <button type="submit"
+            <div className="btnBox">
+                <button
+                    className="bookBtn"
+                    type="submit"
                     disabled={invalid || pristine || submitting}>
-                Submit
-            </button>
-            <button type="button" onClick={onCancelClick}>Cancel</button>
+                    Update info
+                </button>
+                <button
+                    className="bookBtn"
+                    type="button"
+                    onClick={onCancelClick}
+                >
+                    Cancel
+                </button>
+            </div>
         </form>
     );
 }

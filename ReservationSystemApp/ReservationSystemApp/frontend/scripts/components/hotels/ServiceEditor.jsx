@@ -8,15 +8,18 @@ import { isRequired, isNumber} from '../../constants/validationRules';
 const ServiceEditor = ( { services, addService, removeService, isShown,
                           changeVisibility, updateCost, isHideEnabled } ) => (
     services
-        ? <div>
-            <label>Services</label>
-            <button
-                type="button"
-                onClick={changeVisibility}
-                disabled={isHideEnabled}
-            >
-                {isShown ? "Hide" : "Show"}
-            </button>
+        ? <React.Fragment>
+            <div className="btnBox">
+                <h3>Services</h3>
+                <button
+                    className="detailsBtn"
+                    type="button"
+                    onClick={changeVisibility}
+                    disabled={isHideEnabled}
+                >
+                    {isShown ? "Hide" : "Show"}
+                </button>
+            </div>
             {
                 isShown &&
                     <div>
@@ -44,7 +47,7 @@ const ServiceEditor = ( { services, addService, removeService, isShown,
                         )}
                     </div>
                 }
-            </div>
+            </React.Fragment>
         : <div>Services: none</div>
 )
 
