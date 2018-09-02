@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Spinner from 'react-spinkit';
 
 import HotelActions from '../actions/HotelActions';
-import HotelInfo from '../components/hotels/HotelInfo';
+import HotelHeader from '../components/hotels/HotelHeader';
 
 import BookingModal from '../components/users/BookingModal';
 import { links } from '../config/links';
@@ -75,28 +75,29 @@ class RoomSearchPage extends React.Component {
         const isBookingEnabled = loggedIn && moveInDate && moveOutDate;
 
         return (
-            <div>
+            <div className="pageContainer">
                 { isHotelLoading &&
                     <div className="loadingBlock">
                         <Spinner name="ball-scale-multiple" className="spinner"/>
                     </div>}
                 {loaded &&
-                    <div>
-                        <HotelInfo
-                            hotel={loaded}
-                            imageLink={this.props.imageLinkCreator(loaded.hotelId)}
-                        />
-                        {hotelError && <h3>{hotelError}</h3>}
-                    </div>
+                    <HotelHeader
+                        hotel={loaded}
+                        imageLink={this.props.imageLinkCreator(loaded.hotelId)}
+                    />
                 }
                 { isRoomLoading
                     ? <div className="loadingBlock">
                         <Spinner name="ball-scale-multiple" className="spinner"/>
                       </div>
                     : ( pageCount
-                        ? <div>
-                            <h3> Available rooms </h3>
-                            {!loggedIn && <h4>In order to book you should log in!</h4>}
+                        ? <div className="roomList">
+                            <h3>Available rooms</h3>
+                            {!loggedIn &&
+                                <p className="warning">
+                                    In order to book you should log in!
+                                </p>
+                            }
                             {!moveInDate || !moveOutDate
                                 && <h4>Choose move in and move out date</h4>}
                             {   roomInfo &&

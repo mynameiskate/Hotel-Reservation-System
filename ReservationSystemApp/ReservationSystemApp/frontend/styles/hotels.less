@@ -62,3 +62,108 @@
     font-weight: bold;
     margin: 20px 0 20px 20px;
 }
+
+.hotelSearch{
+    margin: 40px auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    h3{
+        color: white;
+    }
+}
+
+.filterBox{
+    padding: 20px 40px;
+    width: 25%;
+    background-color: #98878f;
+    border-radius: 10px;
+}
+
+.searchResultBox{
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.hotelHeader{
+    background-size: cover;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 4px solid #494E68;
+}
+
+.hotelName{
+    color: #000000;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.hotelInfo{
+    background-color: #ffffff;
+    width: 70%;
+    margin: 50px auto;
+}
+
+.mainInfo{
+    display: flex;
+    margin-bottom: 50px;
+    align-items: center;
+    margin-right: 100px;
+}
+
+.infoItem{
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+}
+
+
+.infoItem{
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    text-align: center;
+
+    .geo&:before{
+        content: url("../images/maps.png");
+        background-color: #494E68;
+        padding: 10px 12px 12px 9px;
+        width: 20px;
+        height: 20px;
+        display: block;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .stars&:before{
+        content: url("../images/star.png");
+        background-color: #494E68;
+        padding: 10px 12px 12px 9px;
+        width: 20px;
+        height: 20px;
+        display: block;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .address&:before{
+        content: url("../images/phone.png");
+        background-color: #494E68;
+        padding: 10px 12px 12px 9px;
+        width: 20px;
+        height: 20px;
+        display: block;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+}

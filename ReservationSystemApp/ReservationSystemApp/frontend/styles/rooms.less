@@ -1,0 +1,68 @@
+.roomList{
+    width: 70%;
+    margin: 0 auto;
+    text-align: center;
+
+    h3{
+        font-size: 30px;
+    }
+
+    .warning{
+        color: #985E6D;
+        font-size: 20px;
+    }
+}
+
+.roomRow{
+    display: flex;
+    flex-direction: column;
+}
+
+.roomCard{
+    background-color: #494E68;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.roomImg{
+    width: 35%;
+
+    img{
+        width: 100%;
+    }
+}
+
+.roomInfo{
+    width: 60%;
+    color: white;
+
+    p{
+        font-size: 28px;
+        margin-top: 0;
+    }
+
+    ul{
+        font-size: 16px;
+        list-style: none;
+    }
+}
+
+.bookBtn{
+    align-self: flex-end;
+    background-color: white;
+    padding: 5px 40px;
+    border-radius: 5px;
+    color: #442f55;
+    transition: background-color 0.5s ease;
+
+    &:hover{
+        background-color: #985E6D;
+        color: white;
+        transition: background-color 0.5s ease;
+        cursor: pointer;
+    }
+}

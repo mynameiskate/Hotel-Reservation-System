@@ -92,48 +92,52 @@ class HotelSearchPage extends React.Component {
                 isLoading, adults, resultCount, error, info } = this.props;
         return(
             <div className="hotelSearch">
-                <HotelFilter
-                    locations={locations}
-                    selectedCountry={selectedCountry}
-                    selectedCity={selectedCity}
-                    onCountrySelect={this.setCountry}
-                    onCitySelect={this.setCity}
-                    onNameChange={this.setHotelName}
-                />
-                <RoomFilter
-                    moveInDate={moveInDate}
-                    moveOutDate={moveOutDate}
-                    adultsAmount={adults}
-                    onAdultsChange={this.setAdults}
-                    setMoveInDate={this.setMoveInDate}
-                    setMoveOutDate={this.setMoveOutDate}
-                    dateError={dateError}
-                />
-                <button type="button" onClick={this.resetFilters} className="resetBtn">Reset filter</button>
-                { isLoading ?
-                    <div className="loadingBlock">
-                        <Spinner name="ball-scale-multiple" className="spinner"/>
-                    </div>
-                  : ( resultCount ?
-                    <div>
-                        <h3> Search results: {resultCount} destination(s)</h3>
-                        <HotelList
-                            info={info}
-                            getDetailsLink={(id) => this.getDetailsLink(id)}
-                            imageLinkCreator={this.props.imageLinkCreator}
-                        />
-                    </div>
-                      : error ? <h3>Loading error</h3>
-                        : <h3>No results, try again?</h3>
-                    )
-                }
-               { (page && !isLoading) &&
-                    <PageBar
-                        currentPage={page}
-                        nextPage={nextPage}
-                        goToPage={this.setPage}
+                <div className="filterBox">
+                    <HotelFilter
+                        locations={locations}
+                        selectedCountry={selectedCountry}
+                        selectedCity={selectedCity}
+                        onCountrySelect={this.setCountry}
+                        onCitySelect={this.setCity}
+                        onNameChange={this.setHotelName}
                     />
-                }
+                    <RoomFilter
+                        moveInDate={moveInDate}
+                        moveOutDate={moveOutDate}
+                        adultsAmount={adults}
+                        onAdultsChange={this.setAdults}
+                        setMoveInDate={this.setMoveInDate}
+                        setMoveOutDate={this.setMoveOutDate}
+                        dateError={dateError}
+                    />
+                    <button type="button" onClick={this.resetFilters} className="resetBtn">Reset filter</button>
+                </div>
+                <div className="searchResultBox">
+                    { isLoading ?
+                        <div className="loadingBlock">
+                            <Spinner name="ball-scale-multiple" className="spinner"/>
+                        </div>
+                    : ( resultCount ?
+                        <div>
+                            <h3> Search results: {resultCount} destination(s)</h3>
+                            <HotelList
+                                info={info}
+                                getDetailsLink={(id) => this.getDetailsLink(id)}
+                                imageLinkCreator={this.props.imageLinkCreator}
+                            />
+                        </div>
+                        : error ? <h3>Loading error</h3>
+                            : <h3>No results, try again?</h3>
+                        )
+                    }
+                    { (page && !isLoading) &&
+                        <PageBar
+                            currentPage={page}
+                            nextPage={nextPage}
+                            goToPage={this.setPage}
+                        />
+                    }
+                </div>
             </div>
         );
     }

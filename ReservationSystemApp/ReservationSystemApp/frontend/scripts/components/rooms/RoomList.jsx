@@ -2,10 +2,10 @@ import React from 'react';
 import RoomInfo from './RoomInfo';
 
 const RoomList = ( {info, showBookModal, isBookingEnabled, imageLinkCreator } ) => (
-    <div>
+    <React.Fragment>
         { Array.isArray(info) &&
             info.map((room) =>
-            <div key={room.number}>
+            <div key={room.number} className="roomRow">
                 <RoomInfo
                     room={room}
                     imageLink={(room.imageIds && room.imageIds.length)
@@ -14,13 +14,14 @@ const RoomList = ( {info, showBookModal, isBookingEnabled, imageLinkCreator } ) 
                               }
                 />
                 <button
+                    className="bookBtn"
                     disabled={!isBookingEnabled}
                     onClick={() => showBookModal(room)}>
                     Book!
                 </button>
             </div>
         )}
-    </div>
+    </React.Fragment>
 )
 
 export default RoomList;
