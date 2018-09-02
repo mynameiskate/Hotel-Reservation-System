@@ -20,20 +20,3 @@ const RoomInfo = ( { room, imageLink } ) => (
 )
 
 export default RoomInfo;
-
-/*        <div class="roomCard">
-                <div class="roomImgInfo">
-                    <div class="roomImg">
-                        <img src="hotel1.jpg">
-                    </div>
-                    <div class="roomInfo">
-                        <p class="roomTitle">Room Information</p>
-                        <ul>
-                            <li>- kate loh</li>
-                            <li>- kate durashka</li>
-                            <li>- smth else</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="bookBtn">Book</div>
-            </div>*/

@@ -2,12 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { change } from 'redux-form';
-import Gallery from 'react-photo-gallery';
 import Spinner from 'react-spinkit';
 import { history } from '../../store/store';
-
 import { links } from '../../config/links';
-import GalleryImage from '../../components/images/GalleryImage';
 import GalleryService from '../../services/GalleryService';
 import ImageUploadForm from '../../components/images/ImageUploadForm';
 import FileActions from '../../actions/FileActions';
@@ -100,21 +97,14 @@ class HotelEditPage extends React.Component {
                             addService={this.props.addService}
                             removeService={this.props.removeService}
                             updateCost={this.props.updateServiceCost}
+                            photos={this.props.getImageSet(imageIds)}
+                            removeImage={this.props.removeImage}
+                            imageIds={imageIds}
                         />
                         <ImageUploadForm
                             isValid={isFileTypeValid}
                             onInputChange={this.props.chooseImages}
                         />
-                        {
-                            (imageIds && imageIds.length)
-                            ? <Gallery
-                                photos={this.props.getImageSet(imageIds)}
-                                direction={'column'}
-                                ImageComponent={GalleryImage}
-                                onClick={this.props.removeImage}
-                            />
-                            : null
-                        }
                         <ServiceCreationForm
                             newService={newService}
                             newServiceCost={newServiceCost}

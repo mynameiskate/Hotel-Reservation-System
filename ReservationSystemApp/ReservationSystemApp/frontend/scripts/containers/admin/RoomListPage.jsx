@@ -37,15 +37,15 @@ class RoomListPage extends React.Component {
         const hotelName = hotelInfo ? hotelInfo.name : null;
 
         return (
-            <div>
-                <Link to={this.props.getCreationLink()}>Add new room</Link>
+            <div className="pageContainer">
                 { isLoading
                     ? <div className="loadingBlock">
                         <Spinner name="ball-scale-multiple" className="loader"/>
                       </div>
                     : ( pageCount
-                        ? <div>
-                            { <h3>Rooms in {hotelName || 'hotel'}</h3>}
+                        ? <div className="roomList">
+                            {<h3>Rooms in {hotelName || 'hotel'}</h3>}
+                            <Link className="bookBtn" to={this.props.getCreationLink()}>Add new room</Link>
                             {   roomInfo &&
                                 <RoomEditList
                                     info={roomInfo}

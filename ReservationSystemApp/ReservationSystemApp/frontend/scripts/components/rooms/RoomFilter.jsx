@@ -2,7 +2,6 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 import SelectService from '../../services/SelectService';
 import { dateFormats } from '../../constants/dateFormats';

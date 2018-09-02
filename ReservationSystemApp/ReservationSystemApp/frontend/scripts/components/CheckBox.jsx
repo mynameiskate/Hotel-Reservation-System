@@ -20,13 +20,13 @@ class Checkbox extends React.Component {
         return (
         <div className="checkbox">
             <label>
-            <input
-                type="checkbox"
-                value={label}
-                checked={isChecked}
-                onChange={() => this.onChange(callback)}
-            />
-            {label}
+                <input
+                    type="checkbox"
+                    value={label}
+                    checked={isChecked}
+                    onChange={() => this.onChange(callback)}
+                />
+                {label}
             </label>
         </div>
         );

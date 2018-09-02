@@ -1,6 +1,8 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import Select from 'react-select';
+import Gallery from 'react-photo-gallery';
+import GalleryImage from '../../components/images/GalleryImage';
 
 import InputField from '../InputField';
 import ServiceEditor from './ServiceEditor';
@@ -11,7 +13,8 @@ const HotelEditForm = (props) => {
         onCitySelect, onCountrySelect, stars, selectedCity, selectedCountry,
         onNameChange, onAddressChange, onStarsChange, services, addService,
         removeService, isServiceEditorShown, changeVisibility, updateCost,
-        invalid, pristine, submitting, starOptions, cityOptions, countryOptions } = props;
+        invalid, pristine, submitting, starOptions, cityOptions, countryOptions,
+        imageIds, removeImage, photos } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -51,6 +54,16 @@ const HotelEditForm = (props) => {
                 value={hotelName}
                 onChange={e => onAddressChange(e.target.value)}
             />
+            {
+                (imageIds && imageIds.length)
+                ? <Gallery
+                    photos={photos}
+                    direction={'column'}
+                    ImageComponent={GalleryImage}
+                    onClick={removeImage}
+                    />
+                : null
+            }
 
             { services &&
                 <ServiceEditor

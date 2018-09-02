@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, Router } from 'react-router-dom';
 import Spinner from 'react-spinkit';
+import ReduxToastr from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 
 import {
@@ -43,6 +44,16 @@ class Main extends React.Component {
                 isAdmin={isAdmin}
                 onSignOut={this.props.signOut}
             >
+                <ReduxToastr
+                    timeOut={4000}
+                    newestOnTop={false}
+                    preventDuplicates
+                    position="top-center"
+                    transitionIn="fadeIn"
+                    transitionOut="fadeOut"
+                    progressBar
+                    closeOnToastrClick
+                />
                 {isLoading ?
                 <div className="loadingBlock">
                     <Spinner name="ball-scale-multiple" className="loader"/>

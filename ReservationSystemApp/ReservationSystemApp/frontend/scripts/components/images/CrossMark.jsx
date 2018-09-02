@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Crossmark = ( { onClick }) => (          //TODO: move styles
+const Crossmark = ( { onClick }) => (
     <div
       style={ {right:"22px", top: "2px", position: "absolute"/*, zIndex: "1"*/} }
       onClick={onClick}

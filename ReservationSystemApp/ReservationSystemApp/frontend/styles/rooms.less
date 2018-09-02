@@ -4,6 +4,7 @@
     text-align: center;
 
     h3{
+        padding: 15px;
         font-size: 30px;
     }
 
@@ -58,11 +59,22 @@
     border-radius: 5px;
     color: #442f55;
     transition: background-color 0.5s ease;
+    text-decoration: none;
+    margin: 10px;
 
     &:hover{
         background-color: #985E6D;
         color: white;
         transition: background-color 0.5s ease;
         cursor: pointer;
+    }
+
+    &:disabled{
+        color: gray;
+
+        &:hover{
+            background-color: white;
+        }
+        
     }
 }

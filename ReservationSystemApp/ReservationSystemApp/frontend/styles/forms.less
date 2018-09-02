@@ -13,6 +13,7 @@
 .formFields{
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
     .inputBlock{
         width: 100%;
@@ -29,6 +30,28 @@
     .selectField{
         width: 42%;
     
+    }
+}
+
+.roomForm{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    .inputBlock{
+        width: 100%;
+        input{
+            height: 40px;
+            box-sizing: border-box;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #d1d1d1;
+            padding: 5px 8px;
+        }
+    }
+
+    .selectField{
+        width: 42%;
     }
 }
 
@@ -168,12 +191,22 @@ input{
     color: #cabcbc;
     transition:  700ms ease;
     margin-right: 10px;
+    font-weight: bold;
 
    &:hover{
         background-color: white;
         color: #442f55;
         transition:  700ms ease;
    }
+
+   &:disabled{
+        color: gray;
+
+        &:hover{
+            background-color: white;
+        }
+        
+    }
 }
 
 .pageBar{
@@ -248,7 +281,7 @@ input{
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill{
-    background-color: #e7d1db; // !important;
+    background-color: #e7d1db;
 }
 
 .selectFieldBlock{
@@ -258,7 +291,12 @@ select:-webkit-autofill{
     width: 100%;
 }
 
-.signUpForm{
+.fileInput {
+    display: none;
+}
+
+.signUpForm,
+.editForm {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -267,6 +305,17 @@ select:-webkit-autofill{
     background-color: #98878f;
     padding: 20px 80px;
     border-radius: 10px;
+
+    .checkbox{
+        input {
+            height: 20px;
+            width: auto;
+        }
+    }
+
+    form{
+        width: 100%;
+    }
 
     .inputBlock{
         width: 100%;
@@ -288,7 +337,33 @@ select:-webkit-autofill{
         }
     }
 
-    h3{
+    h3, label{
         color: white;
+        font-weight: bold;
     }
+
+    .fileLabel{
+        display: block;
+        background-color: #442f55;
+        text-decoration: none;
+        border-radius: 20px;
+        border: none;
+        padding: 10px 17px;
+        font-size: 13px;
+        color: #cabcbc;
+        transition: 700ms ease;
+        margin-right: 10px;
+
+        &:hover{
+            background-color: white;
+            color: #442f55;
+            transition:  700ms ease;
+       }
+    }
+}
+
+.btnBox{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

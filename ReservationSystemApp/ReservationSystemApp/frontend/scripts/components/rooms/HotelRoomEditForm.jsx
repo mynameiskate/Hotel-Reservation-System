@@ -3,6 +3,9 @@ import { reduxForm, Field } from 'redux-form';
 import Select from 'react-select';
 
 import CheckBox from '../CheckBox';
+import Gallery from 'react-photo-gallery';
+import GalleryImage from '../../components/images/GalleryImage';
+
 import InputField from '../InputField';
 import { isRequired, isNumber } from '../../constants/validationRules';
 
@@ -10,7 +13,8 @@ const RoomEditForm = (props) => {
     const { roomNumber, roomId, cost, isRoomAvailable, adultsAmount,
             changeAvailability, updateCost, updateAdultsAmount,
             adultOptions, handleSubmit, sendRequest, invalid, pristine,
-            submitting, updateNumber, isNumberValid } = props;
+            submitting, updateNumber, isNumberValid, imageIds, removeImage,
+            photos } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -44,17 +48,33 @@ const RoomEditForm = (props) => {
                         isNumber
                     ]}
                 />
-                <label>Adults amount</label>
-                <Select
-                    value={adultOptions.find(o => o.value == adultsAmount) || {}}
-                    options={adultOptions}
-                    onChange={adults => updateAdultsAmount(adults)}
-                />
+                <div className="selectField">
+                    <h3>Adults amount</h3>
+                    <Select
+                        value={adultOptions.find(o => o.value == adultsAmount) || {}}
+                        options={adultOptions}
+                        onChange={adults => updateAdultsAmount(adults)}
+                    />
+                </div>
+                <h3>Images</h3>
+                {
+                    (imageIds && imageIds.length)
+                    ? <div className="galleryBox">
+                        <Gallery
+                        photos={photos}
+                        direction={'column'}
+                        ImageComponent={GalleryImage}
+                        onClick={removeImage}
+                        />
+                      </div>
+                    : <p className="warning">{"none uploaded"}</p>
+                }
             </div>
-            {!isNumberValid && <h3>Room with given number already exists!</h3>}
+            {!isNumberValid && <p className="warning">Room with given number already exists!</p>}
             <button type="submit"
+                    className="bookBtn"
                     disabled={invalid || pristine || submitting || !isNumberValid}>
-                Submit
+                Update info
             </button>
         </form>
     );

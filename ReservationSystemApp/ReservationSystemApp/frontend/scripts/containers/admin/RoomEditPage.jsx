@@ -34,42 +34,43 @@ class RoomEditPage extends React.Component {
         const { cost, adults, currentRoom, isRoomAvailable, isNumberValid, error,
                 isFileTypeValid, imageIds } = this.props;
         return (
-            <div>
-            {
-                currentRoom &&
-                    <div>
-                        <RoomEditForm
-                            roomNumber={currentRoom.number}
-                            roomId={currentRoom.id}
-                            cost={cost}
-                            adultsAmount={adults}
-                            isRoomAvailable={isRoomAvailable}
-                            changeAvailability={this.props.changeAvailability}
-                            updateAdultsAmount={this.props.setAdultsAmount}
-                            updateNumber={this.props.setRoomNumber}
-                            updateCost={this.props.setCost}
-                            changeAvailability={this.props.setRoomAvailability}
-                            adultOptions={this.props.getAdultOptions()}
-                            sendRequest={this.props.editRoom}
-                            isNumberValid={isNumberValid}
-                        />
-                        <button onClick={this.props.removeAllImages}>Remove all images</button>
-                    </div>
-            }
-            <ImageUploadForm
-                isValid={isFileTypeValid}
-                onInputChange={this.props.chooseImages}
-            />
-            {
-                (imageIds && imageIds.length)
-                ? <Gallery
-                    photos={this.props.getImageSet(imageIds)}
-                    direction={'column'}
-                    ImageComponent={GalleryImage}
-                    onClick={this.props.removeImage}
-                  />
-                : null
-            }
+            <div className="editForm">
+                {
+                    currentRoom &&
+                        <React.Fragment>
+                            <div className="btnBox">
+                                <button
+                                    onClick={this.props.removeAllImages}
+                                    className="detailsBtn"
+                                >
+                                    Remove all images
+                                </button>
+                                <ImageUploadForm
+                                    isValid={isFileTypeValid}
+                                    onInputChange={this.props.chooseImages}
+                                />
+                            </div>
+                            <RoomEditForm
+                                roomNumber={currentRoom.number}
+                                roomId={currentRoom.id}
+                                cost={cost}
+                                adultsAmount={adults}
+                                isRoomAvailable={isRoomAvailable}
+                                changeAvailability={this.props.changeAvailability}
+                                updateAdultsAmount={this.props.setAdultsAmount}
+                                updateNumber={this.props.setRoomNumber}
+                                updateCost={this.props.setCost}
+                                changeAvailability={this.props.setRoomAvailability}
+                                adultOptions={this.props.getAdultOptions()}
+                                sendRequest={this.props.editRoom}
+                                isNumberValid={isNumberValid}
+
+                                photos={this.props.getImageSet(imageIds)}
+                                removeImage={this.props.removeImage}
+                                imageIds={imageIds}
+                            />
+                        </React.Fragment>
+                }
             </div>
         );
     }

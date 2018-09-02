@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import RoomInfo from './RoomInfo';
 
 const RoomEditList = ( { info, getEditLink, imageLinkCreator } ) => (
-    <div>
+    <React.Fragment>
         { Array.isArray(info) &&
             info.map((room) =>
-            <div key={room.number}>
+            <div key={room.number} className="roomRow">
                 <RoomInfo
                     room={room}
                     imageLink={(room.imageIds && room.imageIds.length)
@@ -15,12 +15,12 @@ const RoomEditList = ( { info, getEditLink, imageLinkCreator } ) => (
                         : null
                       }
                 />
-                <Link to={getEditLink(room.id)}>
+                <Link to={getEditLink(room.id)} className="detailsBtn">
                     Edit
                 </Link>
             </div>
         )}
-    </div>
+    </React.Fragment>
 )
 
 export default RoomEditList;

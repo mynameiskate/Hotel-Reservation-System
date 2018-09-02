@@ -39,11 +39,11 @@ const SignUpField = (props) => {
                 type="password" validate={[isRequired, maxLength(20), minLength(4)]}
             />
             <div className="btnBlock">
-            <button type="submit"
-                    disabled={invalid || pristine || submitting} className="detailsBtn notActive">
-                Submit
-            </button>
-            <button type="button" onClick={onCancelClick} className="detailsBtn detailsBtnNotActive">Cancel</button>
+                <button type="submit"
+                        disabled={invalid || pristine || submitting} className="detailsBtn notActive">
+                    Submit
+                </button>
+                <button type="button" onClick={onCancelClick} className="detailsBtn detailsBtnNotActive">Cancel</button>
             </div>
         </form>
     );

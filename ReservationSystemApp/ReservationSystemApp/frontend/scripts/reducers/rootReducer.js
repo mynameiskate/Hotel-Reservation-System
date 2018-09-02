@@ -22,6 +22,7 @@ import {
 import {
     fileReducer
 } from '../reducers/fileReducer';
+import {reducer as toastrReducer} from 'react-redux-toastr'
 
 export const rootReducer = combineReducers({
     hotels: hotelReducer,
@@ -30,5 +31,6 @@ export const rootReducer = combineReducers({
     search: searchReducer,
     rooms: roomReducer,
     reservations: reservationReducer,
-    files: fileReducer
+    files: fileReducer,
+    toastr: toastrReducer
 });

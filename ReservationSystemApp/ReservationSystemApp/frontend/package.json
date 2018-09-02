@@ -49,6 +49,7 @@
         "react-modal": "^3.5.1",
         "react-photo-gallery": "^6.2.0",
         "react-redux": "^5.0.6",
+        "react-redux-toastr": "^7.4.0",
         "react-router-dom": "^4.3.1",
         "react-router-relative-link": "^4.0.2",
         "react-select": "^2.0.0",
