@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import HotelInfo from './HotelInfo';
 
 const HotelEditList = ( { info, removing, onDeleteClick, getDetailsLink,
-                          getEditLink, imageLinkCreator } ) => (
+                          getEditLink, imageLinkCreator, newHotelLink } ) => (
     <div>
         { Array.isArray(info) &&
             info.map((hotel) =>
@@ -24,6 +24,7 @@ const HotelEditList = ( { info, removing, onDeleteClick, getDetailsLink,
                     </button>
                     <Link className="detailsBtn" to={getDetailsLink(hotel.hotelId)}>View rooms</Link>
                     <Link className="detailsBtn" to={getEditLink(hotel.hotelId)}>Edit</Link>
+                    <Link className="detailsBtn" to={newHotelLink}>Add new hotel</Link>
                 </div>
         )}
     </div>

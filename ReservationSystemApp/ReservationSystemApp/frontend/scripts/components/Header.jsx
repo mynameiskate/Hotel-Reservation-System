@@ -11,14 +11,14 @@ const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
              ?  <Link to={ links.PROFILE_PAGE }>
                     My profile
                 </Link>
-             :  <div>
+             :  <React.Fragment>
                     <Link to={ links.SIGN_IN_PAGE } >
                         Log in
                     </Link>
                     <Link to={ links.SIGN_UP_PAGE } >
                         Sign up
                     </Link>
-                </div>
+                </React.Fragment>
             }
             <Link to={ links.HOTEL_ID_SEARCH_PAGE() } >
                 Hotels
