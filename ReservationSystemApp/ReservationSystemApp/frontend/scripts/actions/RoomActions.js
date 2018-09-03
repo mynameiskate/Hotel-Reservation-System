@@ -11,6 +11,15 @@ import HotelSearchActions from './HotelSearchActions';
 import RoomService from '../services/RoomService';
 import HistoryActions from './HistoryActions';
 import FileActions from './FileActions';
+import {
+    links
+} from '../config/links';
+import {
+    history
+} from '../store/store';
+import {
+    toastr
+} from 'react-redux-toastr'
 
 class RoomActions {
     static getHotelRoom(hotelId, roomId) {
@@ -303,7 +312,9 @@ class RoomActions {
                 roomNumber
             } = stateAccessor().rooms;
 
-            const { imageIds } = stateAccessor().files;
+            const {
+                imageIds
+            } = stateAccessor().files;
             const roomModel = {
                 id: roomId,
                 cost,
@@ -316,8 +327,16 @@ class RoomActions {
             dispatch(editRequest(roomId, roomModel));
             RoomService.updateHotelRoom(hotelId, roomId, roomModel)
                 .then(handleError)
-                .then(dispatch(editSuccess(roomModel)))
-                .catch(error => dispatch(editFailure(roomId, error)));
+                .then(() => {
+                    dispatch(editSuccess(roomModel));
+                    toastr.success("Successfully updated.");
+                    history.push(links.ADMIN_HOTEL_ID_PAGE(hotelId));
+                })
+                .catch(error => {
+                    dispatch(editFailure(roomId, error));
+                    toastr.error("Room couldn't be updated.");
+                    history.push(links.ADMIN_HOTEL_ID_PAGE(hotelId));
+                });
         }
     }
 
@@ -356,7 +375,9 @@ class RoomActions {
                 roomNumber
             } = stateAccessor().rooms;
 
-            const { imageIds } = stateAccessor().files;
+            const {
+                imageIds
+            } = stateAccessor().files;
 
             const roomModel = {
                 cost,
@@ -374,8 +395,15 @@ class RoomActions {
                     dispatch(createSuccess(info));
                     return info;
                 })
-                .then(dispatch(createSuccess(roomModel)))
-                .catch(error => dispatch(createFailure(error)));
+                .then(() => {
+                    dispatch(createSuccess(roomModel));
+                    toastr.success("New room added.");
+                    history.push(links.ADMIN_HOTEL_ID_PAGE(hotelId));
+                })
+                .catch(error => {
+                    dispatch(createFailure(error));
+                    toastr.error("Room couldn't be added.");
+                });
         }
     }
 

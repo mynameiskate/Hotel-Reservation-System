@@ -88,7 +88,7 @@ class HotelSearchPage extends React.Component {
 
     render() {
         const { selectedCountry, selectedCity, locations, dateError,
-                page, pageCount, nextPage, moveInDate, moveOutDate,
+                page, nextPage, moveInDate, moveOutDate,
                 isLoading, adults, resultCount, error, info } = this.props;
         return(
             <div className="hotelSearch">
@@ -118,14 +118,14 @@ class HotelSearchPage extends React.Component {
                             <Spinner name="ball-scale-multiple" className="spinner"/>
                         </div>
                     : ( resultCount ?
-                        <div>
-                            <h3> Search results: {resultCount} destination(s)</h3>
+                        <React.Fragment>
+                            <h3 className="title"> Search results: {resultCount} destination(s)</h3>
                             <HotelList
                                 info={info}
                                 getDetailsLink={(id) => this.getDetailsLink(id)}
                                 imageLinkCreator={this.props.imageLinkCreator}
                             />
-                        </div>
+                        </React.Fragment>
                         : error ? <h3>Loading error</h3>
                             : <h3>No results, try again?</h3>
                         )

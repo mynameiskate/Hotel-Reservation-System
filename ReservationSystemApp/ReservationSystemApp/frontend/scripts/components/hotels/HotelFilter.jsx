@@ -39,6 +39,7 @@ const HotelFilter = (props) => {
                         options={cityOptions}
                         onChange={city => onCitySelect(city)}
                         isSearchable={true}
+                        isDisabled={cityOptions.length < 2}
                     />
                 </div>
             </div>

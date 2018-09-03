@@ -71,7 +71,7 @@ namespace Services.Services
             return await resultQuery.ToListAsync();
         }
 
-        public async Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request)
+        public async Task<PageModel<HotelModel>> GetHotelPage(FilteredHotelsRequestModel request, bool availableOnly = true)
         {
             var reservationList = _dataContext.RoomReservations as IQueryable<RoomReservation>;
             int size = request.PageSize ?? _pageSize; 
@@ -84,7 +84,7 @@ namespace Services.Services
             var reservations = _dataContext.RoomReservations;
 
             var resultQuery = entityList
-                .FilterHotels(request, _maxElapsedMinutes, _dataContext)
+                .FilterHotels(request, _maxElapsedMinutes, _dataContext, availableOnly)
                 .OrderByDescending(h => reservations.Where(r => r.HotelRoom.HotelId == h.HotelId).Count())
                 .Include(h => h.Services)
                 .Include(h => h.Location)

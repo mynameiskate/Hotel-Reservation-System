@@ -1,4 +1,5 @@
 export const links = {
+    ABOUT_INFO_PAGE: '/about',
     HOTEL_REQUEST_PATH: (id) => `/hotels?hotelId=${id}`,
     ROOM_REQUEST_PATH: (hotelId, roomId) => `/hotels/${hotelId}/rooms?roomId=${roomId}`,
     MAIN_PAGE_PATH: '/',

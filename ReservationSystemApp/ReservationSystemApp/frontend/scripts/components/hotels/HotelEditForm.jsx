@@ -83,7 +83,7 @@ const HotelEditForm = (props) => {
                     className="bookBtn"
                     type="submit"
                     disabled={invalid || pristine || submitting}>
-                    Update info
+                    OK
                 </button>
                 <button
                     className="bookBtn"

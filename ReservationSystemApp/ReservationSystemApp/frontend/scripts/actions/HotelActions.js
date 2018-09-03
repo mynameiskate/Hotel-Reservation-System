@@ -4,6 +4,15 @@
 import HotelService from '../services/HotelService';
 import HotelSearchActions from './HotelSearchActions';
 import FileActions from './FileActions';
+import {
+    links
+} from '../config/links';
+import {
+    history
+} from '../store/store';
+import {
+    toastr
+} from 'react-redux-toastr'
 
 class HotelActions {
     static resetHotelInfo() {
@@ -222,9 +231,14 @@ class HotelActions {
                 .then(result => result.json())
                 .then(info => {
                     dispatch(createSuccess(info));
+                    toastr.success("New hotel added.");
+                    history.push(links.HOTEL_CREATION_PAGE);
                     return info;
                 })
-                .catch(error => dispatch(createFailure(error)));
+                .catch(error => {
+                    dispatch(createFailure(error));
+                    toastr.error("Hotel couldn't be added. Please, check input.");
+                });
         }
     }
 
@@ -289,7 +303,11 @@ class HotelActions {
             dispatch(editRequest(hotelId, hotelModel));
             HotelService.update(hotelId, hotelModel)
                 .then(handleError)
-                .then(dispatch(editSuccess(hotelId)))
+                .then(() => {
+                    dispatch(editSuccess(hotelId));
+                    toastr.success("Successfully updated.");
+                    history.push(links.ADMIN_PAGE);
+                })
                 .catch(error => dispatch(editFailure(hotelId, error)));
         }
     }

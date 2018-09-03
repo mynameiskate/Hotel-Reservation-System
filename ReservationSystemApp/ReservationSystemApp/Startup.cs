@@ -42,10 +42,7 @@ namespace ReservationSystemApp
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<ILocationService, LocationService>();
-
             services.AddScoped<IReservationService, ReservationService>();
-
-
             services.AddScoped<IImageService, ImageService>();
 
             //Jwt authentication configuration

@@ -20,6 +20,7 @@ import UserActions from '../actions/UserActions';
 import RoomSearchPage from './RoomSearchPage';
 
 import Layout from '../components/Layout';
+import AboutPage from './AboutPage';
 import AdminPage from './admin/AdminPage';
 import HotelEditPage from './admin/HotelEditPage';
 import RoomListPage from './admin/RoomListPage';
@@ -66,6 +67,7 @@ class Main extends React.Component {
                         <Route exact path={ links.HOTEL_SEARCH_PAGE } component={ HotelSearchPage }/>
                         <Route exact path={ links.SIGN_IN_PAGE  } component={ LoginPage }/>
                         <Route exact path={ links.SIGN_UP_PAGE } component={ SignUpPage }/>
+                        <Route exact path={ links.ABOUT_INFO_PAGE } component={ AboutPage }/>
                         <ProtectedRoute
                             exact path={ links.PROFILE_PAGE }
                             component={ UserPage }

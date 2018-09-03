@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import { links } from '../config/links';
 import Banner from '../components/Banner';
-import UserActions from '../actions/UserActions';
 import  HotelSearchActions from '../actions/HotelSearchActions';
 import TopHotelsList from '../components/hotels/TopHotelsList';
 

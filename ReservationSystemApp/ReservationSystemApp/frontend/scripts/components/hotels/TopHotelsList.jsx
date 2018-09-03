@@ -17,7 +17,7 @@ const TopHotelList = ( { info, getDetailsLink, imageLinkCreator } ) => (
                             }
                         </div>
                             <p className="topHotelTitle">{hotel.name}</p>
-                            <button className="hotelViewBtn">View</button>
+                            {/*<button className="hotelViewBtn">View</button>*/}
                     </div>)
         }
         </div>

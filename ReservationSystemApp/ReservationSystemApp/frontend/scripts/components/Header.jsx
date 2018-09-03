@@ -25,7 +25,7 @@ const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
                     For administrator
                 </Link>
             }
-            <Link to="">About us</Link>
+            <Link to={ links.ABOUT_INFO_PAGE }>About us</Link>
             { loggedIn &&
                 <Link
                     to={""}

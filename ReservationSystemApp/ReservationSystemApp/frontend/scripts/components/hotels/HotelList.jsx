@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import HotelInfo from './HotelInfo';
 
 const HotelList = ( { info, getDetailsLink, imageLinkCreator } ) => (
-    <div>
+    <div className="hotelList">
         { Array.isArray(info) &&
             info.map((hotel) =>
             !hotel.isRemoved &&
-                <div key={hotel.hotelId}>
+                <div key={hotel.hotelId} className="hotelInfoBox">
                     <HotelInfo
                         hotel={hotel}
                         imageLink={(hotel.imageIds && hotel.imageIds.length)

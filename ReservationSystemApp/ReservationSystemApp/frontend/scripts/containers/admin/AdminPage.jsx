@@ -72,7 +72,6 @@ class AdminPage extends React.Component {
                 pageCount, nextPage, isLoading, resultCount,
                 error, info } = this.props;
         return(
-            <div>
                 <div className="hotelSearch">
                     <div className="filterBox">
                         <HotelFilter
@@ -91,7 +90,7 @@ class AdminPage extends React.Component {
                               </div>
                         : ( resultCount ?
                                 <div>
-                                    <h3> Search results: {resultCount} destination(s)</h3>
+                                    <h3 className="title"> Search results: {resultCount} destination(s)</h3>
                                     <HotelEditList
                                         newHotelLink={links.HOTEL_CREATION_PAGE}
                                         info={info}
@@ -114,7 +113,6 @@ class AdminPage extends React.Component {
                         }
                     </div>
                 </div>
-            </div>
         );
     }
 }
