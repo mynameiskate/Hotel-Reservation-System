@@ -8,6 +8,7 @@ import UserService from '../services/UserService';
 import {
     history
 } from '../store/store';
+import { toastr } from 'react-redux-toastr'
 
 class UserActions {
     static logIn(userInfo) {
@@ -53,7 +54,8 @@ class UserActions {
                 .then(() => history.push(links.HOTEL_ID_SEARCH_PAGE()))
                 .catch(error => {
                     dispatch(logInFailure(error));
-                    history.push(links.SIGN_IN_PAGE)
+                    toastr.error("Couldn't sign in. Is your caps lock on?");
+                    history.push(links.SIGN_IN_PAGE);
                 });
         }
     }
@@ -95,7 +97,10 @@ class UserActions {
                         password: userInfo.password
                     }));
                 })
-                .catch(error => dispatch(signUpFailure(error)));
+                .catch(error => {
+                    dispatch(signUpFailure(error));
+                    toastr.error("Sign up", "An error occured duting ign up")
+                });
         }
     }
 

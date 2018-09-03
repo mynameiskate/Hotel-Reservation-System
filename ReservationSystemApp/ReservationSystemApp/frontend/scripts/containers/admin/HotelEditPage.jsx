@@ -69,6 +69,18 @@ class HotelEditPage extends React.Component {
                 }
                 {hotelInfo &&
                     <React.Fragment>
+                        <div className="btnBox">
+                            <button
+                                onClick={this.props.removeAllImages}
+                                className="detailsBtn"
+                            >
+                                Remove all images
+                            </button>
+                            <ImageUploadForm
+                                isValid={isFileTypeValid}
+                                onInputChange={this.props.chooseImages}
+                            />
+                        </div>
                         <HotelEditForm
                             stars={stars}
                             hotelName={hotelName}

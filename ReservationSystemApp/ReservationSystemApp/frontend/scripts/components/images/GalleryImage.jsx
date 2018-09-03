@@ -10,6 +10,7 @@ const GalleryImage = ({ index, onClick, photo, margin, direction, top, left }) =
     }
     return (
       <div
+        className="hotelImg"
         style={{ margin, height: photo.height, width: photo.width, ...cont }}
       >
         <CrossMark

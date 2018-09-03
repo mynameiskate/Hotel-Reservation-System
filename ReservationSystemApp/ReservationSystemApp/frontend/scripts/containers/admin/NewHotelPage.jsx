@@ -64,11 +64,24 @@ class NewHotelPage extends React.Component {
                 imageIds } = this.props;
 
         return (
-            <div>
+            <div className="editForm">
                 { isLoading
                   && <div className="loadingBlock">
                         <Spinner name="ball-scale-multiple" className="loader"/>
-                    </div>}
+                    </div>
+                }
+                <div className="btnBox">
+                    <button
+                        onClick={this.props.removeAllImages}
+                        className="detailsBtn"
+                    >
+                        Remove all images
+                    </button>
+                    <ImageUploadForm
+                        isValid={isFileTypeValid}
+                        onInputChange={this.props.chooseImages}
+                    />
+                </div>
                 <HotelEditForm
                     stars={stars}
                     hotelName={hotelName}
@@ -95,21 +108,11 @@ class NewHotelPage extends React.Component {
                     addService={this.props.addService}
                     removeService={this.props.removeService}
                     updateCost={this.props.updateServiceCost}
+
+                    photos={this.props.getImageSet(imageIds)}
+                    removeImage={this.props.removeImage}
+                    imageIds={imageIds}
                 />
-                <ImageUploadForm
-                    isValid={isFileTypeValid}
-                    onInputChange={this.props.chooseImages}
-                />
-                {
-                    (imageIds && imageIds.length)
-                    ? <Gallery
-                        photos={this.props.getImageSet(imageIds)}
-                        direction={'column'}
-                        ImageComponent={GalleryImage}
-                        onClick={this.props.removeImage}
-                     />
-                    : null
-                }
                 <ServiceCreationForm
                     newService={newService}
                     newServiceCost={newServiceCost}

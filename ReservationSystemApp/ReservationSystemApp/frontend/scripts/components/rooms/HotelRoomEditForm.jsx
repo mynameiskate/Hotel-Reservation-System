@@ -4,7 +4,7 @@ import Select from 'react-select';
 
 import CheckBox from '../CheckBox';
 import Gallery from 'react-photo-gallery';
-import GalleryImage from '../../components/images/GalleryImage';
+import GalleryImage from '../images/GalleryImage';
 
 import InputField from '../InputField';
 import { isRequired, isNumber } from '../../constants/validationRules';
@@ -14,7 +14,7 @@ const RoomEditForm = (props) => {
             changeAvailability, updateCost, updateAdultsAmount,
             adultOptions, handleSubmit, sendRequest, invalid, pristine,
             submitting, updateNumber, isNumberValid, imageIds, removeImage,
-            photos } = props;
+            photos, isFileTypeValid, chooseImages } = props;
 
     return (
         <form onSubmit={handleSubmit(sendRequest)}>
@@ -61,10 +61,10 @@ const RoomEditForm = (props) => {
                     (imageIds && imageIds.length)
                     ? <div className="galleryBox">
                         <Gallery
-                        photos={photos}
-                        direction={'column'}
-                        ImageComponent={GalleryImage}
-                        onClick={removeImage}
+                            photos={photos}
+                            direction={'column'}
+                            ImageComponent={GalleryImage}
+                            onClick={removeImage}
                         />
                       </div>
                     : <p className="warning">{"none uploaded"}</p>

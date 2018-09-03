@@ -53,7 +53,7 @@ namespace ReservationSystemApp.Controllers
             {
                 return BadRequest();
             }
-            catch
+            catch(Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

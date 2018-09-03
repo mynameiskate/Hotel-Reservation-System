@@ -15,7 +15,6 @@ const RoomList = ( {info, showBookModal, isBookingEnabled, imageLinkCreator } ) 
                 />
                 <button
                     className="bookBtn"
-                    disabled={!isBookingEnabled}
                     onClick={() => showBookModal(room)}>
                     Book!
                 </button>

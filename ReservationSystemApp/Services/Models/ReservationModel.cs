@@ -13,7 +13,7 @@ namespace Services.Models
         public DateTime MoveOutDate { get; set; }
         public int UserId { get; set; }
         public int HotelRoomId { get; set; }
-        public TimeSpan MoveInTime { get; set; }
+        public TimeSpan? MoveInTime { get; set; }
         public string GuestName { get; set; }
         public int Status { get; set; }
         public double TotalCost { get; set; }

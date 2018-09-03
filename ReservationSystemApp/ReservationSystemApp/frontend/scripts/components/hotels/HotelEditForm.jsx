@@ -14,7 +14,7 @@ const HotelEditForm = (props) => {
         onNameChange, onAddressChange, onStarsChange, services, addService,
         removeService, isServiceEditorShown, changeVisibility, updateCost,
         invalid, pristine, submitting, starOptions, cityOptions, countryOptions,
-        imageIds, removeImage, photos } = props;
+        imageIds, removeImage, photos, chooseImages, isFileTypeValid } = props;
 
     return (
         <form className="formFields" onSubmit={handleSubmit(sendRequest)}>

@@ -95,10 +95,7 @@ class RoomPage extends React.Component {
                             }
                         </div>
                       :
-                        <div>
-                            <h3>No available rooms with given parameters found.</h3>
-                            <button onClick={this.props.resetFilters}>Back</button>
-                        </div>
+                      <h3>No available rooms with given parameters found.</h3>
                     )
                 }
                 <BookingModal
@@ -162,7 +159,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         cancelReservation: () => ReservationActions.cancelReservation(),
 
-        resetFilters: () => RoomActions.buildQuery(),
+        resetFilters: () => RoomActions.buildQuery(links.ROOM_ID_PAGE(ownProps.hotelId)),
 
         createReservation: (room, moveInTime) => ReservationActions.createReservation(room, moveInTime),
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { toastr } from 'react-redux-toastr'
 import { bindActionCreators } from 'redux';
 import Spinner from 'react-spinkit';
 
@@ -22,7 +21,6 @@ class AdminPage extends React.Component {
     componentDidMount() {
         this.props.getLocations();
         this.props.getHotelPage(this.props.location.search);
-        toastr.error('hi', 'i panic');
     }
 
     componentWillReceiveProps(nextProps) {

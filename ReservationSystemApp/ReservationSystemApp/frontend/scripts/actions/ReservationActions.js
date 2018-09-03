@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { toastr } from 'react-redux-toastr'
 
 import {
     reservationConstants
@@ -12,6 +13,10 @@ import {
     statuses
 } from '../constants/reservationStatuses';
 import MomentExtensions from '../extensions/MomentExtensions';
+import {
+    history
+} from '../store/store';
+import { links } from '../config/links';
 
 class ReservationActions {
     static createReservation = (room) => (
@@ -72,7 +77,13 @@ class ReservationActions {
             dispatch(updateRequest(reservation));
             RoomService.updateReservation(reservation)
                 .then(handleError)
-                .then(dispatch(updateSuccess(reservation)))
+                .then(() => {
+                    dispatch(updateSuccess(reservation));
+                    if (status == statuses.CONFIRMED){
+                        toastr.success('Reservation', 'Successfully booked!');
+                        history.push(links.HOTEL_SEARCH_PAGE)
+                    }
+                })
                 .catch(error => dispatch(updateFailure(error)));
         }
     }
@@ -137,7 +148,10 @@ class ReservationActions {
                     dispatch(bookSuccess(jsonInfo));
                     return jsonInfo;
                 })
-                .catch(error => dispatch(bookFailure(roomId, error)));
+                .catch(error => {
+                    dispatch(bookFailure(roomId, error))
+                    toastr.error('Reservation', 'An error occured!')
+                });
         }
     }
 
@@ -174,6 +188,7 @@ class ReservationActions {
                 .then(result => result.json())
                 .then(jsonInfo => {
                     dispatch(createSuccess(jsonInfo));
+                    toastr.success('Services', 'New service created!');
                     return jsonInfo;
                 })
                 .catch(error => dispatch(createFailure(error)))

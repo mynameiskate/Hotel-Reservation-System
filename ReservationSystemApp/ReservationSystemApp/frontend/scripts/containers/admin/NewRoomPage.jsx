@@ -28,7 +28,19 @@ class NewRoomPage extends React.Component {
                 isFileTypeValid, imageIds } = this.props;
 
         return (
-            <div>
+            <div className="editForm">
+                <div className="btnBox">
+                    <button
+                        onClick={this.props.removeAllImages}
+                        className="detailsBtn"
+                    >
+                        Remove all images
+                    </button>
+                    <ImageUploadForm
+                        isValid={isFileTypeValid}
+                        onInputChange={this.props.chooseImages}
+                    />
+                </div>
                 <RoomEditForm
                     roomNumber={roomNumber}
                     cost={cost}
@@ -42,21 +54,11 @@ class NewRoomPage extends React.Component {
                     adultOptions={this.props.getAdultOptions()}
                     sendRequest={this.props.createRoom}
                     isNumberValid={isNumberValid}
+
+                    photos={this.props.getImageSet(imageIds)}
+                    removeImage={this.props.removeImage}
+                    imageIds={imageIds}
                 />
-                <ImageUploadForm
-                    isValid={isFileTypeValid}
-                    onInputChange={this.props.chooseImages}
-                />
-                {
-                    (imageIds && imageIds.length)
-                    ? <Gallery
-                        photos={this.props.getImageSet(imageIds)}
-                        direction={'column'}
-                        ImageComponent={GalleryImage}
-                        onClick={this.props.removeImage}
-                    />
-                    : null
-                }
             </div>
         );
     }

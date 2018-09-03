@@ -67,12 +67,22 @@ const BookingModal = ( {room, isOpen, onTimeChange, time,
                     }
                 </div>
             }
-            {totalCost && <h3>Total cost: ${totalCost}</h3>}
-            <button type="submit"
-                    disabled={invalid || pristine || submitting}>
-                Confirm
-            </button>
-            <button onClick={onCancel}>Cancel</button>
+            {<h3>Total cost: ${totalCost}</h3>}
+            <div className="btnBox">
+                <button
+                    className="detailsBtn"
+                    type="submit"
+                    disabled={invalid || pristine || submitting}
+                >
+                    Confirm
+                </button>
+                <button
+                    className="detailsBtn"
+                    onClick={onCancel}
+                >
+                    Cancel
+                </button>
+            </div>
         </form>
     </Modal>
 )

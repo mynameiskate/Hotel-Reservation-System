@@ -7,11 +7,8 @@ const Header = ( { isAdmin, loggedIn, onSignOut } ) => (
     <div className="header">
         <Link to='/' className="logo"/>
         <div className="nav">
-            { loggedIn
-             ?  <Link to={ links.PROFILE_PAGE }>
-                    My profile
-                </Link>
-             :  <React.Fragment>
+            { !loggedIn &&
+                <React.Fragment>
                     <Link to={ links.SIGN_IN_PAGE } >
                         Log in
                     </Link>
